@@ -10,9 +10,8 @@ public class Main {
 
         int calibrationTotal = 0;
 
-        String line = "";
         while (in.hasNext()) {
-            line = in.next();
+            String line = in.next();
 
             int firstDigit = 0, lastDigit = 0;
 
