@@ -15,7 +15,7 @@ public class Main {
 
             int firstDigit = 0, lastDigit = 0;
 
-            // Scan over the string looking for the first and last digit
+            // Scan over the string looking for the first digit
             for (int i = 0; i < line.length(); i++) {
                 if (Character.isDigit(line.charAt(i))) {
                     firstDigit = Character.getNumericValue(line.charAt(i));
@@ -23,6 +23,7 @@ public class Main {
                 }
             }
 
+            // Scan over the string looking for the last digit
             for (int i = line.length() - 1; i >= 0; i--) {
                 if (Character.isDigit(line.charAt(i))) {
                     lastDigit = Character.getNumericValue(line.charAt(i));
