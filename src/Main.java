@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import static java.lang.Character.isDigit;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
@@ -19,14 +18,14 @@ public class Main {
 
             // Scan over the string looking for the first and last digit
             for (int i = 0; i < line.length(); i++) {
-                if (isDigit(line.charAt(i))) {
+                if (Character.isDigit(line.charAt(i))) {
                     firstDigit = Character.getNumericValue(line.charAt(i));
                     break;
                 }
             }
 
             for (int i = line.length() - 1; i >= 0; i--) {
-                if (isDigit(line.charAt(i))) {
+                if (Character.isDigit(line.charAt(i))) {
                     lastDigit = Character.getNumericValue(line.charAt(i));
                     break;
                 }
