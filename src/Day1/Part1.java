@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ * --- Day 1: Trebuchet?! ---
+ */
 public class Part1 {
     public static void main(String[] args) throws FileNotFoundException {
 

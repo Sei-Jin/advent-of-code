@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * --- Day 1: Trebuchet?! ---
+ */
 public class Part2 {
     public static void main(String[] args) throws FileNotFoundException {
 
