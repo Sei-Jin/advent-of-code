@@ -8,7 +8,7 @@ import java.util.Scanner;
 /**
  * --- Day 2: Cube Conundrum ---
  */
-public class Part1 {
+public class Part2 {
     public static void main(String[] args) throws FileNotFoundException {
 
         File inFile = new File("input.txt");
@@ -16,6 +16,7 @@ public class Part1 {
 
         int gameID = 1;
         int totalID = 0;
+        int totalPower = 0;
 
         // Read in each line one at a time
         while (in.hasNextLine()) {
@@ -54,9 +55,11 @@ public class Part1 {
             }
 
             gameID++;
+            totalPower += cubes.get("red") * cubes.get("green") * cubes.get("blue");
         }
 
         System.out.println(totalID);
+        System.out.println(totalPower);
 
         in.close();
     }
