@@ -1,5 +1,3 @@
-package Day1;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -8,7 +6,7 @@ import java.util.Scanner;
 /**
  * --- Day 1: Trebuchet?! ---
  */
-public class Part2 {
+public class Day1 {
     public static void main(String[] args) throws FileNotFoundException {
 
         File inFile = new File("input.txt");
