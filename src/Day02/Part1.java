@@ -1,3 +1,5 @@
+package Day02;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -6,7 +8,7 @@ import java.util.Scanner;
 /**
  * --- Day 2: Cube Conundrum ---
  */
-public class Day2 {
+public class Part1 {
     public static void main(String[] args) throws FileNotFoundException {
 
         File inFile = new File("input.txt");
@@ -14,7 +16,6 @@ public class Day2 {
 
         int gameID = 1;
         int totalID = 0;
-        int totalPower = 0;
 
         // Read in each line one at a time
         while (in.hasNextLine()) {
@@ -53,11 +54,9 @@ public class Day2 {
             }
 
             gameID++;
-            totalPower += cubes.get("red") * cubes.get("green") * cubes.get("blue");
         }
 
         System.out.println(totalID);
-        System.out.println(totalPower);
 
         in.close();
     }
