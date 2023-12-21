@@ -7,77 +7,84 @@ import java.util.Scanner;
 /**
  * --- Day 3: Gear Ratios ---
  */
-public class Part1 {
+public class Part2 {
     public static void main(String[] args) throws FileNotFoundException {
 
-        File inFile = new File("input.txt");
+        File inFile = new File("sample.txt");
         Scanner in = new Scanner(inFile);
 
         char[][] schematic = new char[200][];
-        int lineNumber = 0;
+        int lineCount = 0;
 
         while (in.hasNextLine()) {
-            schematic[lineNumber] = in.nextLine().toCharArray();
-            lineNumber++;
+            schematic[lineCount] = in.nextLine().toCharArray();
+            lineCount++;
         }
 
         int partNumberSum = 0;
 
         StringBuilder partNumber = new StringBuilder();
 
-        for (int i = 0; i < lineNumber; i++) {
-            for (int j = 0; j < schematic[0].length; j++) {
+        for (int row = 0; row < lineCount; row++) {
+            for (int column = 0; column < schematic[0].length; column++) {
 
                 boolean validPartNumber = false;
 
-                if (j == 0) {
-                    partNumber = new StringBuilder();
+                // If we are on a new line, delete the stored part number
+                if (column == 0) {
+                    partNumber.delete(0, partNumber.length());
                 }
 
-                if (Character.isDigit(schematic[i][j])) {
-                    partNumber.append(schematic[i][j]);
+                if (Character.isDigit(schematic[row][column])) {
+                    partNumber.append(schematic[row][column]);
                 } else {
-                    partNumber = new StringBuilder();
+                    partNumber.delete(0, partNumber.length());
                     continue;
                 }
 
-                // Have we reached the end of the number?
-                if (j == schematic[0].length - 1 || j + 1 < schematic[0].length && !Character.isDigit(schematic[i][j + 1])) {
-                    int size = partNumber.length();
+                boolean endOfPartNumber = column + 1 < schematic[0].length && !Character.isDigit(schematic[row][column + 1];
+                boolean endOfRow = column != schematic[0].length - 1;
 
-                    // Check left bound
-                    int columnLeft = j - size;
-                    if (columnLeft < 0) {
-                        columnLeft = j - size + 1;
-                    }
+                // If we have not reached the end of the number or the end of the row
+                if (endOfPartNumber || endOfRow) {
+                    continue;
+                }
 
-                    // Check right bound
-                    int columnRight = j + 1;
-                    if (columnRight >= schematic[0].length) {
-                        columnRight = j;
-                    }
+                int size = partNumber.length();
 
-                    // Check top bound
-                    int rowTop = i - 1;
-                    if (rowTop < 0) {
-                        rowTop = i;
-                    }
+                // Set the left bound
+                int leftBound = column - size;
+                if (leftBound < 0) {
+                    leftBound = column - size + 1;
+                }
 
-                    // Check bottom bound
-                    int rowBottom = i + 1;
-                    if (rowBottom >= schematic[0].length) {
-                        rowBottom = i;
-                    }
+                // Set the right bound
+                int rightBound = column + 1;
+                if (rightBound >= schematic[0].length) {
+                    rightBound = column;
+                }
 
-                    // Loop over the bounding box checking for symbols
-                    for (int row = rowTop; row <= rowBottom; row++) {
-                        for (int column = columnLeft; column <= columnRight; column++) {
-                            if (!validPartNumber) {
-                                validPartNumber = partValidation(schematic[row][column]);
-                            }
+                // Set the top bound
+                int topBound = row - 1;
+                if (topBound < 0) {
+                    topBound = row;
+                }
+
+                // Set the bottom bound
+                int bottomBound = row + 1;
+                if (bottomBound >= schematic[0].length) {
+                    bottomBound = row;
+                }
+
+                // Loop over the bounding box checking for symbols
+                for (int boundedRow = topBound; boundedRow <= bottomBound; boundedRow++) {
+                    for (int boundedColumn = leftBound; boundedColumn <= rightBound; boundedColumn++) {
+                        if (!validPartNumber) {
+                            validPartNumber = partValidation(schematic[boundedRow][boundedColumn]);
                         }
                     }
                 }
+
 
                 if (validPartNumber) {
                     partNumberSum += Integer.parseInt(partNumber.toString());
