@@ -42,8 +42,8 @@ public class Part2 {
                     continue;
                 }
 
-                boolean endOfPartNumber = column + 1 < schematic[0].length && !Character.isDigit(schematic[row][column + 1];
-                boolean endOfRow = column != schematic[0].length - 1;
+                boolean endOfPartNumber = column + 1 < schematic[0].length && Character.isDigit(schematic[row][column + 1]);
+                boolean endOfRow = column == schematic[0].length - 1;
 
                 // If we have not reached the end of the number or the end of the row
                 if (endOfPartNumber || endOfRow) {
