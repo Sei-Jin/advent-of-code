@@ -1,4 +1,4 @@
-package Day03;
+package year2023.Day03;
 
 import java.io.File;
 import java.io.FileNotFoundException;
