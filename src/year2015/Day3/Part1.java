@@ -1,6 +1,5 @@
 package year2015.Day3;
 
-import javax.swing.text.Position;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashSet;
