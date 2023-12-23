@@ -42,7 +42,6 @@ public class Part2 {
                     }
                 }
             }
-
         }
 
         int totalBrightness = 0;
