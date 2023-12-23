@@ -46,7 +46,7 @@ public class Part2 {
         }
 
         int totalBrightness = 0;
-        // Count how many lights are turned on
+        // Add up the total brightness values
         for (int row = 0; row < lightGrid.length; row++) {
             for (int column = 0; column < lightGrid[0].length; column++) {
                 totalBrightness += lightGrid[row][column];
