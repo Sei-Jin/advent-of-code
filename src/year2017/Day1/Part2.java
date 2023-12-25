@@ -15,7 +15,7 @@ public class Part2 {
         int total = 0;
 
         for (int i = 0; i < sequence.length(); i++) {
-            if (sequence.charAt(i) == sequence.charAt((i + 1) % sequence.length())) {
+            if (sequence.charAt(i) == sequence.charAt((i + sequence.length() / 2) % sequence.length())) {
                 total += Character.getNumericValue(sequence.charAt(i));
             }
         }
