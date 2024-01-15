@@ -8,8 +8,8 @@ import java.util.List;
 /**
  * --- Day 1: Chronal Calibration ---
  */
-public class Day01 {
-
+public class Day01
+{
     public static void main(String[] args) throws IOException
     {
         List<String> lines = Files.readAllLines(Path.of("input.txt"));
