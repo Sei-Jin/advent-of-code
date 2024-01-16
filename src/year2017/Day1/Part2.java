@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Part2 {
     public static void main(String[] args) throws FileNotFoundException {
 
-        File inFile = new File("sample.txt");
+        File inFile = new File("input.txt");
         Scanner in = new Scanner(inFile);
 
         String sequence = in.nextLine();
@@ -22,4 +22,6 @@ public class Part2 {
 
         System.out.println(total);
     }
+
+
 }
