@@ -11,73 +11,67 @@ import java.util.Set;
  * --- Day 1: Chronal Calibration ---
  */
 public class Day01 {
-    public static void main(String[] args) throws IOException {
-        List<String> lines = Files.readAllLines(Path.of("input.txt"));
 
-        partOne(lines);
-        partTwo(lines);
+    public static void main(String[] args) throws IOException {
+        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
+
+        partOne(inputLines);
+        partTwo(inputLines);
     }
 
-    private static void partOne(List<String> lines) {
-        int total = 0;
+    private static void partOne(List<String> inputLines) {
+        int totalFrequency = 0;
 
-        for (String line : lines) {
+        for (String line : inputLines) {
             char sign = line.charAt(0);
-            int value = Integer.parseInt(line.substring(1));
+            int frequencyChange = Integer.parseInt(line.substring(1));
 
             if (sign == '-') {
-                value *= -1;
+				frequencyChange *= -1;
             }
 
-            total += value;
+			totalFrequency += frequencyChange;
         }
 
-        System.out.println("The resulting frequency is: " + total);
+        System.out.println("The resulting frequency is: " + totalFrequency);
     }
 
-    private static void partTwo(List<String> lines) {
-        Set<Integer> seenValues = new HashSet<>();
+    private static void partTwo(List<String> inputLines) {
+        int startingFrequency = 0;
 
-        int startingValue = 0;
-        seenValues.add(startingValue);
+        int duplicateFrequency = findDuplicateFrequency(inputLines, startingFrequency);
 
-        boolean sameFrequency = false;
-
-        Result result = getResult(lines, sameFrequency, startingValue, seenValues);
-
-        if (result.sameFrequency()) {
-            System.out.println("The first frequency reached twice is: " + result.total());
-        } else {
-            System.out.println("No frequencies reached twice!");
-        }
+		System.out.println("The first frequency reached twice is: " + duplicateFrequency);
     }
 
-    private static Result getResult(List<String> lines, boolean sameFrequency, int startingValue, Set<Integer> seenValues) {
-        int total = startingValue;
+    private static int findDuplicateFrequency(List<String> inputLines, int startingFrequency) {
+		Set<Integer> previousFrequencies = new HashSet<>();
 
-        while (!sameFrequency) {
-            for (String line : lines) {
+		previousFrequencies.add(startingFrequency);
+        int currentFrequency = startingFrequency;
+
+		boolean foundDuplicate = false;
+
+        while (!foundDuplicate) {
+            for (String line : inputLines) {
                 char sign = line.charAt(0);
-                int value = Integer.parseInt(line.substring(1));
+                int frequencyChange = Integer.parseInt(line.substring(1));
 
                 if (sign == '-') {
-                    value *= -1;
+                    frequencyChange *= -1;
                 }
 
-                total += value;
+                currentFrequency += frequencyChange;
 
-                if (seenValues.contains(total)) {
-                    sameFrequency = true;
+                if (previousFrequencies.contains(currentFrequency)) {
+                    foundDuplicate = true;
                     break;
                 } else {
-                    seenValues.add(total);
+                    previousFrequencies.add(currentFrequency);
                 }
             }
         }
 
-        return new Result(total, sameFrequency);
-    }
-
-    private record Result(int total, boolean sameFrequency) {
+        return currentFrequency;
     }
 }
