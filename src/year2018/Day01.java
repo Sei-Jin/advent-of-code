@@ -21,7 +21,7 @@ public class Day01 {
 
 
     private static void partOne(List<String> inputLines) {
-        int totalFrequency = 0;
+        int currentFrequency = 0;
 
         for (String line : inputLines) {
             char sign = line.charAt(0);
@@ -31,10 +31,10 @@ public class Day01 {
                 frequencyChange *= -1;
             }
 
-            totalFrequency += frequencyChange;
+            currentFrequency += frequencyChange;
         }
 
-        System.out.println("The resulting frequency is: " + totalFrequency);
+        System.out.println("The resulting frequency is: " + currentFrequency);
     }
 
 
