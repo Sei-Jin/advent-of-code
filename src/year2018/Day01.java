@@ -27,10 +27,10 @@ public class Day01 {
             int frequencyChange = Integer.parseInt(line.substring(1));
 
             if (sign == '-') {
-				frequencyChange *= -1;
+                frequencyChange *= -1;
             }
 
-			totalFrequency += frequencyChange;
+            totalFrequency += frequencyChange;
         }
 
         System.out.println("The resulting frequency is: " + totalFrequency);
@@ -41,16 +41,16 @@ public class Day01 {
 
         int duplicateFrequency = findDuplicateFrequency(inputLines, startingFrequency);
 
-		System.out.println("The first frequency reached twice is: " + duplicateFrequency);
+        System.out.println("The first frequency reached twice is: " + duplicateFrequency);
     }
 
     private static int findDuplicateFrequency(List<String> inputLines, int startingFrequency) {
-		Set<Integer> previousFrequencies = new HashSet<>();
+        Set<Integer> previousFrequencies = new HashSet<>();
 
-		previousFrequencies.add(startingFrequency);
+        previousFrequencies.add(startingFrequency);
         int currentFrequency = startingFrequency;
 
-		boolean foundDuplicate = false;
+        boolean foundDuplicate = false;
 
         while (!foundDuplicate) {
             for (String line : inputLines) {
