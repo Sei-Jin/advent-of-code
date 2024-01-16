@@ -1,7 +1,5 @@
 package year2018;
 
-
-import javax.swing.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,6 +16,7 @@ public class Day02 {
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
 
         partOne(inputLines);
+        partTwo(inputLines);
     }
 
 
@@ -61,5 +60,36 @@ public class Day02 {
         int checksum = twoCount * threeCount;
 
         System.out.println("The checksum for the list of box IDs is: " + checksum);
+    }
+
+
+    private static void partTwo(List<String> inputLines) {
+        String commonID = "";
+
+        for (String line : inputLines) {
+            for (String compareLine : inputLines) {
+                int differentCharacters = 0;
+
+                for (int i = 0; i < line.length(); i++) {
+                    if (line.charAt(i) != compareLine.charAt(i)) {
+                        differentCharacters++;
+                    }
+                }
+
+                if (differentCharacters == 1) {
+                    int removeIndex = 0;
+
+                    for (int i = 0; i < line.length(); i++) {
+                        if (line.charAt(i) != compareLine.charAt(i)) {
+                            removeIndex = i;
+                        }
+                    }
+
+                    commonID = line.substring(0, removeIndex) + line.substring(removeIndex + 1);
+                }
+            }
+        }
+
+        System.out.println("The letters common between the two correct box IDs are: " + commonID);
     }
 }
