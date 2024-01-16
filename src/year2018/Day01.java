@@ -19,6 +19,7 @@ public class Day01 {
         partTwo(inputLines);
     }
 
+
     private static void partOne(List<String> inputLines) {
         int totalFrequency = 0;
 
@@ -36,6 +37,7 @@ public class Day01 {
         System.out.println("The resulting frequency is: " + totalFrequency);
     }
 
+
     private static void partTwo(List<String> inputLines) {
         int startingFrequency = 0;
 
@@ -43,6 +45,7 @@ public class Day01 {
 
         System.out.println("The first frequency reached twice is: " + duplicateFrequency);
     }
+
 
     private static int findDuplicateFrequency(List<String> inputLines, int startingFrequency) {
         Set<Integer> previousFrequencies = new HashSet<>();
