@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * --- Day 3: No Matter How You Slice It ---
+ */
 public class Day03 {
     
     public static void main(String[] args) throws IOException {
