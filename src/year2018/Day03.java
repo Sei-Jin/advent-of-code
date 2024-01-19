@@ -16,6 +16,7 @@ public class Day03 {
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
         List<Claim> claims = new ArrayList<>();
+        
         for (String line : inputLines) {
             Claim claim = getClaim(line);
             claims.add(claim);
@@ -26,6 +27,9 @@ public class Day03 {
         partOne(fabricArea);
         partTwo(fabricArea, claims);
     }
+    
+    
+    private record Claim(int claimID, int distanceLeft, int distanceTop, int width, int height) { }
     
     
     private static Claim getClaim(String line) {
@@ -42,9 +46,6 @@ public class Day03 {
         
         return new Claim(claimID, distanceLeft, distanceTop, width, height);
     }
-    
-    
-    private record Claim(int claimID, int distanceLeft, int distanceTop, int width, int height) { }
     
     
     private static int[][] mapFabricClaims(List<Claim> claims) {
