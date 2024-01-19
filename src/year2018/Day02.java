@@ -25,7 +25,6 @@ public class Day02 {
         int threeCount = 0;
 
         for (String line : inputLines) {
-
             HashMap<Character, Integer> letterCount = new HashMap<>();
 
             for (int i = 0; i < line.length(); i++) {
