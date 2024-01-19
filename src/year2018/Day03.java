@@ -3,6 +3,7 @@ package year2018;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,43 +12,18 @@ public class Day03 {
     public static void main(String[] args) throws IOException {
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    private static void partOne(List<String> inputLines) {
-        int[][] fabricArea = mapFabricClaims(inputLines);
-        
-        int withinTwoClaims = 0;
-        
-        for (int row = 0; row < fabricArea.length; row++) {
-            for (int column = 0; column < fabricArea.length; column++) {
-                if (fabricArea[row][column] > 1) {
-                    withinTwoClaims++;
-                }
-            }
-        }
-        
-        System.out.println("The square inches of fabric within two claims is: " + withinTwoClaims);
-    }
-    
-    
-    private static int[][] mapFabricClaims(List<String> inputLines) {
-        int[][] fabricArea = new int[1000][1000];
-        
+        List<Claim> claims = new ArrayList<>();
         for (String line : inputLines) {
             Claim claim = getClaim(line);
-            
-            for (int row = claim.distanceTop(); row < claim.distanceTop() + claim.height(); row++) {
-                for (int column = claim.distanceLeft(); column < claim.distanceLeft() + claim.width(); column++) {
-                    fabricArea[row][column]++;
-                }
-            }
+            claims.add(claim);
         }
         
-        return fabricArea;
+        int[][] fabricArea = mapFabricClaims(claims);
+        
+        partOne(fabricArea);
+        partTwo(fabricArea, claims);
     }
+    
     
     private static Claim getClaim(String line) {
         int[] lineValues = Arrays.stream(line.split("[^0-9]+"))
@@ -68,18 +44,44 @@ public class Day03 {
     private record Claim(int claimID, int distanceLeft, int distanceTop, int width, int height) { }
     
     
-    private static void partTwo(List<String> inputLines) {
-        int[][] fabricArea = mapFabricClaims(inputLines);
+    private static int[][] mapFabricClaims(List<Claim> claims) {
+        int[][] fabricArea = new int[1000][1000];
         
+        for (Claim claim : claims) {
+            for (int row = claim.distanceTop(); row < claim.distanceTop() + claim.height(); row++) {
+                for (int column = claim.distanceLeft(); column < claim.distanceLeft() + claim.width(); column++) {
+                    fabricArea[row][column]++;
+                }
+            }
+        }
+        
+        return fabricArea;
+    }
+    
+    
+    private static void partOne(int[][] fabricArea) {
+        int areaWithinTwoClaims = 0;
+        
+        for (int row = 0; row < fabricArea.length; row++) {
+            for (int column = 0; column < fabricArea.length; column++) {
+                if (fabricArea[row][column] > 1) {
+                    areaWithinTwoClaims++;
+                }
+            }
+        }
+        
+        System.out.println("The square inches of fabric within two claims is: " + areaWithinTwoClaims);
+    }
+    
+    
+    private static void partTwo(int[][] fabricArea, List<Claim> claims) {
         int nonOverlappingClaimID = 0;
         
-        for (String line : inputLines) {
+        for (Claim claim : claims) {
             boolean nonOverlappingClaim = true;
             
-            Claim claim = getClaim(line);
-            
-            for (int row = claim.distanceTop; row < claim.distanceTop + claim.height; row++) {
-                for (int column = claim.distanceLeft; column < claim.distanceLeft + claim.width; column++) {
+            for (int row = claim.distanceTop(); row < claim.distanceTop() + claim.height(); row++) {
+                for (int column = claim.distanceLeft(); column < claim.distanceLeft() + claim.width(); column++) {
                     if (fabricArea[row][column] > 1) {
                         nonOverlappingClaim = false;
                         break;
@@ -88,7 +90,7 @@ public class Day03 {
             }
             
             if (nonOverlappingClaim) {
-                nonOverlappingClaimID = claim.claimID;
+                nonOverlappingClaimID = claim.claimID();
                 break;
             }
         }
