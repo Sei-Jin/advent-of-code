@@ -29,9 +29,6 @@ public class Day03 {
     }
     
     
-    private record Claim(int claimID, int distanceLeft, int distanceTop, int width, int height) { }
-    
-    
     private static Claim getClaim(String line) {
         int[] lineValues = Arrays.stream(line.split("[^0-9]+"))
                 .skip(1)
@@ -46,6 +43,9 @@ public class Day03 {
         
         return new Claim(claimID, distanceLeft, distanceTop, width, height);
     }
+    
+    
+    private record Claim(int claimID, int distanceLeft, int distanceTop, int width, int height) { }
     
     
     private static int[][] mapFabricClaims(List<Claim> claims) {
