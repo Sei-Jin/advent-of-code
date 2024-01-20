@@ -7,6 +7,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class Part2 {
+    
     public static void main(String[] args) throws FileNotFoundException {
 
         File inputFile = new File("input.txt");

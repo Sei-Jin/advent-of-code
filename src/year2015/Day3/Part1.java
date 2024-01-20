@@ -1,51 +1,62 @@
 package year2015.Day3;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.List;
 
 public class Part1 {
-    public static void main(String[] args) throws FileNotFoundException {
-
-        File inputFile = new File("input.txt");
-        Scanner in = new Scanner(inputFile);
-
-        String moves = "";
-        while (in.hasNextLine()) {
-            moves = in.nextLine();
+    
+    public static void main(String[] args) throws IOException {
+        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
+        
+        for (String line : inputLines) {
+            partOne(line);
         }
-        in.close();
-
-        int positionX = 0;
-        int positionY = 0;
-
-        Set<String> grid = new HashSet<>();
-        grid.add(positionX + " " + positionY);
-
+    }
+    
+    
+    private static void partOne(String line) {
+        Position2D currentPosition = new Position2D(0, 0);
+        
+        HashSet<String> previousPositions = new HashSet<>();
+        
+        previousPositions.add(currentPosition.toString());
         int housesVisited = 1;
-
-        for (int i = 0; i < moves.length(); i++) {
-            switch (moves.charAt(i)) {
-                case '>': positionX++;
-                    break;
-                case '<': positionX--;
-                    break;
-                case '^': positionY++;
-                    break;
-                case 'v': positionY--;
-                    break;
+        
+        for (int i = 0; i < line.length(); i++) {
+            switch (line.charAt(i)) {
+                case '>' -> currentPosition.X++;
+                case '<' -> currentPosition.X--;
+                case '^' -> currentPosition.Y++;
+                case 'v' -> currentPosition.Y--;
             }
-
-            String p = positionX + " " + positionY;
-
-            if (!grid.contains(p)) {
-                grid.add(p);
+            
+            if (!previousPositions.contains(currentPosition.toString())) {
+                previousPositions.add(currentPosition.toString());
                 housesVisited++;
             }
         }
-
-        System.out.println(housesVisited);
+        
+        System.out.println(housesVisited + " houses received at least one present.");
+    }
+    
+    
+    private static class Position2D {
+        int X, Y;
+        
+        Position2D (int X, int Y) {
+            this.X = X;
+            this.Y = Y;
+        }
+        
+        @Override
+        public String toString() {
+            return "Position2D{" +
+                    "X=" + X +
+                    ", Y=" + Y +
+                    '}';
+        }
     }
 }
