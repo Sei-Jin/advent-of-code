@@ -8,6 +8,7 @@ import java.nio.file.Path;
  * --- Day 1: Not Quite Lisp ---
  */
 public class Day01 {
+    
     public static void main(String[] args) throws IOException {
         String inputLine = Files.readString(Path.of("input.txt"));
         
