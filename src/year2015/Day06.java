@@ -7,6 +7,9 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * --- Day 6: Probably a Fire Hazard ---
+ */
 public class Day06 {
     
     public static void main(String[] args) throws IOException {
