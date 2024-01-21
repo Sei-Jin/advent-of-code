@@ -1,12 +1,10 @@
 package year2016.Day1;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * --- Day 1: No Time for a Taxicab ---
@@ -19,6 +17,7 @@ public class Part1 {
         
         for (String line : inputLines) {
             partOne(line);
+            partTwo(line);
         }
     }
     
@@ -49,6 +48,44 @@ public class Part1 {
     }
     
     
+    private static void partTwo(String line) {
+        
+        Point point = new Point(0, 0);
+        Direction currentDirection = Direction.NORTH;
+        
+        HashSet<String> pointsVisited = new HashSet<>();
+        pointsVisited.add(point.toString());
+        
+        String[] moveSequence = line.split(", ");
+        
+        for (String move : moveSequence) {
+            
+            char turningDirection = move.charAt(0);
+            int distance = Integer.parseInt(move.substring(1));
+            
+            currentDirection = changeDirection(currentDirection, turningDirection);
+            
+            for (int blocksTravelled = 0; blocksTravelled < distance; blocksTravelled++) {
+                
+                switch (currentDirection) {
+                    case NORTH -> point.Y++;
+                    case EAST -> point.X++;
+                    case SOUTH -> point.Y--;
+                    case WEST -> point.X--;
+                }
+                
+                if (pointsVisited.contains(point.toString())) {
+                    int currentDistance = Math.abs(point.X) + Math.abs(point.Y);
+                    System.out.println("The distance of the first location visited twice is: " + currentDistance);
+                    return;
+                } else {
+                    pointsVisited.add(point.toString());
+                }
+            }
+        }
+    }
+    
+    
     private static class Point {
         
         int X, Y;
@@ -56,6 +93,14 @@ public class Part1 {
         Point(int X, int Y) {
             this.X = X;
             this.Y = Y;
+        }
+        
+        @Override
+        public String toString() {
+            return "Point{" +
+                    "X=" + X +
+                    ", Y=" + Y +
+                    '}';
         }
     }
     
