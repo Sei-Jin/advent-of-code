@@ -13,6 +13,7 @@ import java.util.Set;
 public class Day01 {
 
     public static void main(String[] args) throws IOException {
+        
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
 
         partOne(inputLines);
@@ -21,6 +22,7 @@ public class Day01 {
 
 
     private static void partOne(List<String> inputLines) {
+        
         int currentFrequency = 0;
 
         for (String line : inputLines) {
@@ -39,6 +41,7 @@ public class Day01 {
 
 
     private static void partTwo(List<String> inputLines) {
+        
         int startingFrequency = 0;
 
         int duplicateFrequency = findDuplicateFrequency(inputLines, startingFrequency);
@@ -48,6 +51,7 @@ public class Day01 {
 
 
     private static int findDuplicateFrequency(List<String> inputLines, int startingFrequency) {
+        
         Set<Integer> previousFrequencies = new HashSet<>();
 
         previousFrequencies.add(startingFrequency);
