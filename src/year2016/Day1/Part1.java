@@ -23,7 +23,7 @@ public class Part1 {
     }
     
     
-    private static void partOne (String line) {
+    private static void partOne(String line) {
         
         Point point = new Point(0, 0);
         Direction currentDirection = Direction.NORTH;
@@ -38,9 +38,9 @@ public class Part1 {
             
             switch (currentDirection) {
                 case NORTH -> point.Y += distance;
-                case EAST  -> point.X += distance;
+                case EAST -> point.X += distance;
                 case SOUTH -> point.Y -= distance;
-                case WEST  -> point.X -= distance;
+                case WEST -> point.X -= distance;
             }
         }
         
@@ -50,9 +50,10 @@ public class Part1 {
     
     
     private static class Point {
+        
         int X, Y;
         
-        Point (int X, int Y) {
+        Point(int X, int Y) {
             this.X = X;
             this.Y = Y;
         }
@@ -64,18 +65,18 @@ public class Part1 {
         if (turningDirection == 'R') {
             currentDirection = switch (currentDirection) {
                 case NORTH -> Direction.EAST;
-                case EAST  -> Direction.SOUTH;
+                case EAST -> Direction.SOUTH;
                 case SOUTH -> Direction.WEST;
-                case WEST  -> Direction.NORTH;
+                case WEST -> Direction.NORTH;
             };
         }
         
         if (turningDirection == 'L') {
             currentDirection = switch (currentDirection) {
                 case NORTH -> Direction.WEST;
-                case WEST  -> Direction.SOUTH;
+                case WEST -> Direction.SOUTH;
                 case SOUTH -> Direction.EAST;
-                case EAST  -> Direction.NORTH;
+                case EAST -> Direction.NORTH;
             };
         }
         
