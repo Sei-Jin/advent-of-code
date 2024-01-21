@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * --- Day 1: No Time for a Taxicab ---
  */
-public class Part1 {
+public class Day01 {
     
     public static void main(String[] args) throws IOException {
         
@@ -86,25 +86,6 @@ public class Part1 {
     }
     
     
-    private static class Point {
-        
-        int X, Y;
-        
-        Point(int X, int Y) {
-            this.X = X;
-            this.Y = Y;
-        }
-        
-        @Override
-        public String toString() {
-            return "Point{" +
-                    "X=" + X +
-                    ", Y=" + Y +
-                    '}';
-        }
-    }
-    
-    
     private static Direction changeDirection(Direction currentDirection, char turningDirection) {
         
         if (turningDirection == 'R') {
@@ -126,6 +107,25 @@ public class Part1 {
         }
         
         return currentDirection;
+    }
+    
+    
+    private static class Point {
+        
+        int X, Y;
+        
+        Point(int X, int Y) {
+            this.X = X;
+            this.Y = Y;
+        }
+        
+        @Override
+        public String toString() {
+            return "Point{" +
+                    "X=" + X +
+                    ", Y=" + Y +
+                    '}';
+        }
     }
     
     
