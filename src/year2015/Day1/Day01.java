@@ -10,6 +10,7 @@ import java.nio.file.Path;
 public class Day01 {
     
     public static void main(String[] args) throws IOException {
+        
         String inputLine = Files.readString(Path.of("input.txt"));
         
         partOne(inputLine);
@@ -18,6 +19,7 @@ public class Day01 {
     
     
     private static void partOne(String inputLine) {
+        
         int floorLevel = 0;
         
         for (int i = 0; i < inputLine.length(); i++) {
@@ -32,6 +34,7 @@ public class Day01 {
     
     
     private static void partTwo(String inputLine) {
+        
         int floorLevel = 0;
         boolean reachedBasement = false;
         
