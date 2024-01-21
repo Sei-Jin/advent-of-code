@@ -13,6 +13,7 @@ import java.util.Map;
 public class Day02 {
 
     public static void main(String[] args) throws IOException {
+        
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
 
         partOne(inputLines);
@@ -21,6 +22,7 @@ public class Day02 {
 
 
     private static void partOne(List<String> inputLines) {
+        
         int twoCount = 0;
         int threeCount = 0;
 
@@ -63,6 +65,7 @@ public class Day02 {
 
 
     private static void partTwo(List<String> inputLines) {
+        
         String commonID = "";
 
         for (String line : inputLines) {
