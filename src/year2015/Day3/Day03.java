@@ -12,6 +12,7 @@ import java.util.List;
 public class Day03 {
     
     public static void main(String[] args) throws IOException {
+        
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
         for (String line : inputLines) {
@@ -22,6 +23,7 @@ public class Day03 {
     
     
     private static void partOne(String line) {
+        
         Position2D currentPosition = new Position2D(0, 0);
         
         HashSet<String> previousPositions = new HashSet<>();
@@ -42,8 +44,9 @@ public class Day03 {
     
     
     private static void partTwo(String line) {
+        
         Position2D currentPositionSanta = new Position2D(0, 0);
-        Position2D currentPositionRobot = new Position2D(0 , 0);
+        Position2D currentPositionRobot = new Position2D(0, 0);
         
         HashSet<String> previousPositions = new HashSet<>();
         
@@ -71,15 +74,18 @@ public class Day03 {
     
     
     private static boolean newHouseVisited(HashSet<String> previousPositions, Position2D currentPositionRobot) {
+        
         if (!previousPositions.contains(currentPositionRobot.toString())) {
             previousPositions.add(currentPositionRobot.toString());
             return true;
         }
+        
         return false;
     }
     
     
     private static void updatePosition(Position2D position, char direction) {
+        
         switch (direction) {
             case '>' -> position.X++;
             case '<' -> position.X--;
@@ -90,9 +96,10 @@ public class Day03 {
     
     
     private static class Position2D {
+        
         int X, Y;
         
-        Position2D (int X, int Y) {
+        Position2D(int X, int Y) {
             this.X = X;
             this.Y = Y;
         }
