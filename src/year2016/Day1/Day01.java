@@ -1,5 +1,6 @@
 package year2016.Day1;
 
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,7 +25,7 @@ public class Day01 {
     
     private static void partOne(String line) {
         
-        Point point = new Point(0, 0);
+        Point point = new Point();
         Direction currentDirection = Direction.NORTH;
         
         String[] moveSequence = line.split(", ");
@@ -36,21 +37,21 @@ public class Day01 {
             currentDirection = changeDirection(currentDirection, turningDirection);
             
             switch (currentDirection) {
-                case NORTH -> point.Y += distance;
-                case EAST -> point.X += distance;
-                case SOUTH -> point.Y -= distance;
-                case WEST -> point.X -= distance;
+                case NORTH -> point.y += distance;
+                case EAST -> point.x += distance;
+                case SOUTH -> point.y -= distance;
+                case WEST -> point.x -= distance;
             }
         }
         
-        int destinationDistance = Math.abs(point.X) + Math.abs(point.Y);
+        int destinationDistance = Math.abs(point.x) + Math.abs(point.y);
         System.out.println("The Easter Bunny HQ is " + destinationDistance + " blocks away.");
     }
     
     
     private static void partTwo(String line) {
         
-        Point point = new Point(0, 0);
+        Point point = new Point();
         Direction currentDirection = Direction.NORTH;
         
         HashSet<String> pointsVisited = new HashSet<>();
@@ -68,14 +69,14 @@ public class Day01 {
             for (int blocksTravelled = 0; blocksTravelled < distance; blocksTravelled++) {
                 
                 switch (currentDirection) {
-                    case NORTH -> point.Y++;
-                    case EAST -> point.X++;
-                    case SOUTH -> point.Y--;
-                    case WEST -> point.X--;
+                    case NORTH -> point.y++;
+                    case EAST -> point.x++;
+                    case SOUTH -> point.y--;
+                    case WEST -> point.x--;
                 }
                 
                 if (pointsVisited.contains(point.toString())) {
-                    int currentDistance = Math.abs(point.X) + Math.abs(point.Y);
+                    int currentDistance = Math.abs(point.x) + Math.abs(point.y);
                     System.out.println("The distance of the first location visited twice is: " + currentDistance);
                     return;
                 } else {
@@ -107,25 +108,6 @@ public class Day01 {
         }
         
         return currentDirection;
-    }
-    
-    
-    private static class Point {
-        
-        int X, Y;
-        
-        Point(int X, int Y) {
-            this.X = X;
-            this.Y = Y;
-        }
-        
-        @Override
-        public String toString() {
-            return "Point{" +
-                    "X=" + X +
-                    ", Y=" + Y +
-                    '}';
-        }
     }
     
     
