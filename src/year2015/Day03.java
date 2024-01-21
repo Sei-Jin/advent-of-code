@@ -1,5 +1,6 @@
 package year2015;
 
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,7 +25,7 @@ public class Day03 {
     
     private static void partOne(String line) {
         
-        Position2D currentPosition = new Position2D(0, 0);
+        Point currentPosition = new Point();
         
         HashSet<String> previousPositions = new HashSet<>();
         
@@ -45,8 +46,8 @@ public class Day03 {
     
     private static void partTwo(String line) {
         
-        Position2D currentPositionSanta = new Position2D(0, 0);
-        Position2D currentPositionRobot = new Position2D(0, 0);
+        Point currentPositionSanta = new Point();
+        Point currentPositionRobot = new Point();
         
         HashSet<String> previousPositions = new HashSet<>();
         
@@ -73,7 +74,7 @@ public class Day03 {
     }
     
     
-    private static boolean newHouseVisited(HashSet<String> previousPositions, Position2D currentPositionRobot) {
+    private static boolean newHouseVisited(HashSet<String> previousPositions, Point currentPositionRobot) {
         
         if (!previousPositions.contains(currentPositionRobot.toString())) {
             previousPositions.add(currentPositionRobot.toString());
@@ -84,32 +85,13 @@ public class Day03 {
     }
     
     
-    private static void updatePosition(Position2D position, char direction) {
+    private static void updatePosition(Point position, char direction) {
         
         switch (direction) {
-            case '>' -> position.X++;
-            case '<' -> position.X--;
-            case '^' -> position.Y++;
-            case 'v' -> position.Y--;
-        }
-    }
-    
-    
-    private static class Position2D {
-        
-        int X, Y;
-        
-        Position2D(int X, int Y) {
-            this.X = X;
-            this.Y = Y;
-        }
-        
-        @Override
-        public String toString() {
-            return "Position2D{" +
-                    "X=" + X +
-                    ", Y=" + Y +
-                    '}';
+            case '>' -> position.x++;
+            case '<' -> position.x--;
+            case '^' -> position.y++;
+            case 'v' -> position.y--;
         }
     }
 }
