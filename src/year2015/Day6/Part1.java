@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Part1 {
+    
     public static void main(String[] args) throws IOException {
 
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
