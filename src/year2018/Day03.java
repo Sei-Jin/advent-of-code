@@ -13,6 +13,7 @@ import java.util.List;
 public class Day03 {
     
     public static void main(String[] args) throws IOException {
+        
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
         List<Claim> claims = new ArrayList<>();
@@ -22,14 +23,57 @@ public class Day03 {
             claims.add(claim);
         }
         
-        int[][] fabricArea = mapFabricClaims(claims);
+        int[][] mappedFabricArea = mapFabricClaims(claims);
         
-        partOne(fabricArea);
-        partTwo(fabricArea, claims);
+        partOne(mappedFabricArea);
+        partTwo(mappedFabricArea, claims);
+    }
+    
+    
+    private static void partOne(int[][] mappedFabricArea) {
+        
+        int areaWithinTwoClaims = 0;
+        
+        for (int row = 0; row < mappedFabricArea.length; row++) {
+            for (int column = 0; column < mappedFabricArea.length; column++) {
+                if (mappedFabricArea[row][column] > 1) {
+                    areaWithinTwoClaims++;
+                }
+            }
+        }
+        
+        System.out.println("The square inches of fabric within two claims is: " + areaWithinTwoClaims);
+    }
+    
+    
+    private static void partTwo(int[][] mappedFabricArea, List<Claim> claims) {
+        
+        int nonOverlappingClaimID = 0;
+        
+        for (Claim claim : claims) {
+            boolean nonOverlappingClaim = true;
+            
+            for (int row = claim.distanceTop(); row < claim.distanceTop() + claim.height(); row++) {
+                for (int column = claim.distanceLeft(); column < claim.distanceLeft() + claim.width(); column++) {
+                    if (mappedFabricArea[row][column] > 1) {
+                        nonOverlappingClaim = false;
+                        break;
+                    }
+                }
+            }
+            
+            if (nonOverlappingClaim) {
+                nonOverlappingClaimID = claim.claimID();
+                break;
+            }
+        }
+        
+        System.out.println("The ID of the only claim that does not overlap is: " + nonOverlappingClaimID);
     }
     
     
     private static Claim getClaim(String line) {
+        
         int[] lineValues = Arrays.stream(line.split("[^0-9]+"))
                 .skip(1)
                 .mapToInt(Integer::parseInt)
@@ -45,10 +89,8 @@ public class Day03 {
     }
     
     
-    private record Claim(int claimID, int distanceLeft, int distanceTop, int width, int height) { }
-    
-    
     private static int[][] mapFabricClaims(List<Claim> claims) {
+        
         int[][] fabricArea = new int[1000][1000];
         
         for (Claim claim : claims) {
@@ -63,42 +105,5 @@ public class Day03 {
     }
     
     
-    private static void partOne(int[][] fabricArea) {
-        int areaWithinTwoClaims = 0;
-        
-        for (int row = 0; row < fabricArea.length; row++) {
-            for (int column = 0; column < fabricArea.length; column++) {
-                if (fabricArea[row][column] > 1) {
-                    areaWithinTwoClaims++;
-                }
-            }
-        }
-        
-        System.out.println("The square inches of fabric within two claims is: " + areaWithinTwoClaims);
-    }
-    
-    
-    private static void partTwo(int[][] fabricArea, List<Claim> claims) {
-        int nonOverlappingClaimID = 0;
-        
-        for (Claim claim : claims) {
-            boolean nonOverlappingClaim = true;
-            
-            for (int row = claim.distanceTop(); row < claim.distanceTop() + claim.height(); row++) {
-                for (int column = claim.distanceLeft(); column < claim.distanceLeft() + claim.width(); column++) {
-                    if (fabricArea[row][column] > 1) {
-                        nonOverlappingClaim = false;
-                        break;
-                    }
-                }
-            }
-            
-            if (nonOverlappingClaim) {
-                nonOverlappingClaimID = claim.claimID();
-                break;
-            }
-        }
-        
-        System.out.println("The ID of the only claim that does not overlap is: " + nonOverlappingClaimID);
-    }
+    private record Claim(int claimID, int distanceLeft, int distanceTop, int width, int height) {}
 }
