@@ -11,6 +11,7 @@ import java.util.List;
 public class Day02 {
     
     public static void main(String[] args) throws IOException {
+        
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
         partOne(inputLines);
@@ -18,23 +19,8 @@ public class Day02 {
     }
     
     
-    private static Box getBoxDimensions(String line) {
-        int[] dimensions = Arrays.stream(line.split("x"))
-                .mapToInt(Integer::parseInt)
-                .toArray();
-        
-        int length = dimensions[0];
-        int width = dimensions[1];
-        int height = dimensions[2];
-        
-        return new Box(length, width, height);
-    }
-    
-    
-    private record Box(int length, int width, int height) { }
-    
-    
     private static void partOne(List<String> inputLines) {
+        
         int totalArea = 0;
         
         for (String line : inputLines) {
@@ -55,6 +41,7 @@ public class Day02 {
     
     
     private static void partTwo(List<String> inputLines) {
+        
         int totalRibbonLength = 0;
         
         for (String line : inputLines) {
@@ -76,4 +63,21 @@ public class Day02 {
         
         System.out.println("The total feet of ribbon the elves should order is: " + totalRibbonLength);
     }
+    
+    
+    private static Box getBoxDimensions(String line) {
+        
+        int[] dimensions = Arrays.stream(line.split("x"))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        
+        int length = dimensions[0];
+        int width = dimensions[1];
+        int height = dimensions[2];
+        
+        return new Box(length, width, height);
+    }
+    
+    
+    private record Box(int length, int width, int height) {}
 }
