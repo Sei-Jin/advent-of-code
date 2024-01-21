@@ -8,6 +8,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * --- Day 2: I Was Told There Would Be No Math ---
+ */
 public class Day02 {
     
     public static void main(String[] args) throws IOException {
