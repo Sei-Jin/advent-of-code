@@ -2,69 +2,88 @@ package year2016.Day1;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 import java.util.Scanner;
 
+/**
+ * --- Day 1: No Time for a Taxicab ---
+ */
 public class Part1 {
-    public static void main(String[] args) throws FileNotFoundException {
-
-        File inputFile = new File("input.txt");
-        Scanner in = new Scanner(inputFile);
-
-        String[] sequence = in.nextLine().split(", ");
-
-        final char NORTH = 'N';
-        final char EAST = 'E';
-        final char WEST = 'W';
-        final char SOUTH = 'S';
-
-        char currentDirection = NORTH;
-        int xPosition = 0;
-        int yPosition = 0;
-
-        for (String s : sequence) {
-
-            // Turning right
-            if (s.charAt(0) == 'R') {
-                // Change Direction
-                if (currentDirection == NORTH) {
-                    currentDirection = EAST;
-                } else if (currentDirection == EAST) {
-                    currentDirection = SOUTH;
-                } else if (currentDirection == SOUTH) {
-                    currentDirection = WEST;
-                } else {
-                    currentDirection = NORTH;
-                }
-            }
-
-            // Turning left
-            if (s.charAt(0) == 'L') {
-                // Change Direction
-                if (currentDirection == NORTH) {
-                    currentDirection = WEST;
-                } else if (currentDirection == WEST) {
-                    currentDirection = SOUTH;
-                } else if (currentDirection == SOUTH) {
-                    currentDirection = EAST;
-                } else {
-                    currentDirection = NORTH;
-                }
-            }
-
-            // Calculate position change
-            int distance = Integer.parseInt(s.substring(1));
-            if (currentDirection == NORTH) {
-                yPosition += distance;
-            } else if (currentDirection == EAST) {
-                xPosition += distance;
-            } else if (currentDirection == SOUTH) {
-                yPosition -= distance;
-            } else {
-                xPosition -= distance;
+    
+    public static void main(String[] args) throws IOException {
+        
+        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
+        
+        for (String line : inputLines) {
+            partOne(line);
+        }
+    }
+    
+    
+    private static void partOne (String line) {
+        
+        Point point = new Point(0, 0);
+        Direction currentDirection = Direction.NORTH;
+        
+        String[] moveSequence = line.split(", ");
+        
+        for (String move : moveSequence) {
+            char turningDirection = move.charAt(0);
+            int distance = Integer.parseInt(move.substring(1));
+            
+            currentDirection = changeDirection(currentDirection, turningDirection);
+            
+            switch (currentDirection) {
+                case NORTH -> point.Y += distance;
+                case EAST  -> point.X += distance;
+                case SOUTH -> point.Y -= distance;
+                case WEST  -> point.X -= distance;
             }
         }
-
-        int totalDistance = Math.abs(xPosition) + Math.abs(yPosition);
-        System.out.println(totalDistance);
+        
+        int destinationDistance = Math.abs(point.X) + Math.abs(point.Y);
+        System.out.println("The Easter Bunny HQ is " + destinationDistance + " blocks away.");
+    }
+    
+    
+    private static class Point {
+        int X, Y;
+        
+        Point (int X, int Y) {
+            this.X = X;
+            this.Y = Y;
+        }
+    }
+    
+    
+    private static Direction changeDirection(Direction currentDirection, char turningDirection) {
+        
+        if (turningDirection == 'R') {
+            currentDirection = switch (currentDirection) {
+                case NORTH -> Direction.EAST;
+                case EAST  -> Direction.SOUTH;
+                case SOUTH -> Direction.WEST;
+                case WEST  -> Direction.NORTH;
+            };
+        }
+        
+        if (turningDirection == 'L') {
+            currentDirection = switch (currentDirection) {
+                case NORTH -> Direction.WEST;
+                case WEST  -> Direction.SOUTH;
+                case SOUTH -> Direction.EAST;
+                case EAST  -> Direction.NORTH;
+            };
+        }
+        
+        return currentDirection;
+    }
+    
+    
+    private enum Direction {
+        NORTH, EAST, SOUTH, WEST;
     }
 }
