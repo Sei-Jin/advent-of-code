@@ -1,4 +1,4 @@
-package year2016.Day1;
+package year2016;
 
 import java.awt.*;
 import java.io.IOException;

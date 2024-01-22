@@ -1,4 +1,4 @@
-package year2017.Day1;
+package year2017;
 
 
 import java.io.IOException;
