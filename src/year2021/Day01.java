@@ -32,12 +32,12 @@ public class Day01 {
         
         int previousDepth = sonarSweepReport.getFirst();
         
-        for (int depth : sonarSweepReport.subList(1, sonarSweepReport.size())) {
-            if (previousDepth < depth) {
+        for (int currentDepth : sonarSweepReport.subList(1, sonarSweepReport.size())) {
+            if (previousDepth < currentDepth) {
                 totalMeasurementIncreases++;
             }
             
-            previousDepth = depth;
+            previousDepth = currentDepth;
         }
         
         System.out.println("The number of measurements that are larger than their previous measurement is: "
@@ -65,7 +65,7 @@ public class Day01 {
             previousDepthWindow = currentDepthWindow;
         }
         
-        System.out.println("The number of three-measurement sliding windows that are larger than the previous " +
-                "three-measurement sliding windows is: " + totalThreeMeasurementWindowIncreases);
+        System.out.println("The number of three-measurement sliding windows that are larger than their previous " +
+                "three-measurement sliding window is: " + totalThreeMeasurementWindowIncreases);
     }
 }
