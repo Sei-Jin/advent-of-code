@@ -3,8 +3,10 @@ package year2021;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * --- Day 3: Binary Diagnostic ---
@@ -13,7 +15,7 @@ public class Day03 {
     
     public static void main(String[] args) throws IOException {
     
-        List<String> inputLines = Files.readAllLines(Path.of("sample.txt"));
+        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
         partOne(inputLines);
     }
@@ -21,31 +23,50 @@ public class Day03 {
     
     private static void partOne(List<String> inputLines) {
         
-        int[] bitCount = new int[inputLines.getFirst().length()];
+        List<Integer> bitCounts = new ArrayList<>();
         
         for (String line : inputLines) {
             
-            int[] binaryString = line.chars()
+            List<Integer> binaryString = line.chars()
                     .map(Character::getNumericValue)
-                    .toArray();
+                    .boxed()
+                    .toList();
             
-            for (int index = 0; index < binaryString.length; index++) {
-                bitCount[index] += binaryString[index];
+            for (int index = 0; index < binaryString.size(); index++) {
+                if (bitCounts.size() == index) {
+                    bitCounts.add(binaryString.get(index));
+                }
+                else {
+                    int totalBitCount = bitCounts.get(index) + binaryString.get(index);
+                    bitCounts.set(index, totalBitCount);
+                }
             }
         }
         
-        int[] binaryGammaRate = new int[inputLines.getFirst().length()];
-        int[] binaryEpsilonRate = new int[inputLines.getFirst().length()];
+        StringBuilder binaryGammaRate = new StringBuilder();
+        StringBuilder binaryEpsilonRate = new StringBuilder();
         
-        for (int index = 0; index < bitCount.length; index++) {
-            if (bitCount[index] / (bitCount.length / 2) > 1) {
-                binaryGammaRate[index]++;
-            } else {
-                binaryEpsilonRate[index]++;
+        for (Integer bitCount : bitCounts) {
+            
+            int midPoint = inputLines.size() / 2;
+            
+            boolean oneIsMostCommon = inputLines.size() - bitCount < midPoint;
+            
+            if (oneIsMostCommon) {
+                binaryGammaRate.append(1);
+                binaryEpsilonRate.append(0);
+            }
+            else {
+                binaryEpsilonRate.append(1);
+                binaryGammaRate.append(0);
             }
         }
         
-        System.out.println(Arrays.toString(binaryGammaRate));
-        System.out.println(Arrays.toString(binaryEpsilonRate));
+        int epsilonRate = Integer.parseInt(String.valueOf(binaryEpsilonRate), 2);
+        int gammaRate = Integer.parseInt(String.valueOf(binaryGammaRate), 2);
+        
+        int powerConsumption = gammaRate * epsilonRate;
+        
+        System.out.println("The power consumption of the submarine is: " + powerConsumption);
     }
 }
