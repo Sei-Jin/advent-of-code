@@ -3,6 +3,7 @@ package year2019;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +20,7 @@ public class Day02
         
         for (String line : inputLines) {
             partOne(line);
+            partTwo(line);
         }
     }
     
@@ -34,7 +36,42 @@ public class Day02
         intcode.set(1, 12);
         intcode.set(2, 2);
         
-        // Run the program
+        runProgram(intcode);
+        
+        System.out.println("The value left at position 0 after the program halts is: " + intcode.getFirst());
+    }
+    
+    
+    private static void partTwo(String line)
+    {
+        List<Integer> defaultIntcode = Arrays.stream(line.split(","))
+                .mapToInt(Integer::parseInt)
+                .boxed()
+                .toList();
+        
+        for (int noun = 0; noun <= 99; noun++)
+        {
+            for (int verb = 0; verb <= 99; verb++)
+            {
+                List<Integer> intcode = new ArrayList<>(List.copyOf(defaultIntcode));
+                
+                intcode.set(1, noun);
+                intcode.set(2, verb);
+                
+                runProgram(intcode);
+                
+                if (intcode.getFirst() == 19690720)
+                {
+                    System.out.println(100 * noun + verb);
+                    return;
+                }
+            }
+        }
+    }
+    
+    
+    private static void runProgram(List<Integer> intcode)
+    {
         for (int position = 0; position < intcode.size(); position += 4)
         {
             int opcode = intcode.get(position);
@@ -46,8 +83,6 @@ public class Day02
                 case 99 -> position = intcode.size();
             }
         }
-        
-        System.out.println("The value left at position 0 after the program halts is: " + intcode.getFirst());
     }
     
     
