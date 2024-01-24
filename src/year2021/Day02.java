@@ -8,10 +8,10 @@ import java.util.List;
 /**
  * --- Day 2: Dive! ---
  */
-public class Day02 {
-    
-    public static void main(String[] args) throws IOException {
-        
+public class Day02
+{
+    public static void main(String[] args) throws IOException
+    {
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
         partOne(inputLines);
@@ -19,16 +19,17 @@ public class Day02 {
     }
     
     
-    private static void partOne(List<String> inputLines) {
-        
+    private static void partOne(List<String> inputLines)
+    {
         int horizontalPosition = 0;
         int depth = 0;
         
-        for (String line : inputLines) {
-            
+        for (String line : inputLines)
+        {
             String[] values = line.split(" ");
             
-            Direction direction = switch (values[0]) {
+            Direction direction = switch (values[0])
+            {
                 case "forward" -> Direction.FORWARD;
                 case "down" -> Direction.DOWN;
                 case "up" -> Direction.UP;
@@ -37,7 +38,8 @@ public class Day02 {
             
             int distance = Integer.parseInt(values[1]);
             
-            switch (direction) {
+            switch (direction)
+            {
                 case FORWARD -> horizontalPosition += distance;
                 case DOWN -> depth += distance;
                 case UP -> depth -= distance;
@@ -50,17 +52,18 @@ public class Day02 {
     }
     
     
-    private static void partTwo(List<String> inputLines) {
-        
+    private static void partTwo(List<String> inputLines)
+    {
         int horizontalPosition = 0;
         int depth = 0;
         int aim = 0;
         
-        for (String line : inputLines) {
-            
+        for (String line : inputLines)
+        {
             String[] values = line.split(" ");
             
-            Direction direction = switch (values[0]) {
+            Direction direction = switch (values[0])
+            {
                 case "forward" -> Direction.FORWARD;
                 case "down" -> Direction.DOWN;
                 case "up" -> Direction.UP;
@@ -69,8 +72,10 @@ public class Day02 {
             
             int units = Integer.parseInt(values[1]);
             
-            switch (direction) {
-                case FORWARD -> {
+            switch (direction)
+            {
+                case FORWARD ->
+                {
                     horizontalPosition += units;
                     depth += aim * units;
                 }
@@ -85,7 +90,8 @@ public class Day02 {
     }
     
     
-    private enum Direction {
+    private enum Direction
+    {
         DOWN, FORWARD, UP
     }
 }

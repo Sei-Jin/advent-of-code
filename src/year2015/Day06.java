@@ -10,10 +10,10 @@ import java.util.List;
 /**
  * --- Day 6: Probably a Fire Hazard ---
  */
-public class Day06 {
-    
-    public static void main(String[] args) throws IOException {
-
+public class Day06
+{
+    public static void main(String[] args) throws IOException
+    {
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
         partOne(inputLines);
@@ -21,16 +21,20 @@ public class Day06 {
     }
     
     
-    private static void partOne(List<String> inputLines) {
-        
+    private static void partOne(List<String> inputLines)
+    {
         boolean[][] lightGrid = new boolean[1000][1000];
         
-        for (String line : inputLines) {
+        for (String line : inputLines)
+        {
             Instruction instruction = getInstruction(line);
             
-            for (int row = instruction.topCorner.y; row <= instruction.bottomCorner.y; row++) {
-                for (int column = instruction.topCorner.x; column <= instruction.bottomCorner.x; column++) {
-                    switch (instruction.operation) {
+            for (int row = instruction.topCorner.y; row <= instruction.bottomCorner.y; row++)
+            {
+                for (int column = instruction.topCorner.x; column <= instruction.bottomCorner.x; column++)
+                {
+                    switch (instruction.operation)
+                    {
                         case ON -> lightGrid[row][column] = true;
                         case OFF -> lightGrid[row][column] = false;
                         case TOGGLE -> lightGrid[row][column] = !lightGrid[row][column];
@@ -40,10 +44,13 @@ public class Day06 {
         }
         
         int totalLightsTurnedOn = 0;
-
-        for (int row = 0; row < lightGrid.length; row++) {
-            for (int column = 0; column < lightGrid[0].length; column++) {
-                if (lightGrid[row][column]) {
+        
+        for (int row = 0; row < lightGrid.length; row++)
+        {
+            for (int column = 0; column < lightGrid[0].length; column++)
+            {
+                if (lightGrid[row][column])
+                {
                     totalLightsTurnedOn++;
                 }
             }
@@ -53,19 +60,25 @@ public class Day06 {
     }
     
     
-    private static void partTwo (List<String> inputLines) {
-        
+    private static void partTwo(List<String> inputLines)
+    {
         int[][] lightGrid = new int[1000][1000];
         
-        for (String line : inputLines) {
+        for (String line : inputLines)
+        {
             Instruction instruction = getInstruction(line);
             
-            for (int row = instruction.topCorner.y; row <= instruction.bottomCorner.y; row++) {
-                for (int column = instruction.topCorner.x; column <= instruction.bottomCorner.x; column++) {
-                    switch (instruction.operation) {
+            for (int row = instruction.topCorner.y; row <= instruction.bottomCorner.y; row++)
+            {
+                for (int column = instruction.topCorner.x; column <= instruction.bottomCorner.x; column++)
+                {
+                    switch (instruction.operation)
+                    {
                         case ON -> lightGrid[row][column]++;
-                        case OFF -> {
-                            if (lightGrid[row][column] > 0) {
+                        case OFF ->
+                        {
+                            if (lightGrid[row][column] > 0)
+                            {
                                 lightGrid[row][column]--;
                             }
                         }
@@ -77,8 +90,10 @@ public class Day06 {
         
         int totalBrightness = 0;
         
-        for (int row = 0; row < lightGrid.length; row++) {
-            for (int column = 0; column < lightGrid[0].length; column++) {
+        for (int row = 0; row < lightGrid.length; row++)
+        {
+            for (int column = 0; column < lightGrid[0].length; column++)
+            {
                 totalBrightness += lightGrid[row][column];
             }
         }
@@ -87,8 +102,8 @@ public class Day06 {
     }
     
     
-    private static Instruction getInstruction (String line) {
-        
+    private static Instruction getInstruction(String line)
+    {
         int[] values = Arrays.stream(line.split("[^0-9]+"))
                 .skip(1)
                 .mapToInt(Integer::parseInt)
@@ -103,33 +118,43 @@ public class Day06 {
         Point bottomCorner = new Point(bottomCornerX, bottomCornerY);
         
         Operation operation = null;
-        if (line.contains(Operation.ON.getValue())) {
+        
+        if (line.contains(Operation.ON.getValue()))
+        {
             operation = Operation.ON;
-        } else if (line.contains(Operation.OFF.getValue())) {
+        }
+        else if (line.contains(Operation.OFF.getValue()))
+        {
             operation = Operation.OFF;
-        } else if (line.contains(Operation.TOGGLE.getValue())) {
+        }
+        else if (line.contains(Operation.TOGGLE.getValue()))
+        {
             operation = Operation.TOGGLE;
         }
         
         return new Instruction(operation, topCorner, bottomCorner);
     }
-
-
-    private record Instruction (Operation operation, Point topCorner, Point bottomCorner) {}
     
     
-    private enum Operation {
-        
-        ON ("on"),
-        OFF ("off"),
-        TOGGLE ("toggle");
+    private record Instruction(Operation operation, Point topCorner, Point bottomCorner) {}
+    
+    
+    private enum Operation
+    {
+        ON("on"),
+        OFF("off"),
+        TOGGLE("toggle");
         
         private final String value;
         
-        Operation(String value) {
+        Operation(String value)
+        {
             this.value = value;
         }
         
-        private String getValue() { return value; }
+        private String getValue()
+        {
+            return value;
+        }
     }
 }

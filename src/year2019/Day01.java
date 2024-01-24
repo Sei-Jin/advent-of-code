@@ -8,9 +8,10 @@ import java.util.List;
 /**
  * --- Day 1: The Tyranny of the Rocket Equation ---
  */
-public class Day01 {
-    
-    public static void main(String[] args) throws IOException {
+public class Day01
+{
+    public static void main(String[] args) throws IOException
+    {
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
         partOne(inputLines);
@@ -18,11 +19,12 @@ public class Day01 {
     }
     
     
-    private static void partOne(List<String> inputLines) {
-        
+    private static void partOne(List<String> inputLines)
+    {
         int totalFuelRequired = 0;
         
-        for (String line : inputLines) {
+        for (String line : inputLines)
+        {
             int mass = Integer.parseInt(line);
             
             int fuelRequired = mass / 3 - 2;
@@ -34,11 +36,12 @@ public class Day01 {
     }
     
     
-    private static void partTwo(List<String> inputLines) {
-        
+    private static void partTwo(List<String> inputLines)
+    {
         int totalFuelRequired = 0;
         
-        for (String line : inputLines) {
+        for (String line : inputLines)
+        {
             int mass = Integer.parseInt(line);
             
             int fuelRequired = mass / 3 - 2;
@@ -51,11 +54,14 @@ public class Day01 {
     }
     
     
-    private static int calculateFuelRequired (int fuelRequired) {
-        
-        if (fuelRequired < 0) {
+    private static int calculateFuelRequired(int fuelRequired)
+    {
+        if (fuelRequired < 0)
+        {
             return 0;
-        } else {
+        }
+        else
+        {
             return fuelRequired + calculateFuelRequired(fuelRequired / 3 - 2);
         }
     }

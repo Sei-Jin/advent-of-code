@@ -13,12 +13,12 @@ import java.util.stream.Collectors;
  */
 public class Day02
 {
-    
     public static void main(String[] args) throws IOException
     {
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
-        for (String line : inputLines) {
+        for (String line : inputLines)
+        {
             partOne(line);
             partTwo(line);
         }

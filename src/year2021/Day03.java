@@ -9,32 +9,35 @@ import java.util.List;
 /**
  * --- Day 3: Binary Diagnostic ---
  */
-public class Day03 {
-    
-    public static void main(String[] args) throws IOException {
-        
+public class Day03
+{
+    public static void main(String[] args) throws IOException
+    {
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
         partOne(inputLines);
     }
     
     
-    private static void partOne(List<String> inputLines) {
-        
+    private static void partOne(List<String> inputLines)
+    {
         List<Integer> bitCounts = new ArrayList<>();
         
-        for (String line : inputLines) {
-            
+        for (String line : inputLines)
+        {
             List<Integer> bits = line.chars()
                     .map(Character::getNumericValue)
                     .boxed()
                     .toList();
             
-            for (int index = 0; index < bits.size(); index++) {
-                if (bitCounts.size() == index) {
+            for (int index = 0; index < bits.size(); index++)
+            {
+                if (bitCounts.size() == index)
+                {
                     bitCounts.add(bits.get(index));
                 }
-                else {
+                else
+                {
                     int totalBitCount = bitCounts.get(index) + bits.get(index);
                     bitCounts.set(index, totalBitCount);
                 }
@@ -44,17 +47,19 @@ public class Day03 {
         StringBuilder binaryGammaRate = new StringBuilder();
         StringBuilder binaryEpsilonRate = new StringBuilder();
         
-        for (Integer bitCount : bitCounts) {
-            
+        for (Integer bitCount : bitCounts)
+        {
             int midPoint = inputLines.size() / 2;
             
             boolean oneIsMostCommon = inputLines.size() - bitCount < midPoint;
             
-            if (oneIsMostCommon) {
+            if (oneIsMostCommon)
+            {
                 binaryGammaRate.append(1);
                 binaryEpsilonRate.append(0);
             }
-            else {
+            else
+            {
                 binaryEpsilonRate.append(1);
                 binaryGammaRate.append(0);
             }

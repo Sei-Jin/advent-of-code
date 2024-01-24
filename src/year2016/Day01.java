@@ -10,33 +10,36 @@ import java.util.List;
 /**
  * --- Day 1: No Time for a Taxicab ---
  */
-public class Day01 {
-    
-    public static void main(String[] args) throws IOException {
-        
+public class Day01
+{
+    public static void main(String[] args) throws IOException
+    {
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
-        for (String line : inputLines) {
+        for (String line : inputLines)
+        {
             partOne(line);
             partTwo(line);
         }
     }
     
     
-    private static void partOne(String line) {
-        
+    private static void partOne(String line)
+    {
         Point point = new Point();
         Direction currentDirection = Direction.NORTH;
         
         String[] moveSequence = line.split(", ");
         
-        for (String move : moveSequence) {
+        for (String move : moveSequence)
+        {
             char turningDirection = move.charAt(0);
             int distance = Integer.parseInt(move.substring(1));
             
             currentDirection = changeDirection(currentDirection, turningDirection);
             
-            switch (currentDirection) {
+            switch (currentDirection)
+            {
                 case NORTH -> point.y += distance;
                 case EAST -> point.x += distance;
                 case SOUTH -> point.y -= distance;
@@ -49,8 +52,8 @@ public class Day01 {
     }
     
     
-    private static void partTwo(String line) {
-        
+    private static void partTwo(String line)
+    {
         Point point = new Point();
         Direction currentDirection = Direction.NORTH;
         
@@ -59,27 +62,31 @@ public class Day01 {
         
         String[] moveSequence = line.split(", ");
         
-        for (String move : moveSequence) {
-            
+        for (String move : moveSequence)
+        {
             char turningDirection = move.charAt(0);
             int distance = Integer.parseInt(move.substring(1));
             
             currentDirection = changeDirection(currentDirection, turningDirection);
             
-            for (int blocksTravelled = 0; blocksTravelled < distance; blocksTravelled++) {
-                
-                switch (currentDirection) {
+            for (int blocksTravelled = 0; blocksTravelled < distance; blocksTravelled++)
+            {
+                switch (currentDirection)
+                {
                     case NORTH -> point.y++;
                     case EAST -> point.x++;
                     case SOUTH -> point.y--;
                     case WEST -> point.x--;
                 }
                 
-                if (pointsVisited.contains(point.toString())) {
+                if (pointsVisited.contains(point.toString()))
+                {
                     int currentDistance = Math.abs(point.x) + Math.abs(point.y);
                     System.out.println("The distance of the first location visited twice is: " + currentDistance);
                     return;
-                } else {
+                }
+                else
+                {
                     pointsVisited.add(point.toString());
                 }
             }
@@ -87,10 +94,12 @@ public class Day01 {
     }
     
     
-    private static Direction changeDirection(Direction currentDirection, char turningDirection) {
-        
-        if (turningDirection == 'R') {
-            currentDirection = switch (currentDirection) {
+    private static Direction changeDirection(Direction currentDirection, char turningDirection)
+    {
+        if (turningDirection == 'R')
+        {
+            currentDirection = switch (currentDirection)
+            {
                 case NORTH -> Direction.EAST;
                 case EAST -> Direction.SOUTH;
                 case SOUTH -> Direction.WEST;
@@ -98,8 +107,10 @@ public class Day01 {
             };
         }
         
-        if (turningDirection == 'L') {
-            currentDirection = switch (currentDirection) {
+        if (turningDirection == 'L')
+        {
+            currentDirection = switch (currentDirection)
+            {
                 case NORTH -> Direction.WEST;
                 case WEST -> Direction.SOUTH;
                 case SOUTH -> Direction.EAST;
@@ -111,7 +122,8 @@ public class Day01 {
     }
     
     
-    private enum Direction {
+    private enum Direction
+    {
         NORTH, EAST, SOUTH, WEST;
     }
 }

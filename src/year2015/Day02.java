@@ -11,10 +11,10 @@ import java.util.List;
 /**
  * --- Day 2: I Was Told There Would Be No Math ---
  */
-public class Day02 {
-    
-    public static void main(String[] args) throws IOException {
-        
+public class Day02
+{
+    public static void main(String[] args) throws IOException
+    {
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
         partOne(inputLines);
@@ -22,11 +22,12 @@ public class Day02 {
     }
     
     
-    private static void partOne(List<String> inputLines) {
-        
+    private static void partOne(List<String> inputLines)
+    {
         int totalArea = 0;
         
-        for (String line : inputLines) {
+        for (String line : inputLines)
+        {
             Box box = getBoxDimensions(line);
             
             int area1 = box.length * box.width;
@@ -43,11 +44,12 @@ public class Day02 {
     }
     
     
-    private static void partTwo(List<String> inputLines) {
-        
+    private static void partTwo(List<String> inputLines)
+    {
         int totalRibbonLength = 0;
         
-        for (String line : inputLines) {
+        for (String line : inputLines)
+        {
             Box box = getBoxDimensions(line);
             
             List<Integer> sideLengths = new ArrayList<>();
@@ -68,8 +70,8 @@ public class Day02 {
     }
     
     
-    private static Box getBoxDimensions(String line) {
-        
+    private static Box getBoxDimensions(String line)
+    {
         int[] dimensions = Arrays.stream(line.split("x"))
                 .mapToInt(Integer::parseInt)
                 .toArray();

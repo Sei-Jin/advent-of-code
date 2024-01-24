@@ -9,15 +9,16 @@ import java.util.List;
 /**
  * --- Day 1: Report Repair ---
  */
-public class Day01 {
-    
-    public static void main(String[] args) throws IOException {
-        
+public class Day01
+{
+    public static void main(String[] args) throws IOException
+    {
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
         List<Integer> expenseReport = new ArrayList<>();
         
-        for (String line : inputLines) {
+        for (String line : inputLines)
+        {
             expenseReport.add(Integer.parseInt(line));
         }
         
@@ -26,18 +27,21 @@ public class Day01 {
     }
     
     
-    private static void partOne(List<Integer> expenseReport) {
-        
-        for (int firstEntry = 0; firstEntry < expenseReport.size(); firstEntry++) {
-            for (int secondEntry = 0; secondEntry < expenseReport.size(); secondEntry++) {
-                
-                if (firstEntry == secondEntry) {
+    private static void partOne(List<Integer> expenseReport)
+    {
+        for (int firstEntry = 0; firstEntry < expenseReport.size(); firstEntry++)
+        {
+            for (int secondEntry = 0; secondEntry < expenseReport.size(); secondEntry++)
+            {
+                if (firstEntry == secondEntry)
+                {
                     continue;
                 }
                 
                 int sum = expenseReport.get(firstEntry) + expenseReport.get(secondEntry);
                 
-                if (sum == 2020) {
+                if (sum == 2020)
+                {
                     int product = expenseReport.get(firstEntry) * expenseReport.get(secondEntry);
                     
                     System.out.println(product);
@@ -48,13 +52,16 @@ public class Day01 {
     }
     
     
-    private static void partTwo(List<Integer> expenseReport) {
-        
-        for (int firstEntry = 0; firstEntry < expenseReport.size(); firstEntry++) {
-            for (int secondEntry = 0; secondEntry < expenseReport.size(); secondEntry++) {
-                for (int thirdEntry = 0; thirdEntry < expenseReport.size(); thirdEntry++) {
-                    
-                    if (firstEntry == secondEntry || secondEntry == thirdEntry || thirdEntry == firstEntry) {
+    private static void partTwo(List<Integer> expenseReport)
+    {
+        for (int firstEntry = 0; firstEntry < expenseReport.size(); firstEntry++)
+        {
+            for (int secondEntry = 0; secondEntry < expenseReport.size(); secondEntry++)
+            {
+                for (int thirdEntry = 0; thirdEntry < expenseReport.size(); thirdEntry++)
+                {
+                    if (firstEntry == secondEntry || secondEntry == thirdEntry || thirdEntry == firstEntry)
+                    {
                         continue;
                     }
                     
@@ -62,7 +69,8 @@ public class Day01 {
                             + expenseReport.get(secondEntry)
                             + expenseReport.get(thirdEntry);
                     
-                    if (sum == 2020) {
+                    if (sum == 2020)
+                    {
                         int product = expenseReport.get(firstEntry)
                                 * expenseReport.get(secondEntry)
                                 * expenseReport.get(thirdEntry);

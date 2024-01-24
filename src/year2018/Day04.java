@@ -9,12 +9,14 @@ import java.util.List;
 /**
  * --- Day 4: Repose Record ---
  */
-public class Day04 {
-    
-    public static void main(String[] args) throws IOException {
+public class Day04
+{
+    public static void main(String[] args) throws IOException
+    {
         List<String> inputLines = Files.readAllLines(Path.of("sample.txt"));
         
-        for (String line : inputLines) {
+        for (String line : inputLines)
+        {
             int[] values = Arrays.stream(line.split("[^0-9]+"))
                     .skip(1)
                     .mapToInt(Integer::parseInt)
@@ -28,16 +30,12 @@ public class Day04 {
             
             Timestamp newTime = new Timestamp(year, month, day, hour, minute);
             
-            if (line.contains("Guard")) {
+            if (line.contains("Guard"))
+            {
                 int guardID = values[5];
-                
-                
             }
         }
     }
     
-    private record Timestamp (int year, int month, int day, int hour, int minute) {}
-    
-    
-    
+    private record Timestamp(int year, int month, int day, int hour, int minute) {}
 }
