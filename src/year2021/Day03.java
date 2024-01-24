@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * --- Day 3: Binary Diagnostic ---
@@ -14,7 +12,7 @@ import java.util.stream.Collectors;
 public class Day03 {
     
     public static void main(String[] args) throws IOException {
-    
+        
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
         partOne(inputLines);
@@ -27,17 +25,17 @@ public class Day03 {
         
         for (String line : inputLines) {
             
-            List<Integer> binaryString = line.chars()
+            List<Integer> bits = line.chars()
                     .map(Character::getNumericValue)
                     .boxed()
                     .toList();
             
-            for (int index = 0; index < binaryString.size(); index++) {
+            for (int index = 0; index < bits.size(); index++) {
                 if (bitCounts.size() == index) {
-                    bitCounts.add(binaryString.get(index));
+                    bitCounts.add(bits.get(index));
                 }
                 else {
-                    int totalBitCount = bitCounts.get(index) + binaryString.get(index);
+                    int totalBitCount = bitCounts.get(index) + bits.get(index);
                     bitCounts.set(index, totalBitCount);
                 }
             }
