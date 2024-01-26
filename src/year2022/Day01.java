@@ -62,17 +62,21 @@ public class Day01
             if (line.isEmpty())
             {
                 elfCalories.add(totalCalories);
+                
                 totalCalories = 0;
             }
             else if (lineNumber == inputLines.size() - 1)
             {
                 int calories = Integer.parseInt(line);
+                
                 totalCalories += calories;
+                
                 elfCalories.add(totalCalories);
             }
             else
             {
                 int calories = Integer.parseInt(line);
+                
                 totalCalories += calories;
             }
         }
