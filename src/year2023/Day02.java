@@ -24,7 +24,7 @@ public class Day02
     
     private static void partOne(List<String> inputLines)
     {
-        int sumOfPossibleGameIDs = 0;
+        int sumPossibleGameIDs = 0;
         int currentGameID = 1;
         
         for (String line : inputLines)
@@ -39,13 +39,13 @@ public class Day02
             
             if (possibleGame)
             {
-                sumOfPossibleGameIDs += currentGameID;
+                sumPossibleGameIDs += currentGameID;
             }
 
             currentGameID++;
         }
         
-        System.out.println("The sum of the IDs of the possible games is: " + sumOfPossibleGameIDs);
+        System.out.println("The sum of the IDs of the possible games is: " + sumPossibleGameIDs);
     }
     
     
