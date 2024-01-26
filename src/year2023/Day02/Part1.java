@@ -1,63 +1,89 @@
 package year2023.Day02;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 
 /**
  * --- Day 2: Cube Conundrum ---
  */
-public class Part1 {
-    public static void main(String[] args) throws FileNotFoundException {
-
-        File inFile = new File("input.txt");
-        Scanner in = new Scanner(inFile);
-
-        int gameID = 1;
-        int totalID = 0;
-
-        // Read in each line one at a time
-        while (in.hasNextLine()) {
-            String line = in.nextLine();
-
-            // Create and initialize hashmap
-            HashMap<String, Integer> cubes = new HashMap<>();
-            cubes.put("red", 0);
-            cubes.put("green", 0);
-            cubes.put("blue", 0);
-
-            // Split the line into subsets of cubes
-            String[] subset = line.split("[:;]");
-            for (int i = 1; i < subset.length; i++) {
-
-                // Split the subsets of the cubes into sets of cubes
-                String[] set = subset[i].split(",");
-
-                for (String s : set) {
-                    Scanner cubeScan = new Scanner(s);
-
-                    int cubeCount = cubeScan.nextInt();
-                    String cubeColour = cubeScan.next();
-
-                    if (cubes.get(cubeColour) < cubeCount) {
-                        cubes.replace(cubeColour, cubeCount);
-                    }
-
-                    cubeScan.close();
-                }
+public class Part1
+{
+    public static void main(String[] args) throws IOException
+    {
+        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
+        
+        partOne(inputLines);
+    }
+    
+    
+    private static void partOne(List<String> inputLines)
+    {
+        int sumOfPossibleGameIDs = 0;
+        int currentGameID = 1;
+        
+        for (String line : inputLines)
+        {
+            HashMap<String, Integer> cubeCounts = initializeCubeCounts();
+            
+            findMaximumCubeCounts(line, cubeCounts);
+            
+            boolean possibleGame = cubeCounts.get("red") <= 12
+                    && cubeCounts.get("green") <= 13
+                    && cubeCounts.get("blue") <= 14;
+            
+            if (possibleGame)
+            {
+                sumOfPossibleGameIDs += currentGameID;
             }
 
-            // If the game was possible, add its ID value to the running total
-            if (cubes.get("red") <= 12 && cubes.get("green") <= 13 && cubes.get("blue") <= 14) {
-                totalID += gameID;
-            }
-
-            gameID++;
+            currentGameID++;
         }
+        
+        System.out.println("The sum of the IDs of the possible games is: " + sumOfPossibleGameIDs);
+    }
+    
+    
+    private static void findMaximumCubeCounts(String line, HashMap<String, Integer> cubes)
+    {
+        List<String> set = Arrays.stream(line.split("[:;]"))
+                .skip(1)
+                .toList();
+        
+        for (String subset : set)
+        {
+            List<String> cubeCountValuePairs = List.of(subset.split("[,]"));
+            
+            for (String pair : cubeCountValuePairs)
+            {
+                Scanner cubeScan = new Scanner(pair);
 
-        System.out.println(totalID);
+                int cubeCount = cubeScan.nextInt();
+                String cubeColour = cubeScan.next();
 
-        in.close();
+                if (cubes.get(cubeColour) < cubeCount)
+                {
+                    cubes.replace(cubeColour, cubeCount);
+                }
+
+                cubeScan.close();
+            }
+        }
+    }
+    
+    
+    private static HashMap<String, Integer> initializeCubeCounts()
+    {
+        HashMap<String, Integer> cubeCounts = new HashMap<>();
+        
+        cubeCounts.put("red", 0);
+        cubeCounts.put("green", 0);
+        cubeCounts.put("blue", 0);
+        
+        return cubeCounts;
     }
 }
