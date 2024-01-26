@@ -1,4 +1,4 @@
-package year2023.Day02;
+package year2023;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,13 +11,14 @@ import java.util.Scanner;
 /**
  * --- Day 2: Cube Conundrum ---
  */
-public class Part1
+public class Day02
 {
     public static void main(String[] args) throws IOException
     {
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
         partOne(inputLines);
+        partTwo(inputLines);
     }
     
     
@@ -45,6 +46,23 @@ public class Part1
         }
         
         System.out.println("The sum of the IDs of the possible games is: " + sumOfPossibleGameIDs);
+    }
+    
+    
+    private static void partTwo(List<String> inputLines)
+    {
+        int totalPower = 0;
+        
+        for (String line : inputLines)
+        {
+            HashMap<String, Integer> cubeCounts = initializeCubeCounts();
+            
+            findMaximumCubeCounts(line, cubeCounts);
+            
+            totalPower += cubeCounts.get("red") * cubeCounts.get("green") * cubeCounts.get("blue");
+        }
+        
+        System.out.println("The total power of the minimum sets of cubes that must have been present is: " + totalPower);
     }
     
     
