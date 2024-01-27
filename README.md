@@ -2,14 +2,14 @@
 
 
 
-| Year |                     Problem Sets                     |      My Solutions      |   Stars   |
-|:----:|:----------------------------------------------------:|:----------------------:|:---------:|
-| 2023 | [Advent of Code 2023](https://adventofcode.com/2023) | [:gift:](src/year2023) | 4 :star:  |
-| 2022 | [Advent of Code 2023](https://adventofcode.com/2022) | [:gift:](src/year2023) | 2 :star:  |
-| 2021 | [Advent of Code 2023](https://adventofcode.com/2021) | [:gift:](src/year2023) | 5 :star:  |
-| 2020 | [Advent of Code 2023](https://adventofcode.com/2020) | [:gift:](src/year2023) | 2 :star:  |
-| 2019 | [Advent of Code 2023](https://adventofcode.com/2019) | [:gift:](src/year2023) | 4 :star:  |
-| 2018 | [Advent of Code 2023](https://adventofcode.com/2018) | [:gift:](src/year2023) | 6 :star:  |
-| 2017 | [Advent of Code 2023](https://adventofcode.com/2017) | [:gift:](src/year2023) | 4 :star:  |
-| 2016 | [Advent of Code 2023](https://adventofcode.com/2016) | [:gift:](src/year2023) | 2 :star:  |
-| 2015 | [Advent of Code 2023](https://adventofcode.com/2015) | [:gift:](src/year2023) | 10 :star: |
+|                     Problem Sets                     |     My Solutions     |      Stars |
+|:----------------------------------------------------:|:--------------------:|-----------:|
+| [Advent of Code 2023](https://adventofcode.com/2023) | [2023](src/year2023) |  4 :star2: |
+| [Advent of Code 2022](https://adventofcode.com/2022) | [2022](src/year2022) |  2 :star2: |
+| [Advent of Code 2021](https://adventofcode.com/2021) | [2021](src/year2021) |  5 :star2: |
+| [Advent of Code 2020](https://adventofcode.com/2020) | [2020](src/year2020) |  2 :star2: |
+| [Advent of Code 2019](https://adventofcode.com/2019) | [2019](src/year2019) |  4 :star2: |
+| [Advent of Code 2018](https://adventofcode.com/2018) | [2018](src/year2018) |  6 :star2: |
+| [Advent of Code 2017](https://adventofcode.com/2017) | [2017](src/year2017) |  4 :star2: |
+| [Advent of Code 2016](https://adventofcode.com/2016) | [2016](src/year2016) |  2 :star2: |
+| [Advent of Code 2015](https://adventofcode.com/2015) | [2015](src/year2015) | 10 :star2: |
