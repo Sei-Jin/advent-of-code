@@ -1,6 +1,6 @@
 ## Advent of Code 2023
 
-[Click here](../../README.md) to go back to the main README file.
+[:arrow_backward: Click here](../../README.md) to go back to the main README file.
 
 Use the table below for quick access to each of the problems for [Advent of Code 2023](https://adventofcode.com/2023).
 
