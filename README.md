@@ -1,6 +1,6 @@
 # Advent of Code
 
-Use the table below for quick access to my solutions for [Advent of Code](https://adventofcode.com/about).
+The table below tracks my progress and provides easy access to my solutions for the yearly [Advent of Code](https://adventofcode.com/about) problems.
 
 |            Solutions             |     Stars |
 |:--------------------------------:|----------:|
