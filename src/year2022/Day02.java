@@ -14,8 +14,9 @@ public class Day02
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
         partOne(inputLines);
+        partTwo(inputLines);
     }
-   
+    
     
     public static void partOne(List<String> inputLines)
     {
@@ -26,23 +27,53 @@ public class Day02
         
         for (String line : inputLines)
         {
-            List<Character> moves = Arrays.stream((line.split(" ")))
-                    .map(s -> s.charAt(0))
-                    .toList();
+            List<Character> choices = getChoices(line);
             
-            Choice opponentsChoice = opponentsPossibleChoices.get(moves.getFirst());
-            Choice ourChoice = ourPossibleChoices.get(moves.getLast());
+            Choice opponentsChoice = opponentsPossibleChoices.get(choices.getFirst());
+            Choice ourChoice = ourPossibleChoices.get(choices.getLast());
             
-            Outcome outcome = determineWinner(opponentsChoice, ourChoice);
+            Outcome outcome = determineOutcome(opponentsChoice, ourChoice);
             
             totalScore += outcome.score + ourChoice.score;
         }
         
-        System.out.println(totalScore);
+        System.out.println("The total score if everything goes exactly according to the strategy guide is: " + totalScore);
     }
     
     
-    public static Outcome determineWinner(Choice opponentsChoice, Choice ourChoice)
+    private static void partTwo(List<String> inputLines)
+    {
+        int totalScore = 0;
+        
+        HashMap<Character, Choice> opponentsPossibleChoices = getOpponentsPossibleChoices();
+        HashMap<Character, Outcome> possibleOutcomes = getPossibleOutcomes();
+        
+        for (String line : inputLines)
+        {
+            List<Character> choices = getChoices(line);
+            
+            Choice opponentsChoice = opponentsPossibleChoices.get(choices.getFirst());
+            Outcome outcome = possibleOutcomes.get(choices.getLast());
+            
+            Choice ourChoice = determineChoice(opponentsChoice, outcome);
+            
+            totalScore += outcome.score + ourChoice.score;
+        }
+        
+        System.out.println("With the Elf's updated instructions, the total score if everything goes exactly" +
+                " according to the strategy guide is: " + totalScore);
+    }
+    
+    
+    private static List<Character> getChoices(String line)
+    {
+        return Arrays.stream((line.split(" ")))
+                .map(s -> s.charAt(0))
+                .toList();
+    }
+    
+    
+    public static Outcome determineOutcome(Choice opponentsChoice, Choice ourChoice)
     {
         Outcome outcome;
         
@@ -65,15 +96,30 @@ public class Day02
     }
     
     
+    public static Choice determineChoice(Choice opponentsChoice, Outcome outcome)
+    {
+        Choice choice = null;
+        
+        switch (outcome)
+        {
+            case WIN -> choice = opponentsChoice.losesAgainst();
+            case DRAW -> choice = opponentsChoice;
+            case LOSS -> choice = opponentsChoice.winsAgainst();
+        }
+        
+        return choice;
+    }
+    
+    
     private static HashMap<Character, Choice> getOpponentsPossibleChoices()
     {
-        HashMap<Character, Choice> ourPossibleChoices = new HashMap<>();
+        HashMap<Character, Choice> opponentsPossibleChoices = new HashMap<>();
         
-        ourPossibleChoices.put('A', Choice.ROCK);
-        ourPossibleChoices.put('B', Choice.PAPER);
-        ourPossibleChoices.put('C', Choice.SCISSORS);
+        opponentsPossibleChoices.put('A', Choice.ROCK);
+        opponentsPossibleChoices.put('B', Choice.PAPER);
+        opponentsPossibleChoices.put('C', Choice.SCISSORS);
         
-        return ourPossibleChoices;
+        return opponentsPossibleChoices;
     }
     
     
@@ -89,29 +135,53 @@ public class Day02
     }
     
     
+    private static HashMap<Character, Outcome> getPossibleOutcomes()
+    {
+        HashMap<Character, Outcome> possibleOutcomes = new HashMap<>();
+        
+        possibleOutcomes.put('X', Outcome.LOSS);
+        possibleOutcomes.put('Y', Outcome.DRAW);
+        possibleOutcomes.put('Z', Outcome.WIN);
+        
+        return possibleOutcomes;
+    }
+    
+    
     public enum Choice
     {
-        ROCK (1),
-        PAPER (2),
-        SCISSORS (3);
+        ROCK(1),
+        PAPER(2),
+        SCISSORS(3);
         
         final int score;
         
-        Choice (int score) {
+        Choice(int score)
+        {
             this.score = score;
+        }
+        
+        public Choice losesAgainst()
+        {
+            return values()[(this.ordinal() + 1) % (values().length)];
+        }
+        
+        public Choice winsAgainst()
+        {
+            return values()[(values().length + this.ordinal() - 1) % values().length];
         }
     }
     
     
     public enum Outcome
     {
-        WIN (6), 
-        LOSS (0), 
-        DRAW (3);
+        WIN(6),
+        LOSS(0),
+        DRAW(3);
         
         final int score;
         
-        Outcome (int score) {
+        Outcome(int score)
+        {
             this.score = score;
         }
     }
