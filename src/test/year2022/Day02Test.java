@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static year2022.Day02.*;
 
-public class Day02Tests
+public class Day02Test
 {
     
     @Test
