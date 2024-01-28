@@ -44,34 +44,21 @@ public class Day02
     
     public static Outcome determineWinner(Choice opponentsChoice, Choice ourChoice)
     {
-        Outcome outcome = null;
+        Outcome outcome;
         
-        if (opponentsChoice == Choice.ROCK)
+        if (opponentsChoice == Choice.ROCK && ourChoice == Choice.PAPER
+                || opponentsChoice == Choice.PAPER && ourChoice == Choice.SCISSORS
+                || opponentsChoice == Choice.SCISSORS && ourChoice == Choice.ROCK)
         {
-            switch (ourChoice)
-            {
-                case ROCK -> outcome = Outcome.DRAW;
-                case PAPER -> outcome = Outcome.WIN;
-                case SCISSORS -> outcome = Outcome.LOSS;
-            }
+            outcome = Outcome.WIN;
         }
-        else if (opponentsChoice == Choice.PAPER)
+        else if (opponentsChoice == ourChoice)
         {
-            switch (ourChoice)
-            {
-                case ROCK -> outcome = Outcome.LOSS;
-                case PAPER -> outcome = Outcome.DRAW;
-                case SCISSORS -> outcome = Outcome.WIN;
-            }
+            outcome = Outcome.DRAW;
         }
-        else if (opponentsChoice == Choice.SCISSORS)
+        else
         {
-            switch (ourChoice)
-            {
-                case ROCK -> outcome = Outcome.WIN;
-                case PAPER -> outcome = Outcome.LOSS;
-                case SCISSORS -> outcome = Outcome.DRAW;
-            }
+            outcome = Outcome.LOSS;
         }
         
         return outcome;
