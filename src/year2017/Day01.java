@@ -1,6 +1,5 @@
 package year2017;
 
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,7 +24,9 @@ public class Day01
     
     private static void partOne(String line)
     {
-        int solution = solveCaptcha(line, 1);
+        int offset = 1;
+        
+        int solution = solveCaptcha(line, offset);
         
         System.out.println("The solution to the captcha is: " + solution);
     }
@@ -33,7 +34,9 @@ public class Day01
     
     private static void partTwo(String line)
     {
-        int solution = solveCaptcha(line, line.length() / 2);
+        int offset = line.length() / 2;
+        
+        int solution = solveCaptcha(line, offset);
         
         System.out.println("The solution to the new captcha is: " + solution);
     }
