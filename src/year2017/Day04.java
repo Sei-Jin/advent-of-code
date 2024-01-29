@@ -27,8 +27,7 @@ public class Day04
             List<String> wordList = Arrays.stream(line.split(" "))
                     .toList();
             
-            if (!containsDuplicate(wordList))
-            {
+            if (!containsDuplicate(wordList)) {
                 validPassphrases++;
             }
         }
@@ -46,8 +45,7 @@ public class Day04
             List<String> wordList = Arrays.stream(line.split(" "))
                     .toList();
             
-            if (!containsAnagram(wordList))
-            {
+            if (!containsAnagram(wordList)) {
                 validPassphrases++;
             }
         }
