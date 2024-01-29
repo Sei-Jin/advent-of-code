@@ -82,7 +82,7 @@ public class Day04
         
         for (String word : wordList)
         {
-            List <Character> sortedWord = word.chars()
+            List<Character> sortedWord = word.chars()
                     .mapToObj(c -> (char) c)
                     .sorted()
                     .toList();
