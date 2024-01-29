@@ -7,6 +7,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * --- Day 4: High-Entropy Passphrases ---
+ */
 public class Day04
 {
     public static void main(String[] args) throws IOException
