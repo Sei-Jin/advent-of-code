@@ -46,7 +46,7 @@ public class Day02
             checkSumDivisible += findDivisible(numbers);
         }
         
-        System.out.println("The sum of each row's result is: " + checkSumDivisible);
+        System.out.println("The sum of each row's divisible result is: " + checkSumDivisible);
     }
     
     
@@ -60,23 +60,23 @@ public class Day02
     
     private static int findDifference(List<Integer> numbers)
     {
-        int minNumber = numbers.getFirst();
-        int maxNumber = numbers.getFirst();
+        int minimumNumber = numbers.getFirst();
+        int maximumNumber = numbers.getFirst();
         
-        for (int number : numbers.subList(1, numbers.size()))
+        for (int number : numbers)
         {
-            if (minNumber > number)
+            if (minimumNumber > number)
             {
-                minNumber = number;
+                minimumNumber = number;
             }
             
-            if (maxNumber < number)
+            if (maximumNumber < number)
             {
-                maxNumber = number;
+                maximumNumber = number;
             }
         }
         
-        return maxNumber - minNumber;
+        return maximumNumber - minimumNumber;
     }
     
     
