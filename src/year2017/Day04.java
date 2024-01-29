@@ -27,8 +27,7 @@ public class Day04
         
         for (String line : inputLines)
         {
-            List<String> wordList = Arrays.stream(line.split(" "))
-                    .toList();
+            List<String> wordList = getWordList(line);
             
             if (!containsDuplicate(wordList)) {
                 validPassphrases++;
@@ -45,8 +44,7 @@ public class Day04
         
         for (String line : inputLines)
         {
-            List<String> wordList = Arrays.stream(line.split(" "))
-                    .toList();
+            List<String> wordList = getWordList(line);
             
             if (!containsAnagram(wordList)) {
                 validPassphrases++;
@@ -54,6 +52,13 @@ public class Day04
         }
         
         System.out.println("Under the new system policy, the number of valid passphrases is: " + validPassphrases);
+    }
+    
+    
+    private static List<String> getWordList(String line)
+    {
+        return Arrays.stream(line.split(" "))
+                .toList();
     }
     
     
