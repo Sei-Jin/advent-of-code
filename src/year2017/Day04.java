@@ -14,6 +14,7 @@ public class Day04
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
         partOne(inputLines);
+        partTwo(inputLines);
     }
     
     
@@ -23,12 +24,10 @@ public class Day04
         
         for (String line : inputLines)
         {
-            List<String> words = Arrays.stream(line.split(" "))
+            List<String> wordList = Arrays.stream(line.split(" "))
                     .toList();
             
-            HashSet<String> wordsEncountered = new HashSet<>();
-            
-            if (!containsDuplicate(words, wordsEncountered))
+            if (!containsDuplicate(wordList))
             {
                 validPassphrases++;
             }
@@ -38,8 +37,29 @@ public class Day04
     }
     
     
-    private static boolean containsDuplicate(List<String> words, HashSet<String> wordsEncountered)
+    private static void partTwo(List<String> inputLines)
     {
+        int validPassphrases = 0;
+        
+        for (String line : inputLines)
+        {
+            List<String> wordList = Arrays.stream(line.split(" "))
+                    .toList();
+            
+            if (!containsAnagram(wordList))
+            {
+                validPassphrases++;
+            }
+        }
+        
+        System.out.println("Under the new system policy, the number of valid passphrases is: " + validPassphrases);
+    }
+    
+    
+    private static boolean containsDuplicate(List<String> words)
+    {
+        HashSet<String> wordsEncountered = new HashSet<>();
+        
         for (String word : words)
         {
             if (wordsEncountered.contains(word))
@@ -49,6 +69,31 @@ public class Day04
             else
             {
                 wordsEncountered.add(word);
+            }
+        }
+        
+        return false;
+    }
+    
+    
+    private static boolean containsAnagram(List<String> wordList)
+    {
+        HashSet<List<Character>> Anagrams = new HashSet<>();
+        
+        for (String word : wordList)
+        {
+            List <Character> sortedWord = word.chars()
+                    .mapToObj(c -> (char) c)
+                    .sorted()
+                    .toList();
+            
+            if (Anagrams.contains(sortedWord))
+            {
+                return true;
+            }
+            else
+            {
+                Anagrams.add(sortedWord);
             }
         }
         
