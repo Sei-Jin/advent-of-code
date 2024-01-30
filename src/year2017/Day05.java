@@ -36,7 +36,7 @@ public class Day05
             
             nextInstruction += jumpOffset;
             
-            updateInstructionAfterJump(instructions, previousInstruction, 1);
+            updateInstruction(instructions, previousInstruction, 1);
 
             steps++;
         }
@@ -63,11 +63,11 @@ public class Day05
             
             if (jumpOffset >= 3)
             {
-                updateInstructionAfterJump(instructions, previousInstruction, -1);
+                updateInstruction(instructions, previousInstruction, -1);
             }
             else
             {
-                updateInstructionAfterJump(instructions, previousInstruction, 1);
+                updateInstruction(instructions, previousInstruction, 1);
             }
             
             steps++;
@@ -85,8 +85,8 @@ public class Day05
     }
     
     
-    private static void updateInstructionAfterJump(List<Integer> instructions, int previousInstruction, int change)
+    private static void updateInstruction(List<Integer> instructions, int instruction, int change)
     {
-        instructions.set(previousInstruction, instructions.get(previousInstruction) + change);
+        instructions.set(instruction, instructions.get(instruction) + change);
     }
 }
