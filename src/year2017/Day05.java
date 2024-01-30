@@ -15,9 +15,71 @@ public class Day05
     {
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
+        partOne(inputLines);
+        partTwo(inputLines);
+    }
+    
+    
+    private static void partOne(List<String> inputLines)
+    {
+        int steps = 0;
+        
         List<Integer> instructions = getInstructions(inputLines);
         
-        partOne(instructions);
+        int nextInstruction = instructions.getFirst();
+        
+        while (nextInstruction >= 0 && nextInstruction < instructions.size())
+        {
+            int previousInstruction = nextInstruction;
+            
+            int jumpOffset = instructions.get(nextInstruction);
+            
+            nextInstruction += jumpOffset;
+            
+            updateInstructionAfterJump(instructions, previousInstruction, 1);
+
+            steps++;
+        }
+        
+        System.out.println("The number of steps it takes to reach the exit is: " + steps);
+    }
+    
+    
+    private static void partTwo(List<String> inputLines)
+    {
+        int steps = 0;
+        
+        List<Integer> instructions = getInstructions(inputLines);
+        
+        int nextInstruction = instructions.getFirst();
+        
+        while (nextInstruction >= 0 && nextInstruction < instructions.size())
+        {
+            int previousInstruction = nextInstruction;
+            
+            int jumpOffset = instructions.get(nextInstruction);
+            
+            nextInstruction += jumpOffset;
+            
+            if (jumpOffset >= 3)
+            {
+                updateInstructionAfterJump(instructions, previousInstruction, -1);
+            }
+            else
+            {
+                updateInstructionAfterJump(instructions, previousInstruction, 1);
+            }
+            
+            steps++;
+        }
+        
+        System.out.println("The number of steps it now takes to reach the exit is: " + steps);
+    }
+    
+    
+    private static void updateInstructionAfterJump(List<Integer> instructions, int previousInstruction, int change)
+    {
+        instructions.set(previousInstruction, instructions.get(previousInstruction) + change);
     }
     
     
@@ -30,26 +92,5 @@ public class Day05
         }
         
         return instructions;
-    }
-    
-    
-    private static void partOne(List<Integer> instructions)
-    {
-        int steps = 0;
-        
-        int nextInstruction = instructions.getFirst();
-        
-        while (nextInstruction >= 0 && nextInstruction < instructions.size())
-        {
-            int previousInstruction = nextInstruction;
-            
-            nextInstruction += instructions.get(nextInstruction);
-            
-            instructions.set(previousInstruction, instructions.get(previousInstruction) + 1);
-
-            steps++;
-        }
-        
-        System.out.println("The number of steps it takes to reach the exit is: " + steps);
     }
 }
