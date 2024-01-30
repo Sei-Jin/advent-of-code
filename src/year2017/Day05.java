@@ -77,12 +77,6 @@ public class Day05
     }
     
     
-    private static void updateInstructionAfterJump(List<Integer> instructions, int previousInstruction, int change)
-    {
-        instructions.set(previousInstruction, instructions.get(previousInstruction) + change);
-    }
-    
-    
     private static List<Integer> getInstructions(List<String> inputLines)
     {
         List<Integer> instructions = new ArrayList<>();
@@ -92,5 +86,11 @@ public class Day05
         }
         
         return instructions;
+    }
+    
+    
+    private static void updateInstructionAfterJump(List<Integer> instructions, int previousInstruction, int change)
+    {
+        instructions.set(previousInstruction, instructions.get(previousInstruction) + change);
     }
 }
