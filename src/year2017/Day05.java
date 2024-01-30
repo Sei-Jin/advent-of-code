@@ -3,8 +3,8 @@ package year2017;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * --- Day 5: A Maze of Twisty Trampolines, All Alike ---
@@ -79,13 +79,9 @@ public class Day05
     
     private static List<Integer> getInstructions(List<String> inputLines)
     {
-        List<Integer> instructions = new ArrayList<>();
-        
-        for (String line : inputLines) {
-            instructions.add(Integer.parseInt((line)));
-        }
-        
-        return instructions;
+        return inputLines.stream()
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
     }
     
     
