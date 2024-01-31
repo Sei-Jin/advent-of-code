@@ -15,13 +15,19 @@ public class Day02 {
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
         
         partOne(inputLines);
+        partTwo(inputLines);
     }
-    
+
+
     private static void partOne(List<String> inputLines)
     {
         StringBuilder bathroomCode = new StringBuilder();
 
-        int[][] keypad = { {1, 4, 7}, {2, 5, 8}, {3, 6, 9} };
+        int[][] keypad = {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 9 }
+        };
 
         Point position = new Point(1, 1);
 
@@ -66,9 +72,71 @@ public class Day02 {
                 }
             }
 
-            bathroomCode.append(keypad[position.x][position.y]);
+            bathroomCode.append(keypad[position.y][position.x]);
         }
 
         System.out.println("The bathroom code is: " + bathroomCode);
+    }
+
+
+    private static void partTwo(List<String> inputLines)
+    {
+        StringBuilder bathroomCode = new StringBuilder();
+
+        char[][] keypad = {
+                { ' ', ' ', '1', ' ', ' ' },
+                { ' ', '2', '3', '4', ' ' },
+                { '5', '6', '7', '8', '9' },
+                { ' ', 'A', 'B', 'C', ' ' },
+                { ' ', ' ', 'D', ' ', ' ' },
+        };
+
+        Point position = new Point(0, 2);
+
+        for (String line : inputLines)
+        {
+            List<Character> moveSequence = line.chars()
+                    .mapToObj(c -> (char) c)
+                    .toList();
+
+            for (char move : moveSequence)
+            {
+                switch (move)
+                {
+                    case 'U' ->
+                    {
+                        if (position.y > 0 && keypad[position.y - 1][position.x] != ' ')
+                        {
+                            position.y--;
+                        }
+                    }
+                    case 'D' ->
+                    {
+                        if (position.y < keypad.length - 1 && keypad[position.y + 1][position.x] != ' ')
+                        {
+                            position.y++;
+                        }
+                    }
+                    case 'L' ->
+                    {
+                        if (position.x > 0 && keypad[position.y][position.x - 1] != ' ')
+                        {
+                            position.x--;
+                        }
+                    }
+                    case 'R' ->
+                    {
+                        if (position.x < keypad.length - 1  && keypad[position.y][position.x + 1] != ' ')
+                        {
+                            position.x++;
+                        }
+                    }
+                }
+            }
+
+            bathroomCode.append(keypad[position.y][position.x]);
+        }
+
+        System.out.println("The correct bathroom code is: " + bathroomCode);
     }
 }
