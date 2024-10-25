@@ -31,3 +31,6 @@ bin/
 ### Inputs
 sample.txt
 input.txt
+
+### IntelliJ
+.idea/
