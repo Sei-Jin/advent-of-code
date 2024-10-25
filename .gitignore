@@ -28,9 +28,9 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-### Inputs
-sample.txt
-input.txt
-
 ### IntelliJ
 .idea/
+
+### Input files
+input/*/*
+!input/README.md
