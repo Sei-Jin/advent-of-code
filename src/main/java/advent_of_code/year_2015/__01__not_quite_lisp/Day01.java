@@ -1,25 +1,18 @@
 package advent_of_code.year_2015.__01__not_quite_lisp;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
+import java.util.List;
 
 /**
  * --- Day 1: Not Quite Lisp ---
  */
-public class Day01
+public class Day01 implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
+    public Integer partOne(List<String> inputLines)
     {
-        String inputLine = Files.readString(Path.of("input.txt"));
+        String inputLine = inputLines.getFirst();
         
-        partOne(inputLine);
-        partTwo(inputLine);
-    }
-    
-    
-    private static void partOne(String inputLine)
-    {
         int floorLevel = 0;
         
         for (int i = 0; i < inputLine.length(); i++)
@@ -31,18 +24,19 @@ public class Day01
             }
         }
         
-        System.out.println("The instructions take Santa to floor: " + floorLevel);
+        return floorLevel;
     }
     
     
-    private static void partTwo(String inputLine)
+    public Integer partTwo(List<String> inputLines)
     {
-        int floorLevel = 0;
-        boolean reachedBasement = false;
+        String inputLine = inputLines.getFirst();
         
-        for (int i = 0; i < inputLine.length(); i++)
+        int floorLevel = 0;
+        
+        for (int instructionNumber = 0; instructionNumber < inputLine.length(); instructionNumber++)
         {
-            switch (inputLine.charAt(i))
+            switch (inputLine.charAt(instructionNumber))
             {
                 case '(' -> floorLevel++;
                 case ')' -> floorLevel--;
@@ -50,18 +44,11 @@ public class Day01
             
             if (floorLevel < 0)
             {
-                reachedBasement = true;
-                
-                int instructionNumber = i + 1;
-                System.out.println("The number of instructions it takes Santa to reach the basement is: " + instructionNumber);
-                
-                break;
+                return instructionNumber + 1;
             }
         }
         
-        if (!reachedBasement)
-        {
-            System.out.println("Santa did not reach the basement within the given number of instructions.");
-        }
+        // Should never reach here
+        return -1;
     }
 }
