@@ -12,21 +12,5 @@ import java.util.List;
  */
 public class Day07
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-    }
     
-    
-    private static void partOne(List<String> instructions)
-    {
-        for (String instruction : instructions)
-        {
-            List<String> instructionParts = Arrays.stream(instruction.split(" ")).toList();
-            
-            if (instructionParts.contains("AND"))
-        }
-    }
 }
