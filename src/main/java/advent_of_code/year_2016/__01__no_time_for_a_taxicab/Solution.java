@@ -1,35 +1,28 @@
 package advent_of_code.year_2016.__01__no_time_for_a_taxicab;
 
+import advent_of_code.PuzzleSolver;
+
 import java.awt.*;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
 
 /**
  * --- Day 1: No Time for a Taxicab ---
  */
-public class Day01
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
+    /**
+     * @param inputLines the puzzle input.
+     * @return the number of blocks from the starting position to the Easter Bunny HQ.
+     */
+    public Object partOne(List<String> inputLines)
     {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
+        String inputLine = inputLines.getFirst();
         
-        for (String line : inputLines)
-        {
-            partOne(line);
-            partTwo(line);
-        }
-    }
-    
-    
-    private static void partOne(String line)
-    {
         Point point = new Point();
         Direction currentDirection = Direction.NORTH;
         
-        String[] moveSequence = line.split(", ");
+        String[] moveSequence = inputLine.split(", ");
         
         for (String move : moveSequence)
         {
@@ -47,20 +40,26 @@ public class Day01
             }
         }
         
-        int destinationDistance = Math.abs(point.x) + Math.abs(point.y);
-        System.out.println("The Easter Bunny HQ is " + destinationDistance + " blocks away.");
+        return Math.abs(point.x) + Math.abs(point.y);
     }
     
     
-    private static void partTwo(String line)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the distance from the starting location to the first location visited twice or {@code -1} if there
+     *         were no locations visited twice.
+     */
+    public Object partTwo(List<String> inputLines)
     {
+        String inputLine = inputLines.getFirst();
+        
         Point point = new Point();
         Direction currentDirection = Direction.NORTH;
         
         HashSet<String> pointsVisited = new HashSet<>();
         pointsVisited.add(point.toString());
         
-        String[] moveSequence = line.split(", ");
+        String[] moveSequence = inputLine.split(", ");
         
         for (String move : moveSequence)
         {
@@ -81,9 +80,7 @@ public class Day01
                 
                 if (pointsVisited.contains(point.toString()))
                 {
-                    int currentDistance = Math.abs(point.x) + Math.abs(point.y);
-                    System.out.println("The distance of the first location visited twice is: " + currentDistance);
-                    return;
+                    return Math.abs(point.x) + Math.abs(point.y);
                 }
                 else
                 {
@@ -91,6 +88,9 @@ public class Day01
                 }
             }
         }
+        
+        // There were no locations visited twice
+        return -1;
     }
     
     

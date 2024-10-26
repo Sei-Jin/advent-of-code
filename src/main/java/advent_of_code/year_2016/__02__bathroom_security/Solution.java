@@ -9,7 +9,8 @@ import java.util.List;
 /**
  * --- Day 2: Bathroom Security ---
  */
-public class Day02 {
+public class Solution
+{
     public static void main(String[] args) throws IOException
     {
         List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
