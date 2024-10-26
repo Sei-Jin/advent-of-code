@@ -1,42 +1,41 @@
 package advent_of_code.year_2019.__01__the_tyranny_of_the_rocket_equation;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.List;
 
 /**
  * --- Day 1: The Tyranny of the Rocket Equation ---
  */
-public class Day01
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    private static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the sum of all fuel required for the modules in the spacecraft.
+     */
+    @Override
+    public Object partOne(List<String> inputLines)
     {
         int totalFuelRequired = 0;
         
         for (String line : inputLines)
         {
             int mass = Integer.parseInt(line);
-            
             int fuelRequired = mass / 3 - 2;
-            
             totalFuelRequired += fuelRequired;
         }
         
-        System.out.println("The sum of all fuel required for the modules in the spacecraft is: " + totalFuelRequired);
+        return totalFuelRequired;
     }
     
     
-    private static void partTwo(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the sum of all fuel required for the modules in the spacecraft when also taking into consideration
+     * the mass of the added fuel itself.
+     */
+    @Override
+    public Object partTwo(List<String> inputLines)
     {
         int totalFuelRequired = 0;
         
@@ -50,7 +49,7 @@ public class Day01
             totalFuelRequired += fuelRequired;
         }
         
-        System.out.println("When taking into account the mass of the added fuel the sum is: " + totalFuelRequired);
+        return totalFuelRequired;
     }
     
     

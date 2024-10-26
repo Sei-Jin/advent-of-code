@@ -1,23 +1,20 @@
 package advent_of_code.year_2019.__03__crossed_wires;
 
+import advent_of_code.PuzzleSolver;
+
 import java.awt.*;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+
 import java.util.*;
 import java.util.List;
 
-public class Day03
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-
-        partOne(inputLines);
-    }
-
-
-    public static int partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the Manhattan distance from the central port to the closest intersection.
+     */
+    @Override
+    public Object partOne(List<String> inputLines)
     {
         Set<Point> firstWirePointsVisited = new HashSet<>();
         Set<Point> secondWirePointsVisited = new HashSet<>();
@@ -53,13 +50,10 @@ public class Day03
             }
         }
 
-        System.out.println("The Manhattan distance from the central port to the closest intersection is: " +
-                closestIntersectionDistance);
-
         return closestIntersectionDistance;
     }
-
-
+    
+    
     private static void determineWirePoints(String line, Set<Point> pointsVisited)
     {
         int xPosition = 0;
@@ -126,5 +120,12 @@ public class Day03
 
             return null;
         }
+    }
+    
+    
+    @Override
+    public Object partTwo(List<String> inputLines)
+    {
+        return null;
     }
 }

@@ -1,8 +1,7 @@
 package advent_of_code.year_2019.__02__1202_program_alarm;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,23 +10,18 @@ import java.util.stream.Collectors;
 /**
  * --- Day 2: 1202 Program Alarm ---
  */
-public class Day02
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
+    /**
+     * @param inputLines the puzzle input.
+     * @return the value left at position 0 after the program halts.
+     */
+    @Override
+    public Object partOne(List<String> inputLines)
     {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
+        String inputLine = inputLines.getFirst();
         
-        for (String line : inputLines)
-        {
-            partOne(line);
-            partTwo(line);
-        }
-    }
-    
-    
-    private static void partOne(String line)
-    {
-        List<Integer> intcode = Arrays.stream(line.split(","))
+        List<Integer> intcode = Arrays.stream(inputLine.split(","))
                 .mapToInt(Integer::parseInt)
                 .boxed()
                 .collect(Collectors.toList());
@@ -38,13 +32,20 @@ public class Day02
         
         runProgram(intcode);
         
-        System.out.println("The value left at position 0 after the program halts is: " + intcode.getFirst());
+        return intcode.getFirst();
     }
     
     
-    private static void partTwo(String line)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the input noun and verb that cause the program to produce the output 19690720, or -1 if there are none.
+     */
+    @Override
+    public Object partTwo(List<String> inputLines)
     {
-        List<Integer> defaultIntcode = Arrays.stream(line.split(","))
+        String inputLine = inputLines.getFirst();
+        
+        List<Integer> defaultIntcode = Arrays.stream(inputLine.split(","))
                 .mapToInt(Integer::parseInt)
                 .boxed()
                 .toList();
@@ -62,11 +63,12 @@ public class Day02
                 
                 if (intcode.getFirst() == 19690720)
                 {
-                    System.out.println(100 * noun + verb);
-                    return;
+                    return 100 * noun + verb;
                 }
             }
         }
+        
+        return -1;
     }
     
     
