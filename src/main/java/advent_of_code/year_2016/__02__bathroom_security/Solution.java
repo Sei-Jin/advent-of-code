@@ -1,5 +1,7 @@
 package advent_of_code.year_2016.__02__bathroom_security;
 
+import advent_of_code.PuzzleSolver;
+
 import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,18 +11,13 @@ import java.util.List;
 /**
  * --- Day 2: Bathroom Security ---
  */
-public class Solution
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-
-
-    private static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the bathroom code.
+     */
+    public Object partOne(List<String> inputLines)
     {
         StringBuilder bathroomCode = new StringBuilder();
 
@@ -75,12 +72,16 @@ public class Solution
 
             bathroomCode.append(keypad[position.y][position.x]);
         }
-
-        System.out.println("The bathroom code is: " + bathroomCode);
+        
+        return bathroomCode;
     }
-
-
-    private static void partTwo(List<String> inputLines)
+    
+    
+    /**
+     * @param inputLines the puzzle input.
+     * @return the correct bathroom code.
+     */
+    public Object partTwo(List<String> inputLines)
     {
         StringBuilder bathroomCode = new StringBuilder();
 
@@ -137,7 +138,7 @@ public class Solution
 
             bathroomCode.append(keypad[position.y][position.x]);
         }
-
-        System.out.println("The correct bathroom code is: " + bathroomCode);
+        
+        return bathroomCode;
     }
 }
