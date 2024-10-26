@@ -1,52 +1,48 @@
 package advent_of_code.year_2017.__02__corruption_checksum;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * --- Day 2: Corruption Checksum ---
  */
-public class Day02
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    private static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the checksum for the spreadsheet.
+     */
+    public Object partOne(List<String> inputLines)
     {
         int checkSumDifference = 0;
         
         for (String line : inputLines)
         {
             List<Integer> numbers = getNumbers(line);
-            
             checkSumDifference += findDifference(numbers);
         }
         
-        System.out.println("The checksum for the spreadsheet is: " + checkSumDifference);
+        return checkSumDifference;
     }
     
     
-    private static void partTwo(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the sum of each row's divisible result.
+     */
+    public Object partTwo(List<String> inputLines)
     {
         int checkSumDivisible = 0;
         
         for (String line : inputLines)
         {
             List<Integer> numbers = getNumbers(line);
-            
             checkSumDivisible += findDivisible(numbers);
         }
         
-        System.out.println("The sum of each row's divisible result is: " + checkSumDivisible);
+        return checkSumDivisible;
     }
     
     

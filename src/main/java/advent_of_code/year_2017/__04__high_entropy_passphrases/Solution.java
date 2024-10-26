@@ -1,8 +1,7 @@
 package advent_of_code.year_2017.__04__high_entropy_passphrases;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -10,18 +9,13 @@ import java.util.List;
 /**
  * --- Day 4: High-Entropy Passphrases ---
  */
-public class Day04
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    private static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the number of valid passphrases.
+     */
+    public Object partOne(List<String> inputLines)
     {
         int validPassphrases = 0;
         
@@ -34,11 +28,15 @@ public class Day04
             }
         }
         
-        System.out.println("The number of valid passphrases is: " + validPassphrases);
+        return validPassphrases;
     }
     
     
-    private static void partTwo(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the number of valid passphrases under the new system policy.
+     */
+    public Object partTwo(List<String> inputLines)
     {
         int validPassphrases = 0;
         
@@ -51,7 +49,7 @@ public class Day04
             }
         }
         
-        System.out.println("Under the new system policy, the number of valid passphrases is: " + validPassphrases);
+        return validPassphrases;
     }
     
     

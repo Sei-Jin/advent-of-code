@@ -1,26 +1,20 @@
 package advent_of_code.year_2017.__05__a_maze_of_twisty_trampolines_all_alike;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * --- Day 5: A Maze of Twisty Trampolines, All Alike ---
  */
-public class Day05
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    private static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the number of steps it takes to reach the exit.
+     */
+    public Object partOne(List<String> inputLines)
     {
         int steps = 0;
         
@@ -41,11 +35,15 @@ public class Day05
             steps++;
         }
         
-        System.out.println("The number of steps it takes to reach the exit is: " + steps);
+        return steps;
     }
     
     
-    private static void partTwo(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the number of steps it now takes to reach the exit.
+     */
+    public Object partTwo(List<String> inputLines)
     {
         int steps = 0;
         
@@ -73,7 +71,7 @@ public class Day05
             steps++;
         }
         
-        System.out.println("The number of steps it now takes to reach the exit is: " + steps);
+        return steps;
     }
     
     
