@@ -34,3 +34,6 @@ bin/
 ### Input files
 input/*/*
 !input/README.md
+
+### Target
+target/
