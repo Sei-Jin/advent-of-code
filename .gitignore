@@ -32,7 +32,7 @@ bin/
 .idea/
 
 ### Input files
-input/*/*
+input/*/*.txt
 !input/README.md
 
 ### Target
