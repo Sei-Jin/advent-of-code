@@ -78,13 +78,13 @@ public class Solution implements PuzzleSolver
                     case WEST -> point.x--;
                 }
                 
-                if (pointsVisited.contains(point.toString()))
+                if (!pointsVisited.contains(point.toString()))
                 {
-                    return Math.abs(point.x) + Math.abs(point.y);
+                    pointsVisited.add(point.toString());
                 }
                 else
                 {
-                    pointsVisited.add(point.toString());
+                    return Math.abs(point.x) + Math.abs(point.y);
                 }
             }
         }
