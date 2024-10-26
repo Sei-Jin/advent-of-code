@@ -43,5 +43,22 @@ public class Puzzle
         year2015.put(7, new advent_of_code.year_2015.__07__some_assembly_required.Solution());
         
         puzzleSolverMap.put(2015, year2015);
+        
+        
+        Map<Integer, PuzzleSolver> year2016 = new HashMap<>();
+        year2016.put(1, new advent_of_code.year_2016.__01__no_time_for_a_taxicab.Solution());
+        year2016.put(2, new advent_of_code.year_2016.__02__bathroom_security.Solution());
+        year2016.put(3, new advent_of_code.year_2016.__03__squares_with_three_sides.Solution());
+        
+        puzzleSolverMap.put(2016, year2016);
+        
+        
+        Map<Integer, PuzzleSolver> year2017 = new HashMap<>();
+        year2017.put(1, new advent_of_code.year_2017.__01__inverse_captcha.Solution());
+        year2017.put(2, new advent_of_code.year_2017.__02__corruption_checksum.Solution());
+        year2017.put(4, new advent_of_code.year_2017.__04__high_entropy_passphrases.Solution());
+        year2017.put(5, new advent_of_code.year_2017.__05__a_maze_of_twisty_trampolines_all_alike.Solution());
+        
+        puzzleSolverMap.put(2017, year2017);
     }
 }
