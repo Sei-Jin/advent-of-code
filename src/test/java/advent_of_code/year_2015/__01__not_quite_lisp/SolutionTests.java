@@ -1,6 +1,6 @@
-package advent_of_code.year_2015;
+package advent_of_code.year_2015.__01__not_quite_lisp;
 
-import advent_of_code.year_2015.__01__not_quite_lisp.Solution;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class SolutionTests
     {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("(())");
-        assertEquals(0, new Solution().partOne(inputLines));
+        Assertions.assertEquals(0, new Solution().partOne(inputLines));
     }
     
     @Test
