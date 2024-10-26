@@ -1,25 +1,20 @@
 package advent_of_code.year_2021.__02__dive;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.List;
 
 /**
  * --- Day 2: Dive! ---
  */
-public class Day02
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    private static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the product of the final horizontal position and the final depth.
+     */
+    @Override
+    public Object partOne(List<String> inputLines)
     {
         int horizontalPosition = 0;
         int depth = 0;
@@ -46,13 +41,15 @@ public class Day02
             }
         }
         
-        int product = horizontalPosition * depth;
-        
-        System.out.println("The product of the final horizontal position and the final depth is: " + product);
+        return horizontalPosition * depth;
     }
     
     
-    private static void partTwo(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return The product of the final horizontal position and the final depth.
+     */
+    public Object partTwo(List<String> inputLines)
     {
         int horizontalPosition = 0;
         int depth = 0;
@@ -84,9 +81,7 @@ public class Day02
             }
         }
         
-        int product = horizontalPosition * depth;
-        
-        System.out.println("The product of the final horizontal position and the final depth is: " + product);
+        return horizontalPosition * depth;
     }
     
     

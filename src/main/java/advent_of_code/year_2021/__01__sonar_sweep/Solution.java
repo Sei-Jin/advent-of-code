@@ -1,34 +1,24 @@
 package advent_of_code.year_2021.__01__sonar_sweep;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * --- Day 1: Sonar Sweep ---
  */
-public class Day01
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
+    /**
+     * @param inputLines the puzzle input.
+     * @return the number of measurements that are larger than their previous measurement.
+     */
+    @Override
+    public Object partOne(List<String> inputLines)
     {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
+        List<Integer> sonarSweepReport = getSonarSweepReport(inputLines);
         
-        List<Integer> sonarSweepReport = new ArrayList<>();
-        
-        for (String line : inputLines)
-        {
-            sonarSweepReport.add(Integer.parseInt(line));
-        }
-        
-        partOne(sonarSweepReport);
-        partTwo(sonarSweepReport);
-    }
-    
-    
-    private static void partOne(List<Integer> sonarSweepReport)
-    {
         int totalMeasurementIncreases = 0;
         
         int previousDepth = sonarSweepReport.getFirst();
@@ -43,13 +33,32 @@ public class Day01
             previousDepth = currentDepth;
         }
         
-        System.out.println("The number of measurements that are larger than their previous measurement is: "
-                + totalMeasurementIncreases);
+        return totalMeasurementIncreases;
     }
     
     
-    private static void partTwo(List<Integer> sonarSweepReport)
+    private static List<Integer> getSonarSweepReport(List<String> inputLines)
     {
+        List<Integer> sonarSweepReport = new ArrayList<>();
+        
+        for (String line : inputLines)
+        {
+            sonarSweepReport.add(Integer.parseInt(line));
+        }
+        return sonarSweepReport;
+    }
+    
+    
+    /**
+     * @param inputLines the puzzle input.
+     * @return the number of three-measurement sliding windows that are larger than their previous
+     * three-measurement sliding windows.
+     */
+    @Override
+    public Object partTwo(List<String> inputLines)
+    {
+        List<Integer> sonarSweepReport = getSonarSweepReport(inputLines);
+        
         int totalThreeMeasurementWindowIncreases = 0;
         
         int previousDepthWindow = sonarSweepReport.get(0)
@@ -70,7 +79,6 @@ public class Day01
             previousDepthWindow = currentDepthWindow;
         }
         
-        System.out.println("The number of three-measurement sliding windows that are larger than their previous " +
-                "three-measurement sliding window is: " + totalThreeMeasurementWindowIncreases);
+        return totalThreeMeasurementWindowIncreases;
     }
 }
