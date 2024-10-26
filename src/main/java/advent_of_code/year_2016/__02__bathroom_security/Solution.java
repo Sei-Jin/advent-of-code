@@ -3,9 +3,6 @@ package advent_of_code.year_2016.__02__bathroom_security;
 import advent_of_code.PuzzleSolver;
 
 import java.awt.*;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 
 /**

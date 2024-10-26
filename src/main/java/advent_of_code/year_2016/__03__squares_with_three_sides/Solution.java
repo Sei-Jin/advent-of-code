@@ -1,22 +1,16 @@
 package advent_of_code.year_2016.__03__squares_with_three_sides;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.*;
 
-public class Solution
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-
-
-    private static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the number of possible triangles.
+     */
+    public Object partOne(List<String> inputLines)
     {
         int possibleTriangles = 0;
 
@@ -32,12 +26,16 @@ public class Solution
                 possibleTriangles++;
             }
         }
-
-        System.out.println("The number of possible triangles is: " + possibleTriangles);
+        
+        return possibleTriangles;
     }
-
-
-    private static void partTwo(List<String> inputLines)
+    
+    
+    /**
+     * @param inputLines the puzzle input.
+     * @return the number of possible triangles.
+     */
+    public Object partTwo(List<String> inputLines)
     {
         int possibleTriangles = 0;
 
@@ -79,8 +77,8 @@ public class Solution
                 storedRows.clear();
             }
         }
-
-        System.out.println("The number of possible triangles is: " + possibleTriangles);
+        
+        return possibleTriangles;
     }
 
 
