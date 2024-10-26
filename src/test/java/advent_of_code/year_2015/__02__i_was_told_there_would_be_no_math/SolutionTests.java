@@ -6,13 +6,14 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PartTwoTests
+public class SolutionTests
 {
     @Test
     void increasingDimensions()
     {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("2x3x4");
+        Assertions.assertEquals(58, new Solution().partOne(inputLines));
         Assertions.assertEquals(34, new Solution().partTwo(inputLines));
     }
     
@@ -21,6 +22,7 @@ public class PartTwoTests
     {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("1x1x10");
+        Assertions.assertEquals(43, new Solution().partOne(inputLines));
         Assertions.assertEquals(14, new Solution().partTwo(inputLines));
     }
     
@@ -29,6 +31,7 @@ public class PartTwoTests
     {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("5x5x5");
+        Assertions.assertEquals(175, new Solution().partOne(inputLines));
         Assertions.assertEquals(145, new Solution().partTwo(inputLines));
     }
 }
