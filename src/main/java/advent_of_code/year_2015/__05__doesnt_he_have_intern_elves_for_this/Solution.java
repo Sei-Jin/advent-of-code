@@ -1,25 +1,19 @@
 package advent_of_code.year_2015.__05__doesnt_he_have_intern_elves_for_this;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.List;
 
 /**
  * --- Day 5: Doesn't He Have Intern-Elves For This? ---
  */
-public class Day05
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    private static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input
+     * @return the total number of nice strings.
+     */
+    public Object partOne(List<String> inputLines)
     {
         int totalNiceStrings = 0;
         
@@ -63,11 +57,15 @@ public class Day05
             }
         }
         
-        System.out.println("The total number of nice strings is: " + totalNiceStrings);
+        return totalNiceStrings;
     }
     
     
-    private static void partTwo(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the total number of nice strings under the new rules.
+     */
+    public Object partTwo(List<String> inputLines)
     {
         int totalNiceStrings = 0;
         
@@ -93,6 +91,6 @@ public class Day05
             }
         }
         
-        System.out.println("The total number of nice strings under the new rules is: " + totalNiceStrings);
+        return totalNiceStrings;
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * --- Day 1: Not Quite Lisp ---
  */
-public class Day01 implements PuzzleSolver
+public class Solution implements PuzzleSolver
 {
     public Integer partOne(List<String> inputLines)
     {

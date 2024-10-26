@@ -1,27 +1,21 @@
 package advent_of_code.year_2015.__06__probably_a_fire_hazard;
 
+import advent_of_code.PuzzleSolver;
+
 import java.awt.*;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * --- Day 6: Probably a Fire Hazard ---
  */
-public class Day06
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    private static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the number of lit lights after following the instructions.
+     */
+    public Object partOne(List<String> inputLines)
     {
         boolean[][] lightGrid = new boolean[1000][1000];
         
@@ -56,11 +50,15 @@ public class Day06
             }
         }
         
-        System.out.println("After following the instructions, the number of lit lights is: " + totalLightsTurnedOn);
+        return totalLightsTurnedOn;
     }
     
     
-    private static void partTwo(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the total brightness of all lights combined after following Santa's instructions.
+     */
+    public Object partTwo(List<String> inputLines)
     {
         int[][] lightGrid = new int[1000][1000];
         
@@ -98,7 +96,7 @@ public class Day06
             }
         }
         
-        System.out.println("The total brightness of all lights combined after Santa's instructions is: " + totalBrightness);
+        return totalBrightness;
     }
     
     

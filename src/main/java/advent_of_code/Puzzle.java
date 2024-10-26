@@ -35,7 +35,12 @@ public class Puzzle
     static
     {
         Map<Integer, PuzzleSolver> year2015 = new HashMap<>();
-        year2015.put(1, new advent_of_code.year_2015.__01__not_quite_lisp.Day01());
+        year2015.put(1, new advent_of_code.year_2015.__01__not_quite_lisp.Solution());
+        year2015.put(2, new advent_of_code.year_2015.__02__i_was_told_there_would_be_no_math.Solution());
+        year2015.put(3, new advent_of_code.year_2015.__03__perfectly_spherical_houses_in_a_vacuum.Solution());
+        year2015.put(5, new advent_of_code.year_2015.__05__doesnt_he_have_intern_elves_for_this.Solution());
+        year2015.put(6, new advent_of_code.year_2015.__06__probably_a_fire_hazard.Solution());
+        year2015.put(7, new advent_of_code.year_2015.__07__some_assembly_required.Solution());
         
         puzzleSolverMap.put(2015, year2015);
     }

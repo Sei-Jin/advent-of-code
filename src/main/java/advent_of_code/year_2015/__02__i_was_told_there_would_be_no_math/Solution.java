@@ -1,28 +1,19 @@
 package advent_of_code.year_2015.__02__i_was_told_there_would_be_no_math;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import advent_of_code.PuzzleSolver;
+
+import java.util.*;
 
 /**
  * --- Day 2: I Was Told There Would Be No Math ---
  */
-public class Day02
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    private static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the total square feet of wrapping paper the elves should order.
+     */
+    public Object partOne(List<String> inputLines)
     {
         int totalArea = 0;
         
@@ -40,11 +31,15 @@ public class Day02
             totalArea += presentArea;
         }
         
-        System.out.println("The total square feet of wrapping paper the elves should order is: " + totalArea);
+        return totalArea;
     }
     
     
-    private static void partTwo(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the total length of ribbon in feet the elves should order.
+     */
+    public Object partTwo(List<String> inputLines)
     {
         int totalRibbonLength = 0;
         
@@ -66,7 +61,7 @@ public class Day02
             totalRibbonLength += wrapLength + bowLength;
         }
         
-        System.out.println("The total feet of ribbon the elves should order is: " + totalRibbonLength);
+        return totalRibbonLength;
     }
     
     

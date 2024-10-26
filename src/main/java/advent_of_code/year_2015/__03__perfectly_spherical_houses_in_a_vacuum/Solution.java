@@ -1,32 +1,24 @@
 package advent_of_code.year_2015.__03__perfectly_spherical_houses_in_a_vacuum;
 
+import advent_of_code.PuzzleSolver;
+
 import java.awt.*;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
 
 /**
  * --- Day 3: Perfectly Spherical Houses in a Vacuum ---
  */
-public class Day03
+public class Solution implements PuzzleSolver
 {
-    
-    public static void main(String[] args) throws IOException
+    /**
+     * @param inputLines the puzzle input.
+     * @return the number of houses that received at least one present.
+     */
+    public Object partOne(List<String> inputLines)
     {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
+        String inputLine = inputLines.getFirst();
         
-        for (String line : inputLines)
-        {
-            partOne(line);
-            partTwo(line);
-        }
-    }
-    
-    
-    private static void partOne(String line)
-    {
         Point currentPosition = new Point();
         
         HashSet<String> previousPositions = new HashSet<>();
@@ -34,22 +26,28 @@ public class Day03
         previousPositions.add(currentPosition.toString());
         int uniqueHousesVisited = 1;
         
-        for (int i = 0; i < line.length(); i++)
+        for (int i = 0; i < inputLine.length(); i++)
         {
-            updatePosition(currentPosition, line.charAt(i));
+            updatePosition(currentPosition, inputLine.charAt(i));
             
             if (newHouseVisited(previousPositions, currentPosition))
             {
                 uniqueHousesVisited++;
             }
         }
-        
-        System.out.println(uniqueHousesVisited + " houses received at least one present.");
+
+        return uniqueHousesVisited;
     }
     
     
-    private static void partTwo(String line)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the number of houses that received at least one present.
+     */
+    public Object partTwo(List<String> inputLines)
     {
+        String inputLine = inputLines.getFirst();
+        
         Point currentPositionSanta = new Point();
         Point currentPositionRobot = new Point();
         
@@ -58,11 +56,11 @@ public class Day03
         previousPositions.add(currentPositionSanta.toString());
         int uniqueHousesVisited = 1;
         
-        for (int i = 0; i < line.length(); i++)
+        for (int i = 0; i < inputLine.length(); i++)
         {
             if (i % 2 == 0)
             {
-                updatePosition(currentPositionSanta, line.charAt(i));
+                updatePosition(currentPositionSanta, inputLine.charAt(i));
                 
                 if (newHouseVisited(previousPositions, currentPositionSanta))
                 {
@@ -71,7 +69,7 @@ public class Day03
             }
             else
             {
-                updatePosition(currentPositionRobot, line.charAt(i));
+                updatePosition(currentPositionRobot, inputLine.charAt(i));
                 
                 if (newHouseVisited(previousPositions, currentPositionRobot))
                 {
@@ -80,7 +78,7 @@ public class Day03
             }
         }
         
-        System.out.println(uniqueHousesVisited + " houses received at least one present.");
+        return uniqueHousesVisited;
     }
     
     
