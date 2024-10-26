@@ -1,8 +1,7 @@
 package advent_of_code.year_2018.__02__inventory_management_system;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,20 +9,14 @@ import java.util.Map;
 /**
  * --- Day 2: Inventory Management System ---
  */
-public class Day02
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
+    /**
+     * @param inputLines the puzzle input.
+     * @return the checksum for the list of box IDs.
+     */
+    public Object partOne(List<String> inputLines)
     {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    private static void partOne(List<String> inputLines)
-    {
-        
         int twoCount = 0;
         int threeCount = 0;
         
@@ -67,13 +60,15 @@ public class Day02
             }
         }
         
-        int checksum = twoCount * threeCount;
-        
-        System.out.println("The checksum for the list of box IDs is: " + checksum);
+        return twoCount * threeCount;
     }
     
     
-    private static void partTwo(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the letters common between the two correct box IDs.
+     */
+    public Object partTwo(List<String> inputLines)
     {
         String commonID = "";
         
@@ -108,6 +103,6 @@ public class Day02
             }
         }
         
-        System.out.println("The letters common between the two correct box IDs are: " + commonID);
+        return commonID;
     }
 }

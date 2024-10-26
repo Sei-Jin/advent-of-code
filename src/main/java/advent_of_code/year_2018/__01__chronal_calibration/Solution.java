@@ -1,8 +1,7 @@
 package advent_of_code.year_2018.__01__chronal_calibration;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,18 +9,13 @@ import java.util.Set;
 /**
  * --- Day 1: Chronal Calibration ---
  */
-public class Day01
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    private static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the resulting frequency.
+     */
+    public Object partOne(List<String> inputLines)
     {
         int currentFrequency = 0;
         
@@ -38,17 +32,19 @@ public class Day01
             currentFrequency += frequencyChange;
         }
         
-        System.out.println("The resulting frequency is: " + currentFrequency);
+        return currentFrequency;
     }
     
     
-    private static void partTwo(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the first frequency reached twice.
+     */
+    public Object partTwo(List<String> inputLines)
     {
         int startingFrequency = 0;
         
-        int duplicateFrequency = findDuplicateFrequency(inputLines, startingFrequency);
-        
-        System.out.println("The first frequency reached twice is: " + duplicateFrequency);
+        return findDuplicateFrequency(inputLines, startingFrequency);
     }
     
     

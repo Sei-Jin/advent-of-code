@@ -1,5 +1,7 @@
 package advent_of_code.year_2018.__03__no_matter_how_you_slice_it;
 
+import advent_of_code.PuzzleSolver;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,12 +12,14 @@ import java.util.List;
 /**
  * --- Day 3: No Matter How You Slice It ---
  */
-public class Day03
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
+    /**
+     * @param inputLines the puzzle input.
+     * @return the square inches of fabric within two claims.
+     */
+    public Object partOne(List<String> inputLines)
     {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
         List<Claim> claims = new ArrayList<>();
         
         for (String line : inputLines)
@@ -26,13 +30,6 @@ public class Day03
         
         int[][] mappedFabricArea = mapFabricClaims(claims);
         
-        partOne(mappedFabricArea);
-        partTwo(mappedFabricArea, claims);
-    }
-    
-    
-    private static void partOne(int[][] mappedFabricArea)
-    {
         int areaWithinTwoClaims = 0;
         
         for (int row = 0; row < mappedFabricArea.length; row++)
@@ -46,12 +43,26 @@ public class Day03
             }
         }
         
-        System.out.println("The square inches of fabric within two claims is: " + areaWithinTwoClaims);
+        return areaWithinTwoClaims;
     }
     
     
-    private static void partTwo(int[][] mappedFabricArea, List<Claim> claims)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the ID of the only claim that does not overlap.
+     */
+    public Object partTwo(List<String> inputLines)
     {
+        List<Claim> claims = new ArrayList<>();
+        
+        for (String line : inputLines)
+        {
+            Claim claim = getClaim(line);
+            claims.add(claim);
+        }
+        
+        int[][] mappedFabricArea = mapFabricClaims(claims);
+        
         int nonOverlappingClaimID = 0;
         
         for (Claim claim : claims)
@@ -65,7 +76,7 @@ public class Day03
             }
         }
         
-        System.out.println("The ID of the only claim that does not overlap is: " + nonOverlappingClaimID);
+        return nonOverlappingClaimID;
     }
     
     
