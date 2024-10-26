@@ -34,19 +34,7 @@ public class Solution implements PuzzleSolver
             }
             
             // The line cannot contain the strings "ab", "cd", "pq", and "xy"
-            if (line.contains("ab"))
-            {
-                niceString = false;
-            }
-            if (line.contains("cd"))
-            {
-                niceString = false;
-            }
-            if (line.contains("pq"))
-            {
-                niceString = false;
-            }
-            if (line.contains("xy"))
+            if (!line.matches("^(?:(?!ab|cd|pq|xy).)*$"))
             {
                 niceString = false;
             }
