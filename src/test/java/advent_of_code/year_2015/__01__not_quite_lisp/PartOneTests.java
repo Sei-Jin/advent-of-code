@@ -8,10 +8,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
+public class PartOneTests
 {
     @Test
-    void startingFloor1 ()
+    void ascendThenDescendSameAmount()
     {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("(())");
@@ -19,7 +19,7 @@ public class SolutionTests
     }
     
     @Test
-    void startingFloor2 ()
+    void loopingBetweenFloors()
     {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("()()");
@@ -27,7 +27,7 @@ public class SolutionTests
     }
     
     @Test
-    void positiveFloor1 ()
+    void onlyAscending()
     {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("(((");
@@ -35,7 +35,7 @@ public class SolutionTests
     }
     
     @Test
-    void positiveFloor2 ()
+    void ascendingWithLoops()
     {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("(()(()(");
@@ -43,7 +43,7 @@ public class SolutionTests
     }
     
     @Test
-    void positiveFloor3 ()
+    void descendThenSharpAscend()
     {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("))(((((");
@@ -51,7 +51,7 @@ public class SolutionTests
     }
     
     @Test
-    void negativeFloor ()
+    void loopThenDescend()
     {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("())");
@@ -59,10 +59,42 @@ public class SolutionTests
     }
     
     @Test
-    void deeperNegativeFloor ()
+    void descendThenSlightAscend()
     {
         List<String> inputLines = new ArrayList<>();
-        inputLines.add("())");
+        inputLines.add("))(");
+        assertEquals(-1, new Solution().partOne(inputLines));
+    }
+    
+    @Test
+    void onlyDescending()
+    {
+        List<String> inputLines = new ArrayList<>();
+        inputLines.add(")))");
+        assertEquals(-3, new Solution().partOne(inputLines));
+    }
+    
+    @Test
+    void descendingWithLoops()
+    {
+        List<String> inputLines = new ArrayList<>();
+        inputLines.add(")())())");
+        assertEquals(-3, new Solution().partOne(inputLines));
+    }
+    
+    @Test
+    void immediateDescent()
+    {
+        List<String> inputLines = new ArrayList<>();
+        inputLines.add(")");
+        assertEquals(-1, new Solution().partOne(inputLines));
+    }
+    
+    @Test
+    void loopingThenDescend()
+    {
+        List<String> inputLines = new ArrayList<>();
+        inputLines.add("()())");
         assertEquals(-1, new Solution().partOne(inputLines));
     }
 }
