@@ -1,8 +1,7 @@
 package advent_of_code.year_2023.__02__cube_conundrum;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -11,18 +10,14 @@ import java.util.Scanner;
 /**
  * --- Day 2: Cube Conundrum ---
  */
-public class Day02
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    private static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the sum of the IDs of the possible games
+     */
+    @Override
+    public Object partOne(List<String> inputLines)
     {
         int sumPossibleGameIDs = 0;
         int currentGameID = 1;
@@ -45,24 +40,19 @@ public class Day02
             currentGameID++;
         }
         
-        System.out.println("The sum of the IDs of the possible games is: " + sumPossibleGameIDs);
+        return sumPossibleGameIDs;
     }
     
     
-    private static void partTwo(List<String> inputLines)
+    private static HashMap<String, Integer> initializeCubeCounts()
     {
-        int totalPower = 0;
+        HashMap<String, Integer> cubeCounts = new HashMap<>();
         
-        for (String line : inputLines)
-        {
-            HashMap<String, Integer> cubeCounts = initializeCubeCounts();
-            
-            findMaximumCubeCounts(line, cubeCounts);
-            
-            totalPower += cubeCounts.get("red") * cubeCounts.get("green") * cubeCounts.get("blue");
-        }
+        cubeCounts.put("red", 0);
+        cubeCounts.put("green", 0);
+        cubeCounts.put("blue", 0);
         
-        System.out.println("The total power of the minimum sets of cubes that must have been present is: " + totalPower);
+        return cubeCounts;
     }
     
     
@@ -79,29 +69,39 @@ public class Day02
             for (String pair : cubeCountValuePairs)
             {
                 Scanner cubeScan = new Scanner(pair);
-
+                
                 int cubeCount = cubeScan.nextInt();
                 String cubeColour = cubeScan.next();
-
+                
                 if (cubes.get(cubeColour) < cubeCount)
                 {
                     cubes.replace(cubeColour, cubeCount);
                 }
-
+                
                 cubeScan.close();
             }
         }
     }
     
     
-    private static HashMap<String, Integer> initializeCubeCounts()
+    /**
+     * @param inputLines the puzzle input.
+     * @return the total power of the minimum sets of cubes that must have been present.
+     */
+    @Override
+    public Object partTwo(List<String> inputLines)
     {
-        HashMap<String, Integer> cubeCounts = new HashMap<>();
+        int totalPower = 0;
         
-        cubeCounts.put("red", 0);
-        cubeCounts.put("green", 0);
-        cubeCounts.put("blue", 0);
+        for (String line : inputLines)
+        {
+            HashMap<String, Integer> cubeCounts = initializeCubeCounts();
+            
+            findMaximumCubeCounts(line, cubeCounts);
+            
+            totalPower += cubeCounts.get("red") * cubeCounts.get("green") * cubeCounts.get("blue");
+        }
         
-        return cubeCounts;
+        return totalPower;
     }
 }

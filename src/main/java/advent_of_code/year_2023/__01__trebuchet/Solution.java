@@ -1,26 +1,21 @@
 package advent_of_code.year_2023.__01__trebuchet;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.HashMap;
 import java.util.List;
 
 /**
  * --- Day 1: Trebuchet?! ---
  */
-public class Day01
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    private static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the sum of all the calibration values.
+     */
+    @Override
+    public Object partOne(List<String> inputLines)
     {
         int calibrationTotal = 0;
         
@@ -52,11 +47,16 @@ public class Day01
             calibrationTotal += calibrationValue;
         }
         
-        System.out.println("The sum of all the calibration values is: " + calibrationTotal);
+        return calibrationTotal;
     }
     
     
-    private static void partTwo(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the sum of all the calibration values.
+     */
+    @Override
+    public Object partTwo(List<String> inputLines)
     {
         int calibrationTotal = 0;
         
@@ -134,7 +134,7 @@ public class Day01
             calibrationTotal += calibrationValue;
         }
         
-        System.out.println("The sum of all the calibration values is: " + calibrationTotal);
+        return calibrationTotal;
     }
     
     
