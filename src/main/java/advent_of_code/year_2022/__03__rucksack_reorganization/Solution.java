@@ -1,8 +1,7 @@
 package advent_of_code.year_2022.__03__rucksack_reorganization;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -11,18 +10,14 @@ import java.util.stream.Collectors;
 /**
  * --- Day 3: Rucksack Reorganization ---
  */
-public class Day03
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    private static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the sum of the priorities.
+     */
+    @Override
+    public Object partOne(List<String> inputLines)
     {
         int totalItemPriority = 0;
         
@@ -47,11 +42,40 @@ public class Day03
             totalItemPriority += itemPriority;
         }
         
-        System.out.println("The sum of the priorities is: " + totalItemPriority);
+        return totalItemPriority;
     }
     
     
-    private static void partTwo(List<String> inputLines)
+    private static List<Character> findSharedItem(Set<Character> firstSet, Set<Character> secondSet)
+    {
+        firstSet.retainAll(secondSet);
+        return firstSet.stream().toList();
+    }
+    
+    
+    private static int calculateItemPriority(char sharedItem)
+    {
+        int itemPriority = 0;
+        
+        if (sharedItem >= 'a' && sharedItem <= 'z')
+        {
+            itemPriority = sharedItem - 96;
+        }
+        else if (sharedItem >= 'A' && sharedItem <= 'Z')
+        {
+            itemPriority = sharedItem - 38;
+        }
+        
+        return itemPriority;
+    }
+    
+    
+    /**
+     * @param inputLines the puzzle input.
+     * @return the sum of the priorities of the badges.
+     */
+    @Override
+    public Object partTwo(List<String> inputLines)
     {
         int totalItemPriority = 0;
         
@@ -79,15 +103,7 @@ public class Day03
             group.clear();
         }
         
-        System.out.println("The sum of the priorities of the badges is: " + totalItemPriority);
-    }
-    
-    
-    private static List<Character> findSharedItem(Set<Character> firstSet, Set<Character> secondSet)
-    {
-        firstSet.retainAll(secondSet);
-        
-        return firstSet.stream().toList();
+        return totalItemPriority;
     }
     
     
@@ -101,22 +117,5 @@ public class Day03
         firstGroup.retainAll(thirdGroup);
         
         return firstGroup.stream().toList();
-    }
-    
-    
-    private static int calculateItemPriority(char sharedItem)
-    {
-        int itemPriority = 0;
-        
-        if (sharedItem >= 'a' && sharedItem <= 'z')
-        {
-            itemPriority = sharedItem - 96;
-        }
-        else if (sharedItem >= 'A' && sharedItem <= 'Z')
-        {
-            itemPriority = sharedItem - 38;
-        }
-        
-        return itemPriority;
     }
 }

@@ -1,8 +1,7 @@
 package advent_of_code.year_2022.__01__calorie_counting;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,42 +9,20 @@ import java.util.List;
 /**
  * --- Day 1: Calorie Counting ---
  */
-public class Day01
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    private static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the largest amount of calories carried by an elf.
+     */
+    @Override
+    public Object partOne(List<String> inputLines)
     {
         List<Integer> elfCalories = getElfCalories(inputLines);
         
         Collections.sort(elfCalories);
         
-        int mostCalories = elfCalories.getLast();
-        
-        System.out.println("The largest amount of calories carried by an elf is: " + mostCalories);
-    }
-    
-    
-    private static void partTwo(List<String> inputLines)
-    {
-        List<Integer> elfCalories = getElfCalories(inputLines);
-        
-        Collections.sort(elfCalories);
-        
-        int topThreeCalorieTotal = elfCalories.subList(elfCalories.size() - 3, elfCalories.size())
-                .stream()
-                .mapToInt(Integer::intValue)
-                .sum();
-        
-        System.out.println("The total calories carried by the elves with" +
-                " the the three largest amounts of calories is: " + topThreeCalorieTotal);
+        return elfCalories.getLast();
     }
     
     
@@ -82,5 +59,23 @@ public class Day01
         }
         
         return elfCalories;
+    }
+    
+    
+    /**
+     * @param inputLines the puzzle input.
+     * @return the total calories carried by the elves with the three largest amounts of calories.
+     */
+    @Override
+    public Object partTwo(List<String> inputLines)
+    {
+        List<Integer> elfCalories = getElfCalories(inputLines);
+        
+        Collections.sort(elfCalories);
+        
+        return elfCalories.subList(elfCalories.size() - 3, elfCalories.size())
+                .stream()
+                .mapToInt(Integer::intValue)
+                .sum();
     }
 }

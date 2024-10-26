@@ -1,24 +1,19 @@
 package advent_of_code.year_2022.__02__rock_paper_scissors;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class Day02
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    public static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the total score if everything goes exactly according to the strategy guide.
+     */
+    @Override
+    public Object partOne(List<String> inputLines)
     {
         int totalScore = 0;
         
@@ -37,11 +32,17 @@ public class Day02
             totalScore += outcome.score + ourChoice.score;
         }
         
-        System.out.println("The total score if everything goes exactly according to the strategy guide is: " + totalScore);
+        return totalScore;
     }
     
     
-    private static void partTwo(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the total score if everything goes exactly according to the strategy guide with the
+     * Elf's updated instructions.
+     */
+    @Override
+    public Object partTwo(List<String> inputLines)
     {
         int totalScore = 0;
         
@@ -60,8 +61,7 @@ public class Day02
             totalScore += outcome.score + ourChoice.score;
         }
         
-        System.out.println("With the Elf's updated instructions, the total score if everything goes exactly" +
-                " according to the strategy guide is: " + totalScore);
+        return totalScore;
     }
     
     
