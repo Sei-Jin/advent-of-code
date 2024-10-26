@@ -1,26 +1,21 @@
 package advent_of_code.year_2020.__02__password_philosophy;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * --- Day 2: Password Philosophy ---
  */
-public class Day02
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
-    {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
-        
-        partOne(inputLines);
-        partTwo(inputLines);
-    }
-    
-    
-    private static void partOne(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the number of valid passwords according to the set policies.
+     */
+    @Override
+    public Object partOne(List<String> inputLines)
     {
         int validPasswords = 0;
         
@@ -49,11 +44,16 @@ public class Day02
             }
         }
         
-        System.out.println("The number of valid passwords according to the policies is: " + validPasswords);
+        return validPasswords;
     }
     
     
-    private static void partTwo(List<String> inputLines)
+    /**
+     * @param inputLines the puzzle input.
+     * @return the number of valid passwords according to the new interpretation of the policies.
+     */
+    @Override
+    public Object partTwo(List<String> inputLines)
     {
         int validPasswords = 0;
         
@@ -69,8 +69,7 @@ public class Day02
             }
         }
         
-        System.out.println("The number of valid passwords according to the new interpretation of the " +
-                "policies is: " + validPasswords);
+        return validPasswords;
     }
     
     

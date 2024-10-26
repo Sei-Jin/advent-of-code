@@ -1,34 +1,20 @@
 package advent_of_code.year_2020.__01__report_repair;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import advent_of_code.PuzzleSolver;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * --- Day 1: Report Repair ---
  */
-public class Day01
+public class Solution implements PuzzleSolver
 {
-    public static void main(String[] args) throws IOException
+    @Override
+    public Object partOne(List<String> inputLines)
     {
-        List<String> inputLines = Files.readAllLines(Path.of("input.txt"));
+        List<Integer> expenseReport = getExpenseReport(inputLines);
         
-        List<Integer> expenseReport = new ArrayList<>();
-        
-        for (String line : inputLines)
-        {
-            expenseReport.add(Integer.parseInt(line));
-        }
-        
-        partOne(expenseReport);
-        partTwo(expenseReport);
-    }
-    
-    
-    private static void partOne(List<Integer> expenseReport)
-    {
         for (int firstEntry = 0; firstEntry < expenseReport.size(); firstEntry++)
         {
             for (int secondEntry = 0; secondEntry < expenseReport.size(); secondEntry++)
@@ -42,18 +28,32 @@ public class Day01
                 
                 if (sum == 2020)
                 {
-                    int product = expenseReport.get(firstEntry) * expenseReport.get(secondEntry);
-                    
-                    System.out.println(product);
-                    return;
+                    return expenseReport.get(firstEntry) * expenseReport.get(secondEntry);
                 }
             }
         }
+        
+        return null;
     }
     
     
-    private static void partTwo(List<Integer> expenseReport)
+    private static List<Integer> getExpenseReport(List<String> inputLines)
     {
+        List<Integer> expenseReport = new ArrayList<>();
+        
+        for (String line : inputLines)
+        {
+            expenseReport.add(Integer.parseInt(line));
+        }
+        return expenseReport;
+    }
+    
+    
+    @Override
+    public Object partTwo(List<String> inputLines)
+    {
+        List<Integer> expenseReport = getExpenseReport(inputLines);
+        
         for (int firstEntry = 0; firstEntry < expenseReport.size(); firstEntry++)
         {
             for (int secondEntry = 0; secondEntry < expenseReport.size(); secondEntry++)
@@ -71,15 +71,14 @@ public class Day01
                     
                     if (sum == 2020)
                     {
-                        int product = expenseReport.get(firstEntry)
+                        return expenseReport.get(firstEntry)
                                 * expenseReport.get(secondEntry)
                                 * expenseReport.get(thirdEntry);
-                        
-                        System.out.println(product);
-                        return;
                     }
                 }
             }
         }
+        
+        return null;
     }
 }
