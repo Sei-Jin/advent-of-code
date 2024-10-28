@@ -9,6 +9,10 @@ import java.util.List;
  */
 public class Solution implements PuzzleSolver
 {
+    /**
+     * @param inputLines the puzzle input.
+     * @return the floor level the instructions take Santa to.
+     */
     public Integer partOne(List<String> inputLines)
     {
         String inputLine = inputLines.getFirst();
@@ -28,6 +32,11 @@ public class Solution implements PuzzleSolver
     }
     
     
+    /**
+     * @param inputLines the puzzle input.
+     * @return the position of the character that causes Santa to first enter the basement, or -1 if Santa
+     * never enters the basement.
+     */
     public Integer partTwo(List<String> inputLines)
     {
         String inputLine = inputLines.getFirst();
@@ -48,7 +57,7 @@ public class Solution implements PuzzleSolver
             }
         }
         
-        // Should never reach here
+        // The basement was never entered.
         return -1;
     }
 }
