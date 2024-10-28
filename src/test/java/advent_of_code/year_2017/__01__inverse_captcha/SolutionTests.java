@@ -1,6 +1,5 @@
-package advent_of_code.year_2017;
+package advent_of_code.year_2017.__01__inverse_captcha;
 
-import advent_of_code.year_2017.__01__inverse_captcha.Solution;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
