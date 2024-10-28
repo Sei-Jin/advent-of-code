@@ -14,6 +14,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the bathroom code.
      */
+    @Override
     public Object partOne(List<String> inputLines)
     {
         StringBuilder bathroomCode = new StringBuilder();
@@ -78,6 +79,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the correct bathroom code.
      */
+    @Override
     public Object partTwo(List<String> inputLines)
     {
         StringBuilder bathroomCode = new StringBuilder();

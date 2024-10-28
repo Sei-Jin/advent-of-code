@@ -10,6 +10,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the number of possible triangles.
      */
+    @Override
     public Object partOne(List<String> inputLines)
     {
         List<List<Integer>> triangles = getInputValues(inputLines);
@@ -76,6 +77,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the number of possible triangles in the vertical groups.
      */
+    @Override
     public Object partTwo(List<String> inputLines)
     {
         List<List<Integer>> inputValues = getInputValues(inputLines);

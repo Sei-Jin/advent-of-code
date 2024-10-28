@@ -14,6 +14,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the checksum for the spreadsheet.
      */
+    @Override
     public Object partOne(List<String> inputLines)
     {
         int checkSumDifference = 0;
@@ -32,6 +33,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the sum of each row's divisible result.
      */
+    @Override
     public Object partTwo(List<String> inputLines)
     {
         int checkSumDivisible = 0;

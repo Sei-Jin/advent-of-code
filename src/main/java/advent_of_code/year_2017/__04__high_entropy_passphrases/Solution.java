@@ -15,6 +15,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the number of valid passphrases.
      */
+    @Override
     public Object partOne(List<String> inputLines)
     {
         int validPassphrases = 0;
@@ -36,6 +37,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the number of valid passphrases under the new system policy.
      */
+    @Override
     public Object partTwo(List<String> inputLines)
     {
         int validPassphrases = 0;

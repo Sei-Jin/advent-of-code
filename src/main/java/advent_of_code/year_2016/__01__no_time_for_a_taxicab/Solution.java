@@ -15,6 +15,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the number of blocks from the starting position to the Easter Bunny HQ.
      */
+    @Override
     public Object partOne(List<String> inputLines)
     {
         String inputLine = inputLines.getFirst();
@@ -49,6 +50,7 @@ public class Solution implements PuzzleSolver
      * @return the distance from the starting location to the first location visited twice or {@code -1} if there
      *         were no locations visited twice.
      */
+    @Override
     public Object partTwo(List<String> inputLines)
     {
         String inputLine = inputLines.getFirst();

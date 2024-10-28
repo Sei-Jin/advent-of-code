@@ -14,6 +14,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the number of steps it takes to reach the exit.
      */
+    @Override
     public Object partOne(List<String> inputLines)
     {
         int steps = 0;
@@ -43,6 +44,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the number of steps it now takes to reach the exit.
      */
+    @Override
     public Object partTwo(List<String> inputLines)
     {
         int steps = 0;

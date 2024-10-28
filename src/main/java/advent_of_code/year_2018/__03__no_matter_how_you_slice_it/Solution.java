@@ -18,6 +18,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the square inches of fabric within two claims.
      */
+    @Override
     public Object partOne(List<String> inputLines)
     {
         List<Claim> claims = new ArrayList<>();
@@ -51,6 +52,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the ID of the only claim that does not overlap.
      */
+    @Override
     public Object partTwo(List<String> inputLines)
     {
         List<Claim> claims = new ArrayList<>();

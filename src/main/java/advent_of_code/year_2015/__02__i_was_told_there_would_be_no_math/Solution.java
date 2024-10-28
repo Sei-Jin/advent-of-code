@@ -13,6 +13,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the total square feet of wrapping paper the elves should order.
      */
+    @Override
     public Object partOne(List<String> inputLines)
     {
         int totalArea = 0;
@@ -39,6 +40,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the total length of ribbon in feet the elves should order.
      */
+    @Override
     public Object partTwo(List<String> inputLines)
     {
         int totalRibbonLength = 0;

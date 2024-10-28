@@ -15,6 +15,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the checksum for the list of box IDs.
      */
+    @Override
     public Object partOne(List<String> inputLines)
     {
         int twoCount = 0;
@@ -68,6 +69,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the letters common between the two correct box IDs.
      */
+    @Override
     public Object partTwo(List<String> inputLines)
     {
         String commonID = "";

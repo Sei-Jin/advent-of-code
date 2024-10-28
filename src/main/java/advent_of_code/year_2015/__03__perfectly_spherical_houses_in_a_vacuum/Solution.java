@@ -15,6 +15,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the number of houses that received at least one present.
      */
+    @Override
     public Object partOne(List<String> inputLines)
     {
         String inputLine = inputLines.getFirst();
@@ -63,6 +64,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the number of houses that received at least one present.
      */
+    @Override
     public Object partTwo(List<String> inputLines)
     {
         String inputLine = inputLines.getFirst();

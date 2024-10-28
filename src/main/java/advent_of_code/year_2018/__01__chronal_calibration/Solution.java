@@ -15,6 +15,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the resulting frequency.
      */
+    @Override
     public Object partOne(List<String> inputLines)
     {
         int currentFrequency = 0;
@@ -40,6 +41,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the first frequency reached twice.
      */
+    @Override
     public Object partTwo(List<String> inputLines)
     {
         int startingFrequency = 0;

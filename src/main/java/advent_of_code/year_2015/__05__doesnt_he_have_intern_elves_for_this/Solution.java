@@ -13,6 +13,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input
      * @return the total number of nice strings.
      */
+    @Override
     public Object partOne(List<String> inputLines)
     {
         int totalNiceStrings = 0;
@@ -53,6 +54,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the total number of nice strings under the new rules.
      */
+    @Override
     public Object partTwo(List<String> inputLines)
     {
         int totalNiceStrings = 0;

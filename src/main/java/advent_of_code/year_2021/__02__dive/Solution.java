@@ -49,6 +49,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return The product of the final horizontal position and the final depth.
      */
+    @Override
     public Object partTwo(List<String> inputLines)
     {
         int horizontalPosition = 0;

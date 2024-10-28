@@ -13,6 +13,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the solution to the captcha.
      */
+    @Override
     public Object partOne(List<String> inputLines)
     {
         String inputLine = inputLines.getFirst();
@@ -27,6 +28,7 @@ public class Solution implements PuzzleSolver
      * @param inputLines the puzzle input.
      * @return the solution to the new captcha.
      */
+    @Override
     public Object partTwo(List<String> inputLines)
     {
         String inputLine = inputLines.getFirst();
