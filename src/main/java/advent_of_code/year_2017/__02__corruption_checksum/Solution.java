@@ -30,24 +30,9 @@ public class Solution implements PuzzleSolver
     
     
     /**
-     * @param inputLines the puzzle input.
-     * @return the sum of each row's divisible result.
+     * @param line a line from the puzzle input.
+     * @return a {@code List} of the numbers in {@code line}.
      */
-    @Override
-    public Object partTwo(List<String> inputLines)
-    {
-        int checkSumDivisible = 0;
-        
-        for (String line : inputLines)
-        {
-            List<Integer> numbers = getNumbers(line);
-            checkSumDivisible += findDivisible(numbers);
-        }
-        
-        return checkSumDivisible;
-    }
-    
-    
     private static List<Integer> getNumbers(String line)
     {
         return Arrays.stream(line.split("\\s"))
@@ -78,22 +63,41 @@ public class Solution implements PuzzleSolver
     }
     
     
+    /**
+     * @param inputLines the puzzle input.
+     * @return the sum of each row's divisible result.
+     */
+    @Override
+    public Object partTwo(List<String> inputLines)
+    {
+        int checkSumDivisible = 0;
+        
+        for (String line : inputLines)
+        {
+            List<Integer> numbers = getNumbers(line);
+            checkSumDivisible += findDivisible(numbers);
+        }
+        
+        return checkSumDivisible;
+    }
+    
+    
     private static int findDivisible(List<Integer> numbers)
     {
-        for (int currentIndex = 0; currentIndex < numbers.size(); currentIndex++)
+        for (int outerIndex = 0; outerIndex < numbers.size(); outerIndex++)
         {
-            for (int comparisonIndex = 0; comparisonIndex < numbers.size(); comparisonIndex++)
+            for (int innerIndex = 0; innerIndex < numbers.size(); innerIndex++)
             {
-                if (currentIndex == comparisonIndex)
+                if (outerIndex == innerIndex)
                 {
                     continue;
                 }
                 
-                boolean isDivisible = (numbers.get(currentIndex) % numbers.get(comparisonIndex) == 0);
+                boolean isDivisible = (numbers.get(outerIndex) % numbers.get(innerIndex) == 0);
                 
                 if (isDivisible)
                 {
-                    return numbers.get(currentIndex) / numbers.get(comparisonIndex);
+                    return numbers.get(outerIndex) / numbers.get(innerIndex);
                 }
             }
         }
