@@ -60,5 +60,12 @@ public class Puzzle
         year2017.put(5, new advent_of_code.year_2017.__05__a_maze_of_twisty_trampolines_all_alike.Solution());
         
         puzzleSolverMap.put(2017, year2017);
+        
+        Map<Integer, PuzzleSolver> year2019 = new HashMap<>();
+        year2019.put(1, new advent_of_code.year_2019.__01__the_tyranny_of_the_rocket_equation.Solution());
+        year2019.put(2, new advent_of_code.year_2019.__02__1202_program_alarm.Solution());
+        year2019.put(3, new advent_of_code.year_2019.__03__crossed_wires.Solution());
+        
+        puzzleSolverMap.put(2019, year2019);
     }
 }

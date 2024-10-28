@@ -16,110 +16,94 @@ public class Solution implements PuzzleSolver
     @Override
     public Object partOne(List<String> inputLines)
     {
-        Set<Point> firstWirePointsVisited = new HashSet<>();
-        Set<Point> secondWirePointsVisited = new HashSet<>();
-
-        determineWirePoints(inputLines.getFirst(), firstWirePointsVisited);
-        determineWirePoints(inputLines.getLast(), secondWirePointsVisited);
-
-        int closestIntersectionDistance = 0;
-
-        for (Point firstWirePoint : firstWirePointsVisited)
-        {
-            for (Point secondWirePoint : secondWirePointsVisited)
-            {
-                boolean pathIntersection = firstWirePoint.equals(secondWirePoint);
-
-                if (pathIntersection)
-                {
-                    boolean atCentralPort = (firstWirePoint.x == 0 && firstWirePoint.y == 0);
-
-                    if (atCentralPort)
-                    {
-                        continue;
-                    }
-
-                    int currentIntersectionDistance = Math.abs(firstWirePoint.x) + Math.abs(firstWirePoint.y);
-
-                    if (closestIntersectionDistance == 0 ||
-                            currentIntersectionDistance < closestIntersectionDistance)
-                    {
-                        closestIntersectionDistance = currentIntersectionDistance;
-                    }
-                }
-            }
-        }
-
-        return closestIntersectionDistance;
+        List<Move> firstMoveList = getMoves(inputLines.getFirst());
+        List<Move> secondMoveList = getMoves(inputLines.getLast());
+        
+        Set<Point> firstWirePoints = determineWirePoints(firstMoveList);
+        Set<Point> secondWirePoints = determineWirePoints(secondMoveList);
+        
+        Set<Point> crossingPoints = new HashSet<>(firstWirePoints);
+        crossingPoints.retainAll(secondWirePoints);
+        
+        return getClosestDistance(crossingPoints);
     }
     
     
-    private static void determineWirePoints(String line, Set<Point> pointsVisited)
+    private record Move(Character direction, int distance) {}
+    
+    
+    private static List<Move> getMoves(String inputLine)
     {
-        int xPosition = 0;
-        int yPosition = 0;
-
-        Point initialPoint = new Point(xPosition, yPosition);
-        pointsVisited.add(initialPoint);
-
-        List<String> moves = List.of(line.split(","));
-
+        List<Move> moveList = new ArrayList<>();
+        
+        List<String> moves = List.of(inputLine.split(","));
+        
         for (String move : moves)
         {
-            String directionValue = String.valueOf(move.charAt(0));
-            Direction moveDirection = Direction.getDirectionByName(directionValue);
-
+            Character direction = move.charAt(0);
             int moveDistance = Integer.parseInt(move.substring(1));
+            
+            moveList.add(new Move(direction, moveDistance));
+        }
+        
+        return moveList;
+    }
+    
+    
+    private static HashSet<Point> determineWirePoints(List<Move> moves)
+    {
+        HashSet<Point> pointsVisited = new HashSet<>();
+        
+        int yPosition = 0;
+        int xPosition = 0;
+        
+        Point initialPoint = new Point(0, 0);
+        pointsVisited.add(initialPoint);
 
-            for (int distanceTravelled = 0; distanceTravelled < moveDistance; distanceTravelled++)
+        for (Move move : moves)
+        {
+            for (int distanceTravelled = 0; distanceTravelled < move.distance; distanceTravelled++)
             {
-                switch (Objects.requireNonNull(moveDirection))
+                switch (move.direction)
                 {
-                    case UP -> yPosition++;
-                    case DOWN -> yPosition--;
-                    case LEFT -> xPosition--;
-                    case RIGHT -> xPosition++;
+                    case 'U' -> yPosition++;
+                    case 'D' -> yPosition--;
+                    case 'L' -> xPosition--;
+                    case 'R' -> xPosition++;
                 }
 
-                Point point = new Point(xPosition, yPosition);
-                pointsVisited.add(point);
+                pointsVisited.add(new Point(xPosition, yPosition));
             }
         }
+        
+        return pointsVisited;
     }
 
-
-    enum Direction
+    
+    private static int getClosestDistance(Set<Point> crossingPoints)
     {
-        RIGHT("R"),
-        LEFT("L"),
-        DOWN("D"),
-        UP("U");
-
-        private final String directionValue;
-
-        Direction(String directionValue)
+        int closestDistance = 0;
+        
+        for (Point crossingPoint : crossingPoints)
         {
-            this.directionValue = directionValue;
-        }
-
-        @Override
-        public String toString()
-        {
-            return this.directionValue;
-        }
-
-        public static Direction getDirectionByName(String directionValue)
-        {
-            for (Direction direction : Direction.values())
+            int distance = Math.abs(crossingPoint.x) + Math.abs(crossingPoint.y);
+            
+            if (distance == 0)
             {
-                if (direction.toString().equals(directionValue))
-                {
-                    return direction;
-                }
+                continue;
             }
-
-            return null;
+            
+            if (closestDistance == 0)
+            {
+                closestDistance = distance;
+            }
+            else
+            {
+                closestDistance = Math.min(closestDistance, distance);
+            }
         }
+        
+        return closestDistance;
     }
     
     
