@@ -12,16 +12,13 @@ public class Solution implements PuzzleSolver
      */
     public Object partOne(List<String> inputLines)
     {
+        List<List<Integer>> triangles = getInputValues(inputLines);
+        
         int possibleTriangles = 0;
-
-        for (String line : inputLines)
+     
+        for (List<Integer> triangle : triangles)
         {
-            List<Integer> sideLengths = Arrays.stream(line.trim().split("\\s+"))
-                    .map(Integer::parseInt)
-                    .sorted()
-                    .toList();
-
-            if (possibleTriangle(sideLengths))
+            if (possibleTriangle(triangle))
             {
                 possibleTriangles++;
             }
@@ -33,57 +30,75 @@ public class Solution implements PuzzleSolver
     
     /**
      * @param inputLines the puzzle input.
-     * @return the number of possible triangles.
+     * @return the puzzle input as a {@code List} of {@code List} of {@code Integers}.
+     */
+    private static List<List<Integer>> getInputValues(List<String> inputLines)
+    {
+        List<List<Integer>> inputValues = new ArrayList<>();
+        
+        for (String line : inputLines)
+        {
+            inputValues.add(Arrays.stream(line.trim().split("\\s+"))
+                    .map(Integer::parseInt)
+                    .toList()
+            );
+        }
+        
+        return inputValues;
+    }
+    
+    
+    /**
+     * Determines whether a triangle could be formed with the given {@code sideLengths} or not. A triangle is
+     * considered possible when the sum of any two sides are larger than the remaining side.
+     *
+     * @param sideLengths the side lengths of a triangle.
+     * @return true if the side lengths are possible, or false otherwise.
+     */
+    private static boolean possibleTriangle(List<Integer> sideLengths)
+    {
+        if (sideLengths.size() != 3)
+        {
+            throw new IllegalArgumentException("There must be exactly 3 sides to form a triangle.");
+        }
+        
+        int side1 = sideLengths.get(0);
+        int side2 = sideLengths.get(1);
+        int side3 = sideLengths.get(2);
+        
+        return (side1 + side2 > side3) &&
+                (side1 + side3 > side2) &&
+                (side2 + side3 > side1);
+    }
+    
+    
+    /**
+     * @param inputLines the puzzle input.
+     * @return the number of possible triangles in the vertical groups.
      */
     public Object partTwo(List<String> inputLines)
     {
+        List<List<Integer>> inputValues = getInputValues(inputLines);
+        
         int possibleTriangles = 0;
-
-        List<List<Integer>> storedRows = new ArrayList<>();
-
-        int rowCount = 0;
-
-        for (String line : inputLines)
+        
+        for (int row = 0; row < inputValues.size(); row += 3)
         {
-            List<Integer> rowValues = Arrays.stream(line.trim().split("\\s+"))
-                    .map(Integer::parseInt)
-                    .toList();
-
-            storedRows.add(rowValues);
-
-            rowCount++;
-
-            if (rowCount % 3 == 0)
+            for (int column = 0; column < inputValues.getFirst().size(); column++)
             {
-                List<Integer> sideLengths = new ArrayList<>();
-
-                for (int index = 0; index < storedRows.size(); index++)
+                List<Integer> triangle = Arrays.asList(
+                        inputValues.get(row).get(column),
+                        inputValues.get(row + 1).get(column),
+                        inputValues.get(row + 2).get(column)
+                );
+                
+                if (possibleTriangle(triangle))
                 {
-                    for (List<Integer> rowVals : storedRows)
-                    {
-                        sideLengths.add(rowVals.get(index));
-                    }
-
-                    Collections.sort(sideLengths);
-
-                    if (possibleTriangle(sideLengths))
-                    {
-                        possibleTriangles++;
-                    }
-
-                    sideLengths.clear();
+                    possibleTriangles++;
                 }
-
-                storedRows.clear();
             }
         }
         
         return possibleTriangles;
-    }
-
-
-    private static boolean possibleTriangle(List<Integer> sideLengths)
-    {
-        return sideLengths.get(0) + sideLengths.get(1) > sideLengths.get(2);
     }
 }
