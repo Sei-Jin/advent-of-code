@@ -44,7 +44,7 @@ public class SolutionTests
     }
     
     @Test
-    void extraTestsPartOne()
+    void tinyWireIntersection()
     {
         List<String> inputLines = new ArrayList<>(Arrays.asList(
                 "U2,R2",
