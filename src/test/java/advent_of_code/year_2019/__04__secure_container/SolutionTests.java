@@ -32,4 +32,12 @@ public class SolutionTests
         inputLines.add("123789-123789");
         assertEquals(0, new Solution().partOne(inputLines));
     }
+    
+    @Test
+    void smallRange()
+    {
+        List<String> inputLines = new ArrayList<>();
+        inputLines.add("111110-111120");
+        assertEquals(9, new Solution().partOne(inputLines));
+    }
 }

@@ -65,6 +65,7 @@ public class Puzzle
         year2019.put(1, new advent_of_code.year_2019.__01__the_tyranny_of_the_rocket_equation.Solution());
         year2019.put(2, new advent_of_code.year_2019.__02__1202_program_alarm.Solution());
         year2019.put(3, new advent_of_code.year_2019.__03__crossed_wires.Solution());
+        year2019.put(4, new advent_of_code.year_2019.__04__secure_container.Solution());
         
         puzzleSolverMap.put(2019, year2019);
     }
