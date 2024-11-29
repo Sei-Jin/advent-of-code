@@ -1,0 +1,5 @@
+package advent_of_code.year_2020.__13__shuttle_search;
+
+public class SolutionTests
+{
+}
