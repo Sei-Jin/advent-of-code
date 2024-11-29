@@ -37,3 +37,6 @@ input/*/*.txt
 
 ### Target
 target/
+
+### Session
+session.txt

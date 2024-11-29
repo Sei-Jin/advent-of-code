@@ -11,6 +11,16 @@ public class Puzzle
     private final int year;
     private static final Map<Integer, Map<Integer, PuzzleSolver>> puzzleSolverMap = new HashMap<>();
     
+    public int getDay()
+    {
+        return day;
+    }
+    
+    public int getYear()
+    {
+        return year;
+    }
+    
     public Puzzle(int year, int day)
     {
         this.year = year;
