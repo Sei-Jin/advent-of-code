@@ -67,7 +67,7 @@ public class PuzzleInput
                 "year_" +
                 puzzle.getYear() +
                 "/day" +
-                puzzle.getDay() +
+                puzzle.getDayWithPadding() +
                 ".txt";
         
         Path inputFilePath = Paths.get(inputFileRelativePath);

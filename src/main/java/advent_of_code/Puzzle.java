@@ -21,6 +21,25 @@ public class Puzzle
         return year;
     }
     
+    /// This method pads an extra zero to days with single-digit values (1-9).
+    ///
+    /// This is useful for directory and file paths when we want all the day values to take up two digits of space.
+    ///
+    /// @return the padded day value.
+    public String getDayWithPadding()
+    {
+        boolean singleDigitDay = (day / 10 == 0);
+        
+        if (singleDigitDay)
+        {
+            return "0" + day;
+        }
+        else
+        {
+            return String.valueOf(day);
+        }
+    }
+    
     public Puzzle(int year, int day)
     {
         this.year = year;
