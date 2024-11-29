@@ -1,14 +1,13 @@
 package advent_of_code;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main
 {
-    public static void main(String[] args) throws IOException
+    public static void main(String[] args) throws IOException, URISyntaxException, InterruptedException
     {
         UserInput userInput = getUserInput();
         
@@ -48,26 +47,11 @@ public class Main
     /// 3. The puzzle results are printed.
     ///
     /// @param puzzle the puzzle.
-    private static void runPuzzle(Puzzle puzzle) throws IOException
+    private static void runPuzzle(Puzzle puzzle) throws IOException, URISyntaxException, InterruptedException
     {
-        List<String> inputLines = getPuzzleInput(puzzle);
+        List<String> inputLines = PuzzleInputRetriever.retrievePuzzleInput(puzzle);
         PuzzleResults puzzleResults = getPuzzleResults(puzzle, inputLines);
         printPuzzleResults(puzzle, puzzleResults);
-    }
-    
-    /// Retrieves the puzzle input from the puzzle input file.
-    ///
-    /// @param puzzle the puzzle.
-    /// @return the puzzle input.
-    private static List<String> getPuzzleInput(Puzzle puzzle) throws IOException
-    {
-        String fileInputPath = "input/year_" +
-                puzzle.getYear() +
-                "/day" +
-                puzzle.getDayWithPadding() +
-                ".txt";
-        
-        return Files.readAllLines(Path.of(fileInputPath));
     }
     
     /// Stores the results from part one and two of the puzzle.
