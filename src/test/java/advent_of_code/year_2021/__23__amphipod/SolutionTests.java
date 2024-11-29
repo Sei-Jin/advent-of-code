@@ -1,0 +1,5 @@
+package advent_of_code.year_2021.__23__amphipod;
+
+public class SolutionTests
+{
+}
