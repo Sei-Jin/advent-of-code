@@ -1,6 +1,10 @@
 package advent_of_code;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class Puzzle
 {
@@ -42,14 +46,38 @@ public class Puzzle
         }
     }
     
+    /// Determines the classpath of the puzzle solution.
+    ///
+    /// First, the name of the puzzle must be determined. Only after the puzzle name has been determined
+    /// can the full classpath be determined.
+    ///
+    /// @return the classpath of the puzzle solution.
+    private String getClassPath()
+    {
+        String outerPath = "src/main/java/";
+        String innerPath = String.format("advent_of_code/event/year_%d/day%s/", year, getDayWithPadding());
+        String totalPath = outerPath + innerPath;
+        
+        File dayPackage = new File(Path.of(totalPath).toAbsolutePath().toString());
+        
+        String puzzleName = Arrays.stream(Objects.requireNonNull(dayPackage.listFiles()))
+                .toList()
+                .getFirst()
+                .getName();
+        
+        String dayPackageName = innerPath.replace('/', '.');
+        
+        return String.format("%s%s.Solution", dayPackageName, puzzleName);
+    }
+    
     /// Determines the solution class for the puzzle.
     ///
-    /// This method uses the Reflection API to dynamically determine what solution implementation matches the puzzle.
+    /// This method uses the Reflection API to dynamically determine which solution implementation matches the puzzle.
     ///
     /// @return the solution class for the puzzle.
     public PuzzleSolver getPuzzleSolver()
     {
-        String classPath = String.format("advent_of_code.event.year_%d.day_%s.Solution", year, getDayWithPadding());
+        String classPath = getClassPath();
         
         Class<?> solutionClass;
         
