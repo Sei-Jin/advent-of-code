@@ -9,6 +9,29 @@ public class Solution implements PuzzleSolver
     @Override
     public Object partOne(List<String> inputLines)
     {
+        numberLists numberLists = getNumberLists(inputLines);
+        
+        Collections.sort(numberLists.firstList());
+        Collections.sort(numberLists.secondList());
+        
+        return calculateTotalDistance(numberLists);
+    }
+    
+    private static int calculateTotalDistance(numberLists numberLists)
+    {
+        int totalDistance = 0;
+        
+        for (int index = 0; index < numberLists.firstList().size(); index++)
+        {
+            int distance = Math.abs(numberLists.firstList().get(index) - numberLists.secondList().get(index));
+            totalDistance += distance;
+        }
+        
+        return totalDistance;
+    }
+    
+    private static numberLists getNumberLists(List<String> inputLines)
+    {
         List<Integer> firstList = new ArrayList<>();
         List<Integer> secondList = new ArrayList<>();
         
@@ -28,23 +51,31 @@ public class Solution implements PuzzleSolver
             secondList.add(secondNumber);
         }
         
-        Collections.sort(firstList);
-        Collections.sort(secondList);
-        
-        int totalDistance = 0;
-        
-        for (int index = 0; index < firstList.size(); index++)
-        {
-            int distance = Math.abs(firstList.get(index) - secondList.get(index));
-            totalDistance += distance;
-        }
-        
-        return totalDistance;
+        return new numberLists(firstList, secondList);
     }
+    
+    private record numberLists(List<Integer> firstList, List<Integer> secondList) {}
     
     @Override
     public Object partTwo(List<String> inputLines)
     {
-        return null;
+        numberLists numberLists = getNumberLists(inputLines);
+        
+        HashMap<Integer, Integer> secondListNumberFrequency = new HashMap<>();
+        
+        for (int number : numberLists.secondList())
+        {
+            int frequency = secondListNumberFrequency.getOrDefault(number, 0) + 1;
+            secondListNumberFrequency.put(number, frequency);
+        }
+        
+        int similarityScore = 0;
+        
+        for (int number : numberLists.firstList())
+        {
+            similarityScore += number * secondListNumberFrequency.getOrDefault(number, 0);
+        }
+        
+        return similarityScore;
     }
 }

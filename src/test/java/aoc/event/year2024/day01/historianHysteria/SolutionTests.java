@@ -21,5 +21,6 @@ public class SolutionTests
                 "3   3"
         ));
         assertEquals(11, new Solution().partOne(input));
+        assertEquals(31, new Solution().partTwo(input));
     }
 }
