@@ -58,7 +58,7 @@ public class Main
     ///
     /// @param partOneResult the result from part one of the puzzle.
     /// @param partTwoResult the result form part two of the puzzle.
-    private record PuzzleResults(String partOneResult, String partTwoResult) { }
+    private record PuzzleResults(Object partOneResult, Object partTwoResult) { }
     
     /// Runs the puzzle solution and stores the results from both parts.
     ///
@@ -67,8 +67,8 @@ public class Main
     private static PuzzleResults getPuzzleResults(Puzzle puzzle, List<String> inputLines)
     {
         return new PuzzleResults(
-                puzzle.getPuzzleSolver().partOne(inputLines).toString(),
-                puzzle.getPuzzleSolver().partTwo(inputLines).toString()
+                puzzle.getPuzzleSolver().partOne(inputLines),
+                puzzle.getPuzzleSolver().partTwo(inputLines)
         );
     }
     
@@ -80,7 +80,23 @@ public class Main
     {
         System.out.printf("\nYear %d Day %d\n", puzzle.getYear(), puzzle.getDay());
         System.out.println("---------------");
-        System.out.printf("Part One Result: %s\n", puzzleResults.partOneResult());
-        System.out.printf("Part Two Result: %s\n", puzzleResults.partTwoResult());
+        
+        if (puzzleResults.partOneResult() != null)
+        {
+            System.out.printf("Part One result: %s\n", puzzleResults.partOneResult());
+        }
+        else
+        {
+            System.out.println("Part One is not implemented yet.");
+        }
+        
+        if (puzzleResults.partTwoResult() != null)
+        {
+            System.out.printf("Part Two result: %s\n", puzzleResults.partTwoResult());
+        }
+        else
+        {
+            System.out.println("Part Two is not implemented yet.");
+        }
     }
 }
