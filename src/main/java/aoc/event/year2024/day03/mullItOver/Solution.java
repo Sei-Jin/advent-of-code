@@ -12,8 +12,8 @@ public class Solution implements PuzzleSolver
     /// Calculates the sum of all multiplication instructions in the program memory.
     ///
     /// The puzzle input represents a program memory that was corrupted, and contains a series of multiplication
-    /// instructions to follow. A multiplication instruction is represented as mul(X,Y) and multiplies the
-    /// two numbers X and Y.
+    /// instructions to follow. A multiplication instruction is represented as `mul(X,Y)` and multiplies the
+    /// two numbers `X` and `Y`.
     ///
     /// @param programMemory the puzzle input.
     /// @return the total sum of all multiplication instructions.
@@ -81,7 +81,8 @@ public class Solution implements PuzzleSolver
     
     /// Calculates the product of a multiplication instruction.
     ///
-    /// A multiplication instruction is in the form mul(X,Y) where X and Y are three-digit numbers.
+    /// A multiplication instruction is in the form `mul(X,Y)`, where `X` and `Y` are the two numbers to be
+    /// multiplied together.
     ///
     /// @param instruction a multiplication instruction.
     /// @return the product of the instruction.
