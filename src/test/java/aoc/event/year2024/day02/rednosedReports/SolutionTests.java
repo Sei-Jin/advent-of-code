@@ -10,49 +10,55 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class SolutionTests
 {
     @Test
-    void exampleReportLevel1()
+    void exampleReport1()
     {
         List<String> report  = new ArrayList<>(List.of("7 6 4 2 1"));
         assertEquals(1, new Solution().partOne(report));
+        assertEquals(1, new Solution().partTwo(report));
     }
     
     @Test
-    void exampleReportLevel2()
+    void exampleReport2()
     {
         List<String> report  = new ArrayList<>(List.of("1 2 7 8 9"));
         assertEquals(0, new Solution().partOne(report));
+        assertEquals(0, new Solution().partTwo(report));
     }
     
     @Test
-    void exampleReportLevel3()
+    void exampleReport3()
     {
         List<String> report  = new ArrayList<>(List.of("9 7 6 2 1"));
         assertEquals(0, new Solution().partOne(report));
+        assertEquals(0, new Solution().partTwo(report));
     }
     
     @Test
-    void exampleReportLevel4()
+    void exampleReport4()
     {
         List<String> report  = new ArrayList<>(List.of("1 3 2 4 5"));
         assertEquals(0, new Solution().partOne(report));
+        assertEquals(1, new Solution().partTwo(report));
     }
     
     @Test
-    void exampleReportLevel5()
+    void exampleReport5()
     {
         List<String> report  = new ArrayList<>(List.of("8 6 4 4 1"));
         assertEquals(0, new Solution().partOne(report));
+        assertEquals(1, new Solution().partTwo(report));
     }
     
     @Test
-    void exampleReportLevel6()
+    void exampleReport6()
     {
         List<String> report  = new ArrayList<>(List.of("1 3 6 7 9"));
         assertEquals(1, new Solution().partOne(report));
+        assertEquals(1, new Solution().partTwo(report));
     }
     
     @Test
-    void exampleReportAllLevels()
+    void allExampleReports()
     {
         List<String> reports  = new ArrayList<>(List.of(
                 "7 6 4 2 1",
@@ -63,5 +69,6 @@ public class SolutionTests
                 "1 3 6 7 9"
         ));
         assertEquals(2, new Solution().partOne(reports));
+        assertEquals(4, new Solution().partTwo(reports));
     }
 }
