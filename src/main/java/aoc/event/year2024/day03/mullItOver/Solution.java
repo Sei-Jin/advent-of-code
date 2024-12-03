@@ -9,9 +9,9 @@ import java.util.regex.Pattern;
 
 public class Solution implements PuzzleSolver
 {
-    /// Calculates the sum of all multiplication instructions in the program memory.
+    /// Calculates the sum of all multiplication instructions in program memory.
     ///
-    /// The puzzle input represents a program memory that was corrupted, and contains a series of multiplication
+    /// The puzzle input represents a program with corrupted memory and contains a series of multiplication
     /// instructions to follow. A multiplication instruction is represented as `mul(X,Y)` and multiplies the
     /// two numbers `X` and `Y`.
     ///
@@ -102,7 +102,7 @@ public class Solution implements PuzzleSolver
         return product;
     }
     
-    /// Calculates the sum of all enabled multiplication instructions in the program memory.
+    /// Calculates the sum of all enabled multiplication instructions in program memory.
     ///
     /// - The program starts with instructions enabled.
     /// - A `don't` instruction disables the following instructions.
