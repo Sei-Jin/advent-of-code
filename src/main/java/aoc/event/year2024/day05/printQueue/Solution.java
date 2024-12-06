@@ -3,6 +3,7 @@ package aoc.event.year2024.day05.printQueue;
 import aoc.PuzzleSolver;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Solution implements PuzzleSolver
 {
@@ -72,7 +73,7 @@ public class Solution implements PuzzleSolver
             List<Integer> update = Arrays.stream(input.split(","))
                     .mapToInt(Integer::parseInt)
                     .boxed()
-                    .toList();
+                    .collect(Collectors.toList());
             
             updates.add(update);
         }
@@ -163,6 +164,37 @@ public class Solution implements PuzzleSolver
         List<List<Integer>> updates = getUpdates(updatesInput);
         
         List<List<Integer>> invalidUpdates = selectUpdates(updates, orderingRules, false);
+        
+        Comparator<Integer> comparator = getComparator(orderingRules);
+        correctPageNumberOrder(invalidUpdates, comparator);
+        
         return calculateMiddlePageNumberSum(invalidUpdates);
+    }
+    
+    private static void correctPageNumberOrder(List<List<Integer>> invalidUpdates, Comparator<Integer> comparator)
+    {
+        for (List<Integer> invalidUpdate : invalidUpdates)
+        {
+            invalidUpdate.sort(comparator);
+        }
+    }
+    
+    private static Comparator<Integer> getComparator(HashMap<Integer, HashSet<Integer>> orderingRules)
+    {
+        return (predecessor, successor) ->
+        {
+            if (predecessor.equals(successor))
+            {
+                return 0;
+            }
+            else if (orderingRules.getOrDefault(predecessor, new HashSet<>()).contains(successor))
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+        };
     }
 }
