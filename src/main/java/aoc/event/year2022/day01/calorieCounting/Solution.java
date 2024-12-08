@@ -3,78 +3,80 @@ package aoc.event.year2022.day01.calorieCounting;
 import aoc.PuzzleSolver;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-/**
- * --- Day 1: Calorie Counting ---
- */
 public class Solution implements PuzzleSolver
 {
-    /**
-     * @param inputLines the puzzle input.
-     * @return the largest amount of calories carried by an elf.
-     */
+    /// Calculates the maximum calories carried by an elf.
+    ///
+    /// The puzzle input represents a list food items that are carried by elves. The value for each item is the
+    /// amount of calories that item contains. The group of items carried by each elf are separated by blank lines.
+    ///
+    /// - Time Complexity: O(n)
+    ///     - A single pass is done over the puzzle input.
+    ///
+    /// - Space Complexity: O(n)
+    ///     - One total is stored per elf, therefore at most one value is stored per two lines of input.
+    ///
+    /// @param inputLines the puzzle input.
+    /// @return the maximum calories carried by an elf.
     @Override
     public Object partOne(List<String> inputLines)
     {
-        List<Integer> elfCalories = getElfCalories(inputLines);
-        
-        Collections.sort(elfCalories);
-        
-        return elfCalories.getLast();
+        return getTotalCaloriesCarriedPerElf(inputLines)
+                .stream()
+                .reduce(Integer::max)
+                .orElse(0);
     }
     
-    
-    private static List<Integer> getElfCalories(List<String> inputLines)
+    /// Calculates and returns the total calories of the items carried by each elf.
+    ///
+    /// @param inputLines the puzzle input.
+    /// @return a list containing the total calories of the items carried by each elf.
+    private static List<Integer> getTotalCaloriesCarriedPerElf(List<String> inputLines)
     {
-        List<Integer> elfCalories = new ArrayList<>();
+        List<Integer> totalCaloriesCarriedPerElf = new ArrayList<>();
+        int elfCaloriesSum = 0;
         
-        int totalCalories = 0;
-        
-        for (int lineNumber = 0; lineNumber < inputLines.size(); lineNumber++)
+        for (String line : inputLines)
         {
-            String line = inputLines.get(lineNumber);
-            
             if (line.isEmpty())
             {
-                elfCalories.add(totalCalories);
-                
-                totalCalories = 0;
-            }
-            else if (lineNumber == inputLines.size() - 1)
-            {
-                int calories = Integer.parseInt(line);
-                
-                totalCalories += calories;
-                
-                elfCalories.add(totalCalories);
+                totalCaloriesCarriedPerElf.add(elfCaloriesSum);
+                elfCaloriesSum = 0;
             }
             else
             {
-                int calories = Integer.parseInt(line);
-                
-                totalCalories += calories;
+                elfCaloriesSum += Integer.parseInt(line);
             }
         }
         
-        return elfCalories;
+        totalCaloriesCarriedPerElf.add(elfCaloriesSum);
+        
+        return totalCaloriesCarriedPerElf;
     }
     
-    
-    /**
-     * @param inputLines the puzzle input.
-     * @return the total calories carried by the elves with the three largest amounts of calories.
-     */
+    /// Calculates the sum of the calories from the three elves with the highest total calories.
+    ///
+    /// - Time Complexity: O(n log n)
+    ///     - The list of calories carried per elf is sorted.
+    ///
+    /// - Space Complexity: O(n)
+    ///     - One total is stored per elf, therefore at most one value is stored per two lines of input.
+    ///
+    /// @param inputLines the puzzle input.
+    /// @return the sum of the calories from the three elves with the highest total calories.
     @Override
     public Object partTwo(List<String> inputLines)
     {
-        List<Integer> elfCalories = getElfCalories(inputLines);
+        List<Integer> totalCaloriesCarriedPerElf = getTotalCaloriesCarriedPerElf(inputLines);
         
-        Collections.sort(elfCalories);
+        totalCaloriesCarriedPerElf.sort(Comparator.reverseOrder());
         
-        return elfCalories.subList(elfCalories.size() - 3, elfCalories.size())
+        return totalCaloriesCarriedPerElf
                 .stream()
+                .limit(3)
                 .mapToInt(Integer::intValue)
                 .sum();
     }
