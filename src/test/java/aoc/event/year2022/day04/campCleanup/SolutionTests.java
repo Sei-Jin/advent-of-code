@@ -24,5 +24,18 @@ public class SolutionTests
                 """.split("\n")).toList()
         );
         assertEquals(2, new Solution().partOne(input));
+        assertEquals(4, new Solution().partTwo(input));
+    }
+    
+    @Test
+    void checkOverlapping()
+    {
+        List<String> input = new ArrayList<>(
+                Arrays.stream("""
+                5-5,4-6
+                4-6,5-5
+                """.split("\n")).toList()
+        );
+        assertEquals(2, new Solution().partTwo(input));
     }
 }

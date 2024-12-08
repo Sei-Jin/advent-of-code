@@ -2,71 +2,140 @@ package aoc.event.year2022.day04.campCleanup;
 
 import aoc.PuzzleSolver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Solution implements PuzzleSolver
 {
+    /// Calculates the number of instances where one of the two ranges fully contains another.
+    ///
+    /// The puzzle input contains two ranges on each line, such as `2-4,4-6`. Here the first range would
+    /// be `2-4` and the second range would be `4-6`.
+    ///
+    /// - Time Complexity: O(n)
+    ///     - A single pass is done over the puzzle input.
+    ///
+    /// - Space Complexity: O(1)
+    ///     - One pair of ranges is stored at a time for each line of the puzzle input.
+    ///
+    /// @param inputLines the puzzle input.
+    /// @return  the number of instances where one of the two ranges fully contains another.
     @Override
     public Object partOne(List<String> inputLines)
     {
-        int fullyContainedPairs = 0;
+        int fullyContainedRanges = 0;
         
         for (String line : inputLines)
         {
-            List<Pair> pairs = getPairs(line);
-            boolean fullyContainedPair = isFullyContainedPair(pairs);
+            RangePair ranges = getRanges(line);
             
-            if (fullyContainedPair)
+            if (isFullyContainedRange(ranges))
             {
-                fullyContainedPairs++;
+                fullyContainedRanges++;
             }
         }
         
-        return fullyContainedPairs;
+        return fullyContainedRanges;
     }
     
-    record Pair(int startingSection, int endingSection) {}
+    /// These records store the parsed data for a single line of the puzzle input.
+    record Range(int startingSection, int endingSection) {}
+    record RangePair(Range firstRange, Range secondRange) {}
     
-    private static List<Pair> getPairs(String line)
+    /// Parses a line of the puzzle input to create a pair of ranges.
+    ///
+    /// The puzzle input is in the form `A-B,C-D`, where `A-B` is the first range and `C-D` is the second range.
+    ///
+    /// @param line a line of the puzzle input.
+    /// @return the pair of ranges.
+    private static RangePair getRanges(String line)
     {
-        List<Integer> inputNumbers = Arrays.stream(line.split("[-,]"))
-                .mapToInt(Integer::parseInt)
-                .boxed()
-                .toList();
+        String[] rangeInput = line.split(",");
         
-        List<Pair> pairs = new ArrayList<>();
+        Range firstRange = parseRange(rangeInput[0]);
+        Range secondRange = parseRange(rangeInput[1]);
         
-        for (int index = 0; index < inputNumbers.size(); index += 2)
-        {
-            pairs.add(new Pair(inputNumbers.get(index), inputNumbers.get(index + 1)));
-        }
-        
-        return pairs;
+        return new RangePair(firstRange, secondRange);
     }
     
-    private static boolean isFullyContainedPair(List<Pair> pairs)
+    /// Parses a part of the puzzle input for the range values to create a new range.
+    ///
+    /// The part of the puzzle input is in the form `A-B`, where A is the start of the range and B is the end
+    /// of the range.
+    ///
+    /// @param rangeInput a part of the puzzle input that represents a range.
+    /// @return a new range with the parsed values.
+    private static Range parseRange(String rangeInput)
     {
-        Pair firstPair = pairs.getFirst();
-        Pair secondPair = pairs.getLast();
+        String[] endpointsInput = rangeInput.split("-");
+        
+        int startingSection = Integer.parseInt(endpointsInput[0]);
+        int endingSection =  Integer.parseInt(endpointsInput[1]);
+        
+        return new Range(startingSection, endingSection);
+    }
+    
+    /// Returns true if one of the two ranges are fully contained by the other, and false otherwise.
+    ///
+    /// @param ranges a list of ranges.
+    /// @return true if one of the two ranges are fully contained by the other, and false otherwise.
+    private static boolean isFullyContainedRange(RangePair ranges)
+    {
+        Range firstRange = ranges.firstRange;
+        Range secondRange = ranges.secondRange;
         
         boolean firstContainsSecond = (
-                firstPair.startingSection <= secondPair.startingSection &&
-                firstPair.endingSection >= secondPair.endingSection
+                firstRange.startingSection <= secondRange.startingSection &&
+                firstRange.endingSection >= secondRange.endingSection
         );
         
         boolean secondContainsFirst = (
-                secondPair.startingSection <= firstPair.startingSection &&
-                secondPair.endingSection >= firstPair.endingSection
+                secondRange.startingSection <= firstRange.startingSection &&
+                secondRange.endingSection >= firstRange.endingSection
         );
         
         return (firstContainsSecond || secondContainsFirst);
     }
     
+    /// Calculates the number of instances where one of the two ranges fully contains another.
+    ///
+    /// - Time Complexity: O(n)
+    ///     - A single pass is done over the puzzle input.
+    ///
+    /// - Space Complexity: O(1)
+    ///     - One pair of ranges is stored at a time for each line of the puzzle input.
+    ///
+    /// @param inputLines the puzzle input.
+    /// @return  the number of instances where one of the two ranges fully contains another.
     @Override
     public Object partTwo(List<String> inputLines)
     {
-        return null;
+        int overlappingRanges = 0;
+        
+        for (String line : inputLines)
+        {
+            RangePair ranges = getRanges(line);
+            
+            if (isOverlappingRange(ranges))
+            {
+                overlappingRanges++;
+            }
+        }
+        
+        return overlappingRanges;
+    }
+    
+    /// Returns true if the ranges overlap, and false otherwise.
+    ///
+    /// The ranges are overlapping if one of them starts before the other ends.
+    ///
+    /// @param ranges a pair of two ranges.
+    /// @return true if the ranges overlap, false if otherwise.
+    private static boolean isOverlappingRange(RangePair ranges)
+    {
+        Range firstRange = ranges.firstRange;
+        Range secondRange = ranges.secondRange;
+        
+        return (firstRange.startingSection <= secondRange.endingSection &&
+                secondRange.startingSection <= firstRange.endingSection);
     }
 }
