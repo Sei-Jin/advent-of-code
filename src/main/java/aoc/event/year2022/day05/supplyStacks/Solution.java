@@ -40,7 +40,7 @@ public class Solution implements PuzzleSolver
         List<LinkedList<Character>> stacks = getStacks(stacksInput);
         List<Step> procedure = getProcedure(procedureInput);
         
-        executeProcedure(stacks, procedure);
+        executeProcedureOneCrateAtATime(stacks, procedure);
         return getTopCrates(stacks);
     }
     
@@ -174,7 +174,7 @@ public class Solution implements PuzzleSolver
     ///
     /// @param stacks the stacks of crates.
     /// @param procedure the crate-moving procedure.
-    private void executeProcedure(List<LinkedList<Character>> stacks, List<Step> procedure)
+    private void executeProcedureOneCrateAtATime(List<LinkedList<Character>> stacks, List<Step> procedure)
     {
         for (Step step : procedure)
         {
@@ -202,9 +202,51 @@ public class Solution implements PuzzleSolver
         return topCrates.toString();
     }
     
+    /// Determines the crates left at the top of each stack after the crate-moving procedure has executed.
+    ///
+    /// - Time Complexity: O(n)
+    ///     - Same as part one.
+    ///
+    /// - Space Complexity: O(n)
+    ///     - Same as part one.
+    ///
+    /// @param inputLines the puzzle input.
+    /// @return the crates at the top of each stack concatenated together after the crate-moving procedure
+    ///         has executed.
     @Override
     public Object partTwo(List<String> inputLines)
     {
-        return null;
+        int emptyLineIndex = getEmptyLineIndex(inputLines);
+        List<String> stacksInput = inputLines.subList(0, emptyLineIndex - 1);
+        List<String> procedureInput = inputLines.subList(emptyLineIndex + 1, inputLines.size());
+        
+        List<LinkedList<Character>> stacks = getStacks(stacksInput);
+        List<Step> procedure = getProcedure(procedureInput);
+        
+        executeProcedureAllCratesAtOnce(stacks, procedure);
+        return getTopCrates(stacks);
+    }
+    
+    /// Executes the crate-moving procedure, moving the crates between the stacks all at once.
+    ///
+    /// @param stacks the stacks of crates.
+    /// @param procedure the crate-moving procedure.
+    private void executeProcedureAllCratesAtOnce(List<LinkedList<Character>> stacks, List<Step> procedure)
+    {
+        for (Step step : procedure)
+        {
+            List<Character> temporary = new LinkedList<>();
+            
+            for (int cratesMoved = 0; cratesMoved < step.cratesToMove; cratesMoved++)
+            {
+                char character = stacks.get(step.fromStack - 1).removeLast();
+                temporary.addFirst(character);
+            }
+            
+            for (char character : temporary)
+            {
+                stacks.get(step.toStack - 1).addLast(character);
+            }
+        }
     }
 }

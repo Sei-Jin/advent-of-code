@@ -27,5 +27,6 @@ public class SolutionTests
                 """.split("\n")).toList()
         );
         assertEquals("CMZ", new Solution().partOne(input));
+        assertEquals("MCD", new Solution().partTwo(input));
     }
 }
