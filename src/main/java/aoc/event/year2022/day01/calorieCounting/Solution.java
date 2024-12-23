@@ -10,21 +10,24 @@ public class Solution implements PuzzleSolver
 {
     /// Calculates the maximum calories carried by an elf.
     ///
-    /// The puzzle input represents a list food items that are carried by elves. The value for each item is the
-    /// amount of calories that item contains. The group of items carried by each elf are separated by blank lines.
+    /// The puzzle input represents a list food items that are carried by elves. The value for
+    /// each item is the amount of calories that item contains. The group of items carried by
+    /// each elf are separated by blank lines.
     ///
-    /// - Time Complexity: O(n)
-    ///     - A single pass is done over the puzzle input.
+    /// Time Complexity: O(n)
+    /// - A single pass is done over the puzzle input.
     ///
-    /// - Space Complexity: O(n)
-    ///     - One total is stored per elf, therefore at most one value is stored per two lines of input.
+    /// Space Complexity: O(n)
+    /// - One total is stored per elf, therefore at most one value is stored per two lines of input.
     ///
     /// @param inputLines the puzzle input.
     /// @return the maximum calories carried by an elf.
     @Override
     public Object partOne(List<String> inputLines)
     {
-        return getTotalCaloriesCarriedPerElf(inputLines)
+        List<Integer> totalCaloriesCarriedPerElf = getTotalCaloriesCarriedPerElf(inputLines);
+        
+        return totalCaloriesCarriedPerElf
                 .stream()
                 .reduce(Integer::max)
                 .orElse(0);
@@ -32,11 +35,11 @@ public class Solution implements PuzzleSolver
     
     /// Calculates the sum of the calories from the three elves with the highest total calories.
     ///
-    /// - Time Complexity: O(n log n)
-    ///     - The list of calories carried per elf is sorted.
+    /// Time Complexity: O(n log n)
+    /// - The list of calories carried per elf is sorted.
     ///
-    /// - Space Complexity: O(n)
-    ///     - One total is stored per elf, therefore at most one value is stored per two lines of input.
+    /// Space Complexity: O(n)
+    /// - One total is stored per elf, therefore at most one value is stored per two lines of input.
     ///
     /// @param inputLines the puzzle input.
     /// @return the sum of the calories from the three elves with the highest total calories.
