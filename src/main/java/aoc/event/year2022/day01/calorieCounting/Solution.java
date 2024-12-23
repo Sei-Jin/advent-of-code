@@ -30,6 +30,30 @@ public class Solution implements PuzzleSolver
                 .orElse(0);
     }
     
+    /// Calculates the sum of the calories from the three elves with the highest total calories.
+    ///
+    /// - Time Complexity: O(n log n)
+    ///     - The list of calories carried per elf is sorted.
+    ///
+    /// - Space Complexity: O(n)
+    ///     - One total is stored per elf, therefore at most one value is stored per two lines of input.
+    ///
+    /// @param inputLines the puzzle input.
+    /// @return the sum of the calories from the three elves with the highest total calories.
+    @Override
+    public Object partTwo(List<String> inputLines)
+    {
+        List<Integer> totalCaloriesCarriedPerElf = getTotalCaloriesCarriedPerElf(inputLines);
+        
+        totalCaloriesCarriedPerElf.sort(Comparator.reverseOrder());
+        
+        return totalCaloriesCarriedPerElf
+                .stream()
+                .limit(3)
+                .mapToInt(Integer::intValue)
+                .sum();
+    }
+    
     /// Calculates and returns the total calories of the items carried by each elf.
     ///
     /// @param inputLines the puzzle input.
@@ -55,29 +79,5 @@ public class Solution implements PuzzleSolver
         totalCaloriesCarriedPerElf.add(elfCaloriesSum);
         
         return totalCaloriesCarriedPerElf;
-    }
-    
-    /// Calculates the sum of the calories from the three elves with the highest total calories.
-    ///
-    /// - Time Complexity: O(n log n)
-    ///     - The list of calories carried per elf is sorted.
-    ///
-    /// - Space Complexity: O(n)
-    ///     - One total is stored per elf, therefore at most one value is stored per two lines of input.
-    ///
-    /// @param inputLines the puzzle input.
-    /// @return the sum of the calories from the three elves with the highest total calories.
-    @Override
-    public Object partTwo(List<String> inputLines)
-    {
-        List<Integer> totalCaloriesCarriedPerElf = getTotalCaloriesCarriedPerElf(inputLines);
-        
-        totalCaloriesCarriedPerElf.sort(Comparator.reverseOrder());
-        
-        return totalCaloriesCarriedPerElf
-                .stream()
-                .limit(3)
-                .mapToInt(Integer::intValue)
-                .sum();
     }
 }
