@@ -37,6 +37,34 @@ public class Solution implements PuzzleSolver
         return fullyContainedRanges;
     }
     
+    /// Calculates the number of instances where one of the two ranges fully contains another.
+    ///
+    /// - Time Complexity: O(n)
+    ///     - A single pass is done over the puzzle input.
+    ///
+    /// - Space Complexity: O(1)
+    ///     - One pair of ranges is stored at a time for each line of the puzzle input.
+    ///
+    /// @param inputLines the puzzle input.
+    /// @return  the number of instances where one of the two ranges fully contains another.
+    @Override
+    public Object partTwo(List<String> inputLines)
+    {
+        int overlappingRanges = 0;
+        
+        for (String line : inputLines)
+        {
+            RangePair ranges = getRanges(line);
+            
+            if (isOverlappingRange(ranges))
+            {
+                overlappingRanges++;
+            }
+        }
+        
+        return overlappingRanges;
+    }
+    
     /// These records store the parsed data for a single line of the puzzle input.
     record Range(int startingSection, int endingSection) {}
     record RangePair(Range firstRange, Range secondRange) {}
@@ -94,34 +122,6 @@ public class Solution implements PuzzleSolver
         );
         
         return (firstContainsSecond || secondContainsFirst);
-    }
-    
-    /// Calculates the number of instances where one of the two ranges fully contains another.
-    ///
-    /// - Time Complexity: O(n)
-    ///     - A single pass is done over the puzzle input.
-    ///
-    /// - Space Complexity: O(1)
-    ///     - One pair of ranges is stored at a time for each line of the puzzle input.
-    ///
-    /// @param inputLines the puzzle input.
-    /// @return  the number of instances where one of the two ranges fully contains another.
-    @Override
-    public Object partTwo(List<String> inputLines)
-    {
-        int overlappingRanges = 0;
-        
-        for (String line : inputLines)
-        {
-            RangePair ranges = getRanges(line);
-            
-            if (isOverlappingRange(ranges))
-            {
-                overlappingRanges++;
-            }
-        }
-        
-        return overlappingRanges;
     }
     
     /// Returns true if the ranges overlap, and false otherwise.
