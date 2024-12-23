@@ -8,28 +8,29 @@ import java.util.regex.Pattern;
 
 public class Solution implements PuzzleSolver
 {
-    /// Determines the crates left at the top of each stack after the crate-moving procedure has executed.
+    /// Determines the crates left at the top of each stack after the crate-moving procedure has
+    /// executed.
     ///
     /// The puzzle input is split into two sections:
     ///
     /// - The first section contains the data for the stacked crates.
-    /// - The second section contains the data for the crate-moving procedure. The crate-moving procedure
-    ///   is a series of steps on how the crates should be moved between the stacks.
+    /// - The second section contains the data for the crate-moving procedure. The crate-moving
+    /// procedure is a series of steps on how the crates should be moved between the stacks.
     ///
-    /// - Time Complexity: O(n)
-    ///     - All methods are done in linear time.
+    /// Time Complexity: O(n)
+    /// - All methods are done in linear time.
     ///
-    /// - Space Complexity: O(n)
-    ///     - The data for the stacks and the procedure steps are parsed and stored before the procedure is
-    ///       executed. The data for both sections scale linearly with the puzzle input.
-    ///     - Space required could be reduced by combining the procedure parsing and execution steps. Only one
-    ///       step in the procedure would need to be stored at a time if each step was executed before the next
-    ///       step was parsed. This would avoid storing all the procedure steps ahead of time, but would come with
-    ///       the downside of combining the two methods into one.
+    /// Space Complexity: O(n)
+    /// - The data for the stacks and the procedure steps are parsed and stored before the procedure
+    /// is executed. The data for both sections scale linearly with the puzzle input.
+    /// - Space required could be reduced by combining the procedure parsing and execution steps.
+    /// Only one step in the procedure would need to be stored at a time if each step was executed
+    /// before the next step was parsed. This would avoid storing all the procedure steps ahead of
+    /// time, but would come with the downside of combining the two methods into one.
     ///
     /// @param inputLines the puzzle input.
-    /// @return the crates at the top of each stack concatenated together after the crate-moving procedure
-    ///         has executed.
+    /// @return the crates at the top of each stack concatenated together after the crate-moving
+    ///         procedure has executed.
     @Override
     public Object partOne(List<String> inputLines)
     {
@@ -44,17 +45,18 @@ public class Solution implements PuzzleSolver
         return getTopCrates(stacks);
     }
     
-    /// Determines the crates left at the top of each stack after the crate-moving procedure has executed.
+    /// Determines the crates left at the top of each stack after the crate-moving procedure has
+    /// executed.
     ///
-    /// - Time Complexity: O(n)
-    ///     - Same as part one.
+    /// Time Complexity: O(n)
+    /// - Same as part one.
     ///
-    /// - Space Complexity: O(n)
-    ///     - Same as part one.
+    /// Space Complexity: O(n)
+    /// - Same as part one.
     ///
     /// @param inputLines the puzzle input.
-    /// @return the crates at the top of each stack concatenated together after the crate-moving procedure
-    ///         has executed.
+    /// @return the crates at the top of each stack concatenated together after the crate-moving
+    ///         procedure has executed.
     @Override
     public Object partTwo(List<String> inputLines)
     {
@@ -92,26 +94,27 @@ public class Solution implements PuzzleSolver
     /// The stacks are in the form:
     ///
     /// ```
-    ///         [F]
-    /// [B]     [E]
-    /// [A] [C] [D]
-    ///  #   #   #
-    /// ```
+    /// ...........[F]...
+    /// ...[B].....[E]...
+    /// ...[A].[C].[D]...
+    /// ....#...#...#....
+    ///```
     ///
     /// Where:
     ///
+    /// - Each `.` represents a space and should be ignored.
     /// - `[A]`, `[B]` and `[C]` are crates.
-    ///     - `[A]` and `[B]` are in the first stack.
-    ///     - `[C]` is in the second stack.
+    ///   - `[A]` and `[B]` are in the first stack.
+    ///   - `[C]` is in the second stack.
     /// - `#` is the id of a stack.
     ///
-    /// The ids of the stacks are ignored and not included in the given `stacksInput`. The id values start
-    /// at 1 and increases by 1 each time from left to right, therefore these values are predictable and
-    /// unnecessary to parse.
+    /// The ids of the stacks are ignored and not included in `stacksInput`. The id values start
+    /// at 1 and increases by 1 each time from left to right, therefore these values are
+    /// predictable and unnecessary to parse. For the crates, only the characters between the
+    /// square braces are added to each stack.
     ///
-    /// For the crates, only the characters between the square braces are added to each stack.
-    ///
-    /// @param stacksInput the first part of the puzzle input, containing the input data for the stacks.
+    /// @param stacksInput the first part of the puzzle input, containing the input data for
+    ///         the stacks.
     /// @return the stacks of crates.
     private static List<LinkedList<Character>> getStacks(List<String> stacksInput)
     {
@@ -130,10 +133,13 @@ public class Solution implements PuzzleSolver
     ///
     /// The stack is parsed from bottom to top for the characters in-between the square braces.
     ///
-    /// @param stacksInput the first part of the puzzle input, containing the input data for the stacks of crates.
+    /// @param stacksInput the first part of the puzzle input, containing the input data for
+    ///         the stacks of crates.
     /// @param stackIndex the index of the stack of crates.
     /// @return a stack of crates.
-    private static LinkedList<Character> getCrateCharacters(List<String> stacksInput, int stackIndex)
+    private static LinkedList<Character> getCrateCharacters(
+            List<String> stacksInput,
+            int stackIndex)
     {
         LinkedList<Character> crateCharacters = new LinkedList<>();
         
@@ -161,13 +167,15 @@ public class Solution implements PuzzleSolver
     ///
     /// Each step is in the form `move X from A to B`, where:
     ///
-    /// - X is the number of crates to be moved.
-    /// - A is the stack where the crates are taken from.
-    /// - B is the stack where the crates are moved to.
+    /// - `X` is the number of crates to be moved.
+    /// - `A` is the stack where the crates are taken from.
+    /// - `B` is the stack where the crates are moved to.
     ///
-    /// @param procedureInput the second part of the puzzle input, containing the input data for the stacks.
+    /// @param procedureInput the second part of the puzzle input, containing the input data
+    ///         for the stacks.
     /// @return the steps in the crate-moving procedure.
-    private List<Step> getProcedure(List<String> procedureInput)
+    private List<Step> getProcedure(
+            List<String> procedureInput)
     {
         List<Step> procedure = new ArrayList<>();
         
@@ -199,7 +207,9 @@ public class Solution implements PuzzleSolver
     ///
     /// @param stacks the stacks of crates.
     /// @param procedure the crate-moving procedure.
-    private void executeProcedureOneCrateAtATime(List<LinkedList<Character>> stacks, List<Step> procedure)
+    private void executeProcedureOneCrateAtATime(
+            List<LinkedList<Character>> stacks,
+            List<Step> procedure)
     {
         for (Step step : procedure)
         {
@@ -215,7 +225,9 @@ public class Solution implements PuzzleSolver
     ///
     /// @param stacks the stacks of crates.
     /// @param procedure the crate-moving procedure.
-    private void executeProcedureAllCratesAtOnce(List<LinkedList<Character>> stacks, List<Step> procedure)
+    private void executeProcedureAllCratesAtOnce(
+            List<LinkedList<Character>> stacks,
+            List<Step> procedure)
     {
         for (Step step : procedure)
         {
