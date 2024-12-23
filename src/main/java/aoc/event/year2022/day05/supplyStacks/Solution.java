@@ -44,6 +44,31 @@ public class Solution implements PuzzleSolver
         return getTopCrates(stacks);
     }
     
+    /// Determines the crates left at the top of each stack after the crate-moving procedure has executed.
+    ///
+    /// - Time Complexity: O(n)
+    ///     - Same as part one.
+    ///
+    /// - Space Complexity: O(n)
+    ///     - Same as part one.
+    ///
+    /// @param inputLines the puzzle input.
+    /// @return the crates at the top of each stack concatenated together after the crate-moving procedure
+    ///         has executed.
+    @Override
+    public Object partTwo(List<String> inputLines)
+    {
+        int emptyLineIndex = getEmptyLineIndex(inputLines);
+        List<String> stacksInput = inputLines.subList(0, emptyLineIndex - 1);
+        List<String> procedureInput = inputLines.subList(emptyLineIndex + 1, inputLines.size());
+        
+        List<LinkedList<Character>> stacks = getStacks(stacksInput);
+        List<Step> procedure = getProcedure(procedureInput);
+        
+        executeProcedureAllCratesAtOnce(stacks, procedure);
+        return getTopCrates(stacks);
+    }
+    
     /// Finds the index of the first empty line in the puzzle.
     ///
     /// @param inputLines the puzzle input.
@@ -186,47 +211,6 @@ public class Solution implements PuzzleSolver
         }
     }
     
-    /// Concatenates the crates at the top of each stack.
-    ///
-    /// @param stacks the stacks of crates.
-    /// @return the crates at the top of each stack, concatenated together as a string.
-    private String getTopCrates(List<LinkedList<Character>> stacks)
-    {
-        StringBuilder topCrates = new StringBuilder();
-        
-        for (LinkedList<Character> stack : stacks)
-        {
-            topCrates.append(stack.getLast());
-        }
-        
-        return topCrates.toString();
-    }
-    
-    /// Determines the crates left at the top of each stack after the crate-moving procedure has executed.
-    ///
-    /// - Time Complexity: O(n)
-    ///     - Same as part one.
-    ///
-    /// - Space Complexity: O(n)
-    ///     - Same as part one.
-    ///
-    /// @param inputLines the puzzle input.
-    /// @return the crates at the top of each stack concatenated together after the crate-moving procedure
-    ///         has executed.
-    @Override
-    public Object partTwo(List<String> inputLines)
-    {
-        int emptyLineIndex = getEmptyLineIndex(inputLines);
-        List<String> stacksInput = inputLines.subList(0, emptyLineIndex - 1);
-        List<String> procedureInput = inputLines.subList(emptyLineIndex + 1, inputLines.size());
-        
-        List<LinkedList<Character>> stacks = getStacks(stacksInput);
-        List<Step> procedure = getProcedure(procedureInput);
-        
-        executeProcedureAllCratesAtOnce(stacks, procedure);
-        return getTopCrates(stacks);
-    }
-    
     /// Executes the crate-moving procedure, moving the crates between the stacks all at once.
     ///
     /// @param stacks the stacks of crates.
@@ -248,5 +232,21 @@ public class Solution implements PuzzleSolver
                 stacks.get(step.toStack - 1).addLast(character);
             }
         }
+    }
+    
+    /// Concatenates the crates at the top of each stack.
+    ///
+    /// @param stacks the stacks of crates.
+    /// @return the crates at the top of each stack, concatenated together as a string.
+    private String getTopCrates(List<LinkedList<Character>> stacks)
+    {
+        StringBuilder topCrates = new StringBuilder();
+        
+        for (LinkedList<Character> stack : stacks)
+        {
+            topCrates.append(stack.getLast());
+        }
+        
+        return topCrates.toString();
     }
 }
