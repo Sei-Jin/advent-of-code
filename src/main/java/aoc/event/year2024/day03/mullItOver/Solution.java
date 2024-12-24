@@ -11,9 +11,17 @@ public class Solution implements PuzzleSolver
 {
     /// Calculates the sum of all multiplication instructions in program memory.
     ///
-    /// The puzzle input represents a program with corrupted memory and contains a series of multiplication
-    /// instructions to follow. A multiplication instruction is represented as `mul(X,Y)` and multiplies the
-    /// two numbers `X` and `Y`.
+    /// The puzzle input represents a program with corrupted memory and contains a series of
+    /// multiplication instructions to follow. A multiplication instruction is represented as
+    /// `mul(X,Y)` and multiplies the two numbers `X` and `Y`.
+    ///
+    /// Time Complexity: O(n)
+    /// - One pass is completed over the puzzle input to find and store the instructions. Then each
+    /// instruction is executed sequentially.
+    ///
+    /// Space Complexity: O(n)
+    /// - All instructions from the puzzle input are stored. If the entire puzzle input consists of
+    /// instructions, then the entire puzzle input will be stored.
     ///
     /// @param programMemory the puzzle input.
     /// @return the total sum of all multiplication instructions.
@@ -36,15 +44,63 @@ public class Solution implements PuzzleSolver
         return sumOfProducts;
     }
     
+    /// Calculates the sum of all ***enabled*** multiplication instructions in program memory.
+    ///
+    /// - The program starts with instructions enabled.
+    /// - A `don't` instruction disables the following instructions.
+    /// - A `do` instruction enables the following instructions.
+    ///
+    /// Time Complexity: O(n)
+    /// - Same as part one.
+    ///
+    /// Space Complexity: O(n)
+    /// - Same as part one.
+    ///
+    /// @param programMemory the puzzle input.
+    /// @return the total sum of all enabled multiplication instructions.
+    @Override
+    public Object partTwo(List<String> programMemory)
+    {
+        int sumOfProducts = 0;
+        boolean enableMultiplications = true;
+        
+        for (String programSection : programMemory)
+        {
+            Matcher patternMatcher = getPatternMatcher(programSection, false);
+            List<String> instructions = getValidInstructions(patternMatcher);
+            
+            for (String instruction : instructions)
+            {
+                if (instruction.matches(Instruction.DO_NOT.regex))
+                {
+                    enableMultiplications = false;
+                }
+                else if (instruction.matches(Instruction.DO.regex))
+                {
+                    enableMultiplications = true;
+                }
+                else if (enableMultiplications)
+                {
+                    sumOfProducts += getProduct(instruction);
+                }
+            }
+        }
+        
+        return sumOfProducts;
+    }
+    
     /// Returns a pattern matcher for the given section of the program.
     ///
     /// The pattern that is matched depends on if all multiplications are enabled or not. If not all
     /// multiplications are enabled then `do` and `don't` instructions should also be matched.
     ///
     /// @param programSection a section of the program.
-    /// @param allMultiplicationsEnabled true if all multiplication instructions are enabled, false if otherwise.
+    /// @param allMultiplicationsEnabled true if all multiplication instructions are
+    ///         enabled, false if otherwise.
     /// @return a pattern matcher for the section of the program.
-    private static Matcher getPatternMatcher(String programSection, boolean allMultiplicationsEnabled)
+    private static Matcher getPatternMatcher(
+            String programSection,
+            boolean allMultiplicationsEnabled)
     {
         StringBuilder regex = new StringBuilder(Instruction.MULTIPLY.getRegex());
         
@@ -81,8 +137,8 @@ public class Solution implements PuzzleSolver
     
     /// Calculates the product of a multiplication instruction.
     ///
-    /// A multiplication instruction is in the form `mul(X,Y)`, where `X` and `Y` are the two numbers to be
-    /// multiplied together.
+    /// A multiplication instruction is in the form `mul(X,Y)`, where `X` and `Y` are the two
+    /// numbers to be multiplied together.
     ///
     /// @param instruction a multiplication instruction.
     /// @return the product of the instruction.
@@ -100,45 +156,6 @@ public class Solution implements PuzzleSolver
         }
         
         return product;
-    }
-    
-    /// Calculates the sum of all enabled multiplication instructions in program memory.
-    ///
-    /// - The program starts with instructions enabled.
-    /// - A `don't` instruction disables the following instructions.
-    /// - A `do` instruction enables the following instructions.
-    ///
-    /// @param programMemory the puzzle input.
-    /// @return the total sum of all enabled multiplication instructions.
-    @Override
-    public Object partTwo(List<String> programMemory)
-    {
-        int sumOfProducts = 0;
-        boolean enableMultiplications = true;
-        
-        for (String programSection : programMemory)
-        {
-            Matcher patternMatcher = getPatternMatcher(programSection, false);
-            List<String> instructions = getValidInstructions(patternMatcher);
-            
-            for (String instruction : instructions)
-            {
-                if (instruction.matches(Instruction.DO_NOT.regex))
-                {
-                    enableMultiplications = false;
-                }
-                else if (instruction.matches(Instruction.DO.regex))
-                {
-                    enableMultiplications = true;
-                }
-                else if (enableMultiplications)
-                {
-                    sumOfProducts += getProduct(instruction);
-                }
-            }
-        }
-        
-        return sumOfProducts;
     }
     
     /// This enum stores the regular expression for each type of instruction.
