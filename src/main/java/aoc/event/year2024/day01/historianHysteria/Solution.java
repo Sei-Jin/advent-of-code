@@ -8,43 +8,43 @@ import java.util.regex.Pattern;
 
 public class Solution implements PuzzleSolver
 {
-    /// Calculates the total distance between the numbers of the two lists.
+    /// Calculates the total distance between the two lists of ids.
+    ///
+    /// Time Complexity: O(n log n)
+    /// - The id lists are sorted when calculating the total distance.
+    ///
+    /// Space Complexity: O(n)
+    /// - All ids from the puzzle input are parsed and then stored.
     ///
     /// @param inputLines the puzzle input.
-    /// @return the total distance between the numbers of the two lists.
+    /// @return the total distance between the two lists of ids.
     @Override
     public Object partOne(List<String> inputLines)
     {
-        NumberLists numberLists = getNumberLists(inputLines);
+        IdLists idLists = getIdLists(inputLines);
         
-        Collections.sort(numberLists.firstList());
-        Collections.sort(numberLists.secondList());
-        
-        return calculateTotalDistance(numberLists);
+        return calculateTotalDistance(idLists);
     }
     
-    /// Calculates the similarity score between the two lists.
+    /// Calculates the similarity score between the two lists of ids.
+    ///
+    /// Time Complexity: O(n)
+    /// - All methods are done in linear or constant time.
+    ///
+    /// Space Complexity: O(n)
+    /// - The entire puzzle input is stored.
     ///
     /// @param inputLines the puzzle input.
-    /// @return the similarity score between the two lists.
+    /// @return the similarity score between the two lists of ids.
     @Override
     public Object partTwo(List<String> inputLines)
     {
-        NumberLists numberLists = getNumberLists(inputLines);
+        IdLists idLists = getIdLists(inputLines);
         
-        HashMap<Integer, Integer> secondListNumberFrequency = getFrequencies(
-                numberLists);
-        
-        return calculateSimilarityScore(numberLists, secondListNumberFrequency);
+        return calculateSimilarityScore(idLists);
     }
     
-    /// This record class stores the data for the two lists of numbers.
-    ///
-    /// @param firstList the first list of numbers.
-    /// @param secondList the second list of numbers.
-    private record NumberLists(List<Integer> firstList, List<Integer> secondList) {}
-    
-    /// Parses the puzzle input for the numbers in each list.
+    /// Parses the puzzle input for the ids in each list.
     ///
     /// The puzzle input is in the form:
     ///
@@ -56,16 +56,16 @@ public class Solution implements PuzzleSolver
     ///
     /// Where:
     /// - Each `.` represents a space and should be ignored.
-    /// - Each `A` represents a number in the first list.
-    /// - Each `B` represents a number in the second list.
+    /// - Each `A` represents an id in the first list.
+    /// - Each `B` represents an id in the second list.
     ///
-    /// The puzzle input is parsed line by line, where the first number is placed in the first list
-    /// and the second number is placed in the second list. Also note that the numbers can be longer
+    /// The puzzle input is parsed line by line, where the first id is placed in the first list
+    /// and the second id is placed in the second list. Also note that the ids can be longer
     /// than a single digit.
     ///
     /// @param inputLines the puzzle input.
-    /// @return a record of the two number lists.
-    private static NumberLists getNumberLists(List<String> inputLines)
+    /// @return a record of the two id lists.
+    private static IdLists getIdLists(List<String> inputLines)
     {
         List<Integer> firstList = new ArrayList<>();
         List<Integer> secondList = new ArrayList<>();
@@ -85,46 +85,32 @@ public class Solution implements PuzzleSolver
             else
             {
                 throw new IllegalArgumentException(
-                        "Encountered unexpected format in puzzle input on line: %s".formatted(line)
+                        "Encountered unexpected format in puzzle input for line: %s".formatted(line)
                 );
             }
         }
         
-        return new NumberLists(firstList, secondList);
+        return new IdLists(firstList, secondList);
     }
     
-    /// Calculates a frequency map of the numbers in the second list.
+    /// Calculates the total distance between the ids of the two lists.
     ///
-    /// @param numberLists the two lists of numbers.
-    /// @return a frequency map of the numbers in the second list.
-    private static HashMap<Integer, Integer> getFrequencies(NumberLists numberLists)
-    {
-        HashMap<Integer, Integer> secondListNumberFrequency = new HashMap<>();
-        
-        for (int number : numberLists.secondList())
-        {
-            int frequency = secondListNumberFrequency.getOrDefault(number, 0) + 1;
-            secondListNumberFrequency.put(number, frequency);
-        }
-        
-        return secondListNumberFrequency;
-    }
-    
-    /// Calculates the total distance between the numbers of the two lists.
-    ///
-    /// The total distance is calculated by comparing the values in each list from smallest to
+    /// The total distance is calculated by comparing the ids in each list from smallest to
     /// largest, finding the difference between them, and adding it to a running total.
     ///
-    /// @param numberLists the two number lists (sorted).
+    /// @param idLists the two ids lists.
     /// @return the total distance between the numbers of the two lists.
-    private static int calculateTotalDistance(NumberLists numberLists)
+    private static int calculateTotalDistance(IdLists idLists)
     {
+        Collections.sort(idLists.firstList());
+        Collections.sort(idLists.secondList());
+        
         int totalDistance = 0;
         
-        for (int index = 0; index < numberLists.firstList().size(); index++)
+        for (int index = 0; index < idLists.firstList().size(); index++)
         {
-            int firstNumber = numberLists.firstList().get(index);
-            int secondNumber = numberLists.secondList().get(index);
+            int firstNumber = idLists.firstList().get(index);
+            int secondNumber = idLists.secondList().get(index);
             
             int distance = Math.abs(firstNumber - secondNumber);
             totalDistance += distance;
@@ -135,28 +121,50 @@ public class Solution implements PuzzleSolver
     
     /// Calculates the similarity score between the two lists.
     ///
-    /// To calculate the similarity score between the two lists, the numbers in one list are
+    /// To calculate the similarity score between the two lists, the ids in one list are
     /// multiplied by their frequency in the other list and added to a running total.
     ///
-    /// Here each number in the first list is multiplied by its frequency in the second list, but
-    /// the calculation could have been done the other way around, where each number in the second
+    /// Here each id in the first list is multiplied by its frequency in the second list, but
+    /// the calculation could have been done the other way around, where each id in the second
     /// list is multiplied by its frequency in the first.
     ///
-    /// @param numberLists the two lists of numbers.
-    /// @param secondListNumberFrequency a frequency map of the numbers in the second list.
+    /// @param idLists the lists of ids.
     /// @return the similarity score between the two lists.
-    private static int calculateSimilarityScore(
-            NumberLists numberLists,
-            HashMap<Integer, Integer> secondListNumberFrequency)
+    private static int calculateSimilarityScore(IdLists idLists)
     {
+        HashMap<Integer, Integer> secondIdListFrequencies = getFrequencies(idLists.secondList);
+        
         int similarityScore = 0;
         
-        for (int number : numberLists.firstList())
+        for (int id : idLists.firstList)
         {
-            int frequency = secondListNumberFrequency.getOrDefault(number, 0);
-            similarityScore += number * frequency;
+            int frequency = secondIdListFrequencies.getOrDefault(id, 0);
+            similarityScore += id * frequency;
         }
         
         return similarityScore;
     }
+    
+    /// Calculates a frequency map of the ids in the list.
+    ///
+    /// @param idList a list of ids.
+    /// @return a frequency map of the ids in the list.
+    private static HashMap<Integer, Integer> getFrequencies(List<Integer> idList)
+    {
+        HashMap<Integer, Integer> idFrequencies = new HashMap<>();
+        
+        for (int id : idList)
+        {
+            int frequency = idFrequencies.getOrDefault(id, 0) + 1;
+            idFrequencies.put(id, frequency);
+        }
+        
+        return idFrequencies;
+    }
+    
+    /// This record class stores the data for the two lists of ids.
+    ///
+    /// @param firstList the first list of ids.
+    /// @param secondList the second list of ids.
+    private record IdLists(List<Integer> firstList, List<Integer> secondList) {}
 }
