@@ -10,6 +10,15 @@ import java.util.regex.Pattern;
 
 public class Solution implements PuzzleSolver
 {
+    /// A regex pattern to parse the numbers for each set in the scratchcard.
+    ///
+    /// The pattern is pre-compiled ahead of time to avoid two possible issues:
+    ///
+    /// - Recompiling every time a card is parsed.
+    /// - Passing through method parameters multiple times.
+    ///
+    private static final Pattern NUMBER_PATTERN = Pattern.compile("(\\d+)");
+    
     /// Calculates the total points won by all the scratchcards.
     ///
     /// @param inputLines the puzzle input.
@@ -19,11 +28,9 @@ public class Solution implements PuzzleSolver
     {
         int totalPoints = 0;
         
-        Pattern pattern = Pattern.compile("(\\d+)");
-        
         for (String line : inputLines)
         {
-            Card card = parseCard(pattern, line);
+            Card card = parseCard(line);
             
             Set<Integer> actualWinningNumbers = new HashSet<>(card.winningNumbers());
             actualWinningNumbers.retainAll(card.ourNumbers());
@@ -58,15 +65,14 @@ public class Solution implements PuzzleSolver
     /// The first section is ignored. The second and third sections are parsed for their sets of
     /// numbers.
     ///
-    /// @param pattern a pattern that matches the numbers in each set.
     /// @param line a line of the puzzle input.
     /// @return a new Card containing the parsed data.
-    private static Card parseCard(Pattern pattern, String line)
+    private static Card parseCard(String line)
     {
         String[] sections = line.split("[:|]");
         
-        Set<Integer> winningNumbers = parseNumbers(pattern, sections[1]);
-        Set<Integer> potentialWinningNumbers = parseNumbers(pattern, sections[2]);
+        Set<Integer> winningNumbers = parseNumbers(sections[1]);
+        Set<Integer> potentialWinningNumbers = parseNumbers(sections[2]);
         
         return new Card(winningNumbers, potentialWinningNumbers);
     }
@@ -77,17 +83,16 @@ public class Solution implements PuzzleSolver
     ///
     /// ` A A A A A A A `
     ///
-    /// Each `A` represents a number, and the numbers can be more than 1 digit long. The section
-    /// can contain leading and/or trailing spaces.
+    /// Each `A` represents a number, and the numbers can be more than 1 digit long. The section can
+    /// contain leading and/or trailing spaces.
     ///
-    /// @param pattern a pattern that matches the numbers in each set
     /// @param section a section of the puzzle input that contains a set of numbers to be
     ///         parsed.
     /// @return the set of the numbers in `section`.
-    private static Set<Integer> parseNumbers(Pattern pattern, String section)
+    private static Set<Integer> parseNumbers(String section)
     {
         Set<Integer> numbers = new HashSet<>();
-        Matcher matcher = pattern.matcher(section);
+        Matcher matcher = NUMBER_PATTERN.matcher(section);
         
         while (matcher.find())
         {
