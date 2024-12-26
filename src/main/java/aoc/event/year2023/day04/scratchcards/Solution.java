@@ -155,25 +155,24 @@ public class Solution implements PuzzleSolver
     /// Calculates the total points won by a scratchcard.
     ///
     /// The first matching number is worth one point, and every number after that doubles the point
-    /// value.
+    /// value. Since point value calculation follows the powers of 2, the point values can be
+    /// efficiently calculated with the `Math.pow()` function. This calculation can be formalized
+    /// as:
     ///
-    /// @param totalMatches the number of matches on the card.
+    /// `2^{n-1}` for `n > 0`, and `0` otherwise, where `n` is the number of matches.
+    ///
+    /// @param matches the number of matches on the card.
     /// @return the points won by a scratchcard.
-    private static int calculatePoints(int totalMatches)
+    private static int calculatePoints(int matches)
     {
-        int points = 0;
-        
-        if (totalMatches >= 1)
+        if (matches > 0)
         {
-            points = 1;
+            return (int) Math.pow(2, matches - 1);
         }
-        
-        for (int matches = 2; matches <= totalMatches; matches++)
+        else
         {
-            points *= 2;
+            return 0;
         }
-        
-        return points;
     }
     
     /// Increases the card count by the given amount.
