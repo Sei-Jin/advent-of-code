@@ -37,8 +37,6 @@ public class Solution implements PuzzleSolver
             int sectorId = Integer.parseInt(matcher.group(2));
             String checksum = matcher.group(3);
             
-            encryptedName = encryptedName.replaceAll("-", "");
-            
             return new Room(encryptedName, sectorId, checksum);
         }
         else
