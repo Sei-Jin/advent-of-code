@@ -10,6 +10,30 @@ public class Solution implements PuzzleSolver
 {
     private static final Pattern ROOM_PATTERN = Pattern.compile("([\\w-]+)-(\\d+)\\[(\\w+)]");
     
+    private static Room parseRoom(String line)
+    {
+        Matcher matcher = ROOM_PATTERN.matcher(line);
+        
+        if (matcher.find())
+        {
+            String encryptedName = matcher.group(1);
+            int sectorId = Integer.parseInt(matcher.group(2));
+            String checksum = matcher.group(3);
+            
+            encryptedName = encryptedName.replaceAll("-", "");
+            
+            return new Room(encryptedName, sectorId, checksum);
+        }
+        else
+        {
+            throw new IllegalArgumentException(
+                    "Input line did not match expected pattern: " + line
+            );
+        }
+    }
+    
+    record Room(String encryptedName, int sectorId, String checksum) {}
+    
     @Override
     public Object partOne(List<String> inputLines)
     {
@@ -37,28 +61,6 @@ public class Solution implements PuzzleSolver
         }
         
         return sectorIdSum;
-    }
-    
-    private static Room parseRoom(String line)
-    {
-        Matcher matcher = ROOM_PATTERN.matcher(line);
-        
-        if (matcher.find())
-        {
-            String encryptedName = matcher.group(1);
-            int sectorId = Integer.parseInt(matcher.group(2));
-            String checksum = matcher.group(3);
-            
-            encryptedName = encryptedName.replaceAll("-", "");
-            
-            return new Room(encryptedName, sectorId, checksum);
-        }
-        else
-        {
-            throw new IllegalArgumentException(
-                    "Input line did not match expected pattern: " + line
-            );
-        }
     }
     
     private static Map<Character, Integer> getLetterCount(String encryptedName)
@@ -113,8 +115,47 @@ public class Solution implements PuzzleSolver
     @Override
     public Object partTwo(List<String> inputLines)
     {
-        return null;
+        for (String line : inputLines)
+        {
+            Room room = parseRoom(line);
+            String unencryptedName = decryptName(room);
+            
+            if (unencryptedName.contains("north") && unencryptedName.contains("pole"))
+            {
+                return room.sectorId;
+            }
+        }
+        
+        throw new IllegalArgumentException("No North Pole objects were found");
     }
     
-    record Room(String encryptedName, int sectorId, String checksum) {}
+    private static String decryptName(Room room)
+    {
+        StringBuilder decryptedNameBuilder = new StringBuilder();
+        
+        int sectorOffset = room.sectorId % 26;
+        
+        for (int index = 0; index < room.encryptedName.length(); index++)
+        {
+            char character = room.encryptedName.charAt(index);
+            
+            if (character == '-')
+            {
+                decryptedNameBuilder.append(" ");
+            }
+            else
+            {
+                char decryptedCharacter = (char) (character + sectorOffset);
+                
+                if (decryptedCharacter > 'z')
+                {
+                    decryptedCharacter -= 26;
+                }
+                
+                decryptedNameBuilder.append(decryptedCharacter);
+            }
+        }
+        
+        return decryptedNameBuilder.toString();
+    }
 }
