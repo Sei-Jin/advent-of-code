@@ -31,5 +31,6 @@ public class SolutionTests
                 enarar
                 """.split("\n")).toList();
         assertEquals("easter", new Solution().partOne(input));
+        assertEquals("advent", new Solution().partTwo(input));
     }
 }

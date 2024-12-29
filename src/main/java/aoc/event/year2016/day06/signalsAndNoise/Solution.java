@@ -63,6 +63,35 @@ public class Solution implements PuzzleSolver
     @Override
     public Object partTwo(List<String> inputLines)
     {
-        return null;
+        StringBuilder messageBuilder = new StringBuilder();
+        
+        for (int index = 0; index < inputLines.getFirst().length(); index++)
+        {
+            Map<Character, Integer> characterCounts = getCharacterCounts(inputLines, index);
+            
+            char leastFrequentCharacter = getLeastFrequentCharacter(characterCounts);
+            messageBuilder.append(leastFrequentCharacter);
+        }
+        
+        return messageBuilder.toString();
+    }
+    
+    private char getLeastFrequentCharacter(Map<Character, Integer> characterCounts)
+    {
+        char leastFrequentCharacter = 0;
+        int minCount = Integer.MAX_VALUE;
+        
+        for (char character : characterCounts.keySet())
+        {
+            int count = characterCounts.get(character);
+            
+            if (count < minCount)
+            {
+                minCount = count;
+                leastFrequentCharacter = character;
+            }
+        }
+        
+        return leastFrequentCharacter;
     }
 }
