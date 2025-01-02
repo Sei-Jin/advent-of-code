@@ -8,41 +8,11 @@ import java.util.regex.Pattern;
 
 public class Solution implements PuzzleSolver
 {
-    /// Calculates the total distance between the two lists of ids.
+    /// This record class stores the data for the two lists of ids.
     ///
-    /// Time Complexity: O(n log n)
-    /// - The id lists are sorted when calculating the total distance.
-    ///
-    /// Space Complexity: O(n)
-    /// - All ids from the puzzle input are parsed and then stored.
-    ///
-    /// @param inputLines the puzzle input.
-    /// @return the total distance between the two lists of ids.
-    @Override
-    public Object partOne(List<String> inputLines)
-    {
-        IdLists idLists = getIdLists(inputLines);
-        
-        return calculateTotalDistance(idLists);
-    }
-    
-    /// Calculates the similarity score between the two lists of ids.
-    ///
-    /// Time Complexity: O(n)
-    /// - All methods are done in linear or constant time.
-    ///
-    /// Space Complexity: O(n)
-    /// - The entire puzzle input is stored.
-    ///
-    /// @param inputLines the puzzle input.
-    /// @return the similarity score between the two lists of ids.
-    @Override
-    public Object partTwo(List<String> inputLines)
-    {
-        IdLists idLists = getIdLists(inputLines);
-        
-        return calculateSimilarityScore(idLists);
-    }
+    /// @param firstList the first list of ids.
+    /// @param secondList the second list of ids.
+    private record IdLists(List<Integer> firstList, List<Integer> secondList) {}
     
     /// Parses the puzzle input for the ids in each list.
     ///
@@ -93,6 +63,23 @@ public class Solution implements PuzzleSolver
         return new IdLists(firstList, secondList);
     }
     
+    /// Calculates the total distance between the two lists of ids.
+    ///
+    /// Time Complexity: O(n log n)
+    /// - The id lists are sorted when calculating the total distance.
+    ///
+    /// Space Complexity: O(n)
+    /// - All ids from the puzzle input are parsed and then stored.
+    ///
+    /// @param inputLines the puzzle input.
+    /// @return the total distance between the two lists of ids.
+    @Override
+    public Object partOne(List<String> inputLines)
+    {
+        IdLists idLists = getIdLists(inputLines);
+        return calculateTotalDistance(idLists);
+    }
+    
     /// Calculates the total distance between the ids of the two lists.
     ///
     /// The total distance is calculated by comparing the ids in each list from smallest to
@@ -119,6 +106,23 @@ public class Solution implements PuzzleSolver
         return totalDistance;
     }
     
+    /// Calculates the similarity score between the two lists of ids.
+    ///
+    /// Time Complexity: O(n)
+    /// - All methods are done in linear or constant time.
+    ///
+    /// Space Complexity: O(n)
+    /// - The entire puzzle input is stored.
+    ///
+    /// @param inputLines the puzzle input.
+    /// @return the similarity score between the two lists of ids.
+    @Override
+    public Object partTwo(List<String> inputLines)
+    {
+        IdLists idLists = getIdLists(inputLines);
+        return calculateSimilarityScore(idLists);
+    }
+    
     /// Calculates the similarity score between the two lists.
     ///
     /// To calculate the similarity score between the two lists, the ids in one list are
@@ -132,7 +136,7 @@ public class Solution implements PuzzleSolver
     /// @return the similarity score between the two lists.
     private static int calculateSimilarityScore(IdLists idLists)
     {
-        HashMap<Integer, Integer> secondIdListFrequencies = getFrequencies(idLists.secondList);
+        Map<Integer, Integer> secondIdListFrequencies = calculateFrequencies(idLists.secondList);
         
         int similarityScore = 0;
         
@@ -149,9 +153,9 @@ public class Solution implements PuzzleSolver
     ///
     /// @param idList a list of ids.
     /// @return a frequency map of the ids in the list.
-    private static HashMap<Integer, Integer> getFrequencies(List<Integer> idList)
+    private static Map<Integer, Integer> calculateFrequencies(List<Integer> idList)
     {
-        HashMap<Integer, Integer> idFrequencies = new HashMap<>();
+        Map<Integer, Integer> idFrequencies = new HashMap<>();
         
         for (int id : idList)
         {
@@ -161,10 +165,4 @@ public class Solution implements PuzzleSolver
         
         return idFrequencies;
     }
-    
-    /// This record class stores the data for the two lists of ids.
-    ///
-    /// @param firstList the first list of ids.
-    /// @param secondList the second list of ids.
-    private record IdLists(List<Integer> firstList, List<Integer> secondList) {}
 }
