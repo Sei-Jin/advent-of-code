@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Solution implements PuzzleSolver
 {
-    private static Map<Character, Integer> getCharacterCounts(
+    private static Map<Character, Integer> calculateCharacterCounts(
             List<String> inputLines,
             int index)
     {
@@ -32,16 +32,16 @@ public class Solution implements PuzzleSolver
         
         for (int index = 0; index < inputLines.getFirst().length(); index++)
         {
-            Map<Character, Integer> characterCounts = getCharacterCounts(inputLines, index);
+            Map<Character, Integer> characterCounts = calculateCharacterCounts(inputLines, index);
+            char mostFrequentCharacter = calculateMostFrequentCharacter(characterCounts);
             
-            char mostFrequentCharacter = getMostFrequentCharacter(characterCounts);
             messageBuilder.append(mostFrequentCharacter);
         }
         
         return messageBuilder.toString();
     }
     
-    private static char getMostFrequentCharacter(Map<Character, Integer> characterCounts)
+    private static char calculateMostFrequentCharacter(Map<Character, Integer> characterCounts)
     {
         char mostFrequentCharacter = 0;
         int maxCount = 0;
@@ -52,8 +52,8 @@ public class Solution implements PuzzleSolver
             
             if (count > maxCount)
             {
-                maxCount = count;
                 mostFrequentCharacter = character;
+                maxCount = count;
             }
         }
         
@@ -67,16 +67,16 @@ public class Solution implements PuzzleSolver
         
         for (int index = 0; index < inputLines.getFirst().length(); index++)
         {
-            Map<Character, Integer> characterCounts = getCharacterCounts(inputLines, index);
+            Map<Character, Integer> characterCounts = calculateCharacterCounts(inputLines, index);
+            char leastFrequentCharacter = calculateLeastFrequentCharacter(characterCounts);
             
-            char leastFrequentCharacter = getLeastFrequentCharacter(characterCounts);
             messageBuilder.append(leastFrequentCharacter);
         }
         
         return messageBuilder.toString();
     }
     
-    private char getLeastFrequentCharacter(Map<Character, Integer> characterCounts)
+    private char calculateLeastFrequentCharacter(Map<Character, Integer> characterCounts)
     {
         char leastFrequentCharacter = 0;
         int minCount = Integer.MAX_VALUE;
@@ -87,8 +87,8 @@ public class Solution implements PuzzleSolver
             
             if (count < minCount)
             {
-                minCount = count;
                 leastFrequentCharacter = character;
+                minCount = count;
             }
         }
         
