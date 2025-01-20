@@ -8,16 +8,17 @@ import java.util.regex.Pattern;
 
 public class Solution implements PuzzleSolver
 {
+    /// Pattern that matches all numbers in a string.
     private static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+");
+    
+    /// The size of each board is 5x5.
     private static final int BOARD_SIZE = 5;
     
-    private record Point(int row, int column) {}
+    /// @param rowIndex the index of the row the point is on.
+    /// @param columnIndex the index of the column the point is on.
+    private record Position(int rowIndex, int columnIndex) {}
     
-    private record BoardData(
-            Map<Integer, Point> board,
-            List<Set<Integer>> rows,
-            List<Set<Integer>> columns
-    ) {}
+    private record BoardData(int[][] board, Map<Integer, Position> positions) {}
     
     private List<Integer> parseBingoNumbers(String bingoNumbersInput)
     {
@@ -33,33 +34,18 @@ public class Solution implements PuzzleSolver
         return bingoNumbers;
     }
     
-    private static List<BoardData> parseBingoBoards(List<String> inputLines)
+    private static List<BoardData> parseBoards(List<String> inputLines)
     {
-        List<BoardData> bingoBoards = new ArrayList<>();
+        List<BoardData> boards = new ArrayList<>();
         
-        for (int inputLineIndex = 2; inputLineIndex < inputLines.size(); inputLineIndex += 6)
+        for (int inputLineIndex = 0; inputLineIndex < inputLines.size(); inputLineIndex += 6)
         {
-            // Parse board
-            Map<Integer, Point> bingoBoard = new HashMap<>();
-            List<Set<Integer>> rows = new ArrayList<>();
-            List<Set<Integer>> columns = new ArrayList<>();
+            int[][] board = new int[BOARD_SIZE][BOARD_SIZE];
+            Map<Integer, Position> positions = new HashMap<>();
             
             for (int rowIndex = 0; rowIndex < BOARD_SIZE; rowIndex++)
             {
-                Set<Integer> rowNumbers = new HashSet<>();
-                rows.add(rowNumbers);
-            }
-            
-            for (int columnIndex = 0; columnIndex < BOARD_SIZE; columnIndex++)
-            {
-                Set<Integer> columnNumbers = new HashSet<>();
-                columns.add(columnNumbers);
-            }
-            
-            for (int rowIndex = 0; rowIndex < BOARD_SIZE; rowIndex++)
-            {
-                String row = inputLines.get(inputLineIndex + rowIndex);
-                Matcher matcher = NUMBER_PATTERN.matcher(row);
+                Matcher matcher = NUMBER_PATTERN.matcher(inputLines.get(inputLineIndex + rowIndex));
                 
                 int columnIndex = 0;
                 
@@ -67,59 +53,51 @@ public class Solution implements PuzzleSolver
                 {
                     int number = Integer.parseInt(matcher.group());
                     
-                    bingoBoard.put(number, new Point(rowIndex, columnIndex));
-                    rows.get(rowIndex).add(number);
-                    columns.get(columnIndex).add(number);
+                    board[rowIndex][columnIndex] = number;
+                    positions.put(number, new Position(rowIndex, columnIndex));
                     
                     columnIndex++;
                 }
             }
             
-            bingoBoards.add(new BoardData(bingoBoard, rows, columns));
+            boards.add(new BoardData(board, positions));
         }
         
-        return bingoBoards;
+        return boards;
     }
     
     @Override
     public Object partOne(List<String> inputLines)
     {
-        List<Integer> bingoNumbers = parseBingoNumbers(inputLines.getFirst());
-        List<BoardData> bingoBoards = parseBingoBoards(inputLines);
+        List<Integer> numbers = parseBingoNumbers(inputLines.getFirst());
+        List<BoardData> boards = parseBoards(inputLines.subList(2, inputLines.size()));
         
         Set<Integer> currentNumbers = new HashSet<>();
         
-        for (int currentNumber : bingoNumbers)
+        for (int currentNumber : numbers)
         {
             currentNumbers.add(currentNumber);
             
-            for (BoardData boardData : bingoBoards)
+            for (BoardData boardData : boards)
             {
-                if (!boardData.board.containsKey(currentNumber))
+                if (!boardData.positions.containsKey(currentNumber))
                 {
                     continue;
                 }
                 
-                Point point = boardData.board.get(currentNumber);
+                boolean bingo = isBingo(
+                        boardData.positions.get(currentNumber),
+                        boardData.board,
+                        currentNumbers
+                );
                 
-                Set<Integer> currentRow = boardData.rows.get(point.row);
-                Set<Integer> currentColumn = boardData.columns.get(point.column);
-                
-                if (currentNumbers.containsAll(currentRow) ||
-                        currentNumbers.containsAll(currentColumn))
+                if (bingo)
                 {
-                    // Calculate final score
-                    Set<Integer> unmarkedNumbers = new HashSet<>(boardData.board.keySet());
-                    unmarkedNumbers.removeAll(currentNumbers);
-                    
-                    int unmarkedNumberSum = 0;
-                    
-                    for (int number : unmarkedNumbers)
-                    {
-                        unmarkedNumberSum += number;
-                    }
-                    
-                    return unmarkedNumberSum * currentNumber;
+                    return calculateFinalScore(
+                            currentNumber,
+                            boardData,
+                            currentNumbers
+                    );
                 }
             }
         }
@@ -127,9 +105,106 @@ public class Solution implements PuzzleSolver
         throw new IllegalStateException("No winning bingo boards were found!");
     }
     
+    private static boolean isBingo(
+            Position position,
+            int[][] board,
+            Set<Integer> currentNumbers)
+    {
+        boolean horizontalBingo = true;
+        
+        for (int rowIndex = 0; rowIndex < BOARD_SIZE; rowIndex++)
+        {
+            if (!currentNumbers.contains(board[rowIndex][position.columnIndex]))
+            {
+                horizontalBingo = false;
+                break;
+            }
+        }
+        
+        boolean verticalBingo = true;
+        
+        for (int columnIndex = 0; columnIndex < BOARD_SIZE; columnIndex++)
+        {
+            if (!currentNumbers.contains(board[position.rowIndex][columnIndex]))
+            {
+                verticalBingo = false;
+                break;
+            }
+        }
+        
+        return horizontalBingo || verticalBingo;
+    }
+    
+    private static int calculateFinalScore(
+            int currentNumber,
+            BoardData boardData,
+            Set<Integer> currentNumbers)
+    {
+        Set<Integer> unmarkedNumbers = new HashSet<>(boardData.positions.keySet());
+        unmarkedNumbers.removeAll(currentNumbers);
+        
+        int unmarkedNumberSum = unmarkedNumbers.stream()
+                .reduce(Integer::sum)
+                .orElse(0);
+        
+        return unmarkedNumberSum * currentNumber;
+    }
+    
     @Override
     public Object partTwo(List<String> inputLines)
     {
-        return null;
+        List<Integer> numbers = parseBingoNumbers(inputLines.getFirst());
+        List<BoardData> boards = parseBoards(inputLines.subList(2, inputLines.size()));
+        
+        int winningBoardIndex = -1, winningNumberIndex = -1;
+        Set<Integer> currentNumbers = new HashSet<>();
+        Set<BoardData> winningBoardData = new HashSet<>();
+        
+        for (int numberIndex = 0; numberIndex < numbers.size(); numberIndex++)
+        {
+            int currentNumber = numbers.get(numberIndex);
+            currentNumbers.add(currentNumber);
+            
+            for (int boardIndex = 0; boardIndex < boards.size(); boardIndex++)
+            {
+                BoardData boardData = boards.get(boardIndex);
+                
+                if (!boardData.positions.containsKey(currentNumber))
+                {
+                    continue;
+                }
+                
+                if (winningBoardData.contains(boardData))
+                {
+                    continue;
+                }
+                
+                boolean bingo = isBingo(
+                        boardData.positions.get(currentNumber),
+                        boardData.board,
+                        currentNumbers
+                );
+                
+                if (bingo)
+                {
+                    winningBoardData.add(boardData);
+                    winningNumberIndex = numberIndex;
+                    winningBoardIndex = boardIndex;
+                }
+            }
+        }
+        
+        if (winningBoardIndex == -1)
+        {
+            throw new IllegalStateException("No winning bingo boards were found!");
+        }
+        else
+        {
+            return calculateFinalScore(
+                    numbers.get(winningNumberIndex),
+                    boards.get(winningBoardIndex),
+                    new HashSet<>(numbers.subList(0, winningNumberIndex + 1))
+            );
+        }
     }
 }

@@ -36,5 +36,6 @@ public class SolutionTests
                 """.split("\n")).toList()
         );
         assertEquals(4512, new Solution().partOne(input));
+        assertEquals(1924, new Solution().partTwo(input));
     }
 }
