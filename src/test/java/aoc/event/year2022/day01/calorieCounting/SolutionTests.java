@@ -28,7 +28,8 @@ public class SolutionTests
                 8000
                 9000
                 
-                10000""".split("\n")).toList()
+                10000
+                """.split("\n")).toList()
         );
         assertEquals(24000, new Solution().partOne(input));
         assertEquals(45000, new Solution().partTwo(input));
