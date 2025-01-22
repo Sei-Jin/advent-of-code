@@ -40,6 +40,7 @@ public class Solution implements PuzzleSolver
     ///
     /// @param line a line of the puzzle input.
     /// @return a new claim storing the relevant parsed data.
+    /// @throws IllegalArgumentException if the input line did not match the expected format.
     private static Claim parseClaim(String line)
     {
         Matcher matcher = CLAIM_PATTERN.matcher(line);
@@ -132,7 +133,7 @@ public class Solution implements PuzzleSolver
     ///
     /// @param puzzleInput the puzzle input.
     /// @return the id of the only claim that does not overlap.
-    /// @throws IllegalArgumentException if there were no claims that did not overlap
+    /// @throws IllegalStateException if there were no claims that did not overlap.
     @Override
     public Object partTwo(List<String> puzzleInput)
     {
@@ -141,7 +142,7 @@ public class Solution implements PuzzleSolver
         
         for (Claim claim : claims)
         {
-            if (isNonOverlappingClaim(claimCounts, claim))
+            if (!isOverlappingClaim(claimCounts, claim))
             {
                 return claim.claimId;
             }
@@ -150,12 +151,12 @@ public class Solution implements PuzzleSolver
         throw new IllegalStateException("Error: There were no claims that overlapped.");
     }
     
-    /// Determines if the given claim does not overlap with any other claim.
+    /// Determines if the given claim overlaps with any other claim.
     ///
     /// @param claimCounts a 2D array of the claim counts at each index.
     /// @param claim a claim.
-    /// @return true if the claim does not overlap with any other claims.
-    private static boolean isNonOverlappingClaim(int[][] claimCounts, Claim claim)
+    /// @return true if the claim overlaps with any other claims, or false otherwise.
+    private static boolean isOverlappingClaim(int[][] claimCounts, Claim claim)
     {
         int maxRowIndex = claim.topOffset + claim.height;
         int maxColumnIndex = claim.leftOffset + claim.width;
@@ -166,11 +167,11 @@ public class Solution implements PuzzleSolver
             {
                 if (claimCounts[rowIndex][columnIndex] > 1)
                 {
-                    return false;
+                    return true;
                 }
             }
         }
         
-        return true;
+        return false;
     }
 }
