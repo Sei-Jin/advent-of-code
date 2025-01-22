@@ -3,134 +3,174 @@ package aoc.event.year2018.day03.noMatterHowYouSliceIt;
 import aoc.PuzzleSolver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-/**
- * --- Day 3: No Matter How You Slice It ---
- */
 public class Solution implements PuzzleSolver
 {
-    /**
-     * @param inputLines the puzzle input.
-     * @return the square inches of fabric within two claims.
-     */
-    @Override
-    public Object partOne(List<String> inputLines)
-    {
-        List<Claim> claims = new ArrayList<>();
-        
-        for (String line : inputLines)
-        {
-            Claim claim = getClaim(line);
-            claims.add(claim);
-        }
-        
-        int[][] mappedFabricArea = mapFabricClaims(claims);
-        
-        int areaWithinTwoClaims = 0;
-        
-        for (int row = 0; row < mappedFabricArea.length; row++)
-        {
-            for (int column = 0; column < mappedFabricArea.length; column++)
-            {
-                if (mappedFabricArea[row][column] > 1)
-                {
-                    areaWithinTwoClaims++;
-                }
-            }
-        }
-        
-        return areaWithinTwoClaims;
-    }
+    /// Pattern of the relevant claim information given in each line of the puzzle input.
+    private static final Pattern CLAIM_PATTERN = Pattern.compile(
+            "#(\\d+) @ (\\d+),(\\d+): (\\d+)x(\\d+)"
+    );
     
+    /// Stores the information for a claim.
+    ///
+    /// @param claimId the id of the claim.
+    /// @param leftOffset the offset from the start of the claim to the left side of the
+    ///         claim area.
+    /// @param topOffset the offset from the start of the claim to the top side of the claim
+    ///         area.
+    /// @param width the width of the claim.
+    /// @param height the height of the claim.
+    private record Claim(int claimId, int leftOffset, int topOffset, int width, int height) {}
     
-    /**
-     * @param inputLines the puzzle input.
-     * @return the ID of the only claim that does not overlap.
-     */
-    @Override
-    public Object partTwo(List<String> inputLines)
+    /// Parses a line of the puzzle input for the claim data.
+    ///
+    /// Each line of the puzzle input is in the form:
+    ///
+    /// ```
+    ///#8 @ 3,7: 3x6
+    ///```
+    ///
+    /// - `#8` refers to the id of the claim.
+    /// - `@ 3,7` refers to the coordinates of the top left corner of the claim. This can also be
+    /// thought of as the offset from the left and top sides of the claim area.
+    /// - `3x6` refers to the size of the claim, where `3` is the width and `6` is the height.
+    ///
+    /// @param line a line of the puzzle input.
+    /// @return a new claim storing the relevant parsed data.
+    private static Claim parseClaim(String line)
     {
-        List<Claim> claims = new ArrayList<>();
+        Matcher matcher = CLAIM_PATTERN.matcher(line);
         
-        for (String line : inputLines)
+        if (matcher.find())
         {
-            Claim claim = getClaim(line);
-            claims.add(claim);
-        }
-        
-        int[][] mappedFabricArea = mapFabricClaims(claims);
-        
-        int nonOverlappingClaimID = 0;
-        
-        for (Claim claim : claims)
-        {
-            boolean nonOverlappingClaim = isNonOverlappingClaim(mappedFabricArea, claim);
+            int claimId = Integer.parseInt(matcher.group(1));
+            int leftOffset = Integer.parseInt(matcher.group(2));
+            int topOffset = Integer.parseInt(matcher.group(3));
+            int width = Integer.parseInt(matcher.group(4));
+            int height = Integer.parseInt(matcher.group(5));
             
-            if (nonOverlappingClaim)
-            {
-                nonOverlappingClaimID = claim.claimID();
-                break;
-            }
+            return new Claim(claimId, leftOffset, topOffset, width, height);
         }
-        
-        return nonOverlappingClaimID;
-    }
-    
-    
-    private static boolean isNonOverlappingClaim(int[][] mappedFabricArea, Claim claim)
-    {
-        boolean nonOverlappingClaim = true;
-        
-        for (int row = claim.distanceTop(); row < claim.distanceTop() + claim.height(); row++)
+        else
         {
-            for (int column = claim.distanceLeft(); column < claim.distanceLeft() + claim.width(); column++)
-            {
-                if (mappedFabricArea[row][column] > 1)
-                {
-                    nonOverlappingClaim = false;
-                    break;
-                }
-            }
+            throw new IllegalArgumentException("Error: Invalid input line: " + line);
+        }
+    }
+    
+    /// Parses the puzzle input to create a list of claims.
+    ///
+    /// @param puzzleInput the puzzle input.
+    /// @return a list of claims.
+    private static List<Claim> parseClaims(List<String> puzzleInput)
+    {
+        List<Claim> claims = new ArrayList<>();
+        
+        for (String line : puzzleInput)
+        {
+            Claim claim = parseClaim(line);
+            claims.add(claim);
         }
         
-        return nonOverlappingClaim;
+        return claims;
     }
     
-    
-    private static Claim getClaim(String line)
+    /// Counts the number of claims at each index.
+    ///
+    /// @param claims a list of claims.
+    /// @return a 2D array of the number of claims at each index.
+    private static int[][] countClaims(List<Claim> claims)
     {
-        int[] lineValues = Arrays.stream(line.split("[^0-9]+")).skip(1).mapToInt(Integer::parseInt).toArray();
-        
-        int claimID = lineValues[0];
-        int distanceLeft = lineValues[1];
-        int distanceTop = lineValues[2];
-        int width = lineValues[3];
-        int height = lineValues[4];
-        
-        return new Claim(claimID, distanceLeft, distanceTop, width, height);
-    }
-    
-    
-    private static int[][] mapFabricClaims(List<Claim> claims)
-    {
-        int[][] fabricArea = new int[1000][1000];
+        int[][] claimArea = new int[1000][1000];
         
         for (Claim claim : claims)
         {
-            for (int row = claim.distanceTop(); row < claim.distanceTop() + claim.height(); row++)
+            int maxRowIndex = claim.topOffset + claim.height;
+            int maxColumnIndex = claim.leftOffset + claim.width;
+            
+            for (int rowIndex = claim.topOffset; rowIndex < maxRowIndex; rowIndex++)
             {
-                for (int column = claim.distanceLeft(); column < claim.distanceLeft() + claim.width(); column++)
+                for (int columnIndex = claim.leftOffset; columnIndex < maxColumnIndex; columnIndex++)
                 {
-                    fabricArea[row][column]++;
+                    claimArea[rowIndex][columnIndex]++;
                 }
             }
         }
         
-        return fabricArea;
+        return claimArea;
     }
     
+    /// Calculates the square inches of fabric within two or more claims.
+    ///
+    /// @param puzzleInput the puzzle input.
+    /// @return the square inches of fabric within two or more claims.
+    @Override
+    public Object partOne(List<String> puzzleInput)
+    {
+        List<Claim> claims = parseClaims(puzzleInput);
+        int[][] claimCounts = countClaims(claims);
+        
+        int areaWithTwoOrMoreClaims = 0;
+        
+        for (int[] claimCount : claimCounts)
+        {
+            for (int columnIndex = 0; columnIndex < claimCounts.length; columnIndex++)
+            {
+                if (claimCount[columnIndex] > 1)
+                {
+                    areaWithTwoOrMoreClaims++;
+                }
+            }
+        }
+        
+        return areaWithTwoOrMoreClaims;
+    }
     
-    private record Claim(int claimID, int distanceLeft, int distanceTop, int width, int height) {}
+    /// Finds the claim id of the only claim that does not overlap with any other claims
+    ///
+    /// @param puzzleInput the puzzle input.
+    /// @return the id of the only claim that does not overlap.
+    /// @throws IllegalArgumentException if there were no claims that did not overlap
+    @Override
+    public Object partTwo(List<String> puzzleInput)
+    {
+        List<Claim> claims = parseClaims(puzzleInput);
+        int[][] claimCounts = countClaims(claims);
+        
+        for (Claim claim : claims)
+        {
+            if (isNonOverlappingClaim(claimCounts, claim))
+            {
+                return claim.claimId;
+            }
+        }
+        
+        throw new IllegalStateException("Error: There were no claims that overlapped.");
+    }
+    
+    /// Determines if the given claim does not overlap with any other claim.
+    ///
+    /// @param claimCounts a 2D array of the claim counts at each index.
+    /// @param claim a claim.
+    /// @return true if the claim does not overlap with any other claims.
+    private static boolean isNonOverlappingClaim(int[][] claimCounts, Claim claim)
+    {
+        int maxRowIndex = claim.topOffset + claim.height;
+        int maxColumnIndex = claim.leftOffset + claim.width;
+        
+        for (int rowIndex = claim.topOffset; rowIndex < maxRowIndex; rowIndex++)
+        {
+            for (int columnIndex = claim.leftOffset; columnIndex < maxColumnIndex; columnIndex++)
+            {
+                if (claimCounts[rowIndex][columnIndex] > 1)
+                {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
 }
