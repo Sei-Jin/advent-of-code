@@ -6,83 +6,103 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * --- Day 2: Inventory Management System ---
- */
 public class Solution implements PuzzleSolver
 {
-    /**
-     * @param inputLines the puzzle input.
-     * @return the checksum for the list of box IDs.
-     */
+    /// Calculates the checksum for the list of box ids.
+    ///
+    /// To calculate the checksum, multiply the number of box ids that contain exactly two of any
+    /// character with the number of box ids that contain exactly three of any character.
+    ///
+    /// Time Complexity: `O(n)`
+    ///
+    /// Space Complexity: `O(n)`
+    ///
+    /// @param puzzleInput the puzzle input.
+    /// @return the checksum for the list of box IDs.
     @Override
-    public Object partOne(List<String> inputLines)
+    public Object partOne(List<String> puzzleInput)
     {
         int twoCount = 0;
         int threeCount = 0;
         
-        for (String line : inputLines)
+        for (String line : puzzleInput)
         {
-            HashMap<Character, Integer> letterCount = new HashMap<>();
+            List<Character> characters = line.chars()
+                    .mapToObj(character -> (char) character)
+                    .toList();
             
-            for (int i = 0; i < line.length(); i++)
+            Map<Character, Integer> characterCount = calculateCharacterCount(characters);
+            
+            if (containsCopies(characterCount, 2))
             {
-                char ch = line.charAt(i);
-                
-                int count;
-                if (letterCount.containsKey(ch))
-                {
-                    count = letterCount.get(ch) + 1;
-                }
-                else
-                {
-                    count = 1;
-                }
-                letterCount.put(ch, count);
+                twoCount++;
             }
             
-            boolean foundPair = false;
-            boolean foundTriplet = false;
-            
-            for (Map.Entry<Character, Integer> entry : letterCount.entrySet())
+            if (containsCopies(characterCount, 3))
             {
-                int count = entry.getValue();
-                
-                if (count == 2 && !foundPair)
-                {
-                    twoCount++;
-                    foundPair = true;
-                }
-                if (count == 3 && !foundTriplet)
-                {
-                    threeCount++;
-                    foundTriplet = true;
-                }
+                threeCount++;
             }
         }
         
         return twoCount * threeCount;
     }
     
-    
-    /**
-     * @param inputLines the puzzle input.
-     * @return the letters common between the two correct box IDs.
-     */
-    @Override
-    public Object partTwo(List<String> inputLines)
+    private static Map<Character, Integer> calculateCharacterCount(List<Character> characters)
     {
-        String commonID = "";
+        Map<Character, Integer> letterCount = new HashMap<>();
         
-        for (String line : inputLines)
+        for (char character : characters)
         {
-            for (String compareLine : inputLines)
+            int count = letterCount.getOrDefault(character, 0) + 1;
+            letterCount.put(character, count);
+        }
+        
+        return letterCount;
+    }
+    
+    private static boolean containsCopies(Map<Character, Integer> letterCount, int copies)
+    {
+        for (int count : letterCount.values())
+        {
+            if (count == copies)
             {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /// Creates a new string using the common characters of the two correct box ids.
+    ///
+    /// The two correct box ids are the box ids that differ by exactly one character.
+    ///
+    /// Time Complexity: `O(n^2)`
+    ///
+    /// Space Complexity: `O(n)`
+    ///
+    /// @param puzzleInput the puzzle input.
+    /// @return the characters common between the two correct box IDs.
+    @Override
+    public Object partTwo(List<String> puzzleInput)
+    {
+        for (int outerIndex = 0; outerIndex < puzzleInput.size(); outerIndex++)
+        {
+            for (int innerIndex = 0; innerIndex < puzzleInput.size(); innerIndex++)
+            {
+                if (outerIndex == innerIndex)
+                {
+                    continue;
+                }
+                
+                String mainLine = puzzleInput.get(outerIndex);
+                String comparisonLine = puzzleInput.get(innerIndex);
+                
                 int differentCharacters = 0;
                 
-                for (int i = 0; i < line.length(); i++)
+                for (int charIndex = 0; charIndex < mainLine.length(); charIndex++)
                 {
-                    if (line.charAt(i) != compareLine.charAt(i))
+                    if (mainLine.charAt(charIndex) != comparisonLine.charAt(charIndex))
                     {
                         differentCharacters++;
                     }
@@ -92,19 +112,20 @@ public class Solution implements PuzzleSolver
                 {
                     int removeIndex = 0;
                     
-                    for (int i = 0; i < line.length(); i++)
+                    for (int charIndex = 0; charIndex < mainLine.length(); charIndex++)
                     {
-                        if (line.charAt(i) != compareLine.charAt(i))
+                        if (mainLine.charAt(charIndex) != comparisonLine.charAt(charIndex))
                         {
-                            removeIndex = i;
+                            removeIndex = charIndex;
                         }
                     }
                     
-                    commonID = line.substring(0, removeIndex) + line.substring(removeIndex + 1);
+                    return mainLine.substring(0, removeIndex) +
+                            mainLine.substring(removeIndex + 1);
                 }
             }
         }
         
-        return commonID;
+        throw new IllegalStateException("Error: No box IDs differed by exactly one character.");
     }
 }
