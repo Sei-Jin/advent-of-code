@@ -20,7 +20,7 @@ public class PuzzleInputRetriever
     ///
     /// @param puzzle the puzzle.
     /// @return the lines of input from the puzzle.
-    public static List<String> retrievePuzzleInput(Puzzle puzzle) throws URISyntaxException, IOException, InterruptedException
+    public static List<String> retrievePuzzleInput(Puzzle puzzle)
     {
         Path getInputFilePath = getInputFilePath(puzzle);
         
@@ -53,9 +53,16 @@ public class PuzzleInputRetriever
     /// The session cookie value must be retrieved from the browser and manually stored in the text file.
     ///
     /// @return the session value.
-    static String getSessionID() throws IOException
+    private static String getSessionID()
     {
-        return Files.readString(Path.of("session.txt"));
+        try
+        {
+            return Files.readString(Path.of("session.txt"));
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
     
     /// Retrieves the puzzle input for a given puzzle from the Advent of Code website.
@@ -65,7 +72,7 @@ public class PuzzleInputRetriever
     ///
     /// @param puzzle the puzzle.
     /// @return the puzzle input.
-    static String getPuzzleInputFromWebsite(Puzzle puzzle) throws URISyntaxException, IOException, InterruptedException
+    private static String getPuzzleInputFromWebsite(Puzzle puzzle)
     {
         String inputURL = "https://adventofcode.com/" +
                 puzzle.getYear() +
@@ -73,8 +80,19 @@ public class PuzzleInputRetriever
                 puzzle.getDay() +
                 "/input";
         
+        URI uri;
+        
+        try
+        {
+            uri = new URI(inputURL);
+        }
+        catch (URISyntaxException e)
+        {
+            throw new RuntimeException(e);
+        }
+        
         HttpRequest request =  HttpRequest.newBuilder()
-                .uri(new URI(inputURL))
+                .uri(uri)
                 .header("User-Agent", "github.com/Sei-Jin/Advent-of-Code by seijin.tufts@gmail.com")
                 .header("Cookie", "session=" + getSessionID())
                 .GET()
@@ -83,7 +101,16 @@ public class PuzzleInputRetriever
         HttpClient httpClient = HttpClient.newBuilder()
                 .build();
         
-        HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> httpResponse;
+        
+        try
+        {
+            httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        }
+        catch (IOException | InterruptedException e)
+        {
+            throw new RuntimeException(e);
+        }
         
         return httpResponse.body();
     }
@@ -92,24 +119,44 @@ public class PuzzleInputRetriever
     ///
     /// @param puzzle the puzzle.
     /// @param puzzleInput the puzzle input.
-    static void storePuzzleInput(Puzzle puzzle, String puzzleInput) throws IOException
+    private static void storePuzzleInput(Puzzle puzzle, String puzzleInput)
     {
         Path inputFilePath = getInputFilePath(puzzle);
-        Files.createFile(inputFilePath);
         
-        FileWriter fileWriter = new FileWriter(inputFilePath.toAbsolutePath().toString());
-        fileWriter.write(puzzleInput);
-        fileWriter.close();
+        try
+        {
+            Files.createFile(inputFilePath);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+        
+        try (FileWriter fileWriter = new FileWriter(inputFilePath.toAbsolutePath().toString()))
+        {
+            fileWriter.write(puzzleInput);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
     
     /// Retrieves the puzzle input from the puzzle input file.
     ///
     /// @param puzzle the puzzle.
     /// @return the puzzle input.
-    private static List<String> getPuzzleInputFromLocalStorage(Puzzle puzzle) throws IOException
+    private static List<String> getPuzzleInputFromLocalStorage(Puzzle puzzle)
     {
         Path fileInputPath = getInputFilePath(puzzle);
         
-        return Files.readAllLines(fileInputPath);
+        try
+        {
+            return Files.readAllLines(fileInputPath);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 }

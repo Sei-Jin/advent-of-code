@@ -75,7 +75,7 @@ public class Puzzle
     /// This method uses the Reflection API to dynamically determine which solution implementation matches the puzzle.
     ///
     /// @return the solution class for the puzzle.
-    public PuzzleSolver getPuzzleSolver()
+    public PuzzleSolver determinePuzzleSolver()
     {
         String classPath = getClassPath();
         

@@ -1,11 +1,17 @@
 package aoc.event.year2022.day06.tuningTrouble;
 
+import aoc.PuzzleRunner;
 import aoc.PuzzleSolver;
 
 import java.util.List;
 
 public class Solution implements PuzzleSolver
 {
+    public static void main(String[] args)
+    {
+        PuzzleRunner.runAndPrint(2022, 6);
+    }
+    
     /// Finds the position of the first marker.
     ///
     /// The position of the first marker is calculated by finding the first substring of distinct
