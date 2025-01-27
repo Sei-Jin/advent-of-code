@@ -40,7 +40,7 @@ public class PuzzleInputRetriever
     private static Path getInputFilePath(Puzzle puzzle)
     {
         String inputFileString = "input/year" +
-                puzzle.getYear() +
+                puzzle.year() +
                 "/day" +
                 puzzle.getDayWithPadding() +
                 ".txt";
@@ -75,9 +75,9 @@ public class PuzzleInputRetriever
     private static String getPuzzleInputFromWebsite(Puzzle puzzle)
     {
         String inputURL = "https://adventofcode.com/" +
-                puzzle.getYear() +
+                puzzle.year() +
                 "/day/" +
-                puzzle.getDay() +
+                puzzle.day() +
                 "/input";
         
         URI uri;

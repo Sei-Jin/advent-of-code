@@ -6,53 +6,47 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Puzzle
+public record Puzzle(int year, int day)
 {
-    private final int day;
-    private final int year;
-    
-    public Puzzle(int year, int day)
-    {
-        this.year = year;
-        this.day = day;
-    }
-    
-    public int getDay()
-    {
-        return day;
-    }
-    
-    public int getYear()
-    {
-        return year;
-    }
-    
-    /// This method pads an extra zero to days with single-digit values (1-9).
+    /// Determines the solution class for the puzzle.
     ///
-    /// This is useful for directory and file paths when we want all the day values to take up two digits of space.
+    /// This method uses the Reflection API to dynamically determine which solution implementation
+    /// matches the puzzle.
     ///
-    /// @return the padded day value.
-    public String getDayWithPadding()
+    /// @return the solution class for the puzzle.
+    public PuzzleSolver determinePuzzleSolver()
     {
-        boolean singleDigitDay = (day < 10);
+        String classPath = determineClassPath();
         
-        if (singleDigitDay)
+        Class<?> solutionClass;
+        
+        try
         {
-            return "0" + day;
+            solutionClass = Class.forName(classPath);
         }
-        else
+        catch (ClassNotFoundException e)
         {
-            return String.valueOf(day);
+            throw new RuntimeException(e);
+        }
+        
+        try
+        {
+            return (PuzzleSolver) solutionClass.getConstructor().newInstance();
+        }
+        catch (InstantiationException | InvocationTargetException | IllegalAccessException |
+               NoSuchMethodException e)
+        {
+            throw new RuntimeException(e);
         }
     }
     
     /// Determines the classpath of the puzzle solution.
     ///
-    /// First, the name of the puzzle must be determined. Only after the puzzle name has been determined
-    /// can the full classpath be determined.
+    /// First, the name of the puzzle must be determined. Only after the puzzle name has been
+    /// determined can the full classpath be determined.
     ///
     /// @return the classpath of the puzzle solution.
-    private String getClassPath()
+    private String determineClassPath()
     {
         String outerPath = "src/main/java/";
         String innerPath = String.format("aoc/event/year%d/day%s/", year, getDayWithPadding());
@@ -70,33 +64,23 @@ public class Puzzle
         return String.format("%s%s.Solution", dayPackageName, puzzleName);
     }
     
-    /// Determines the solution class for the puzzle.
+    /// This method pads an extra zero to days with single-digit values (1-9).
     ///
-    /// This method uses the Reflection API to dynamically determine which solution implementation matches the puzzle.
+    /// This is useful for directory and file paths when we want all the day values to take up two
+    /// digits of space.
     ///
-    /// @return the solution class for the puzzle.
-    public PuzzleSolver determinePuzzleSolver()
+    /// @return the padded day value.
+    public String getDayWithPadding()
     {
-        String classPath = getClassPath();
+        boolean singleDigitDay = (day < 10);
         
-        Class<?> solutionClass;
-        
-        try
+        if (singleDigitDay)
         {
-            solutionClass = Class.forName(classPath);
+            return "0" + day;
         }
-        catch (ClassNotFoundException e)
+        else
         {
-            throw new RuntimeException(e);
-        }
-        
-        try
-        {
-            return (PuzzleSolver) solutionClass.getConstructor().newInstance();
-        }
-        catch (InstantiationException | InvocationTargetException | IllegalAccessException | NoSuchMethodException e)
-        {
-            throw new RuntimeException(e);
+            return String.valueOf(day);
         }
     }
 }

@@ -72,7 +72,7 @@ public class PuzzleRunner
     /// @param runData the execution data of the puzzle.
     private static void print(Puzzle puzzle, RunData runData)
     {
-        System.out.printf("\n Year: %d Day: %d\n", puzzle.getYear(), puzzle.getDay());
+        System.out.printf("\n Year: %d Day: %d\n", puzzle.year(), puzzle.day());
         System.out.println("---------------");
         
         System.out.printf("%-15s", "Part One");
