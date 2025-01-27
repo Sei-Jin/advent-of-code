@@ -1,5 +1,6 @@
 package aoc.event.year2020.day01.reportRepair;
 
+import aoc.PuzzleRunner;
 import aoc.PuzzleSolver;
 
 import java.util.ArrayList;
@@ -10,6 +11,11 @@ import java.util.List;
  */
 public class Solution implements PuzzleSolver
 {
+    public static void main(String[] args)
+    {
+        PuzzleRunner.runAndPrint(2020, 1);
+    }
+    
     @Override
     public Object partOne(List<String> inputLines)
     {
