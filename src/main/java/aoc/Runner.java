@@ -9,7 +9,7 @@ public class Runner {
     }
 
     /// Stores the execution data for a single part of the puzzle.
-    private record PartData(Object result, long executionTimeInMicroseconds) {}
+    private record PartData(String result, long executionTimeInMicroseconds) {}
 
     /// Stores the execution data for both parts of the puzzle.
     protected record RunData(PartData partOne, PartData partTwo) {}
@@ -47,9 +47,9 @@ public class Runner {
     private static PartData runPart(Part part, Solver solver) {
         long startTime = System.nanoTime();
 
-        Object result = switch (part) {
-            case Part.ONE -> solver.partOne();
-            case Part.TWO -> solver.partTwo();
+        String result = switch (part) {
+            case Part.ONE -> solver.partOne().toString();
+            case Part.TWO -> solver.partTwo().toString();
         };
 
         long endTime = System.nanoTime();
@@ -79,7 +79,7 @@ public class Runner {
     ///
     /// @param result                      the solution part output.
     /// @param executionTimeInMicroseconds the execution time of the solution part.
-    private static void printPartData(Object result, long executionTimeInMicroseconds) {
+    private static void printPartData(String result, long executionTimeInMicroseconds) {
         if (result != null) {
             System.out.printf("Result: %-15s", result);
         } else {
