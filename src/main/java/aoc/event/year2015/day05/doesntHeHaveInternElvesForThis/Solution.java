@@ -1,13 +1,13 @@
 package aoc.event.year2015.day05.doesntHeHaveInternElvesForThis;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.List;
 
 /**
  * --- Day 5: Doesn't He Have Intern-Elves For This? ---
  */
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /**
      * @param inputLines the puzzle input

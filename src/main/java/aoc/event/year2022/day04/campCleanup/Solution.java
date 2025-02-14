@@ -1,12 +1,12 @@
 package aoc.event.year2022.day04.campCleanup;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /// This pattern matches the four values for the two ranges in each line of the puzzle input.
     private static final Pattern RANGE_PATTERN =

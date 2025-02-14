@@ -1,14 +1,14 @@
 package aoc.event.year2015.day07.someAssemblyRequired;
 
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.List;
 
 /**
  * --- Day 7: Some Assembly Required ---
  */
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     
     @Override

@@ -1,12 +1,12 @@
 package aoc.event.year2022.day01.calorieCounting;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /// Parses the puzzle input for the list of lists of calories.
     ///

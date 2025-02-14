@@ -1,6 +1,6 @@
 package aoc.event.year2016.day01.noTimeForATaxicab;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * --- Day 1: No Time for a Taxicab ---
  */
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /**
      * @param inputLines the puzzle input.

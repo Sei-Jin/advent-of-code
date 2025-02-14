@@ -1,11 +1,11 @@
 package aoc.event.year2022.day06.tuningTrouble;
 
 import aoc.PuzzleRunner;
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.List;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     public static void main(String[] args)
     {

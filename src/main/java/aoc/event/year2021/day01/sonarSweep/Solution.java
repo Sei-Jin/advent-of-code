@@ -1,6 +1,6 @@
 package aoc.event.year2021.day01.sonarSweep;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * --- Day 1: Sonar Sweep ---
  */
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /**
      * @param inputLines the puzzle input.

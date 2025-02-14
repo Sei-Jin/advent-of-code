@@ -1,13 +1,13 @@
 package aoc.event.year2015.day01.notQuiteLisp;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.List;
 
 /**
  * --- Day 1: Not Quite Lisp ---
  */
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /**
      * @param inputLines the puzzle input.

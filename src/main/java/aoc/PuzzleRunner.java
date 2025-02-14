@@ -33,7 +33,7 @@ public class PuzzleRunner
     /// @return the execution data for each of the two parts.
     protected static RunData run(Puzzle puzzle)
     {
-        PuzzleSolver solver = puzzle.determinePuzzleSolver();
+        Solver solver = puzzle.determinePuzzleSolver();
         BufferedReader reader = PuzzleInputRetriever.retrievePuzzleInput(puzzle);
 
         solver.parse(reader);
@@ -48,7 +48,7 @@ public class PuzzleRunner
     /// @param part the part to run.
     /// @param solver the puzzle solver.
     /// @return the execution data for the part.
-    private static PartData runPart(Part part, PuzzleSolver solver)
+    private static PartData runPart(Part part, Solver solver)
     {
         long startTime =  System.nanoTime();
 

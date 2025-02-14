@@ -1,13 +1,13 @@
 package aoc.event.year2019.day04.secureContainer;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     @Override
     public Object partOne(List<String> inputLines)

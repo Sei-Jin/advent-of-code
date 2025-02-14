@@ -14,7 +14,7 @@ public record Puzzle(int year, int day)
     /// matches the puzzle.
     ///
     /// @return the solution class for the puzzle.
-    public PuzzleSolver determinePuzzleSolver()
+    public Solver determinePuzzleSolver()
     {
         String classPath = determineClassPath();
         
@@ -31,7 +31,7 @@ public record Puzzle(int year, int day)
         
         try
         {
-            return (PuzzleSolver) solutionClass.getConstructor().newInstance();
+            return (Solver) solutionClass.getConstructor().newInstance();
         }
         catch (InstantiationException | InvocationTargetException | IllegalAccessException |
                NoSuchMethodException e)

@@ -1,13 +1,13 @@
 package aoc.event.year2019.day01.theTyrannyOfTheRocketEquation;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.List;
 
 /**
  * --- Day 1: The Tyranny of the Rocket Equation ---
  */
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /**
      * @param inputLines the puzzle input.

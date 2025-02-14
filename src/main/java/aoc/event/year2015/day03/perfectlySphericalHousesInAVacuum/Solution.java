@@ -1,6 +1,6 @@
 package aoc.event.year2015.day03.perfectlySphericalHousesInAVacuum;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * --- Day 3: Perfectly Spherical Houses in a Vacuum ---
  */
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /**
      * @param inputLines the puzzle input.

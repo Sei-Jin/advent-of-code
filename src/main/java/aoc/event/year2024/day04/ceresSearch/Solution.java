@@ -1,10 +1,10 @@
 package aoc.event.year2024.day04.ceresSearch;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.List;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /// The target string.
     final String TARGET = "XMAS";

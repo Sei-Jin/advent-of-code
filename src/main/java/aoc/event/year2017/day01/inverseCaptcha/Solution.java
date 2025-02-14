@@ -1,10 +1,10 @@
 package aoc.event.year2017.day01.inverseCaptcha;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.List;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /// Calculates the sum of all digits that match the next digit in the list.
     ///

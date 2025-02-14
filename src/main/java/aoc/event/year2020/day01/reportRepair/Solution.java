@@ -1,7 +1,7 @@
 package aoc.event.year2020.day01.reportRepair;
 
 import aoc.PuzzleRunner;
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * --- Day 1: Report Repair ---
  */
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     public static void main(String[] args)
     {

@@ -1,13 +1,13 @@
 package aoc.event.year2018.day01.chronalCalibration;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /// The starting frequency value.
     private static final int STARTING_FREQUENCY = 0;

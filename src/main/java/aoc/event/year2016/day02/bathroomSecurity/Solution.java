@@ -1,6 +1,6 @@
 package aoc.event.year2016.day02.bathroomSecurity;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.awt.*;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * --- Day 2: Bathroom Security ---
  */
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /**
      * @param inputLines the puzzle input.

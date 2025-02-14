@@ -1,10 +1,10 @@
 package aoc.event.year2023.day09.mirageMaintenance;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.List;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     @Override
     public Object partOne(List<String> inputLines)

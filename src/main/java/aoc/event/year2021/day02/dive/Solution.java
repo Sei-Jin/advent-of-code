@@ -1,13 +1,13 @@
 package aoc.event.year2021.day02.dive;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.List;
 
 /**
  * --- Day 2: Dive! ---
  */
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /**
      * @param inputLines the puzzle input.

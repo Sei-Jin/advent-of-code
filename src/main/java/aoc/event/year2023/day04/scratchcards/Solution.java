@@ -1,12 +1,12 @@
 package aoc.event.year2023.day04.scratchcards;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /// A regex pattern to parse the numbers for each set in the scratchcard.
     ///

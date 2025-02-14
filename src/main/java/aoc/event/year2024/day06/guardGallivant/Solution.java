@@ -1,13 +1,13 @@
 package aoc.event.year2024.day06.guardGallivant;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /// This character represents any obstructions that can be run into.
     static final char OBSTRUCTION = '#';

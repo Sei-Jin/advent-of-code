@@ -1,12 +1,12 @@
 package aoc.event.year2023.day03.gearRatios;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     final char EMPTY_POSITION = '.';
     

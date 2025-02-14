@@ -1,12 +1,12 @@
 package aoc.event.year2016.day06.signalsAndNoise;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     private static Map<Character, Integer> calculateCharacterCounts(
             List<String> inputLines,

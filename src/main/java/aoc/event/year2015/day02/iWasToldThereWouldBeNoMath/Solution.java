@@ -1,13 +1,13 @@
 package aoc.event.year2015.day02.iWasToldThereWouldBeNoMath;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.*;
 
 /**
  * --- Day 2: I Was Told There Would Be No Math ---
  */
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /**
      * @param inputLines the puzzle input.

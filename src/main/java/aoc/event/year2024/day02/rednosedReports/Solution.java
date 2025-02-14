@@ -1,11 +1,11 @@
 package aoc.event.year2024.day02.rednosedReports;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     @Override
     public Object partOne(List<String> inputLines)

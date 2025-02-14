@@ -1,6 +1,6 @@
 package aoc.event.year2017.day04.highEntropyPassphrases;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * --- Day 4: High-Entropy Passphrases ---
  */
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /**
      * @param inputLines the puzzle input.

@@ -1,12 +1,12 @@
 package aoc.event.year2022.day02.rockPaperScissors;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /**
      * @param inputLines the puzzle input.

@@ -1,10 +1,10 @@
 package aoc.event.year2016.day03.squaresWithThreeSides;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.*;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /**
      * @param inputLines the puzzle input.

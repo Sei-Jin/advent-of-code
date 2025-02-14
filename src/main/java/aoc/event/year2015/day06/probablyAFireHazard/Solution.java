@@ -1,6 +1,6 @@
 package aoc.event.year2015.day06.probablyAFireHazard;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.awt.*;
 import java.util.Arrays;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * --- Day 6: Probably a Fire Hazard ---
  */
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /**
      * @param inputLines the puzzle input.

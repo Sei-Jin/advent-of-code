@@ -1,12 +1,12 @@
 package aoc.event.year2018.day02.inventoryManagementSystem;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /// Calculates the checksum for the list of box ids.
     ///

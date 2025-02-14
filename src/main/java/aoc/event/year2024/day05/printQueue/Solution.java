@@ -1,11 +1,11 @@
 package aoc.event.year2024.day05.printQueue;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /// Calculates the sum of the middle page numbers for valid updates.
     ///

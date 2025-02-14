@@ -1,12 +1,12 @@
 package aoc.event.year2022.day05.supplyStacks;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /// Determines the crates left at the top of each stack after the crate-moving procedure has
     /// executed.

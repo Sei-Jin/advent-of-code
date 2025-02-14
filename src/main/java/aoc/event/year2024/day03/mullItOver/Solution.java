@@ -1,13 +1,13 @@
 package aoc.event.year2024.day03.mullItOver;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /// This enum stores the regular expression for each type of instruction.
     enum Instruction

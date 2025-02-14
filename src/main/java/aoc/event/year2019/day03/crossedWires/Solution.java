@@ -1,6 +1,6 @@
 package aoc.event.year2019.day03.crossedWires;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.awt.*;
 
@@ -19,7 +19,7 @@ import java.util.List;
  *     starting location to an intersection point.</li>
  * </ul>
  */
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /**
      * The location of the central port is (0, 0). The central port is the starting location of the wires,

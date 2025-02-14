@@ -1,6 +1,6 @@
 package aoc.event.year2023.day02.cubeConundrum;
 
-import aoc.PuzzleSolver;
+import aoc.DeprecatedSolver;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import java.util.Scanner;
 /**
  * --- Day 2: Cube Conundrum ---
  */
-public class Solution implements PuzzleSolver
+public class Solution implements DeprecatedSolver
 {
     /**
      * @param inputLines the puzzle input.
