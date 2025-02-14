@@ -2,8 +2,8 @@ package aoc.event.year2024.day01.historianHysteria;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.StringReader;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -12,15 +12,18 @@ public class SolutionTests
     @Test
     void exampleList()
     {
-        List<String> input = new ArrayList<>(List.of(
-                "3   4",
-                "4   3",
-                "2   5",
-                "1   3",
-                "3   9",
-                "3   3"
-        ));
-        assertEquals(11, new Solution().partOne(input));
-        assertEquals(31, new Solution().partTwo(input));
+        final var input = """
+                3   4
+                4   3
+                2   5
+                1   3
+                3   9
+                3   3
+                """;
+        BufferedReader reader = new BufferedReader(new StringReader(input));
+
+        Solution.parse(reader);
+        assertEquals(11, new Solution().partOne());
+        assertEquals(31, new Solution().partTwo());
     }
 }

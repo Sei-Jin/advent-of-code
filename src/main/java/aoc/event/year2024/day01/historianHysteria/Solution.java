@@ -1,16 +1,18 @@
 package aoc.event.year2024.day01.historianHysteria;
 
 import aoc.PuzzleRunner;
-import aoc.PuzzleSolver;
 
+import java.io.BufferedReader;
 import java.util.*;
 import java.util.regex.Pattern;
 
 /// 2024 Day 1 - Historian Hysteria
-public class Solution implements PuzzleSolver {
+public class Solution {
 
     /// Pattern for each line of the puzzle input
     private static final Pattern LINE_PATTERN = Pattern.compile("(\\d+)\\s+(\\d+)");
+
+    private static IdLists ID_LISTS;
 
     /// This record class stores the data for the two lists of ids.
     ///
@@ -37,42 +39,26 @@ public class Solution implements PuzzleSolver {
     /// and the second id is placed in the second list. Also note that the ids can be longer
     /// than a single digit.
     ///
-    /// @param puzzleInput the puzzle input.
-    /// @return a record of the two id lists.
-    private static IdLists parse(List<String> puzzleInput) {
+    /// @param reader the puzzle input.
+    public static void parse(BufferedReader reader) {
         final var firstList = new ArrayList<Integer>();
         final var secondList = new ArrayList<Integer>();
 
-        for (final var line : puzzleInput) {
-            final var matcher = LINE_PATTERN.matcher(line);
+        reader.lines()
+                .forEach(line -> {
+                    final var matcher = LINE_PATTERN.matcher(line);
 
-            if (matcher.find()) {
-                firstList.add(Integer.valueOf(matcher.group(1)));
-                secondList.add(Integer.valueOf(matcher.group(2)));
-            } else {
-                throw new IllegalArgumentException(
-                        "Encountered unexpected format in puzzle input for line: %s".formatted(line)
-                );
-            }
-        }
+                    if (matcher.find()) {
+                        firstList.add(Integer.valueOf(matcher.group(1)));
+                        secondList.add(Integer.valueOf(matcher.group(2)));
+                    } else {
+                        throw new IllegalArgumentException(
+                                String.format("Unexpected format in input: %s", line)
+                        );
+                    }
+                });
 
-        return new IdLists(firstList, secondList);
-    }
-
-    /// Calculates the total distance between the two lists of ids.
-    ///
-    /// Time Complexity: O(n log n)
-    /// - The id lists are sorted when calculating the total distance.
-    ///
-    /// Space Complexity: O(n)
-    /// - All ids from the puzzle input are parsed and then stored.
-    ///
-    /// @param puzzleInput the puzzle input.
-    /// @return the total distance between the two lists of ids.
-    @Override
-    public Object partOne(List<String> puzzleInput) {
-        final var idLists = parse(puzzleInput);
-        return calculateTotalDistance(idLists);
+        ID_LISTS = new IdLists(firstList, secondList);
     }
 
     /// Calculates the total distance between the ids of the two lists.
@@ -80,17 +66,22 @@ public class Solution implements PuzzleSolver {
     /// The total distance is calculated by comparing the ids in each list from smallest to
     /// largest, finding the difference between them, and adding it to a running total.
     ///
-    /// @param idLists the two ids lists.
-    /// @return the total distance between the numbers of the two lists.
-    private static int calculateTotalDistance(IdLists idLists) {
-        Collections.sort(idLists.firstList());
-        Collections.sort(idLists.secondList());
+    /// Time Complexity: O(n log n)
+    /// - The id lists are sorted when calculating the total distance.
+    ///
+    /// Space Complexity: O(n)
+    /// - All ids from the puzzle input are parsed and then stored.
+    ///
+    /// @return the total distance between the two lists of ids.
+    public Object partOne() {
+        Collections.sort(ID_LISTS.firstList());
+        Collections.sort(ID_LISTS.secondList());
 
         var totalDistance = 0;
 
-        for (var index = 0; index < idLists.firstList().size(); index++) {
-            final var first = idLists.firstList().get(index);
-            final var second = idLists.secondList().get(index);
+        for (var index = 0; index < ID_LISTS.firstList().size(); index++) {
+            final var first = ID_LISTS.firstList().get(index);
+            final var second = ID_LISTS.secondList().get(index);
             totalDistance += Math.abs(first - second);
         }
 
@@ -99,22 +90,6 @@ public class Solution implements PuzzleSolver {
 
     /// Calculates the similarity score between the two lists of ids.
     ///
-    /// Time Complexity: O(n)
-    /// - All methods are done in linear or constant time.
-    ///
-    /// Space Complexity: O(n)
-    /// - The entire puzzle input is stored.
-    ///
-    /// @param puzzleInput the puzzle input.
-    /// @return the similarity score between the two lists of ids.
-    @Override
-    public Object partTwo(List<String> puzzleInput) {
-        final var idLists = parse(puzzleInput);
-        return calculateSimilarityScore(idLists);
-    }
-
-    /// Calculates the similarity score between the two lists.
-    ///
     /// To calculate the similarity score between the two lists, the ids in one list are
     /// multiplied by their frequency in the other list and added to a running total.
     ///
@@ -122,14 +97,19 @@ public class Solution implements PuzzleSolver {
     /// the calculation could have been done the other way around, where each id in the second
     /// list is multiplied by its frequency in the first.
     ///
-    /// @param idLists the lists of ids.
-    /// @return the similarity score between the two lists.
-    private static int calculateSimilarityScore(IdLists idLists) {
-        final var secondIdListFrequencies = calculateFrequencies(idLists.secondList);
+    /// Time Complexity: O(n)
+    /// - All methods are done in linear or constant time.
+    ///
+    /// Space Complexity: O(n)
+    /// - The entire puzzle input is stored.
+    ///
+    /// @return the similarity score between the two lists of ids.
+    public Object partTwo() {
+        final var secondIdListFrequencies = calculateFrequencies(ID_LISTS.secondList);
 
         var similarityScore = 0;
 
-        for (final var id : idLists.firstList) {
+        for (final var id : ID_LISTS.firstList) {
             final var frequency = secondIdListFrequencies.getOrDefault(id, 0);
             similarityScore += id * frequency;
         }
