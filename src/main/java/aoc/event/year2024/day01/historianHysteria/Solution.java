@@ -1,13 +1,14 @@
 package aoc.event.year2024.day01.historianHysteria;
 
 import aoc.PuzzleRunner;
+import aoc.PuzzleSolver;
 
 import java.io.BufferedReader;
 import java.util.*;
 import java.util.regex.Pattern;
 
 /// 2024 Day 1 - Historian Hysteria
-public class Solution {
+public class Solution implements PuzzleSolver {
 
     /// Pattern for each line of the puzzle input
     private static final Pattern LINE_PATTERN = Pattern.compile("(\\d+)\\s+(\\d+)");
@@ -40,7 +41,8 @@ public class Solution {
     /// than a single digit.
     ///
     /// @param reader the puzzle input.
-    public static void parse(BufferedReader reader) {
+    @Override
+    public void parse(BufferedReader reader) {
         final var firstList = new ArrayList<Integer>();
         final var secondList = new ArrayList<Integer>();
 
@@ -73,6 +75,7 @@ public class Solution {
     /// - All ids from the puzzle input are parsed and then stored.
     ///
     /// @return the total distance between the two lists of ids.
+    @Override
     public Object partOne() {
         Collections.sort(ID_LISTS.firstList());
         Collections.sort(ID_LISTS.secondList());
@@ -104,6 +107,7 @@ public class Solution {
     /// - The entire puzzle input is stored.
     ///
     /// @return the similarity score between the two lists of ids.
+    @Override
     public Object partTwo() {
         final var secondIdListFrequencies = calculateFrequencies(ID_LISTS.secondList);
 

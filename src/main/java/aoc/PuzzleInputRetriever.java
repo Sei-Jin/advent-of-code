@@ -1,5 +1,7 @@
 package aoc;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
@@ -8,7 +10,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 public class PuzzleInputRetriever
 {
@@ -20,7 +21,7 @@ public class PuzzleInputRetriever
     ///
     /// @param puzzle the puzzle.
     /// @return the lines of input from the puzzle.
-    public static List<String> retrievePuzzleInput(Puzzle puzzle)
+    public static BufferedReader retrievePuzzleInput(Puzzle puzzle)
     {
         Path inputFilePath = getInputFilePath(puzzle);
         
@@ -149,11 +150,11 @@ public class PuzzleInputRetriever
     ///
     /// @param fileInputPath the path to the puzzle input.
     /// @return the puzzle input.
-    private static List<String> getPuzzleInputFromLocalStorage(Path fileInputPath)
+    private static BufferedReader getPuzzleInputFromLocalStorage(Path fileInputPath)
     {
         try
         {
-            return Files.readAllLines(fileInputPath);
+            return new BufferedReader(new FileReader(String.valueOf(fileInputPath)));
         }
         catch (IOException e)
         {

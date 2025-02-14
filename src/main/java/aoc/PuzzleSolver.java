@@ -1,9 +1,9 @@
 package aoc;
 
-import java.util.List;
+import java.io.BufferedReader;
 
-public interface PuzzleSolver
-{
-    Object partOne(List<String> inputLines);
-    Object partTwo(List<String> inputLines);
+public interface PuzzleSolver {
+    void parse(BufferedReader reader);
+    Object partOne();
+    Object partTwo();
 }

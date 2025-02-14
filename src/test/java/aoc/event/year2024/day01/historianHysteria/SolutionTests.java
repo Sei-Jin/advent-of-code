@@ -9,6 +9,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SolutionTests
 {
+    Solution solution = new Solution();
+
     @Test
     void exampleList()
     {
@@ -22,7 +24,7 @@ public class SolutionTests
                 """;
         BufferedReader reader = new BufferedReader(new StringReader(input));
 
-        Solution.parse(reader);
+        solution.parse(reader);
         assertEquals(11, new Solution().partOne());
         assertEquals(31, new Solution().partTwo());
     }

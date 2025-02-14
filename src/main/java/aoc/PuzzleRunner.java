@@ -1,6 +1,6 @@
 package aoc;
 
-import java.util.List;
+import java.io.BufferedReader;
 
 public class PuzzleRunner
 {
@@ -33,11 +33,12 @@ public class PuzzleRunner
     /// @return the execution data for each of the two parts.
     protected static RunData run(Puzzle puzzle)
     {
-        PuzzleSolver puzzleSolver = puzzle.determinePuzzleSolver();
-        List<String> puzzleInput = PuzzleInputRetriever.retrievePuzzleInput(puzzle);
-        
-        PartData partOne = runPart(Part.ONE, puzzleSolver, puzzleInput);
-        PartData partTwo = runPart(Part.TWO, puzzleSolver, puzzleInput);
+        PuzzleSolver solver = puzzle.determinePuzzleSolver();
+        BufferedReader reader = PuzzleInputRetriever.retrievePuzzleInput(puzzle);
+
+        solver.parse(reader);
+        PartData partOne = runPart(Part.ONE, solver);
+        PartData partTwo = runPart(Part.TWO, solver);
         
         return new RunData(partOne, partTwo);
     }
@@ -46,16 +47,15 @@ public class PuzzleRunner
     ///
     /// @param part the part to run.
     /// @param solver the puzzle solver.
-    /// @param puzzleInput the input of the puzzle.
     /// @return the execution data for the part.
-    private static PartData runPart(Part part, PuzzleSolver solver, List<String> puzzleInput)
+    private static PartData runPart(Part part, PuzzleSolver solver)
     {
         long startTime =  System.nanoTime();
-        
-        Object partOneResult = switch (part)
+
+        Object result = switch(part)
         {
-            case Part.ONE -> solver.partOne(puzzleInput);
-            case Part.TWO -> solver.partTwo(puzzleInput);
+            case Part.ONE -> solver.partOne();
+            case Part.TWO -> solver.partTwo();
         };
         
         long endTime = System.nanoTime();
@@ -63,7 +63,7 @@ public class PuzzleRunner
         // Dividing by 1000 gives the time in microseconds instead of nanoseconds.
         long executionTimeInMicroseconds = (endTime - startTime) / 1000;
         
-        return new PartData(partOneResult, executionTimeInMicroseconds);
+        return new PartData(result, executionTimeInMicroseconds);
     }
     
     /// Prints the execution data for the puzzle.
