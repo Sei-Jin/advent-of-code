@@ -1,6 +1,6 @@
 package aoc.event.year2022.day06.tuningTrouble;
 
-import aoc.PuzzleRunner;
+import aoc.Runner;
 import aoc.DeprecatedSolver;
 
 import java.util.List;
@@ -9,7 +9,7 @@ public class Solution implements DeprecatedSolver
 {
     public static void main(String[] args)
     {
-        PuzzleRunner.runAndPrint(2022, 6);
+        Runner.runAndPrint(2022, 6);
     }
     
     /// Finds the position of the first marker.

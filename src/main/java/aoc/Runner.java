@@ -2,7 +2,7 @@ package aoc;
 
 import java.io.BufferedReader;
 
-public class PuzzleRunner {
+public class Runner {
     /// There are two parts to each puzzle.
     private enum Part {
         ONE, TWO

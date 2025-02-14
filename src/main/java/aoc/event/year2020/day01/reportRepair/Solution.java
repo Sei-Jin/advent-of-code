@@ -1,6 +1,6 @@
 package aoc.event.year2020.day01.reportRepair;
 
-import aoc.PuzzleRunner;
+import aoc.Runner;
 import aoc.DeprecatedSolver;
 
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ public class Solution implements DeprecatedSolver
 {
     public static void main(String[] args)
     {
-        PuzzleRunner.runAndPrint(2020, 1);
+        Runner.runAndPrint(2020, 1);
     }
     
     @Override

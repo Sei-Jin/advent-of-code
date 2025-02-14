@@ -7,7 +7,7 @@ public class CommandLineRunner
     public static void main(String[] args)
     {
         UserInput userInput = retrieveUserInput();
-        PuzzleRunner.runAndPrint(userInput.year(), userInput.day());
+        Runner.runAndPrint(userInput.year(), userInput.day());
     }
     
     /// Stores the data entered by the user.

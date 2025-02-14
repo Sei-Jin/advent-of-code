@@ -1,6 +1,6 @@
 package aoc.event.year2024.day01.historianHysteria;
 
-import aoc.PuzzleRunner;
+import aoc.Runner;
 import aoc.Solver;
 
 import java.io.BufferedReader;
@@ -137,6 +137,6 @@ public class Solution implements Solver {
     }
 
     public static void main(String[] args) {
-        PuzzleRunner.runAndPrint(2024, 1);
+        Runner.runAndPrint(2024, 1);
     }
 }
