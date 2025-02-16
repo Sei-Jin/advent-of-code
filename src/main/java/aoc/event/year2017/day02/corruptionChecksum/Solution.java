@@ -1,107 +1,84 @@
 package aoc.event.year2017.day02.corruptionChecksum;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
-/**
- * --- Day 2: Corruption Checksum ---
- */
-public class Solution implements DeprecatedSolver
-{
-    /**
-     * @param inputLines the puzzle input.
-     * @return the checksum for the spreadsheet.
-     */
+/// --- Day 2: Corruption Checksum ---
+public class Solution implements Solver {
+    
+    private static final List<List<Integer>> INPUT = new ArrayList<>();
+    private static final Pattern NUMBER_PATTERN = Pattern.compile("(\\d+)");
+    
     @Override
-    public Object partOne(List<String> inputLines)
-    {
-        int checkSumDifference = 0;
-        
-        for (String line : inputLines)
-        {
-            List<Integer> numbers = getNumbers(line);
-            checkSumDifference += findDifference(numbers);
-        }
-        
-        return checkSumDifference;
+    public void parse(String input) {
+        input.lines()
+                .forEach(line -> {
+                    final var numbers = NUMBER_PATTERN.matcher(line)
+                            .results()
+                            .mapToInt(match -> Integer.parseInt(match.group()))
+                            .boxed()
+                            .toList();
+                    
+                    INPUT.add(numbers);
+                });
     }
     
-    
-    /**
-     * @param line a line from the puzzle input.
-     * @return a {@code List} of the numbers in {@code line}.
-     */
-    private static List<Integer> getNumbers(String line)
-    {
-        return Arrays.stream(line.split("\\s"))
-                .map(Integer::parseInt)
-                .toList();
+    /// @return the checksum for the spreadsheet.
+    @Override
+    public Integer partOne() {
+        return INPUT.stream()
+                .mapToInt(Solution::findDifference)
+                .sum();
     }
     
-    
-    private static int findDifference(List<Integer> numbers)
-    {
-        int minimumNumber = numbers.getFirst();
-        int maximumNumber = numbers.getFirst();
+    private static int findDifference(List<Integer> numbers) {
+        var min = numbers.getFirst();
+        var max = numbers.getFirst();
         
-        for (int number : numbers)
-        {
-            if (minimumNumber > number)
-            {
-                minimumNumber = number;
+        for (final var number : numbers) {
+            if (min > number) {
+                min = number;
             }
             
-            if (maximumNumber < number)
-            {
-                maximumNumber = number;
+            if (max < number) {
+                max = number;
             }
         }
         
-        return maximumNumber - minimumNumber;
+        return max - min;
     }
     
-    
-    /**
-     * @param inputLines the puzzle input.
-     * @return the sum of each row's divisible result.
-     */
+    /// @return the sum of each row's divisible result.
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
-        int checkSumDivisible = 0;
-        
-        for (String line : inputLines)
-        {
-            List<Integer> numbers = getNumbers(line);
-            checkSumDivisible += findDivisible(numbers);
-        }
-        
-        return checkSumDivisible;
+    public Integer partTwo() {
+        return INPUT.stream()
+                .mapToInt(Solution::findDivisible)
+                .sum();
     }
     
-    
-    private static int findDivisible(List<Integer> numbers)
-    {
-        for (int outerIndex = 0; outerIndex < numbers.size(); outerIndex++)
-        {
-            for (int innerIndex = 0; innerIndex < numbers.size(); innerIndex++)
-            {
-                if (outerIndex == innerIndex)
-                {
+    private static int findDivisible(List<Integer> numbers) {
+        for (int outer = 0; outer < numbers.size(); outer++) {
+            for (int inner = 0; inner < numbers.size(); inner++) {
+                if (outer == inner) {
                     continue;
                 }
                 
-                boolean isDivisible = (numbers.get(outerIndex) % numbers.get(innerIndex) == 0);
+                boolean isDivisible = ((numbers.get(outer) % numbers.get(inner)) == 0);
                 
-                if (isDivisible)
-                {
-                    return numbers.get(outerIndex) / numbers.get(innerIndex);
+                if (isDivisible) {
+                    return numbers.get(outer) / numbers.get(inner);
                 }
             }
         }
         
-        return 0;
+        throw new IllegalArgumentException("No divisible numbers were found");
+    }
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2017, 2);
     }
 }
