@@ -1,9 +1,7 @@
 package aoc;
 
-import java.io.BufferedReader;
-
 public interface Solver {
-    void parse(BufferedReader reader);
+    void parse(String input);
     Object partOne();
     Object partTwo();
 }

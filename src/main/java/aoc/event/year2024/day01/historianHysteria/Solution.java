@@ -3,8 +3,6 @@ package aoc.event.year2024.day01.historianHysteria;
 import aoc.Runner;
 import aoc.Solver;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -42,13 +40,13 @@ public class Solution implements Solver {
     /// and the second id is placed in the second list. Also note that the ids can be longer
     /// than a single digit.
     ///
-    /// @param reader the puzzle input.
+    /// @param input the puzzle input.
     @Override
-    public void parse(BufferedReader reader) {
+    public void parse(String input) {
         final var first = new ArrayList<Integer>();
         final var second = new ArrayList<Integer>();
 
-        reader.lines()
+        input.lines()
                 .forEach(line -> {
                     final var matcher = LINE_PATTERN.matcher(line);
 
@@ -61,12 +59,6 @@ public class Solution implements Solver {
                         );
                     }
                 });
-
-        try {
-            reader.close();
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to close reader" + e);
-        }
 
         ID_LISTS = new IdLists(first, second);
     }
@@ -84,7 +76,7 @@ public class Solution implements Solver {
     ///
     /// @return the total distance between the two lists of ids.
     @Override
-    public Object partOne() {
+    public Integer partOne() {
         Collections.sort(ID_LISTS.first());
         Collections.sort(ID_LISTS.second());
 
@@ -116,7 +108,7 @@ public class Solution implements Solver {
     ///
     /// @return the similarity score between the two lists of ids.
     @Override
-    public Object partTwo() {
+    public Integer partTwo() {
         final var frequencies = calculateFrequencies(ID_LISTS.second);
 
         var similarityScore = 0;

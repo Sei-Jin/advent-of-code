@@ -1,7 +1,5 @@
 package aoc;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
@@ -20,8 +18,8 @@ public class PuzzleInputRetriever
     /// retrieved from local storage.
     ///
     /// @param puzzle the puzzle.
-    /// @return the lines of input from the puzzle.
-    public static BufferedReader retrievePuzzleInput(Puzzle puzzle)
+    /// @return the puzzle input.
+    public static String retrievePuzzleInput(Puzzle puzzle)
     {
         Path inputFilePath = getInputFilePath(puzzle);
         
@@ -150,15 +148,15 @@ public class PuzzleInputRetriever
     ///
     /// @param fileInputPath the path to the puzzle input.
     /// @return the puzzle input.
-    private static BufferedReader getPuzzleInputFromLocalStorage(Path fileInputPath)
+    private static String getPuzzleInputFromLocalStorage(Path fileInputPath)
     {
         try
         {
-            return new BufferedReader(new FileReader(String.valueOf(fileInputPath)));
+            return Files.readString(fileInputPath);
         }
         catch (IOException e)
         {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Failed to read the file: " + e);
         }
     }
 }

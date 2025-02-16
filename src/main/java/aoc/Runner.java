@@ -1,7 +1,5 @@
 package aoc;
 
-import java.io.BufferedReader;
-
 public class Runner {
 
     /// There are two parts to each puzzle.
@@ -41,19 +39,19 @@ public class Runner {
     /// @return the execution data for each of the two parts.
     protected static RunData run(Puzzle puzzle) {
         final var solver = puzzle.determinePuzzleSolver();
-        final var reader = PuzzleInputRetriever.retrievePuzzleInput(puzzle);
+        final var input = PuzzleInputRetriever.retrievePuzzleInput(puzzle);
 
-        final var parser = runParser(solver, reader);
+        final var parser = runParser(solver, input);
         final var partOne = runPart(Part.ONE, solver);
         final var partTwo = runPart(Part.TWO, solver);
 
         return new RunData(parser, partOne, partTwo);
     }
 
-    private static Data runParser(Solver solver, BufferedReader reader) {
+    private static Data runParser(Solver solver, String input) {
         final var startTime = System.nanoTime();
 
-        solver.parse(reader);
+        solver.parse(input);
 
         final var endTime = System.nanoTime();
         final var executionTimeInMicroseconds = (endTime - startTime) / 1000;
