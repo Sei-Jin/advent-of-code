@@ -3,46 +3,41 @@ package aoc.event.year2017.day01.inverseCaptcha;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SolutionTests
 {
+    private static final Solution solution = new Solution();
+
     @Nested
     class PartOne
     {
         @Test
         void twoDigitsRepeatNext()
         {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("1122");
-            assertEquals(3, new Solution().partOne(inputLines));
+            solution.parse("1122");
+            assertEquals(3, solution.partOne());
         }
         
         @Test
         void allDigitsRepeatNext()
         {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("1111");
-            assertEquals(4, new Solution().partOne(inputLines));
+            solution.parse("1111");
+            assertEquals(4, solution.partOne());
         }
         
         @Test
         void noDigitsRepeatNext()
         {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("1234");
-            assertEquals(0, new Solution().partOne(inputLines));
+            solution.parse("1234");
+            assertEquals(0, solution.partOne());
         }
         
         @Test
         void endDigitRepeatsNext()
         {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("91212129");
-            assertEquals(9, new Solution().partOne(inputLines));
+            solution.parse("91212129");
+            assertEquals(9, solution.partOne());
         }
     }
     
@@ -53,41 +48,36 @@ public class SolutionTests
         @Test
         void allDigitsRepeatHalfway()
         {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("1212");
-            assertEquals(6, new Solution().partTwo(inputLines));
+            solution.parse("1212");
+            assertEquals(6, solution.partTwo());
         }
         
         @Test
         void noDigitsRepeatHalfway()
         {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("1221");
-            assertEquals(0, new Solution().partTwo(inputLines));
+            solution.parse("1221");
+            assertEquals(0, solution.partTwo());
         }
         
         @Test
         void oneDigitRepeatsHalfway()
         {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("123425");
-            assertEquals(4, new Solution().partTwo(inputLines));
+            solution.parse("123425");
+            assertEquals(4, solution.partTwo());
         }
         
         @Test
         void allDigitsRepeatHalfway2()
         {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("123123");
-            assertEquals(12, new Solution().partTwo(inputLines));
+            solution.parse("123123");
+            assertEquals(12, solution.partTwo());
         }
         
         @Test
         void twoDigitsRepeatHalfway()
         {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("12131415");
-            assertEquals(4, new Solution().partTwo(inputLines));
+            solution.parse("12131415");
+            assertEquals(4, solution.partTwo());
         }
     }
 }
