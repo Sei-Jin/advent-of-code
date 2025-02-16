@@ -152,7 +152,7 @@ public class PuzzleInputRetriever
     {
         try
         {
-            return Files.readString(fileInputPath);
+            return Files.readString(fileInputPath).trim();
         }
         catch (IOException e)
         {
