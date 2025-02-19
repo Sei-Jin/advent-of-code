@@ -8,7 +8,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 public class PuzzleInputRetriever
 {
@@ -20,7 +19,7 @@ public class PuzzleInputRetriever
     ///
     /// @param puzzle the puzzle.
     /// @return the puzzle input.
-    public static List<String> retrievePuzzleInput(Puzzle puzzle)
+    public static String retrievePuzzleInput(Puzzle puzzle)
     {
         Path inputFilePath = getInputFilePath(puzzle);
         
@@ -149,11 +148,11 @@ public class PuzzleInputRetriever
     ///
     /// @param fileInputPath the path to the puzzle input.
     /// @return the puzzle input.
-    private static List<String> getPuzzleInputFromLocalStorage(Path fileInputPath)
+    private static String getPuzzleInputFromLocalStorage(Path fileInputPath)
     {
         try
         {
-            return Files.readAllLines(fileInputPath);
+            return Files.readString(fileInputPath).trim();
         }
         catch (IOException e)
         {
