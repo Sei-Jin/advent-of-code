@@ -3,23 +3,30 @@ package aoc.event.year2017.day01.inverseCaptcha;
 import aoc.Runner;
 import aoc.Solver;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Solution implements Solver {
     
     /// Stores the puzzle input as a list of digits.
-    private List<Integer> INPUT = new ArrayList<>();
+    private final List<Integer> digits;
     
-    /// Converts the puzzle input to a list of digits.
+    /// Initializes the solution.
+    ///
+    /// @param input the puzzle input.
+    public Solution(String input) {
+        this.digits = Collections.unmodifiableList(parse(input));
+    }
+    
+    /// Parses the puzzle input as a list of digits.
     ///
     /// The puzzle input is in the form `#####...`, where each `#` is a digit. A digit is any
     /// `Integer` in the range `0–9`.
     ///
     /// @param input the puzzle input.
-    @Override
-    public void parse(String input) {
-        INPUT = input.chars()
+    /// @return a list of digits.
+    private List<Integer> parse(String input) {
+        return input.chars()
                 .map(Character::getNumericValue)
                 .boxed()
                 .toList();
@@ -34,12 +41,12 @@ public class Solution implements Solver {
     private int sumRepeatingDigits(int repetitionOffset) {
         var sum = 0;
         
-        for (var index = 0; index < INPUT.size(); index++) {
-            final var first = INPUT.get(index);
-            final var second = INPUT.get((index + repetitionOffset) % INPUT.size());
+        for (var index = 0; index < digits.size(); index++) {
+            final var first = digits.get(index);
+            final var second = digits.get((index + repetitionOffset) % digits.size());
             
             if (first.equals(second)) {
-                sum += INPUT.get(index);
+                sum += digits.get(index);
             }
         }
         
@@ -48,8 +55,8 @@ public class Solution implements Solver {
     
     /// Calculates the sum of all digits that match the next digit in the list.
     ///
-    /// Time Complexity: O(n)
-    /// Space Complexity: O(n)
+    /// - Time Complexity: O(n)
+    /// - Space Complexity: O(n)
     ///
     /// @return the solution to the captcha.
     @Override
@@ -59,13 +66,13 @@ public class Solution implements Solver {
     
     /// Calculates the sum of all digits that have a matching digit halfway around the list.
     ///
-    /// Time Complexity: O(n)
-    /// Space Complexity: O(n)
+    /// - Time Complexity: O(n)
+    /// - Space Complexity: O(n)
     ///
     /// @return the solution to the new captcha.
     @Override
     public Integer partTwo() {
-        return sumRepeatingDigits(INPUT.size() / 2);
+        return sumRepeatingDigits(digits.size() / 2);
     }
     
     /// Runs the solution.
