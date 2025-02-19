@@ -8,19 +8,18 @@ import java.util.regex.Pattern;
 
 /// 2024 Day 1 - Historian Hysteria
 public class Solution implements Solver {
-
+    
     /// Pattern for each line of the puzzle input
     private static final Pattern LINE_PATTERN = Pattern.compile("(\\d+)\\s+(\\d+)");
-
-    /// The id lists parsed from the puzzle input.
-    private static IdLists ID_LISTS;
-
-    /// Stores the data for the two lists of ids.
-    ///
-    /// @param first  the first list of ids.
-    /// @param second the second list of ids.
-    private record IdLists(List<Integer> first, List<Integer> second) {}
-
+    
+    /// Stores the id lists.
+    private static IdLists idLists;
+    
+    /// Initializes the solution with the parsed puzzle input.
+    public Solution(String input) {
+        idLists = parse(input);
+    }
+    
     /// Parses the puzzle input for the ids in each list.
     ///
     /// The puzzle input is in the form:
@@ -41,28 +40,26 @@ public class Solution implements Solver {
     /// than a single digit.
     ///
     /// @param input the puzzle input.
-    @Override
-    public void parse(String input) {
+    private IdLists parse(String input) {
         final var first = new ArrayList<Integer>();
         final var second = new ArrayList<Integer>();
-
-        input.lines()
-                .forEach(line -> {
-                    final var matcher = LINE_PATTERN.matcher(line);
-
-                    if (matcher.find()) {
-                        first.add(Integer.valueOf(matcher.group(1)));
-                        second.add(Integer.valueOf(matcher.group(2)));
-                    } else {
-                        throw new IllegalArgumentException(
-                                String.format("Unexpected format in input: %s", line)
-                        );
-                    }
-                });
-
-        ID_LISTS = new IdLists(first, second);
+        
+        input.lines().forEach(line -> {
+            final var matcher = LINE_PATTERN.matcher(line);
+            
+            if (matcher.find()) {
+                first.add(Integer.valueOf(matcher.group(1)));
+                second.add(Integer.valueOf(matcher.group(2)));
+            } else {
+                throw new IllegalArgumentException(
+                        String.format("Unexpected format in input: %s", line)
+                );
+            }
+        });
+        
+        return new IdLists(first, second);
     }
-
+    
     /// Calculates the total distance between the ids of the two lists.
     ///
     /// The total distance is calculated by comparing the ids in each list from smallest to
@@ -77,20 +74,20 @@ public class Solution implements Solver {
     /// @return the total distance between the two lists of ids.
     @Override
     public Integer partOne() {
-        Collections.sort(ID_LISTS.first());
-        Collections.sort(ID_LISTS.second());
-
+        Collections.sort(idLists.first());
+        Collections.sort(idLists.second());
+        
         var totalDistance = 0;
-
-        for (var index = 0; index < ID_LISTS.first().size(); index++) {
-            final var first = ID_LISTS.first().get(index);
-            final var second = ID_LISTS.second().get(index);
+        
+        for (var index = 0; index < idLists.first().size(); index++) {
+            final var first = idLists.first().get(index);
+            final var second = idLists.second().get(index);
             totalDistance += Math.abs(first - second);
         }
-
+        
         return totalDistance;
     }
-
+    
     /// Calculates the similarity score between the two lists of ids.
     ///
     /// To calculate the similarity score between the two lists, the ids in one list are
@@ -109,33 +106,40 @@ public class Solution implements Solver {
     /// @return the similarity score between the two lists of ids.
     @Override
     public Integer partTwo() {
-        final var frequencies = calculateFrequencies(ID_LISTS.second);
-
+        final var frequencies = calculateFrequencies(idLists.second);
+        
         var similarityScore = 0;
-
-        for (final var id : ID_LISTS.first) {
+        
+        for (final var id : idLists.first) {
             final var frequency = frequencies.getOrDefault(id, 0);
             similarityScore += id * frequency;
         }
-
+        
         return similarityScore;
     }
-
+    
     /// Calculates a frequency map of the numbers in the list.
     ///
     /// @param list a list.
     /// @return a frequency map of the numbers in the list.
     private static Map<Integer, Integer> calculateFrequencies(List<Integer> list) {
         final var frequencies = new HashMap<Integer, Integer>();
-
+        
         for (final var number : list) {
             final var frequency = frequencies.getOrDefault(number, 0) + 1;
             frequencies.put(number, frequency);
         }
-
+        
         return frequencies;
     }
-
+    
+    /// Stores the data for the two lists of ids.
+    ///
+    /// @param first  the first list of ids.
+    /// @param second the second list of ids.
+    private record IdLists(List<Integer> first, List<Integer> second) {}
+    
+    /// Runs the solution.
     public static void main(String[] args) {
         Runner.runAndPrint(2024, 1);
     }

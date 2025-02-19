@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SolutionTests
 {
-    private static final Solution solution = new Solution();
-
     @Test
     void exampleList()
     {
@@ -19,8 +17,8 @@ public class SolutionTests
                 3   9
                 3   3
                 """;
-
-        solution.parse(input);
+        
+        final var solution = new Solution(input);
         assertEquals(11, solution.partOne());
         assertEquals(31, solution.partTwo());
     }
