@@ -1,5 +1,7 @@
 package aoc;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class Runner {
 
     /// There are two parts to each puzzle.
@@ -37,28 +39,42 @@ public class Runner {
     ///
     /// @param puzzle a puzzle.
     /// @return the execution data for each of the two parts.
-    protected static RunData run(Puzzle puzzle) {
-        final var solver = puzzle.determinePuzzleSolver();
+    private static RunData run(Puzzle puzzle) {
+        String classPath = puzzle.determineClassPath();
+        Class<?> solutionClass;
+        
+        try
+        {
+            solutionClass = Class.forName(classPath);
+        }
+        catch (ClassNotFoundException e)
+        {
+            throw new RuntimeException(e);
+        }
+        
         final var input = PuzzleInputRetriever.retrievePuzzleInput(puzzle);
-
-        final var parser = runParser(solver, input);
+        
+        final var startTime = System.nanoTime();
+        
+        final Solver solver;
+        
+        try {
+            solver = (Solver) solutionClass.getConstructor(String.class).newInstance(input);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+        
+        final var endTime = System.nanoTime();
+        final var executionTimeInMicroseconds = (endTime - startTime) / 1000;
+        
+        final var parser = new Data("", executionTimeInMicroseconds);
         final var partOne = runPart(Part.ONE, solver);
         final var partTwo = runPart(Part.TWO, solver);
 
         return new RunData(parser, partOne, partTwo);
     }
-
-    private static Data runParser(Solver solver, String input) {
-        final var startTime = System.nanoTime();
-
-        solver.parse(input);
-
-        final var endTime = System.nanoTime();
-        final var executionTimeInMicroseconds = (endTime - startTime) / 1000;
-
-        return new Data("", executionTimeInMicroseconds);
-    }
-
+    
     /// Executes a part of the puzzle and stores the execution data.
     ///
     /// @param part   the part to run.
