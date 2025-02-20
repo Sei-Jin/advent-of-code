@@ -5,7 +5,6 @@ import aoc.Solver;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 public class Solution implements Solver {
     
@@ -65,8 +64,8 @@ public class Solution implements Solver {
         final var digitsMap = createDigitsMap();
 
         for (String line : lines) {
-            Optional<Integer> firstDigit = Optional.empty();
-            Optional<Integer> lastDigit = Optional.empty();
+            var firstDigit = -1;
+            var lastDigit = -1;
             
             for (int i = 0; i < line.length(); i++) {
                 final var character = line.charAt(i);
@@ -74,10 +73,10 @@ public class Solution implements Solver {
                 if (Character.isDigit(character)) {
                     final var digit = Character.getNumericValue(character);
                     
-                    if (firstDigit.isEmpty()) {
-                        firstDigit = Optional.of(digit);
+                    if (firstDigit == -1) {
+                        firstDigit = digit;
                     }
-                    lastDigit = Optional.of(digit);
+                    lastDigit = digit;
                 } else {
                     for (int j = i + 3; j < line.length() && j < 5; j++) {
                         if (Character.isDigit(line.charAt(j))) {
@@ -89,20 +88,20 @@ public class Solution implements Solver {
                         if (digitsMap.containsKey(substring)) {
                             final var digit = digitsMap.get(substring);
                             
-                            if (firstDigit.isEmpty()) {
-                                firstDigit = Optional.of(digit);
+                            if (firstDigit == -1) {
+                                firstDigit = digit;
                             }
-                            lastDigit = Optional.of(digit);
+                            lastDigit = digit;
                         }
                     }
                 }
             }
             
-            if (firstDigit.isEmpty() || lastDigit.isEmpty()) {
+            if (firstDigit == -1 || lastDigit == -1) {
                 throw new IllegalArgumentException("The input string did not contain a digit");
             }
             
-            calibrationTotal += firstDigit.get() * 10 + lastDigit.get();
+            calibrationTotal += firstDigit * 10 + lastDigit;
         }
         
         return calibrationTotal;
