@@ -1,84 +1,89 @@
 package aoc.event.year2021.day01.sonarSweep;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-/**
- * --- Day 1: Sonar Sweep ---
- */
-public class Solution implements DeprecatedSolver
-{
-    /**
-     * @param inputLines the puzzle input.
-     * @return the number of measurements that are larger than their previous measurement.
-     */
+public class Solution implements Solver {
+    
+    /// Defines the size of the measurement windows.
+    private static final int WINDOW_SIZE = 3;
+    
+    /// Stores the depth measurements.
+    private final List<Integer> depths;
+    
+    /// Initializes the solution with the puzzle input.
+    public Solution(String input) {
+        this.depths = Collections.unmodifiableList(parse(input));
+    }
+    
+    /// Parses the puzzle input for a list of depth measurements.
+    ///
+    /// The puzzle input is in the form:
+    ///
+    /// ```
+    /// #
+    /// #
+    /// #
+    /// ```
+    ///
+    /// Where each `#` is a number.
+    ///
+    /// @param input the puzzle input.
+    /// @return a list of the depths measurements.
+    private static List<Integer> parse(String input) {
+        final var depths = new ArrayList<Integer>();
+        
+        input.lines().forEach(line -> depths.add(Integer.valueOf(line)));
+        
+        return depths;
+    }
+    
+    /// Calculates the amount of numbers that are larger than the previous in the list.
+    ///
+    /// @return the total numbers that are larger than their predecessor in the list.
     @Override
-    public Object partOne(List<String> inputLines)
-    {
-        List<Integer> sonarSweepReport = getSonarSweepReport(inputLines);
+    public Integer partOne() {
+        var increases = 0;
+        var previousDepth = depths.getFirst();
         
-        int totalMeasurementIncreases = 0;
-        
-        int previousDepth = sonarSweepReport.getFirst();
-        
-        for (int currentDepth : sonarSweepReport.subList(1, sonarSweepReport.size()))
-        {
-            if (previousDepth < currentDepth)
-            {
-                totalMeasurementIncreases++;
+        for (final var currentDepth : depths.subList(1, depths.size())) {
+            if (previousDepth < currentDepth) {
+                increases++;
             }
             
             previousDepth = currentDepth;
         }
         
-        return totalMeasurementIncreases;
+        return increases;
     }
     
-    
-    private static List<Integer> getSonarSweepReport(List<String> inputLines)
-    {
-        List<Integer> sonarSweepReport = new ArrayList<>();
-        
-        for (String line : inputLines)
-        {
-            sonarSweepReport.add(Integer.parseInt(line));
-        }
-        return sonarSweepReport;
-    }
-    
-    
-    /**
-     * @param inputLines the puzzle input.
-     * @return the number of three-measurement sliding windows that are larger than their previous
-     * three-measurement sliding windows.
-     */
+    /// Calculates the number of measurement windows with a larger sum than the previous.
+    ///
+    /// @return the number of measurement windows with a larger sum than the previous.
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
-        List<Integer> sonarSweepReport = getSonarSweepReport(inputLines);
+    public Integer partTwo() {
+        int increases = 0;
+        int previousSum = depths.get(0) + depths.get(1) + depths.get(2);
         
-        int totalThreeMeasurementWindowIncreases = 0;
-        
-        int previousDepthWindow = sonarSweepReport.get(0)
-                + sonarSweepReport.get(1)
-                + sonarSweepReport.get(2);
-        
-        for (int depthIndex = 1; depthIndex < sonarSweepReport.size() - 2; depthIndex++)
-        {
-            int currentDepthWindow = sonarSweepReport.get(depthIndex)
-                    + sonarSweepReport.get(depthIndex + 1)
-                    + sonarSweepReport.get(depthIndex + 2);
+        for (int i = 0; i < depths.size() - WINDOW_SIZE; i++) {
+            final var currentSum = previousSum - depths.get(i) + depths.get(i + WINDOW_SIZE);
             
-            if (previousDepthWindow < currentDepthWindow)
-            {
-                totalThreeMeasurementWindowIncreases++;
+            if (previousSum < currentSum) {
+                increases++;
             }
             
-            previousDepthWindow = currentDepthWindow;
+            previousSum = currentSum;
         }
         
-        return totalThreeMeasurementWindowIncreases;
+        return increases;
+    }
+    
+    /// Runs the solution.
+    public static void main(String[] args) {
+        Runner.runAndPrint(2021, 1);
     }
 }
