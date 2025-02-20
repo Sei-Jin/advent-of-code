@@ -1,146 +1,115 @@
 package aoc.event.year2023.day01.trebuchet;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
-/**
- * --- Day 1: Trebuchet?! ---
- */
-public class Solution implements DeprecatedSolver
-{
-    /**
-     * @param inputLines the puzzle input.
-     * @return the sum of all the calibration values.
-     */
+public class Solution implements Solver {
+    
+    /// Stores the puzzle input.
+    private final List<String> lines;
+    
+    /// Initializes the solution.
+    public Solution(String input) {
+        lines = input.lines().toList();
+    }
+    
+    /// @return the sum of all the calibration values.
     @Override
-    public Object partOne(List<String> inputLines)
-    {
-        int calibrationTotal = 0;
+    public Integer partOne() {
+        return lines
+                .stream()
+                .mapToInt(line -> {
+                    final var firstDigit = findFirstDigit(line);
+                    final var lastDigit = findLastDigit(line);
+                    return firstDigit * 10 + lastDigit;
+                })
+                .sum();
+    }
+    
+    private static int findFirstDigit(String line) {
+        for (var i = 0; i < line.length(); i++) {
+            final var character = line.charAt(i);
+            
+            if (Character.isDigit(character)) {
+                return Character.getNumericValue(character);
+            }
+        }
         
-        for (String line : inputLines)
-        {
-            int firstDigit = 0, lastDigit = 0;
+        throw new IllegalArgumentException(
+                "The input did not contain any digits for line: " + line
+        );
+    }
+    
+    private static int findLastDigit(String line) {
+        for (int i = line.length() - 1; i >= 0; i--) {
+            final var character = line.charAt(i);
             
-            // Scan over the string looking for the first digit
-            for (int i = 0; i < line.length(); i++)
-            {
-                if (Character.isDigit(line.charAt(i)))
-                {
-                    firstDigit = Character.getNumericValue(line.charAt(i));
-                    break;
+            if (Character.isDigit(character)) {
+                return Character.getNumericValue(character);
+            }
+        }
+        
+        throw new IllegalArgumentException(
+                "The input did not contain any digits for line: " + line
+        );
+    }
+    
+    /// @return the sum of all the calibration values.
+    @Override
+    public Integer partTwo() {
+        var calibrationTotal = 0;
+        final var digitsMap = createDigitsMap();
+
+        for (String line : lines) {
+            Optional<Integer> firstDigit = Optional.empty();
+            Optional<Integer> lastDigit = Optional.empty();
+            
+            for (int i = 0; i < line.length(); i++) {
+                final var character = line.charAt(i);
+                
+                if (Character.isDigit(character)) {
+                    final var digit = Character.getNumericValue(character);
+                    
+                    if (firstDigit.isEmpty()) {
+                        firstDigit = Optional.of(digit);
+                    }
+                    lastDigit = Optional.of(digit);
+                } else {
+                    for (int j = i + 3; j < line.length() && j < 5; j++) {
+                        if (Character.isDigit(line.charAt(j))) {
+                            break;
+                        }
+                        
+                        final var substring = line.substring(i, j);
+                        
+                        if (digitsMap.containsKey(substring)) {
+                            final var digit = digitsMap.get(substring);
+                            
+                            if (firstDigit.isEmpty()) {
+                                firstDigit = Optional.of(digit);
+                            }
+                            lastDigit = Optional.of(digit);
+                        }
+                    }
                 }
             }
             
-            // Scan over the string looking for the last digit
-            for (int i = line.length() - 1; i >= 0; i--)
-            {
-                if (Character.isDigit(line.charAt(i)))
-                {
-                    lastDigit = Character.getNumericValue(line.charAt(i));
-                    break;
-                }
+            if (firstDigit.isEmpty() || lastDigit.isEmpty()) {
+                throw new IllegalArgumentException("The input string did not contain a digit");
             }
             
-            int calibrationValue = firstDigit * 10 + lastDigit;
-            calibrationTotal += calibrationValue;
+            calibrationTotal += firstDigit.get() * 10 + lastDigit.get();
         }
         
         return calibrationTotal;
     }
     
-    
-    /**
-     * @param inputLines the puzzle input.
-     * @return the sum of all the calibration values.
-     */
-    @Override
-    public Object partTwo(List<String> inputLines)
-    {
-        int calibrationTotal = 0;
-        
-        HashMap<String, Integer> digitsMap = getDigitsMap();
-        
-        for (String line : inputLines)
-        {
-            int firstDigit = 0, lastDigit = 0;
-            
-            // Scan over the string looking for the first digit
-            for (int i = 0; i < line.length(); i++)
-            {
-                if (Character.isDigit(line.charAt(i)))
-                {
-                    firstDigit = Character.getNumericValue(line.charAt(i));
-                    break;
-                }
-                
-                // From the current index, compare the next 3, 4, and 5 length strings to the digits map
-                for (int j = 3; j <= 5; j++)
-                {
-                    StringBuilder letters = new StringBuilder();
-                    
-                    for (int k = i; k < line.length() && k < i + j; k++)
-                    {
-                        letters.append(line.charAt(k));
-                    }
-                    
-                    if (digitsMap.containsKey(letters.toString()))
-                    {
-                        firstDigit = digitsMap.get(letters.toString());
-                    }
-                }
-                
-                // Break out of the loop if we found a matching digit
-                if (firstDigit != 0)
-                {
-                    break;
-                }
-            }
-            
-            // Scan over the string looking for the last digit
-            for (int i = line.length() - 1; i >= 0; i--)
-            {
-                if (Character.isDigit(line.charAt(i)))
-                {
-                    lastDigit = Character.getNumericValue(line.charAt(i));
-                    break;
-                }
-                
-                // From the current index, compare the next 3, 4, and 5 length strings to the digits map
-                for (int j = 3; j <= 5; j++)
-                {
-                    StringBuilder letters = new StringBuilder();
-                    
-                    for (int k = i - j + 1; k >= 0 && k <= i; k++)
-                    {
-                        letters.append(line.charAt(k));
-                    }
-                    
-                    if (digitsMap.containsKey(letters.toString()))
-                    {
-                        lastDigit = digitsMap.get(letters.toString());
-                    }
-                }
-                
-                // Break out of the loop if we found a matching digit
-                if (lastDigit != 0)
-                {
-                    break;
-                }
-            }
-            
-            int calibrationValue = firstDigit * 10 + lastDigit;
-            calibrationTotal += calibrationValue;
-        }
-        
-        return calibrationTotal;
-    }
-    
-    
-    private static HashMap<String, Integer> getDigitsMap()
-    {
-        HashMap<String, Integer> digitsMap = new HashMap<>();
+    private static HashMap<String, Integer> createDigitsMap() {
+        final var digitsMap = new HashMap<String, Integer>();
         
         digitsMap.put("one", 1);
         digitsMap.put("two", 2);
@@ -153,5 +122,10 @@ public class Solution implements DeprecatedSolver
         digitsMap.put("nine", 9);
         
         return digitsMap;
+    }
+    
+    /// Runs the solution
+    public static void main(String[] args) {
+        Runner.runAndPrint(2023, 1);
     }
 }
