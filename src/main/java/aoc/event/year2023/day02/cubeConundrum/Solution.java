@@ -1,107 +1,127 @@
 package aoc.event.year2023.day02.cubeConundrum;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
-/**
- * --- Day 2: Cube Conundrum ---
- */
-public class Solution implements DeprecatedSolver
-{
-    /**
-     * @param inputLines the puzzle input.
-     * @return the sum of the IDs of the possible games
-     */
-    @Override
-    public Object partOne(List<String> inputLines)
-    {
-        int sumPossibleGameIDs = 0;
-        int currentGameID = 1;
-        
-        for (String line : inputLines)
-        {
-            HashMap<String, Integer> cubeCounts = initializeCubeCounts();
-            
-            findMaximumCubeCounts(line, cubeCounts);
-            
-            boolean possibleGame = cubeCounts.get("red") <= 12
-                    && cubeCounts.get("green") <= 13
-                    && cubeCounts.get("blue") <= 14;
-            
-            if (possibleGame)
-            {
-                sumPossibleGameIDs += currentGameID;
-            }
-
-            currentGameID++;
-        }
-        
-        return sumPossibleGameIDs;
+public class Solution implements Solver {
+    
+    // Stores the data for the games.
+    private final List<Game> games;
+    
+    /// Initializes the solution
+    ///
+    /// @param input the puzzle input
+    public Solution(String input) {
+        this.games = parse(input);
     }
     
-    
-    private static HashMap<String, Integer> initializeCubeCounts()
-    {
-        HashMap<String, Integer> cubeCounts = new HashMap<>();
+    /// Parses the puzzle input for the game data.
+    ///
+    /// Each line of the input contains the data for a single game. The expected format for a
+    /// game is:
+    ///
+    /// `Game #: # colour, # colour, # colour; # colour; # colour, #colour...`
+    ///
+    /// - The first part of the input, `Game #`, contains the unique id of the game, `#`.
+    /// - The second half of the input contains the sets of cubes.
+    ///     - The semicolons, `;`, separate each set of cubes.
+    ///     - The commas, `,`, separate each pair of cubes.
+    ///         - Each pair, `# colour`, defines the number of cubes with that colour.
+    ///
+    /// @param input the puzzle input.
+    /// @return the list of game data.
+    private static List<Game> parse(String input) {
+        final var games = new ArrayList<Game>();
         
-        cubeCounts.put("red", 0);
-        cubeCounts.put("green", 0);
-        cubeCounts.put("blue", 0);
+        input.lines().forEach(line -> {
+            final var parts = line.split(":");
+            
+            final var id = Integer.parseInt(parts[0].split(" ")[1]);
+            final var sets = parts[1].split(";");
+            
+            final var maxCounts = calculateMaxCounts(sets);
+            
+            games.add(new Game(id, maxCounts));
+        });
         
-        return cubeCounts;
+        return games;
     }
     
-    
-    private static void findMaximumCubeCounts(String line, HashMap<String, Integer> cubes)
-    {
-        List<String> set = Arrays.stream(line.split("[:;]"))
-                .skip(1)
-                .toList();
+    private static HashMap<String, Integer> calculateMaxCounts(String[] sets) {
+        final var maxCounts = new HashMap<String, Integer>();
         
-        for (String subset : set)
-        {
-            List<String> cubeCountValuePairs = List.of(subset.split("[,]"));
+        for (final var set : sets) {
+            final var pairs = set.split(",");
             
-            for (String pair : cubeCountValuePairs)
-            {
-                Scanner cubeScan = new Scanner(pair);
+            for (final var pair: pairs) {
+                final var values = pair.trim().split(" ");
                 
-                int cubeCount = cubeScan.nextInt();
-                String cubeColour = cubeScan.next();
+                final var count = Integer.parseInt(values[0]);
+                final var colour = values[1];
                 
-                if (cubes.get(cubeColour) < cubeCount)
-                {
-                    cubes.replace(cubeColour, cubeCount);
+                if (maxCounts.getOrDefault(colour, 0) < count) {
+                    maxCounts.put(colour, count);
                 }
-                
-                cubeScan.close();
             }
         }
+        
+        return maxCounts;
     }
     
-    
-    /**
-     * @param inputLines the puzzle input.
-     * @return the total power of the minimum sets of cubes that must have been present.
-     */
+    /// Calculates the sum of the ids for the possible games.
+    ///
+    /// A game is considered possible if the game contained a maximum of:
+    /// - 12 red cubes
+    /// - 13 green cubes
+    /// - 14 blue cubes
+    ///
+    /// @return the sum of the ids of the possible games
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
-        int totalPower = 0;
+    public Object partOne() {
+        var sum = 0;
         
-        for (String line : inputLines)
-        {
-            HashMap<String, Integer> cubeCounts = initializeCubeCounts();
+        for (final var game : games) {
+            boolean possibleGame = game.maxCounts.get("red") <= 12
+                    && game.maxCounts.get("green") <= 13
+                    && game.maxCounts.get("blue") <= 14;
             
-            findMaximumCubeCounts(line, cubeCounts);
-            
-            totalPower += cubeCounts.get("red") * cubeCounts.get("green") * cubeCounts.get("blue");
+            if (possibleGame) {
+                sum += game.id;
+            }
         }
         
-        return totalPower;
+        return sum;
+    }
+    
+    /// Calculates the sum of the powers from all games.
+    ///
+    /// The power of a game is the product of the maximum counts seen across all sets. The total
+    /// power is the sum of the powers from all games.
+    ///
+    /// @return the total power of the minimum sets of cubes counts.
+    @Override
+    public Object partTwo() {
+        var sum = 0;
+        
+        for (final var game : games) {
+            sum += game.maxCounts.get("red")
+                    * game.maxCounts.get("green")
+                    * game.maxCounts.get("blue");
+        }
+        
+        return sum;
+    }
+    
+    /// Stores the data for a game.
+    ///
+    /// @param id a unique id for the game.
+    /// @param maxCounts stores the highest count for each color across all sets.
+    record Game(int id, Map<String, Integer> maxCounts) {}
+    
+    /// Runs the solution.
+    public static void main(String[] args) {
+        Runner.runAndPrint(2023, 2);
     }
 }
