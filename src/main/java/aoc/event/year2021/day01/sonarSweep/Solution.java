@@ -66,11 +66,14 @@ public class Solution implements Solver {
     /// @return the number of measurement windows with a larger sum than the previous.
     @Override
     public Integer partTwo() {
-        int increases = 0;
-        int previousSum = depths.get(0) + depths.get(1) + depths.get(2);
+        var increases = 0;
+        var previousSum = depths.get(0) + depths.get(1) + depths.get(2);
         
-        for (int i = 0; i < depths.size() - WINDOW_SIZE; i++) {
-            final var currentSum = previousSum - depths.get(i) + depths.get(i + WINDOW_SIZE);
+        for (var i = 0; i < depths.size() - WINDOW_SIZE; i++) {
+            final var previousMeasurement = depths.get(i);
+            final var nextMeasurement = depths.get(i + WINDOW_SIZE);
+            
+            final var currentSum = previousSum - previousMeasurement + nextMeasurement;
             
             if (previousSum < currentSum) {
                 increases++;
