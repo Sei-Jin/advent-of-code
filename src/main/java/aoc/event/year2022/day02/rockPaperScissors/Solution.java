@@ -4,161 +4,196 @@ import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class Solution implements Solver {
     
-    private final List<Draw> draws;
+    /// Stores the data for the rounds.
+    private final List<Round> rounds;
     
+    /// Initializes the solution.
     public Solution(String input) {
-        draws = parse(input);
+        rounds = Collections.unmodifiableList(parse(input));
     }
     
-    private static List<Draw> parse(String input) {
-        final var draws = new ArrayList<Draw>();
+    /// Parses the input for the round data.
+    ///
+    /// Each line of the puzzle input is in the form `A B`, where `A` and `B` are characters.
+    ///
+    /// @param input the puzzle input.
+    /// @return the data for the rounds.
+    private static List<Round> parse(String input) {
+        final var draws = new ArrayList<Round>();
         
         input.lines().forEach(line -> {
-            final var values =  line.split(" ");
+            final var values = line.split(" ");
             
             final var first = values[0].charAt(0);
             final var second = values[1].charAt(0);
             
-            draws.add(new Draw(first, second));
+            draws.add(new Round(first, second));
         });
         
         return draws;
     }
     
-    /// @return the total score if everything goes exactly according to the strategy guide.
-    @Override
-    public Object partOne() {
-        var totalScore = 0;
-        
-        final var opponentsPossibleChoices = getOpponentsPossibleChoices();
-        final var ourPossibleChoices = getOurPossibleChoices();
-        
-        for (final var draw : draws) {
-            final var opponentsChoice = opponentsPossibleChoices.get(draw.first);
-            final var ourChoice = ourPossibleChoices.get(draw.second);
-            
-            final var outcome = determineOutcome(opponentsChoice, ourChoice);
-            totalScore += outcome.score + ourChoice.score;
-        }
-        
-        return totalScore;
-    }
-    
-    /// @return the total score if everything goes exactly according to the strategy guide with the
-    /// Elf's updated instructions.
-    @Override
-    public Object partTwo() {
-        var totalScore = 0;
-        
-        final var opponentsPossibleChoices = getOpponentsPossibleChoices();
-        final var possibleOutcomes = getPossibleOutcomes();
-        
-        for (final var draw : draws) {
-            final var opponentsChoice = opponentsPossibleChoices.get(draw.first);
-            final var outcome = possibleOutcomes.get(draw.second);
-            
-            final var ourChoice = determineChoice(opponentsChoice, outcome);
-            
-            totalScore += outcome.score + ourChoice.score;
-        }
-        
-        return totalScore;
-    }
-    
-    public static Outcome determineOutcome(Choice opponentsChoice, Choice ourChoice) {
-        Outcome outcome;
-        
-        if (opponentsChoice == Choice.ROCK && ourChoice == Choice.PAPER
-                || opponentsChoice == Choice.PAPER && ourChoice == Choice.SCISSORS
-                || opponentsChoice == Choice.SCISSORS && ourChoice == Choice.ROCK) {
-            outcome = Outcome.WIN;
-        } else if (opponentsChoice == ourChoice) {
-            outcome = Outcome.DRAW;
-        } else {
-            outcome = Outcome.LOSS;
-        }
-        
-        return outcome;
-    }
-    
-    public static Choice determineChoice(Choice opponentsChoice, Outcome outcome) {
-        return switch (outcome) {
-            case WIN -> opponentsChoice.losesAgainst();
-            case DRAW -> opponentsChoice;
-            case LOSS -> opponentsChoice.winsAgainst();
+    /// Determines which of the opponents choices the given character maps to.
+    ///
+    /// @param character a character representing the opponents choice.
+    /// @return the opponents choice.
+    private static Choice determineOpponentsChoice(char character) {
+        return switch (character) {
+            case 'A' -> Choice.ROCK;
+            case 'B' -> Choice.PAPER;
+            case 'C' -> Choice.SCISSORS;
+            default -> throw new IllegalStateException("Unexpected value: " + character);
         };
     }
     
-    private static HashMap<Character, Choice> getOpponentsPossibleChoices() {
-        final var opponentsPossibleChoices = new HashMap<Character, Choice>();
+    /// Calculates the total score from all rounds played when given our opponents choices and
+    /// our own choices.
+    ///
+    /// @return the total score.
+    @Override
+    public Integer partOne() {
+        var totalScore = 0;
         
-        opponentsPossibleChoices.put('A', Choice.ROCK);
-        opponentsPossibleChoices.put('B', Choice.PAPER);
-        opponentsPossibleChoices.put('C', Choice.SCISSORS);
+        for (final var round : rounds) {
+            final var opponentsChoice = determineOpponentsChoice(round.first);
+            final var ourChoice = determineOurChoice(round.second);
+            
+            final var outcome = determineOutcome(opponentsChoice, ourChoice);
+            
+            totalScore += outcome.score + ourChoice.score;
+        }
         
-        return opponentsPossibleChoices;
+        return totalScore;
     }
     
-    private static HashMap<Character, Choice> getOurPossibleChoices() {
-        final var ourPossibleChoices = new HashMap<Character, Choice>();
-        
-        ourPossibleChoices.put('X', Choice.ROCK);
-        ourPossibleChoices.put('Y', Choice.PAPER);
-        ourPossibleChoices.put('Z', Choice.SCISSORS);
-        
-        return ourPossibleChoices;
+    /// Determines which choice the given character maps to.
+    ///
+    /// @param character a character.
+    /// @return our choice.
+    private static Choice determineOurChoice(char character) {
+        return switch (character) {
+            case 'X' -> Choice.ROCK;
+            case 'Y' -> Choice.PAPER;
+            case 'Z' -> Choice.SCISSORS;
+            default -> throw new IllegalStateException("Unexpected value: " + character);
+        };
     }
     
-    private static Map<Character, Outcome> getPossibleOutcomes() {
-        final var possibleOutcomes = new HashMap<Character, Outcome>();
-        
-        possibleOutcomes.put('X', Outcome.LOSS);
-        possibleOutcomes.put('Y', Outcome.DRAW);
-        possibleOutcomes.put('Z', Outcome.WIN);
-        
-        return possibleOutcomes;
+    /// Determines the outcome of the round.
+    ///
+    /// @param opponentsChoice the opponents choice.
+    /// @param ourChoice our choice.
+    /// @return the outcome of the round.
+    private static Outcome determineOutcome(Choice opponentsChoice, Choice ourChoice) {
+        if (opponentsChoice.losesAgainst() == ourChoice) {
+            return Outcome.WIN;
+        } else if (opponentsChoice == ourChoice) {
+            return Outcome.DRAW;
+        } else {
+            return Outcome.LOSS;
+        }
     }
     
-    public enum Choice {
+    /// Calculates the total score from all rounds played when given our opponents choices and the
+    /// round outcomes.
+    ///
+    /// @return the total score.
+    @Override
+    public Integer partTwo() {
+        var totalScore = 0;
+        
+        for (final var round : rounds) {
+            final var opponentsChoice = determineOpponentsChoice(round.first);
+            final var outcome = determineOutcome(round.second);
+            
+            final var ourChoice = determineOurChoice(opponentsChoice, outcome);
+            
+            totalScore += outcome.score + ourChoice.score;
+        }
+        
+        return totalScore;
+    }
+    
+    /// Determines the outcome that maps to the given character.
+    ///
+    /// @param character a character.
+    /// @return the outcome.
+    private static Outcome determineOutcome(char character) {
+        return switch (character) {
+            case 'X' -> Outcome.LOSS;
+            case 'Y' -> Outcome.DRAW;
+            case 'Z' -> Outcome.WIN;
+            default -> throw new IllegalStateException("Unexpected value: " + character);
+        };
+    }
+    
+    /// Determines the choice we should make when knowing our opponents choice and the round
+    /// outcome.
+    ///
+    /// @param opponents the choice our opponent will make.
+    /// @param outcome   the outcome of the round.
+    /// @return the choice we should make to ensure the correct round outcome.
+    private static Choice determineOurChoice(Choice opponents, Outcome outcome) {
+        return switch (outcome) {
+            case WIN -> opponents.losesAgainst();
+            case DRAW -> opponents;
+            case LOSS -> opponents.winsAgainst();
+        };
+    }
+    
+    /// Stores the possible choices for a player with their score.
+    private enum Choice {
         ROCK(1),
         PAPER(2),
         SCISSORS(3);
         
-        final int score;
+        private final int score;
         
         Choice(int score) {
             this.score = score;
         }
         
-        public Choice losesAgainst() {
-            return values()[(this.ordinal() + 1) % (values().length)];
+        /// @return the choice that loses against the current choice.
+        private Choice losesAgainst() {
+            return switch (this) {
+                case ROCK -> PAPER;
+                case PAPER -> SCISSORS;
+                case SCISSORS -> ROCK;
+            };
         }
         
-        public Choice winsAgainst() {
-            return values()[(values().length + this.ordinal() - 1) % values().length];
+        /// @return the choice that wins against the current choice.
+        private Choice winsAgainst() {
+            return switch (this) {
+                case ROCK -> SCISSORS;
+                case PAPER -> ROCK;
+                case SCISSORS -> PAPER;
+            };
         }
     }
     
-    public enum Outcome {
+    /// Stores the possible outcomes of a round with their score values.
+    private enum Outcome {
         WIN(6),
         LOSS(0),
         DRAW(3);
         
-        final int score;
+        private final int score;
         
         Outcome(int score) {
             this.score = score;
         }
     }
     
-    private record Draw(char first, char second) {}
+    /// Stores the data for a round.
+    private record Round(char first, char second) {}
     
+    /// Runs the solution.
     public static void main(String[] args) {
         Runner.runAndPrint(2022, 2);
     }
