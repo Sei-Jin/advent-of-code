@@ -3,74 +3,67 @@ package aoc.event.year2022.day06.tuningTrouble;
 import aoc.Solver;
 import aoc.Runner;
 
+import java.util.HashMap;
+
 public class Solution implements Solver {
     
-    private final String buffer;
+    private final String string;
     
     public Solution(String input) {
-        this.buffer = input;
+        this.string = input;
     }
     
-    /// Finds the position of the first marker.
+    /// Calculates the number of characters that need to be processed before there is a unique
+    /// sequence of characters with length `windowSize`.
     ///
-    /// The position of the first marker is calculated by finding the first substring of distinct
-    /// characters with length `windowSize`.
+    /// This method runs in linear time.
     ///
-    /// @param line       finds the position of the first marker.
-    /// @param windowSize the length of distinct characters.
+    /// @param windowSize the window size of distinct characters.
     /// @return the position of the first marker.
-    private static int findFirstMarker(String line, int windowSize) {
-        for (var i = 0; i < line.length(); i++) {
-            final var substring = line.substring(i, i + windowSize);
-            final var containsDuplicate = containsDuplicate(substring);
+    private static int findFirstMarker(String string, int windowSize) {
+        if (string.length() < windowSize) {
+            throw new IllegalArgumentException("String was less than the window size");
+        }
+        
+        final var counts = new HashMap<Character, Integer>();
+        var left = 0;
+        
+        for (var right = 0; right < string.length(); right++) {
+            final var rightCharacter = string.charAt(right);
+            final var rightCount = counts.getOrDefault(rightCharacter, 0) + 1;
+            counts.put(rightCharacter, rightCount);
             
-            if (!containsDuplicate) {
-                return i + windowSize;
-            }
-        }
-        
-        throw new IllegalStateException("No markers were detected.");
-    }
-    
-    /// Determines if the string contains a duplicate character.
-    ///
-    /// @param string a string.
-    /// @return true if the string contains a duplicate character, or false otherwise.
-    private static boolean containsDuplicate(String string) {
-        for (var i = 0; i < string.length() - 1; i++) {
-            for (var j = i + 1; j < string.length(); j++) {
-                if (string.charAt(i) == string.charAt(j)) {
-                    return true;
+            if (right - left + 1 == windowSize) {
+                if (counts.size() == windowSize) {
+                    return right + 1;
                 }
+                
+                final var leftCharacter = string.charAt(left);
+                final var leftCount = counts.get(leftCharacter) - 1;
+                counts.put(leftCharacter, leftCount);
+                
+                if (leftCount == 0) {
+                    counts.remove(leftCharacter);
+                }
+                
+                left++;
             }
         }
         
-        return false;
+        throw new IllegalArgumentException("No markers were detected.");
     }
     
-    /// Calculates the position of the first start-of-packet marker.
-    ///
-    /// The start-of-packet marker starts after the first substring of length 4 with all distinct
-    /// characters.
-    ///
-    /// @return the position of the first start-of-packet marker.
     @Override
-    public Object partOne() {
-        return findFirstMarker(buffer, 4);
+    public Integer partOne() {
+        return findFirstMarker(string, 4);
     }
     
-    /// Calculates the position of the first start-of-message marker.
-    ///
-    /// The start-of-message marker starts after the first substring of length 14 with all distinct
-    /// characters.
-    ///
-    /// @return the position of the first start-of-message marker.
     @Override
-    public Object partTwo() {
-        return findFirstMarker(buffer, 14);
+    public Integer partTwo() {
+        return findFirstMarker(string, 14);
     }
     
     public static void main(String[] args) {
-        Runner.runAndPrint(2022, 6);
+            Runner.runAndPrint(2022, 6);
     }
 }
