@@ -7,10 +7,6 @@ import java.util.List;
 
 public class Solution implements DeprecatedSolver {
     
-    public static void main(String[] args) {
-        Runner.runAndPrint(2022, 6);
-    }
-    
     /// Finds the position of the first marker.
     ///
     /// The position of the first marker is calculated by finding the first substring of distinct
@@ -72,5 +68,9 @@ public class Solution implements DeprecatedSolver {
     public Object partTwo(List<String> puzzleInput) {
         String line = puzzleInput.getFirst();
         return findFirstMarker(line, 14);
+    }
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2022, 6);
     }
 }
