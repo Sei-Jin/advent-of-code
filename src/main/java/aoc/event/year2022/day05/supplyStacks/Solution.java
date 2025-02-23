@@ -24,8 +24,8 @@ public class Solution implements Solver {
         final var stacksInput = lines.subList(0, emptyLineIndex - 1);
         final var procedureInput = lines.subList(emptyLineIndex + 1, lines.size());
         
-        this.stacks = getStacks(stacksInput);
-        this.procedure = getProcedure(procedureInput);
+        this.stacks = parseStacks(stacksInput);
+        this.procedure = parseProcedure(procedureInput);
     }
     
     /// Finds the index of the first empty line in the puzzle.
@@ -70,7 +70,7 @@ public class Solution implements Solver {
     /// @param stacksInput the first part of the puzzle input, containing the input data for
     ///                            the stacks.
     /// @return the stacks of crates.
-    private static List<LinkedList<Character>> getStacks(List<String> stacksInput) {
+    private static List<LinkedList<Character>> parseStacks(List<String> stacksInput) {
         final var stacks = new ArrayList<LinkedList<Character>>();
         
         for (var stackIndex = 1; stackIndex < stacksInput.getFirst().length(); stackIndex += 4) {
@@ -118,7 +118,7 @@ public class Solution implements Solver {
     /// @param procedureInput the second part of the puzzle input, containing the input data
     ///                               for the stacks.
     /// @return the steps in the crate-moving procedure.
-    private List<Step> getProcedure(List<String> procedureInput) {
+    private List<Step> parseProcedure(List<String> procedureInput) {
         final var procedure = new ArrayList<Step>();
         
         for (final var line : procedureInput) {
@@ -157,18 +157,6 @@ public class Solution implements Solver {
     /// - The second section contains the data for the crate-moving procedure. The crate-moving
     /// procedure is a series of steps on how the crates should be moved between the stacks.
     ///
-    /// Time Complexity: O(n)
-    /// - All methods are done in linear time.
-    ///
-    /// Space Complexity: O(n)
-    /// - The data for the stacks and the procedure steps are parsed and stored before the procedure
-    /// is executed. The data for both sections scale linearly with the puzzle input.
-    /// - Space required could be reduced by combining the procedure parsing and execution steps.
-    /// Only one step in the procedure would need to be stored at a time if each step was executed
-    /// before the next step was parsed. This would avoid storing all the procedure steps ahead of
-    /// time, but would come with the downside of combining the two methods into one.
-    ///
-    /// @param inputLines the puzzle input.
     /// @return the crates at the top of each stack concatenated together after the crate-moving
     ///         procedure has executed.
     @Override
@@ -188,13 +176,6 @@ public class Solution implements Solver {
     /// Determines the crates left at the top of each stack after the crate-moving procedure has
     /// executed.
     ///
-    /// Time Complexity: O(n)
-    /// - Same as part one.
-    ///
-    /// Space Complexity: O(n)
-    /// - Same as part one.
-    ///
-    /// @param inputLines the puzzle input.
     /// @return the crates at the top of each stack concatenated together after the crate-moving
     ///         procedure has executed.
     @Override
@@ -231,7 +212,7 @@ public class Solution implements Solver {
         return topCrates.toString();
     }
     
-    /// This record holds the data for each step in the crate-moving procedure.
+    /// Stores the data for each step in the crate-moving procedure.
     record Step(int cratesToMove, int fromStack, int toStack) {}
     
     public static void main(String[] args) {
