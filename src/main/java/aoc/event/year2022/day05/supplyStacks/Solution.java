@@ -174,23 +174,15 @@ public class Solution implements Solver {
     @Override
     public Object partOne() {
         final var stacksCopy = createDeepCopy(stacks);
-        executeProcedureOneCrateAtATime(stacksCopy, procedure);
-        return getTopCrates(stacksCopy);
-    }
-    
-    /// Executes the crate-moving procedure, moving the crates between the stacks one at a time.
-    ///
-    /// @param stacks    the stacks of crates.
-    /// @param procedure the crate-moving procedure.
-    private void executeProcedureOneCrateAtATime(
-            List<LinkedList<Character>> stacks,
-            List<Step> procedure) {
+        
         for (final var step : procedure) {
             for (var cratesMoved = 0; cratesMoved < step.cratesToMove; cratesMoved++) {
-                final var character = stacks.get(step.fromStack - 1).removeLast();
-                stacks.get(step.toStack - 1).addLast(character);
+                final var character = stacksCopy.get(step.fromStack - 1).removeLast();
+                stacksCopy.get(step.toStack - 1).addLast(character);
             }
         }
+        
+        return getTopCrates(stacksCopy);
     }
     
     /// Determines the crates left at the top of each stack after the crate-moving procedure has
@@ -208,29 +200,21 @@ public class Solution implements Solver {
     @Override
     public Object partTwo() {
         final var stacksCopy = createDeepCopy(stacks);
-        executeProcedureAllCratesAtOnce(stacksCopy, procedure);
-        return getTopCrates(stacksCopy);
-    }
-
-    /// Executes the crate-moving procedure, moving the crates between the stacks all at once.
-    ///
-    /// @param stacks    the stacks of crates.
-    /// @param procedure the crate-moving procedure.
-    private void executeProcedureAllCratesAtOnce(
-            List<LinkedList<Character>> stacks,
-            List<Step> procedure) {
+        
         for (final var step : procedure) {
             final var temporary = new LinkedList<Character>();
             
             for (var cratesMoved = 0; cratesMoved < step.cratesToMove; cratesMoved++) {
-                final var character = stacks.get(step.fromStack - 1).removeLast();
+                final var character = stacksCopy.get(step.fromStack - 1).removeLast();
                 temporary.addFirst(character);
             }
             
             for (final var character : temporary) {
-                stacks.get(step.toStack - 1).addLast(character);
+                stacksCopy.get(step.toStack - 1).addLast(character);
             }
         }
+        
+        return getTopCrates(stacksCopy);
     }
     
     /// Concatenates the crates at the top of each stack.
