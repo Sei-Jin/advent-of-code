@@ -2,12 +2,14 @@ package aoc.event.year2022.day05.supplyStacks;
 
 import aoc.DeprecatedSolver;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Solution implements DeprecatedSolver
-{
+public class Solution implements DeprecatedSolver {
+    
     /// Determines the crates left at the top of each stack after the crate-moving procedure has
     /// executed.
     ///
@@ -32,8 +34,7 @@ public class Solution implements DeprecatedSolver
     /// @return the crates at the top of each stack concatenated together after the crate-moving
     ///         procedure has executed.
     @Override
-    public Object partOne(List<String> inputLines)
-    {
+    public Object partOne(List<String> inputLines) {
         int emptyLineIndex = getEmptyLineIndex(inputLines);
         List<String> stacksInput = inputLines.subList(0, emptyLineIndex - 1);
         List<String> procedureInput = inputLines.subList(emptyLineIndex + 1, inputLines.size());
@@ -58,8 +59,7 @@ public class Solution implements DeprecatedSolver
     /// @return the crates at the top of each stack concatenated together after the crate-moving
     ///         procedure has executed.
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
+    public Object partTwo(List<String> inputLines) {
         int emptyLineIndex = getEmptyLineIndex(inputLines);
         List<String> stacksInput = inputLines.subList(0, emptyLineIndex - 1);
         List<String> procedureInput = inputLines.subList(emptyLineIndex + 1, inputLines.size());
@@ -76,12 +76,9 @@ public class Solution implements DeprecatedSolver
     /// @param inputLines the puzzle input.
     /// @return the index of the first empty line in the puzzle input.
     /// @throws IllegalArgumentException if there are no empty lines present.
-    private static int getEmptyLineIndex(List<String> inputLines)
-    {
-        for (int index = 0; index < inputLines.size(); index++)
-        {
-            if (inputLines.get(index).isEmpty())
-            {
+    private static int getEmptyLineIndex(List<String> inputLines) {
+        for (int index = 0; index < inputLines.size(); index++) {
+            if (inputLines.get(index).isEmpty()) {
                 return index;
             }
         }
@@ -114,14 +111,12 @@ public class Solution implements DeprecatedSolver
     /// square braces are added to each stack.
     ///
     /// @param stacksInput the first part of the puzzle input, containing the input data for
-    ///         the stacks.
+    ///                            the stacks.
     /// @return the stacks of crates.
-    private static List<LinkedList<Character>> getStacks(List<String> stacksInput)
-    {
+    private static List<LinkedList<Character>> getStacks(List<String> stacksInput) {
         List<LinkedList<Character>> stacks = new ArrayList<>();
         
-        for (int stackIndex = 1; stackIndex < stacksInput.getFirst().length(); stackIndex += 4)
-        {
+        for (int stackIndex = 1; stackIndex < stacksInput.getFirst().length(); stackIndex += 4) {
             LinkedList<Character> crateCharacters = getCrateCharacters(stacksInput, stackIndex);
             stacks.add(crateCharacters);
         }
@@ -134,25 +129,20 @@ public class Solution implements DeprecatedSolver
     /// The stack is parsed from bottom to top for the characters in-between the square braces.
     ///
     /// @param stacksInput the first part of the puzzle input, containing the input data for
-    ///         the stacks of crates.
-    /// @param stackIndex the index of the stack of crates.
+    ///                            the stacks of crates.
+    /// @param stackIndex  the index of the stack of crates.
     /// @return a stack of crates.
     private static LinkedList<Character> getCrateCharacters(
             List<String> stacksInput,
-            int stackIndex)
-    {
+            int stackIndex) {
         LinkedList<Character> crateCharacters = new LinkedList<>();
         
-        for (int index = stacksInput.size() - 1; index >= 0; index--)
-        {
+        for (int index = stacksInput.size() - 1; index >= 0; index--) {
             char crateCharacter = stacksInput.get(index).charAt(stackIndex);
             
-            if (!Character.isWhitespace(crateCharacter))
-            {
+            if (!Character.isWhitespace(crateCharacter)) {
                 crateCharacters.add(crateCharacter);
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
@@ -172,30 +162,25 @@ public class Solution implements DeprecatedSolver
     /// - `B` is the stack where the crates are moved to.
     ///
     /// @param procedureInput the second part of the puzzle input, containing the input data
-    ///         for the stacks.
+    ///                               for the stacks.
     /// @return the steps in the crate-moving procedure.
     private List<Step> getProcedure(
-            List<String> procedureInput)
-    {
+            List<String> procedureInput) {
         List<Step> procedure = new ArrayList<>();
         
         String regex = "move (\\d+) from (\\d+) to (\\d+)";
         Pattern pattern = Pattern.compile(regex);
         
-        for (String line : procedureInput)
-        {
+        for (String line : procedureInput) {
             Matcher matcher = pattern.matcher(line);
             
-            if (matcher.matches())
-            {
+            if (matcher.matches()) {
                 int cratesToMove = Integer.parseInt(matcher.group(1));
                 int fromStack = Integer.parseInt(matcher.group(2));
                 int toStack = Integer.parseInt(matcher.group(3));
                 
                 procedure.add(new Step(cratesToMove, fromStack, toStack));
-            }
-            else
-            {
+            } else {
                 throw new IllegalArgumentException("Invalid procedure format encountered: " + line);
             }
         }
@@ -205,16 +190,13 @@ public class Solution implements DeprecatedSolver
     
     /// Executes the crate-moving procedure, moving the crates between the stacks one at a time.
     ///
-    /// @param stacks the stacks of crates.
+    /// @param stacks    the stacks of crates.
     /// @param procedure the crate-moving procedure.
     private void executeProcedureOneCrateAtATime(
             List<LinkedList<Character>> stacks,
-            List<Step> procedure)
-    {
-        for (Step step : procedure)
-        {
-            for (int cratesMoved = 0; cratesMoved < step.cratesToMove; cratesMoved++)
-            {
+            List<Step> procedure) {
+        for (Step step : procedure) {
+            for (int cratesMoved = 0; cratesMoved < step.cratesToMove; cratesMoved++) {
                 char character = stacks.get(step.fromStack - 1).removeLast();
                 stacks.get(step.toStack - 1).addLast(character);
             }
@@ -223,24 +205,20 @@ public class Solution implements DeprecatedSolver
     
     /// Executes the crate-moving procedure, moving the crates between the stacks all at once.
     ///
-    /// @param stacks the stacks of crates.
+    /// @param stacks    the stacks of crates.
     /// @param procedure the crate-moving procedure.
     private void executeProcedureAllCratesAtOnce(
             List<LinkedList<Character>> stacks,
-            List<Step> procedure)
-    {
-        for (Step step : procedure)
-        {
+            List<Step> procedure) {
+        for (Step step : procedure) {
             List<Character> temporary = new LinkedList<>();
             
-            for (int cratesMoved = 0; cratesMoved < step.cratesToMove; cratesMoved++)
-            {
+            for (int cratesMoved = 0; cratesMoved < step.cratesToMove; cratesMoved++) {
                 char character = stacks.get(step.fromStack - 1).removeLast();
                 temporary.addFirst(character);
             }
             
-            for (char character : temporary)
-            {
+            for (char character : temporary) {
                 stacks.get(step.toStack - 1).addLast(character);
             }
         }
@@ -250,12 +228,10 @@ public class Solution implements DeprecatedSolver
     ///
     /// @param stacks the stacks of crates.
     /// @return the crates at the top of each stack, concatenated together as a string.
-    private String getTopCrates(List<LinkedList<Character>> stacks)
-    {
+    private String getTopCrates(List<LinkedList<Character>> stacks) {
         StringBuilder topCrates = new StringBuilder();
         
-        for (LinkedList<Character> stack : stacks)
-        {
+        for (LinkedList<Character> stack : stacks) {
             topCrates.append(stack.getLast());
         }
         
