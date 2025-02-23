@@ -15,8 +15,17 @@ public class Solution implements Solver {
     );
     
     private final List<LinkedList<Character>> stacks;
-    private final List<Step> procedure;
+    private final List<Move> procedure;
     
+    /// Initializes the solution with the parsed puzzle data.
+    ///
+    /// The puzzle input is split into two sections:
+    ///
+    /// - The first section contains the data for the stacked crates.
+    /// - The second section contains a series of steps on how the crates should be moved between
+    ///  the stacks.
+    ///
+    /// @param input the puzzle input.
     public Solution(String input) {
         final var lines = input.lines().toList();
         
@@ -28,11 +37,6 @@ public class Solution implements Solver {
         this.procedure = parseProcedure(procedureInput);
     }
     
-    /// Finds the index of the first empty line in the puzzle.
-    ///
-    /// @param inputLines the puzzle input.
-    /// @return the index of the first empty line in the puzzle input.
-    /// @throws IllegalArgumentException if there are no empty lines present.
     private static int getEmptyLineIndex(List<String> inputLines) {
         for (var i = 0; i < inputLines.size(); i++) {
             if (inputLines.get(i).isEmpty()) {
@@ -43,53 +47,36 @@ public class Solution implements Solver {
         throw new IllegalArgumentException("There are no empty lines in the puzzle input.");
     }
     
-    /// Parses the puzzle input for the stacks of crates.
+    /// Parses the stack input.
     ///
     /// The stacks are in the form:
     ///
     /// ```
-    /// ...........[F]...
-    /// ...[B].....[E]...
-    /// ...[A].[C].[D]...
-    /// ....#...#...#....
+    /// ........[F]
+    /// [B].....[E]
+    /// [A].[C].[D]
     ///```
     ///
-    /// Where:
-    ///
     /// - Each `.` represents a space and should be ignored.
-    /// - `[A]`, `[B]` and `[C]` are crates.
-    ///   - `[A]` and `[B]` are in the first stack.
-    ///   - `[C]` is in the second stack.
-    /// - `#` is the id of a stack.
+    /// - `[A]`, `[B]` and `[C]` are crates, where `[A]` and `[B]` are in the first stack, and `[C]`
+    ///  is in the second stack.
     ///
-    /// The ids of the stacks are ignored and not included in `stacksInput`. The id values start
-    /// at 1 and increases by 1 each time from left to right, therefore these values are
-    /// predictable and unnecessary to parse. For the crates, only the characters between the
-    /// square braces are added to each stack.
+    /// Only the characters between the square braces are added to each stack.
     ///
-    /// @param stacksInput the first part of the puzzle input, containing the input data for
-    ///                            the stacks.
-    /// @return the stacks of crates.
+    /// @param stacksInput the input for the stacks.
+    /// @return the parsed stack input.
     private static List<LinkedList<Character>> parseStacks(List<String> stacksInput) {
         final var stacks = new ArrayList<LinkedList<Character>>();
         
         for (var stackIndex = 1; stackIndex < stacksInput.getFirst().length(); stackIndex += 4) {
-            final var crateCharacters = getCrateCharacters(stacksInput, stackIndex);
+            final var crateCharacters = parseCrateCharacters(stacksInput, stackIndex);
             stacks.add(crateCharacters);
         }
         
         return stacks;
     }
     
-    /// Parses the puzzle input for a single stack of crates.
-    ///
-    /// The stack is parsed from bottom to top for the characters in-between the square braces.
-    ///
-    /// @param stacksInput the first part of the puzzle input, containing the input data for
-    ///                            the stacks of crates.
-    /// @param stackIndex  the index of the stack of crates.
-    /// @return a stack of crates.
-    private static LinkedList<Character> getCrateCharacters(
+    private static LinkedList<Character> parseCrateCharacters(
             List<String> stacksInput,
             int stackIndex) {
         final var crateCharacters = new LinkedList<Character>();
@@ -107,19 +94,18 @@ public class Solution implements Solver {
         return crateCharacters;
     }
     
-    /// Parses the puzzle input for the list of steps in the crate-moving procedure.
+    /// Parses the procedure input.
     ///
-    /// Each step is in the form `move X from A to B`, where:
+    /// Each move is in the form `move X from A to B`, where:
     ///
     /// - `X` is the number of crates to be moved.
     /// - `A` is the stack where the crates are taken from.
     /// - `B` is the stack where the crates are moved to.
     ///
-    /// @param procedureInput the second part of the puzzle input, containing the input data
-    ///                               for the stacks.
-    /// @return the steps in the crate-moving procedure.
-    private List<Step> parseProcedure(List<String> procedureInput) {
-        final var procedure = new ArrayList<Step>();
+    /// @param procedureInput the procedure input.
+    /// @return the parsed procedure input.
+    private List<Move> parseProcedure(List<String> procedureInput) {
+        final var procedure = new ArrayList<Move>();
         
         for (final var line : procedureInput) {
             final var matcher = MOVE_PATTERN.matcher(line);
@@ -129,12 +115,14 @@ public class Solution implements Solver {
                 final var fromStack = Integer.parseInt(matcher.group(2));
                 final var toStack = Integer.parseInt(matcher.group(3));
                 
-                procedure.add(new Step(cratesToMove, fromStack, toStack));
+                procedure.add(new Move(cratesToMove, fromStack, toStack));
             } else {
-                throw new IllegalArgumentException("Invalid procedure format encountered: " + line);
+                throw new IllegalArgumentException(
+                        "Invalid procedure format encountered: " + line
+                );
             }
         }
-        
+
         return procedure;
     }
     
@@ -151,58 +139,46 @@ public class Solution implements Solver {
     /// Determines the crates left at the top of each stack after the crate-moving procedure has
     /// executed.
     ///
-    /// The puzzle input is split into two sections:
-    ///
-    /// - The first section contains the data for the stacked crates.
-    /// - The second section contains the data for the crate-moving procedure. The crate-moving
-    /// procedure is a series of steps on how the crates should be moved between the stacks.
-    ///
-    /// @return the crates at the top of each stack concatenated together after the crate-moving
-    ///         procedure has executed.
+    /// @return the crates left at the top of each stack concatenated together.
     @Override
-    public Object partOne() {
+    public String partOne() {
         final var stacksCopy = createDeepCopy(stacks);
         
         for (final var step : procedure) {
-            for (var cratesMoved = 0; cratesMoved < step.cratesToMove; cratesMoved++) {
-                final var character = stacksCopy.get(step.fromStack - 1).removeLast();
-                stacksCopy.get(step.toStack - 1).addLast(character);
+            for (var cratesMoved = 0; cratesMoved < step.amount; cratesMoved++) {
+                final var character = stacksCopy.get(step.from - 1).removeLast();
+                stacksCopy.get(step.to - 1).addLast(character);
             }
         }
         
-        return getTopCrates(stacksCopy);
+        return concatenateTopCrates(stacksCopy);
     }
     
     /// Determines the crates left at the top of each stack after the crate-moving procedure has
     /// executed.
     ///
-    /// @return the crates at the top of each stack concatenated together after the crate-moving
-    ///         procedure has executed.
+    /// @return the crates left at the top of each stack concatenated together.
     @Override
-    public Object partTwo() {
+    public String partTwo() {
         final var stacksCopy = createDeepCopy(stacks);
         
         for (final var step : procedure) {
             final var temporary = new LinkedList<Character>();
             
-            for (var cratesMoved = 0; cratesMoved < step.cratesToMove; cratesMoved++) {
-                final var character = stacksCopy.get(step.fromStack - 1).removeLast();
+            for (var cratesMoved = 0; cratesMoved < step.amount; cratesMoved++) {
+                final var character = stacksCopy.get(step.from - 1).removeLast();
                 temporary.addFirst(character);
             }
             
             for (final var character : temporary) {
-                stacksCopy.get(step.toStack - 1).addLast(character);
+                stacksCopy.get(step.to - 1).addLast(character);
             }
         }
         
-        return getTopCrates(stacksCopy);
+        return concatenateTopCrates(stacksCopy);
     }
     
-    /// Concatenates the crates at the top of each stack.
-    ///
-    /// @param stacks the stacks of crates.
-    /// @return the crates at the top of each stack, concatenated together as a string.
-    private String getTopCrates(List<LinkedList<Character>> stacks) {
+    private String concatenateTopCrates(List<LinkedList<Character>> stacks) {
         final var topCrates = new StringBuilder();
         
         for (final var stack : stacks) {
@@ -212,8 +188,7 @@ public class Solution implements Solver {
         return topCrates.toString();
     }
     
-    /// Stores the data for each step in the crate-moving procedure.
-    record Step(int cratesToMove, int fromStack, int toStack) {}
+    record Move(int amount, int from, int to) {}
     
     public static void main(String[] args) {
         Runner.runAndPrint(2022, 5);
