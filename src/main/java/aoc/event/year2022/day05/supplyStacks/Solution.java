@@ -1,14 +1,32 @@
 package aoc.event.year2022.day05.supplyStacks;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Solution implements DeprecatedSolver {
+public class Solution implements Solver {
+    
+    private final Pattern MOVE_PATTERN = Pattern.compile(
+            "move (\\d+) from (\\d+) to (\\d+)"
+    );
+    
+    private final List<LinkedList<Character>> stacks;
+    private final List<Step> procedure;
+    
+    public Solution(String input) {
+        final var lines = input.lines().toList();
+        
+        final var emptyLineIndex = getEmptyLineIndex(lines);
+        final var stacksInput = lines.subList(0, emptyLineIndex - 1);
+        final var procedureInput = lines.subList(emptyLineIndex + 1, lines.size());
+        
+        this.stacks = getStacks(stacksInput);
+        this.procedure = getProcedure(procedureInput);
+    }
     
     /// Finds the index of the first empty line in the puzzle.
     ///
@@ -16,9 +34,9 @@ public class Solution implements DeprecatedSolver {
     /// @return the index of the first empty line in the puzzle input.
     /// @throws IllegalArgumentException if there are no empty lines present.
     private static int getEmptyLineIndex(List<String> inputLines) {
-        for (int index = 0; index < inputLines.size(); index++) {
-            if (inputLines.get(index).isEmpty()) {
-                return index;
+        for (var i = 0; i < inputLines.size(); i++) {
+            if (inputLines.get(i).isEmpty()) {
+                return i;
             }
         }
         
@@ -53,10 +71,10 @@ public class Solution implements DeprecatedSolver {
     ///                            the stacks.
     /// @return the stacks of crates.
     private static List<LinkedList<Character>> getStacks(List<String> stacksInput) {
-        List<LinkedList<Character>> stacks = new ArrayList<>();
+        final var stacks = new ArrayList<LinkedList<Character>>();
         
-        for (int stackIndex = 1; stackIndex < stacksInput.getFirst().length(); stackIndex += 4) {
-            LinkedList<Character> crateCharacters = getCrateCharacters(stacksInput, stackIndex);
+        for (var stackIndex = 1; stackIndex < stacksInput.getFirst().length(); stackIndex += 4) {
+            final var crateCharacters = getCrateCharacters(stacksInput, stackIndex);
             stacks.add(crateCharacters);
         }
         
@@ -74,10 +92,10 @@ public class Solution implements DeprecatedSolver {
     private static LinkedList<Character> getCrateCharacters(
             List<String> stacksInput,
             int stackIndex) {
-        LinkedList<Character> crateCharacters = new LinkedList<>();
+        final var crateCharacters = new LinkedList<Character>();
         
-        for (int index = stacksInput.size() - 1; index >= 0; index--) {
-            char crateCharacter = stacksInput.get(index).charAt(stackIndex);
+        for (var index = stacksInput.size() - 1; index >= 0; index--) {
+            final var crateCharacter = stacksInput.get(index).charAt(stackIndex);
             
             if (!Character.isWhitespace(crateCharacter)) {
                 crateCharacters.add(crateCharacter);
@@ -100,20 +118,16 @@ public class Solution implements DeprecatedSolver {
     /// @param procedureInput the second part of the puzzle input, containing the input data
     ///                               for the stacks.
     /// @return the steps in the crate-moving procedure.
-    private List<Step> getProcedure(
-            List<String> procedureInput) {
-        List<Step> procedure = new ArrayList<>();
+    private List<Step> getProcedure(List<String> procedureInput) {
+        final var procedure = new ArrayList<Step>();
         
-        String regex = "move (\\d+) from (\\d+) to (\\d+)";
-        Pattern pattern = Pattern.compile(regex);
-        
-        for (String line : procedureInput) {
-            Matcher matcher = pattern.matcher(line);
+        for (final var line : procedureInput) {
+            final var matcher = MOVE_PATTERN.matcher(line);
             
             if (matcher.matches()) {
-                int cratesToMove = Integer.parseInt(matcher.group(1));
-                int fromStack = Integer.parseInt(matcher.group(2));
-                int toStack = Integer.parseInt(matcher.group(3));
+                final var cratesToMove = Integer.parseInt(matcher.group(1));
+                final var fromStack = Integer.parseInt(matcher.group(2));
+                final var toStack = Integer.parseInt(matcher.group(3));
                 
                 procedure.add(new Step(cratesToMove, fromStack, toStack));
             } else {
@@ -122,6 +136,16 @@ public class Solution implements DeprecatedSolver {
         }
         
         return procedure;
+    }
+    
+    private List<LinkedList<Character>> createDeepCopy(List<LinkedList<Character>> stacks) {
+        final var stacksCopy = new ArrayList<LinkedList<Character>>();
+        
+        for (final var stack : stacks) {
+            stacksCopy.add(new LinkedList<>(stack));
+        }
+        
+        return stacksCopy;
     }
     
     /// Determines the crates left at the top of each stack after the crate-moving procedure has
@@ -148,16 +172,10 @@ public class Solution implements DeprecatedSolver {
     /// @return the crates at the top of each stack concatenated together after the crate-moving
     ///         procedure has executed.
     @Override
-    public Object partOne(List<String> inputLines) {
-        int emptyLineIndex = getEmptyLineIndex(inputLines);
-        List<String> stacksInput = inputLines.subList(0, emptyLineIndex - 1);
-        List<String> procedureInput = inputLines.subList(emptyLineIndex + 1, inputLines.size());
-        
-        List<LinkedList<Character>> stacks = getStacks(stacksInput);
-        List<Step> procedure = getProcedure(procedureInput);
-        
-        executeProcedureOneCrateAtATime(stacks, procedure);
-        return getTopCrates(stacks);
+    public Object partOne() {
+        final var stacksCopy = createDeepCopy(stacks);
+        executeProcedureOneCrateAtATime(stacksCopy, procedure);
+        return getTopCrates(stacksCopy);
     }
     
     /// Executes the crate-moving procedure, moving the crates between the stacks one at a time.
@@ -167,9 +185,9 @@ public class Solution implements DeprecatedSolver {
     private void executeProcedureOneCrateAtATime(
             List<LinkedList<Character>> stacks,
             List<Step> procedure) {
-        for (Step step : procedure) {
-            for (int cratesMoved = 0; cratesMoved < step.cratesToMove; cratesMoved++) {
-                char character = stacks.get(step.fromStack - 1).removeLast();
+        for (final var step : procedure) {
+            for (var cratesMoved = 0; cratesMoved < step.cratesToMove; cratesMoved++) {
+                final var character = stacks.get(step.fromStack - 1).removeLast();
                 stacks.get(step.toStack - 1).addLast(character);
             }
         }
@@ -188,18 +206,12 @@ public class Solution implements DeprecatedSolver {
     /// @return the crates at the top of each stack concatenated together after the crate-moving
     ///         procedure has executed.
     @Override
-    public Object partTwo(List<String> inputLines) {
-        int emptyLineIndex = getEmptyLineIndex(inputLines);
-        List<String> stacksInput = inputLines.subList(0, emptyLineIndex - 1);
-        List<String> procedureInput = inputLines.subList(emptyLineIndex + 1, inputLines.size());
-        
-        List<LinkedList<Character>> stacks = getStacks(stacksInput);
-        List<Step> procedure = getProcedure(procedureInput);
-        
-        executeProcedureAllCratesAtOnce(stacks, procedure);
-        return getTopCrates(stacks);
+    public Object partTwo() {
+        final var stacksCopy = createDeepCopy(stacks);
+        executeProcedureAllCratesAtOnce(stacksCopy, procedure);
+        return getTopCrates(stacksCopy);
     }
-    
+
     /// Executes the crate-moving procedure, moving the crates between the stacks all at once.
     ///
     /// @param stacks    the stacks of crates.
@@ -207,15 +219,15 @@ public class Solution implements DeprecatedSolver {
     private void executeProcedureAllCratesAtOnce(
             List<LinkedList<Character>> stacks,
             List<Step> procedure) {
-        for (Step step : procedure) {
-            List<Character> temporary = new LinkedList<>();
+        for (final var step : procedure) {
+            final var temporary = new LinkedList<Character>();
             
-            for (int cratesMoved = 0; cratesMoved < step.cratesToMove; cratesMoved++) {
-                char character = stacks.get(step.fromStack - 1).removeLast();
+            for (var cratesMoved = 0; cratesMoved < step.cratesToMove; cratesMoved++) {
+                final var character = stacks.get(step.fromStack - 1).removeLast();
                 temporary.addFirst(character);
             }
             
-            for (char character : temporary) {
+            for (final var character : temporary) {
                 stacks.get(step.toStack - 1).addLast(character);
             }
         }
@@ -226,9 +238,9 @@ public class Solution implements DeprecatedSolver {
     /// @param stacks the stacks of crates.
     /// @return the crates at the top of each stack, concatenated together as a string.
     private String getTopCrates(List<LinkedList<Character>> stacks) {
-        StringBuilder topCrates = new StringBuilder();
+        final var topCrates = new StringBuilder();
         
-        for (LinkedList<Character> stack : stacks) {
+        for (final var stack : stacks) {
             topCrates.append(stack.getLast());
         }
         
@@ -237,4 +249,8 @@ public class Solution implements DeprecatedSolver {
     
     /// This record holds the data for each step in the crate-moving procedure.
     record Step(int cratesToMove, int fromStack, int toStack) {}
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2022, 5);
+    }
 }
