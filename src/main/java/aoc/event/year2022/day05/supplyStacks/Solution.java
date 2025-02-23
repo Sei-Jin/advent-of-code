@@ -10,67 +10,6 @@ import java.util.regex.Pattern;
 
 public class Solution implements DeprecatedSolver {
     
-    /// Determines the crates left at the top of each stack after the crate-moving procedure has
-    /// executed.
-    ///
-    /// The puzzle input is split into two sections:
-    ///
-    /// - The first section contains the data for the stacked crates.
-    /// - The second section contains the data for the crate-moving procedure. The crate-moving
-    /// procedure is a series of steps on how the crates should be moved between the stacks.
-    ///
-    /// Time Complexity: O(n)
-    /// - All methods are done in linear time.
-    ///
-    /// Space Complexity: O(n)
-    /// - The data for the stacks and the procedure steps are parsed and stored before the procedure
-    /// is executed. The data for both sections scale linearly with the puzzle input.
-    /// - Space required could be reduced by combining the procedure parsing and execution steps.
-    /// Only one step in the procedure would need to be stored at a time if each step was executed
-    /// before the next step was parsed. This would avoid storing all the procedure steps ahead of
-    /// time, but would come with the downside of combining the two methods into one.
-    ///
-    /// @param inputLines the puzzle input.
-    /// @return the crates at the top of each stack concatenated together after the crate-moving
-    ///         procedure has executed.
-    @Override
-    public Object partOne(List<String> inputLines) {
-        int emptyLineIndex = getEmptyLineIndex(inputLines);
-        List<String> stacksInput = inputLines.subList(0, emptyLineIndex - 1);
-        List<String> procedureInput = inputLines.subList(emptyLineIndex + 1, inputLines.size());
-        
-        List<LinkedList<Character>> stacks = getStacks(stacksInput);
-        List<Step> procedure = getProcedure(procedureInput);
-        
-        executeProcedureOneCrateAtATime(stacks, procedure);
-        return getTopCrates(stacks);
-    }
-    
-    /// Determines the crates left at the top of each stack after the crate-moving procedure has
-    /// executed.
-    ///
-    /// Time Complexity: O(n)
-    /// - Same as part one.
-    ///
-    /// Space Complexity: O(n)
-    /// - Same as part one.
-    ///
-    /// @param inputLines the puzzle input.
-    /// @return the crates at the top of each stack concatenated together after the crate-moving
-    ///         procedure has executed.
-    @Override
-    public Object partTwo(List<String> inputLines) {
-        int emptyLineIndex = getEmptyLineIndex(inputLines);
-        List<String> stacksInput = inputLines.subList(0, emptyLineIndex - 1);
-        List<String> procedureInput = inputLines.subList(emptyLineIndex + 1, inputLines.size());
-        
-        List<LinkedList<Character>> stacks = getStacks(stacksInput);
-        List<Step> procedure = getProcedure(procedureInput);
-        
-        executeProcedureAllCratesAtOnce(stacks, procedure);
-        return getTopCrates(stacks);
-    }
-    
     /// Finds the index of the first empty line in the puzzle.
     ///
     /// @param inputLines the puzzle input.
@@ -150,9 +89,6 @@ public class Solution implements DeprecatedSolver {
         return crateCharacters;
     }
     
-    /// This record holds the data for each step in the crate-moving procedure.
-    record Step(int cratesToMove, int fromStack, int toStack) {}
-    
     /// Parses the puzzle input for the list of steps in the crate-moving procedure.
     ///
     /// Each step is in the form `move X from A to B`, where:
@@ -188,6 +124,42 @@ public class Solution implements DeprecatedSolver {
         return procedure;
     }
     
+    /// Determines the crates left at the top of each stack after the crate-moving procedure has
+    /// executed.
+    ///
+    /// The puzzle input is split into two sections:
+    ///
+    /// - The first section contains the data for the stacked crates.
+    /// - The second section contains the data for the crate-moving procedure. The crate-moving
+    /// procedure is a series of steps on how the crates should be moved between the stacks.
+    ///
+    /// Time Complexity: O(n)
+    /// - All methods are done in linear time.
+    ///
+    /// Space Complexity: O(n)
+    /// - The data for the stacks and the procedure steps are parsed and stored before the procedure
+    /// is executed. The data for both sections scale linearly with the puzzle input.
+    /// - Space required could be reduced by combining the procedure parsing and execution steps.
+    /// Only one step in the procedure would need to be stored at a time if each step was executed
+    /// before the next step was parsed. This would avoid storing all the procedure steps ahead of
+    /// time, but would come with the downside of combining the two methods into one.
+    ///
+    /// @param inputLines the puzzle input.
+    /// @return the crates at the top of each stack concatenated together after the crate-moving
+    ///         procedure has executed.
+    @Override
+    public Object partOne(List<String> inputLines) {
+        int emptyLineIndex = getEmptyLineIndex(inputLines);
+        List<String> stacksInput = inputLines.subList(0, emptyLineIndex - 1);
+        List<String> procedureInput = inputLines.subList(emptyLineIndex + 1, inputLines.size());
+        
+        List<LinkedList<Character>> stacks = getStacks(stacksInput);
+        List<Step> procedure = getProcedure(procedureInput);
+        
+        executeProcedureOneCrateAtATime(stacks, procedure);
+        return getTopCrates(stacks);
+    }
+    
     /// Executes the crate-moving procedure, moving the crates between the stacks one at a time.
     ///
     /// @param stacks    the stacks of crates.
@@ -201,6 +173,31 @@ public class Solution implements DeprecatedSolver {
                 stacks.get(step.toStack - 1).addLast(character);
             }
         }
+    }
+    
+    /// Determines the crates left at the top of each stack after the crate-moving procedure has
+    /// executed.
+    ///
+    /// Time Complexity: O(n)
+    /// - Same as part one.
+    ///
+    /// Space Complexity: O(n)
+    /// - Same as part one.
+    ///
+    /// @param inputLines the puzzle input.
+    /// @return the crates at the top of each stack concatenated together after the crate-moving
+    ///         procedure has executed.
+    @Override
+    public Object partTwo(List<String> inputLines) {
+        int emptyLineIndex = getEmptyLineIndex(inputLines);
+        List<String> stacksInput = inputLines.subList(0, emptyLineIndex - 1);
+        List<String> procedureInput = inputLines.subList(emptyLineIndex + 1, inputLines.size());
+        
+        List<LinkedList<Character>> stacks = getStacks(stacksInput);
+        List<Step> procedure = getProcedure(procedureInput);
+        
+        executeProcedureAllCratesAtOnce(stacks, procedure);
+        return getTopCrates(stacks);
     }
     
     /// Executes the crate-moving procedure, moving the crates between the stacks all at once.
@@ -237,4 +234,7 @@ public class Solution implements DeprecatedSolver {
         
         return topCrates.toString();
     }
+    
+    /// This record holds the data for each step in the crate-moving procedure.
+    record Step(int cratesToMove, int fromStack, int toStack) {}
 }
