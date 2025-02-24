@@ -2,19 +2,40 @@ package aoc.event.year2024.day07.bridgeRepair;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
-{
+public class SolutionTests {
+    
     @Test
-    void example()
-    {
-        List<String> input = new ArrayList<>(
-                Arrays.stream("""
+    void exampleLine1() {
+        final var input = """
+                190: 10 19
+                """;
+        final var solution = new Solution(input);
+        assertEquals(190L, solution.partOne());
+    }
+    
+    @Test
+    void exampleLine2() {
+        final var input = """
+                3267: 81 40 27
+                """;
+        final var solution = new Solution(input);
+        assertEquals(3267L, solution.partOne());
+    }
+    
+    @Test
+    void exampleLine3() {
+        final var input = """
+                292: 11 6 16 20
+                """;
+        final var solution = new Solution(input);
+        assertEquals(292L, solution.partOne());
+    }
+    
+    @Test
+    void example() {
+        final var input = """
                 190: 10 19
                 3267: 81 40 27
                 83: 17 5
@@ -24,7 +45,8 @@ public class SolutionTests
                 192: 17 8 14
                 21037: 9 7 18 13
                 292: 11 6 16 20
-                """.split("\n")).toList());
-        assertEquals(3749, new Solution().partOne(input));
+                """;
+        final var solution = new Solution(input);
+        assertEquals(3749L, solution.partOne());
     }
 }
