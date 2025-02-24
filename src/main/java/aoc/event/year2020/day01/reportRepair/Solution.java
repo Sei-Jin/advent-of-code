@@ -7,8 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Solution implements DeprecatedSolver {
-    public static void main(String[] args) {
-        Runner.runAndPrint(2020, 1);
+    
+    private static List<Integer> getExpenseReport(List<String> inputLines) {
+        List<Integer> expenseReport = new ArrayList<>();
+        
+        for (String line : inputLines) {
+            expenseReport.add(Integer.parseInt(line));
+        }
+        return expenseReport;
     }
     
     @Override
@@ -31,17 +37,6 @@ public class Solution implements DeprecatedSolver {
         
         return null;
     }
-    
-    
-    private static List<Integer> getExpenseReport(List<String> inputLines) {
-        List<Integer> expenseReport = new ArrayList<>();
-        
-        for (String line : inputLines) {
-            expenseReport.add(Integer.parseInt(line));
-        }
-        return expenseReport;
-    }
-    
     
     @Override
     public Object partTwo(List<String> inputLines) {
@@ -68,5 +63,9 @@ public class Solution implements DeprecatedSolver {
         }
         
         return null;
+    }
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2020, 1);
     }
 }
