@@ -47,7 +47,7 @@ public class Solution implements Solver {
         var total = 0L;
         
         for (final var equation : equations) {
-            final var operations = Arrays.stream(Operation.values()).toList();
+            final var operations = List.of(Operation.ADD, Operation.MULTIPLY);
             final var operationCount = equation.numbers.size() - 1;
             
             final var permutations = generatePermutations(operations, operationCount);
@@ -96,6 +96,7 @@ public class Solution implements Solver {
                 switch (operation) {
                     case ADD -> total += number;
                     case MULTIPLY -> total *= number;
+                    case CONCAT -> total = Long.parseLong(total + String.valueOf(number));
                 }
             }
             
@@ -109,14 +110,28 @@ public class Solution implements Solver {
     
     @Override
     public Long partTwo() {
-        return 0L;
+        var total = 0L;
+        
+        for (final var equation : equations) {
+            final var operations = List.of(Operation.ADD, Operation.MULTIPLY, Operation.CONCAT);
+            final var operationCount = equation.numbers.size() - 1;
+            
+            final var permutations = generatePermutations(operations, operationCount);
+            
+            if (isPossible(equation, permutations)) {
+                total += equation.target;
+            }
+        }
+        
+        return total;
     }
     
     private record Equation(long target, List<Integer> numbers) {}
     
     private enum Operation {
         ADD,
-        MULTIPLY
+        MULTIPLY,
+        CONCAT
     }
     
     public static void main(String[] args) {

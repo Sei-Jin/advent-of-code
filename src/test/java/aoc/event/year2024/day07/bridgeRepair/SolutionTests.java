@@ -48,5 +48,6 @@ public class SolutionTests {
                 """;
         final var solution = new Solution(input);
         assertEquals(3749L, solution.partOne());
+        assertEquals(11387, solution.partTwo());
     }
 }
