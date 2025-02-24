@@ -4,7 +4,6 @@ import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -40,24 +39,6 @@ public class Solution implements Solver {
         });
         
         return equations;
-    }
-    
-    @Override
-    public Long partOne() {
-        var total = 0L;
-        
-        for (final var equation : equations) {
-            final var operations = List.of(Operation.ADD, Operation.MULTIPLY);
-            final var operationCount = equation.numbers.size() - 1;
-            
-            final var permutations = generatePermutations(operations, operationCount);
-            
-            if (isPossible(equation, permutations)) {
-                total += equation.target;
-            }
-        }
-        
-        return total;
     }
     
     /// Generates all possible permutations with repetition of length k.
@@ -106,6 +87,24 @@ public class Solution implements Solver {
         }
         
         return false;
+    }
+    
+    @Override
+    public Long partOne() {
+        var total = 0L;
+        
+        for (final var equation : equations) {
+            final var operations = List.of(Operation.ADD, Operation.MULTIPLY);
+            final var operationCount = equation.numbers.size() - 1;
+            
+            final var permutations = generatePermutations(operations, operationCount);
+            
+            if (isPossible(equation, permutations)) {
+                total += equation.target;
+            }
+        }
+        
+        return total;
     }
     
     @Override
