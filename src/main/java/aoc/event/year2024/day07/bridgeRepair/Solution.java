@@ -51,18 +51,18 @@ public class Solution implements Solver {
             base.add(new ArrayList<>());
             return base;
         } else {
-            final var tuples_k_minus_1 = generatePermutations(operations, k - 1);
-            final var tuples_k = new ArrayList<List<T>>();
+            final var tuplesKMinus1 = generatePermutations(operations, k - 1);
+            final var tuplesK = new ArrayList<List<T>>();
             
-            for (final var tuple : tuples_k_minus_1) {
+            for (final var tuple : tuplesKMinus1) {
                 for (final var operation : operations) {
                     final var newTuple = new ArrayList<>(tuple);
                     newTuple.addFirst(operation);
-                    tuples_k.add(newTuple);
+                    tuplesK.add(newTuple);
                 }
             }
             
-            return tuples_k;
+            return tuplesK;
         }
     }
     
