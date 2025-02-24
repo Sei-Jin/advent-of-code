@@ -57,7 +57,7 @@ public class Solution implements Solver {
             for (final var tuple : tuplesKMinus1) {
                 for (final var operation : operations) {
                     final var newTuple = new ArrayList<>(tuple);
-                    newTuple.addFirst(operation);
+                    newTuple.add(operation);
                     tuplesK.add(newTuple);
                 }
             }
