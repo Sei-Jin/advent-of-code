@@ -1,68 +1,64 @@
 package aoc.event.year2020.day01.reportRepair;
 
-import aoc.DeprecatedSolver;
+import aoc.Solver;
 import aoc.Runner;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class Solution implements DeprecatedSolver {
+public class Solution implements Solver {
     
-    private static List<Integer> getExpenseReport(List<String> inputLines) {
-        List<Integer> expenseReport = new ArrayList<>();
-        
-        for (String line : inputLines) {
-            expenseReport.add(Integer.parseInt(line));
-        }
-        return expenseReport;
+    private final List<Integer> numbers;
+    
+    public Solution(String input) {
+        numbers = Collections.unmodifiableList(parse(input));
+    }
+    
+    private static List<Integer> parse(String input) {
+        return input.lines()
+                .mapToInt(Integer::parseInt)
+                .boxed()
+                .toList();
     }
     
     @Override
-    public Object partOne(List<String> inputLines) {
-        List<Integer> expenseReport = getExpenseReport(inputLines);
-        
-        for (int firstEntry = 0; firstEntry < expenseReport.size(); firstEntry++) {
-            for (int secondEntry = 0; secondEntry < expenseReport.size(); secondEntry++) {
-                if (firstEntry == secondEntry) {
+    public Integer partOne() {
+        for (var i = 0; i < numbers.size(); i++) {
+            for (var j = 0; j < numbers.size(); j++) {
+                if (i == j) {
                     continue;
                 }
                 
-                int sum = expenseReport.get(firstEntry) + expenseReport.get(secondEntry);
+                final var sum = numbers.get(i) + numbers.get(j);
                 
                 if (sum == 2020) {
-                    return expenseReport.get(firstEntry) * expenseReport.get(secondEntry);
+                    return numbers.get(i) * numbers.get(j);
                 }
             }
         }
         
-        return null;
+        return 0;
     }
     
     @Override
-    public Object partTwo(List<String> inputLines) {
-        List<Integer> expenseReport = getExpenseReport(inputLines);
-        
-        for (int firstEntry = 0; firstEntry < expenseReport.size(); firstEntry++) {
-            for (int secondEntry = 0; secondEntry < expenseReport.size(); secondEntry++) {
-                for (int thirdEntry = 0; thirdEntry < expenseReport.size(); thirdEntry++) {
-                    if (firstEntry == secondEntry || secondEntry == thirdEntry || thirdEntry == firstEntry) {
+    public Integer partTwo() {
+        for (var i = 0; i < numbers.size(); i++) {
+            for (var j = 0; j < numbers.size(); j++) {
+                for (var k = 0; k < numbers.size(); k++) {
+                    if (i == j || j == k || k == i) {
                         continue;
                     }
                     
-                    int sum = expenseReport.get(firstEntry)
-                            + expenseReport.get(secondEntry)
-                            + expenseReport.get(thirdEntry);
+                    final var sum = numbers.get(i) + numbers.get(j) + numbers.get(k);
                     
                     if (sum == 2020) {
-                        return expenseReport.get(firstEntry)
-                                * expenseReport.get(secondEntry)
-                                * expenseReport.get(thirdEntry);
+                        return numbers.get(i) * numbers.get(j) * numbers.get(k);
                     }
                 }
             }
         }
         
-        return null;
+        return 0;
     }
     
     public static void main(String[] args) {
