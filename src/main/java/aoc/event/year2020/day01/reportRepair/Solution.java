@@ -3,13 +3,20 @@ package aoc.event.year2020.day01.reportRepair;
 import aoc.Solver;
 import aoc.Runner;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 public class Solution implements Solver {
     
+    private static final int TARGET_SUM = 2020;
+    
     private final List<Integer> numbers;
     
+    /// Initializes the solution with the parsed puzzle input.
+    ///
+    /// The puzzle input contains one number on each line.
     public Solution(String input) {
         numbers = Collections.unmodifiableList(parse(input));
     }
@@ -21,44 +28,64 @@ public class Solution implements Solver {
                 .toList();
     }
     
+    /// Calculates the product of the two numbers that sum to the target value.
     @Override
     public Integer partOne() {
-        for (var i = 0; i < numbers.size(); i++) {
-            for (var j = 0; j < numbers.size(); j++) {
-                if (i == j) {
-                    continue;
-                }
-                
-                final var sum = numbers.get(i) + numbers.get(j);
-                
-                if (sum == 2020) {
-                    return numbers.get(i) * numbers.get(j);
-                }
-            }
-        }
-        
-        return 0;
+        final var twoTuple = twoSum(numbers);
+        return twoTuple[0] * twoTuple[1];
     }
     
+    /// Runs in `O(n)` time using `O(n)` space
+    private static int[] twoSum(List<Integer> numbers) {
+        final var targetDifferences = new HashMap<Integer, Integer>();
+        
+        for (final var number : numbers) {
+            if (!targetDifferences.containsKey(number)) {
+                final var difference = TARGET_SUM - number;
+                targetDifferences.put(difference, number);
+            } else {
+                return new int[]{number, targetDifferences.get(number)};
+            }
+        }
+        
+        throw new IllegalArgumentException(
+                "There were no two numbers with a sum equal to the target value."
+        );
+    }
+    
+    /// Calculates the product of the three numbers that sum to the target value.
     @Override
     public Integer partTwo() {
-        for (var i = 0; i < numbers.size(); i++) {
-            for (var j = 0; j < numbers.size(); j++) {
-                for (var k = 0; k < numbers.size(); k++) {
-                    if (i == j || j == k || k == i) {
-                        continue;
-                    }
-                    
-                    final var sum = numbers.get(i) + numbers.get(j) + numbers.get(k);
-                    
-                    if (sum == 2020) {
-                        return numbers.get(i) * numbers.get(j) * numbers.get(k);
-                    }
+        final var threeTuple = threeSum(new ArrayList<>(numbers));
+        return threeTuple[0] * threeTuple[1] * threeTuple[2];
+    }
+    
+    /// Runs in `O(n^2)` time using `O(n)` space
+    private int[] threeSum(List<Integer> numbers) {
+        numbers.sort(Integer::compareTo);
+        
+        for (var current = 0; current < numbers.size() - 2; current++)
+        {
+            var left = current + 1;
+            var right = numbers.size() - 1;
+            
+            while (left < right)
+            {
+                final var sum = numbers.get(current) + numbers.get(left) + numbers.get(right);
+                
+                if (sum > TARGET_SUM) {
+                    right--;
+                } else if (sum < TARGET_SUM) {
+                    left++;
+                } else {
+                    return new int[]{numbers.get(current), numbers.get(left), numbers.get(right)};
                 }
             }
         }
         
-        return 0;
+        throw new IllegalArgumentException(
+                "There were no three numbers with a sum equal to the target value."
+        );
     }
     
     public static void main(String[] args) {
