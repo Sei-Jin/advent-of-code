@@ -2,20 +2,31 @@ package aoc.event.year2019.day01.theTyrannyOfTheRocketEquation;
 
 import aoc.Solver;
 
+import java.util.Collections;
 import java.util.List;
 
-/// --- Day 1: The Tyranny of the Rocket Equation ---
 public class Solution implements Solver {
     
-    /// @param inputLines the puzzle input.
+    private final List<Integer> numbers;
+    
+    public Solution(String input) {
+        numbers = Collections.unmodifiableList(parse(input));
+    }
+    
+    private static List<Integer> parse(String input) {
+        return input.lines()
+                .mapToInt(Integer::parseInt)
+                .boxed()
+                .toList();
+    }
+    
     /// @return the sum of all fuel required for the modules in the spacecraft.
     @Override
-    public Object partOne(List<String> inputLines) {
-        int totalFuelRequired = 0;
+    public Integer partOne() {
+        var totalFuelRequired = 0;
         
-        for (String line : inputLines) {
-            int mass = Integer.parseInt(line);
-            int fuelRequired = mass / 3 - 2;
+        for (final var mass : numbers) {
+            final var fuelRequired = mass / 3 - 2;
             totalFuelRequired += fuelRequired;
         }
         
@@ -23,25 +34,20 @@ public class Solution implements Solver {
     }
     
     
-    /// @param inputLines the puzzle input.
     /// @return the sum of all fuel required for the modules in the spacecraft when also taking into
     /// consideration the mass of the added fuel itself.
     @Override
-    public Object partTwo(List<String> inputLines) {
-        int totalFuelRequired = 0;
+    public Integer partTwo() {
+        var totalFuelRequired = 0;
         
-        for (String line : inputLines) {
-            int mass = Integer.parseInt(line);
-            
+        for (final var mass : numbers) {
             int fuelRequired = mass / 3 - 2;
             fuelRequired = calculateFuelRequired(fuelRequired);
-            
             totalFuelRequired += fuelRequired;
         }
         
         return totalFuelRequired;
     }
-    
     
     private static int calculateFuelRequired(int fuelRequired) {
         if (fuelRequired < 0) {
