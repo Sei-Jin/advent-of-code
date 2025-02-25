@@ -1,35 +1,62 @@
 package aoc.event.year2020.day02.passwordPhilosophy;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
-public class Solution implements DeprecatedSolver {
+public class Solution implements Solver {
     
-    /// @param inputLines the puzzle input.
+    private static final Pattern LINE_PATTERN = Pattern.compile(
+            "^(\\d+)-(\\d+) (\\w): (\\w+)$"
+    );
+    
+    private final List<Line> lines;
+    
+    public Solution(String input) {
+        lines = Collections.unmodifiableList(parse(input));
+    }
+    
+    private static List<Line> parse(String input) {
+        return input.lines().map(line -> {
+            final var matcher = LINE_PATTERN.matcher(line);
+            
+            if (matcher.find()) {
+                final var first = Integer.parseInt(matcher.group(1));
+                final var second = Integer.parseInt(matcher.group(2));
+                final var character = matcher.group(3).charAt(0);
+                final var passwordString = matcher.group(4);
+                
+                final var password = passwordString.chars()
+                        .mapToObj(c -> (char) c)
+                        .toList();
+                
+                return new Line(first, second, character, password);
+            } else {
+                throw new IllegalArgumentException(
+                        "Input was in unexpected format for line: " + line
+                );
+            }
+        }).toList();
+    }
+    
     /// @return the number of valid passwords according to the set policies.
     @Override
-    public Object partOne(List<String> inputLines) {
-        int validPasswords = 0;
+    public Integer partOne() {
+        var validPasswords = 0;
         
-        for (String line : inputLines) {
-            List<String> lineValues = getLineValues(line);
+        for (final var line : lines) {
+            var letterCount = 0;
             
-            int minimumCount = Integer.parseInt(lineValues.get(0));
-            int maximumCount = Integer.parseInt(lineValues.get(1));
-            char policyLetter = lineValues.get(2).charAt(0);
-            String password = lineValues.get(3);
-            
-            int letterCount = 0;
-            
-            for (char character : password.toCharArray()) {
-                if (character == policyLetter) {
+            for (final var character : line.password) {
+                if (character == line.character) {
                     letterCount++;
                 }
             }
             
-            if (letterCount >= minimumCount && letterCount <= maximumCount) {
+            if (letterCount >= line.first && letterCount <= line.second) {
                 validPasswords++;
             }
         }
@@ -37,19 +64,16 @@ public class Solution implements DeprecatedSolver {
         return validPasswords;
     }
     
-    
-    /// @param inputLines the puzzle input.
     /// @return the number of valid passwords according to the new interpretation of the policies.
     @Override
-    public Object partTwo(List<String> inputLines) {
-        int validPasswords = 0;
+    public Integer partTwo() {
+        var validPasswords = 0;
         
-        for (String line : inputLines) {
-            List<String> lineValues = getLineValues(line);
+        for (final var line : lines) {
+            final var onlyOnePresent = (line.character == line.password.get(line.first - 1) ^
+                            line.character == line.password.get(line.second - 1));
             
-            boolean oneLetterPresent = isOneLetterPresent(lineValues);
-            
-            if (oneLetterPresent) {
+            if (onlyOnePresent) {
                 validPasswords++;
             }
         }
@@ -57,29 +81,9 @@ public class Solution implements DeprecatedSolver {
         return validPasswords;
     }
     
+    private record Line(int first, int second, char character, List<Character> password) {}
     
-    private static List<String> getLineValues(String line) {
-        return Arrays.stream(line.split("(-| |: )"))
-                .toList();
-    }
-    
-    
-    private static boolean isOneLetterPresent(List<String> lineValues) {
-        int firstPosition = Integer.parseInt(lineValues.get(0));
-        int secondPosition = Integer.parseInt(lineValues.get(1));
-        char policyLetter = lineValues.get(2).charAt(0);
-        String password = lineValues.get(3);
-        
-        boolean oneLetterPresent = false;
-        
-        if (policyLetter == password.charAt(firstPosition - 1)) {
-            oneLetterPresent = !oneLetterPresent;
-        }
-        
-        if (policyLetter == password.charAt(secondPosition - 1)) {
-            oneLetterPresent = !oneLetterPresent;
-        }
-        
-        return oneLetterPresent;
+    public static void main(String[] args) {
+        Runner.runAndPrint(2020, 2);
     }
 }
