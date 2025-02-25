@@ -1,5 +1,6 @@
 package aoc.event.year2019.day01.theTyrannyOfTheRocketEquation;
 
+import aoc.Runner;
 import aoc.Solver;
 
 import java.util.Collections;
@@ -7,10 +8,13 @@ import java.util.List;
 
 public class Solution implements Solver {
     
-    private final List<Integer> numbers;
+    private final List<Integer> moduleMasses;
     
+    /// Initializes the solution with the parsed puzzle input.
+    ///
+    /// The puzzle input contains one number per line.
     public Solution(String input) {
-        numbers = Collections.unmodifiableList(parse(input));
+        moduleMasses = Collections.unmodifiableList(parse(input));
     }
     
     private static List<Integer> parse(String input) {
@@ -20,40 +24,47 @@ public class Solution implements Solver {
                 .toList();
     }
     
-    /// @return the sum of all fuel required for the modules in the spacecraft.
+    private static int calculateFuelMass(int mass) {
+        return mass / 3 - 2;
+    }
+    
+    /// Calculates the sum fuel masses required.
     @Override
     public Integer partOne() {
-        var totalFuelRequired = 0;
+        var sum = 0;
         
-        for (final var mass : numbers) {
-            final var fuelRequired = mass / 3 - 2;
-            totalFuelRequired += fuelRequired;
+        for (final var moduleMass : moduleMasses) {
+            final var fuelMass = calculateFuelMass(moduleMass);
+            sum += fuelMass;
         }
         
-        return totalFuelRequired;
+        return sum;
     }
     
-    
-    /// @return the sum of all fuel required for the modules in the spacecraft when also taking into
-    /// consideration the mass of the added fuel itself.
+    /// Calculates the sum of the fuel required when also taking into consideration the mass of the
+    /// added fuel itself.
     @Override
     public Integer partTwo() {
-        var totalFuelRequired = 0;
+        var sum = 0;
         
-        for (final var mass : numbers) {
-            int fuelRequired = mass / 3 - 2;
-            fuelRequired = calculateFuelRequired(fuelRequired);
-            totalFuelRequired += fuelRequired;
+        for (final var moduleMass : moduleMasses) {
+            sum += calculateFuelMassRecursively(moduleMass);
         }
         
-        return totalFuelRequired;
+        return sum;
     }
     
-    private static int calculateFuelRequired(int fuelRequired) {
-        if (fuelRequired < 0) {
+    private static int calculateFuelMassRecursively(int mass) {
+        final var fuelMass = calculateFuelMass(mass);
+        
+        if (fuelMass <= 0) {
             return 0;
         } else {
-            return fuelRequired + calculateFuelRequired(fuelRequired / 3 - 2);
+            return fuelMass + calculateFuelMassRecursively(fuelMass);
         }
+    }
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2019, 1);
     }
 }
