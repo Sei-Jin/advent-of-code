@@ -1,25 +1,19 @@
 package aoc.event.year2019.day01.theTyrannyOfTheRocketEquation;
 
-import aoc.DeprecatedSolver;
+import aoc.Solver;
 
 import java.util.List;
 
-/**
- * --- Day 1: The Tyranny of the Rocket Equation ---
- */
-public class Solution implements DeprecatedSolver
-{
-    /**
-     * @param inputLines the puzzle input.
-     * @return the sum of all fuel required for the modules in the spacecraft.
-     */
+/// --- Day 1: The Tyranny of the Rocket Equation ---
+public class Solution implements Solver {
+    
+    /// @param inputLines the puzzle input.
+    /// @return the sum of all fuel required for the modules in the spacecraft.
     @Override
-    public Object partOne(List<String> inputLines)
-    {
+    public Object partOne(List<String> inputLines) {
         int totalFuelRequired = 0;
         
-        for (String line : inputLines)
-        {
+        for (String line : inputLines) {
             int mass = Integer.parseInt(line);
             int fuelRequired = mass / 3 - 2;
             totalFuelRequired += fuelRequired;
@@ -29,18 +23,14 @@ public class Solution implements DeprecatedSolver
     }
     
     
-    /**
-     * @param inputLines the puzzle input.
-     * @return the sum of all fuel required for the modules in the spacecraft when also taking into consideration
-     * the mass of the added fuel itself.
-     */
+    /// @param inputLines the puzzle input.
+    /// @return the sum of all fuel required for the modules in the spacecraft when also taking into
+    /// consideration the mass of the added fuel itself.
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
+    public Object partTwo(List<String> inputLines) {
         int totalFuelRequired = 0;
         
-        for (String line : inputLines)
-        {
+        for (String line : inputLines) {
             int mass = Integer.parseInt(line);
             
             int fuelRequired = mass / 3 - 2;
@@ -53,14 +43,10 @@ public class Solution implements DeprecatedSolver
     }
     
     
-    private static int calculateFuelRequired(int fuelRequired)
-    {
-        if (fuelRequired < 0)
-        {
+    private static int calculateFuelRequired(int fuelRequired) {
+        if (fuelRequired < 0) {
             return 0;
-        }
-        else
-        {
+        } else {
             return fuelRequired + calculateFuelRequired(fuelRequired / 3 - 2);
         }
     }
