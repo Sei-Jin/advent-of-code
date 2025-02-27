@@ -1,16 +1,19 @@
 package aoc.event.year2018.day01.chronalCalibration;
 
-import aoc.DeprecatedSolver;
+import aoc.Solver;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-public class Solution implements DeprecatedSolver {
+public class Solution implements Solver {
     
     /// The starting frequency value.
     private static final int STARTING_FREQUENCY = 0;
+    
+    private final List<Integer> frequencies;
+    
+    public Solution(String input) {
+        frequencies = Collections.unmodifiableList(parse(input));
+    }
     
     /// Parses a frequency change from the input line.
     ///
@@ -27,17 +30,19 @@ public class Solution implements DeprecatedSolver {
     /// - The sign represents if the frequency change is positive or negative.
     /// - The number represents the value of the frequency change.
     ///
-    /// @param line a line of the puzzle input.
+    /// @param input a line of the puzzle input.
     /// @return the change in frequency.
-    private static int parseFrequencyChange(String line) {
-        char sign = line.charAt(0);
-        int frequencyChange = Integer.parseInt(line.substring(1));
-        
-        if (sign == '-') {
-            frequencyChange *= -1;
-        }
-        
-        return frequencyChange;
+    private static List<Integer> parse(String input) {
+        return input.lines().map(line -> {
+            final var sign = line.charAt(0);
+            var frequencyChange = Integer.parseInt(line.substring(1));
+            
+            if (sign == '-') {
+                frequencyChange *= -1;
+            }
+            
+            return frequencyChange;
+        }).toList();
     }
     
     /// Calculates the resulting frequency after all frequency changes are applied.
@@ -48,14 +53,12 @@ public class Solution implements DeprecatedSolver {
     /// Space Complexity: `O(1)`
     /// - One frequency change is stored at a time.
     ///
-    /// @param puzzleInput the puzzle input.
     /// @return the resulting frequency.
     @Override
-    public Object partOne(List<String> puzzleInput) {
-        int currentFrequency = STARTING_FREQUENCY;
+    public Integer partOne() {
+        var currentFrequency = STARTING_FREQUENCY;
         
-        for (String line : puzzleInput) {
-            int frequencyChange = parseFrequencyChange(line);
+        for (final var frequencyChange : frequencies) {
             currentFrequency += frequencyChange;
         }
         
@@ -73,25 +76,17 @@ public class Solution implements DeprecatedSolver {
     /// Space Complexity: `O(n)`
     /// - `n` is the number of frequency changes.
     ///
-    /// @param puzzleInput the puzzle input.
     /// @return the first frequency reached twice.
     /// @throws IllegalStateException if there is not a frequency reached twice.
     @Override
-    public Object partTwo(List<String> puzzleInput) {
-        List<Integer> frequencyChanges = new ArrayList<>();
-        
-        for (String line : puzzleInput) {
-            int frequencyChange = parseFrequencyChange(line);
-            frequencyChanges.add(frequencyChange);
-        }
-        
+    public Integer partTwo() {
         int currentFrequency = STARTING_FREQUENCY;
         
         Set<Integer> previousFrequencies = new HashSet<>();
         previousFrequencies.add(STARTING_FREQUENCY);
         
         while (true) {
-            for (int frequencyChange : frequencyChanges) {
+            for (int frequencyChange : frequencies) {
                 currentFrequency += frequencyChange;
                 
                 if (!previousFrequencies.contains(currentFrequency)) {
