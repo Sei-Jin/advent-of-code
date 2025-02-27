@@ -7,8 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Solution implements DeprecatedSolver
-{
+public class Solution implements DeprecatedSolver {
+    
     /// The starting frequency value.
     private static final int STARTING_FREQUENCY = 0;
     
@@ -21,7 +21,7 @@ public class Solution implements DeprecatedSolver
     /// +54
     /// -3
     /// +6
-    /// ```
+    ///```
     ///
     /// Each line starts with a sign, (+/-), followed by a number.
     /// - The sign represents if the frequency change is positive or negative.
@@ -29,13 +29,11 @@ public class Solution implements DeprecatedSolver
     ///
     /// @param line a line of the puzzle input.
     /// @return the change in frequency.
-    private static int parseFrequencyChange(String line)
-    {
+    private static int parseFrequencyChange(String line) {
         char sign = line.charAt(0);
         int frequencyChange = Integer.parseInt(line.substring(1));
         
-        if (sign == '-')
-        {
+        if (sign == '-') {
             frequencyChange *= -1;
         }
         
@@ -53,12 +51,10 @@ public class Solution implements DeprecatedSolver
     /// @param puzzleInput the puzzle input.
     /// @return the resulting frequency.
     @Override
-    public Object partOne(List<String> puzzleInput)
-    {
+    public Object partOne(List<String> puzzleInput) {
         int currentFrequency = STARTING_FREQUENCY;
         
-        for (String line : puzzleInput)
-        {
+        for (String line : puzzleInput) {
             int frequencyChange = parseFrequencyChange(line);
             currentFrequency += frequencyChange;
         }
@@ -81,12 +77,10 @@ public class Solution implements DeprecatedSolver
     /// @return the first frequency reached twice.
     /// @throws IllegalStateException if there is not a frequency reached twice.
     @Override
-    public Object partTwo(List<String> puzzleInput)
-    {
+    public Object partTwo(List<String> puzzleInput) {
         List<Integer> frequencyChanges = new ArrayList<>();
         
-        for (String line : puzzleInput)
-        {
+        for (String line : puzzleInput) {
             int frequencyChange = parseFrequencyChange(line);
             frequencyChanges.add(frequencyChange);
         }
@@ -96,18 +90,13 @@ public class Solution implements DeprecatedSolver
         Set<Integer> previousFrequencies = new HashSet<>();
         previousFrequencies.add(STARTING_FREQUENCY);
         
-        while (true)
-        {
-            for (int frequencyChange : frequencyChanges)
-            {
+        while (true) {
+            for (int frequencyChange : frequencyChanges) {
                 currentFrequency += frequencyChange;
                 
-                if (!previousFrequencies.contains(currentFrequency))
-                {
+                if (!previousFrequencies.contains(currentFrequency)) {
                     previousFrequencies.add(currentFrequency);
-                }
-                else
-                {
+                } else {
                     return currentFrequency;
                 }
             }
