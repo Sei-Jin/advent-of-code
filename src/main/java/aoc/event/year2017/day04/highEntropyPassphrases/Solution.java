@@ -4,21 +4,34 @@ import aoc.Runner;
 import aoc.Solver;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Solution implements Solver {
     
-    private final List<List<String>> wordLists;
+    private final List<List<List<Character>>> wordLists;
     
     public Solution(String input) {
         wordLists = Collections.unmodifiableList(parse(input));
     }
     
-    private static List<List<String>> parse(String input) {
-        final var wordLists = new ArrayList<List<String>>();
-        
+    private static List<List<List<Character>>> parse(String input) {
+        final var wordLists = new ArrayList<List<List<Character>>>();
+
         for (final var line : input.lines().toList()) {
-            final var words = Arrays.stream(line.split(" ")).toList();
-            wordLists.add(words);
+            final var strings = Arrays.stream(line.split(" ")).toList();
+
+            final var characterLists = new ArrayList<List<Character>>();
+
+            for (final var string : strings) {
+                final var characters = string
+                    .chars()
+                    .mapToObj(i -> (char) i)
+                    .toList();
+
+                characterLists.add(characters);
+            }
+
+            wordLists.add(Collections.unmodifiableList(characterLists));
         }
         
         return wordLists;
@@ -52,7 +65,7 @@ public class Solution implements Solver {
         return validPassphrases;
     }
     
-    private static boolean containsDuplicate(List<String> elements) {
+    private static boolean containsDuplicate(List<List<Character>> elements) {
         final var encountered = new HashSet<>();
         
         for (final var element : elements) {
@@ -66,23 +79,18 @@ public class Solution implements Solver {
         return false;
     }
     
-    private static boolean containsAnagram(List<String> list) {
-        final var anagrams = new HashSet<List<Character>>();
+    private static boolean containsAnagram(List<List<Character>> list) {
+        final var mutableList = new ArrayList<List<Character>>();
         
-        for (final var string : list) {
-            List<Character> sortedWord = string.chars()
-                .mapToObj(c -> (char) c)
-                .sorted()
-                .toList();
-            
-            if (anagrams.contains(sortedWord)) {
-                return true;
-            } else {
-                anagrams.add(sortedWord);
-            }
+        for (final var element : list) {
+            mutableList.add(new ArrayList<>(element));
         }
         
-        return false;
+        for (final var element : mutableList) {
+            element.sort(Character::compareTo);
+        }
+        
+        return containsDuplicate(mutableList);
     }
     
     public static void main(String[] args) {
