@@ -1,27 +1,34 @@
 package aoc.event.year2019.day02.the1202ProgramAlarm;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /// --- Day 2: 1202 Program Alarm ---
-public class Solution implements DeprecatedSolver {
+public class Solution implements Solver {
     
-    /// @param inputLines the puzzle input.
-    /// @return the value left at position 0 after the program halts.
-    @Override
-    public Object partOne(List<String> inputLines) {
-        String inputLine = inputLines.getFirst();
-        
-        List<Integer> intcode = Arrays.stream(inputLine.split(","))
+    private final List<Integer> initialState;
+    
+    public Solution(String input) {
+        initialState = Collections.unmodifiableList(parse(input));
+    }
+    
+    private static List<Integer> parse(String input) {
+        return Arrays.stream(input.split(","))
             .mapToInt(Integer::parseInt)
             .boxed()
-            .collect(Collectors.toList());
+            .toList();
+    }
+    
+    /// @return the value left at position 0 after the program halts.
+    @Override
+    public Integer partOne() {
+        final var intcode = new ArrayList<>(initialState);
         
-        // Restore program state before running the program
         intcode.set(1, 12);
         intcode.set(2, 2);
         
@@ -30,20 +37,13 @@ public class Solution implements DeprecatedSolver {
         return intcode.getFirst();
     }
     
-    /// @param inputLines the puzzle input.
-    /// @return the input noun and verb that cause the program to produce the output 19690720, or -1 if there are none.
+    /// @return the input noun and verb that cause the program to produce the output 19690720, or
+    /// -1 if there are none.
     @Override
-    public Object partTwo(List<String> inputLines) {
-        String inputLine = inputLines.getFirst();
-        
-        List<Integer> defaultIntcode = Arrays.stream(inputLine.split(","))
-            .mapToInt(Integer::parseInt)
-            .boxed()
-            .toList();
-        
-        for (int noun = 0; noun <= 99; noun++) {
-            for (int verb = 0; verb <= 99; verb++) {
-                List<Integer> intcode = new ArrayList<>(List.copyOf(defaultIntcode));
+    public Integer partTwo() {
+        for (var noun = 0; noun <= 99; noun++) {
+            for (var verb = 0; verb <= 99; verb++) {
+                final var intcode = new ArrayList<>(initialState);
                 
                 intcode.set(1, noun);
                 intcode.set(2, verb);
@@ -60,8 +60,8 @@ public class Solution implements DeprecatedSolver {
     }
     
     private static void runProgram(List<Integer> intcode) {
-        for (int position = 0; position < intcode.size(); position += 4) {
-            int opcode = intcode.get(position);
+        for (var position = 0; position < intcode.size(); position += 4) {
+            final var opcode = intcode.get(position);
             
             switch (opcode) {
                 case 1 -> add(intcode, position);
@@ -72,22 +72,30 @@ public class Solution implements DeprecatedSolver {
     }
     
     private static void add(List<Integer> intcode, int position) {
-        int firstInputPosition = intcode.get(position + 1);
-        int secondInputPosition = intcode.get(position + 2);
-        int outputPosition = intcode.get(position + 3);
+        final var positions = determinePositions(intcode, position);
+        final var sum = intcode.get(positions.first) + intcode.get(positions.second);
         
-        int sum = intcode.get(firstInputPosition) + intcode.get(secondInputPosition);
-        
-        intcode.set(outputPosition, sum);
+        intcode.set(positions.output, sum);
     }
     
     private static void multiply(List<Integer> intcode, int position) {
-        int firstInputPosition = intcode.get(position + 1);
-        int secondInputPosition = intcode.get(position + 2);
-        int outputPosition = intcode.get(position + 3);
+        final var positions = determinePositions(intcode, position);
+        final var product = intcode.get(positions.first) * intcode.get(positions.second);
         
-        int product = intcode.get(firstInputPosition) * intcode.get(secondInputPosition);
+        intcode.set(positions.output, product);
+    }
+    
+    private static Positions determinePositions(List<Integer> intcode, int position) {
+        final var first = intcode.get(position + 1);
+        final var second = intcode.get(position + 2);
+        final var output = intcode.get(position + 3);
         
-        intcode.set(outputPosition, product);
+        return new Positions(first, second, output);
+    }
+    
+    private record Positions(Integer first, Integer second, Integer output) {}
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2019, 2);
     }
 }
