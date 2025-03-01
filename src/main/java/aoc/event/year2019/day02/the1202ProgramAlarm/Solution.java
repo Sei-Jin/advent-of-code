@@ -7,24 +7,19 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * --- Day 2: 1202 Program Alarm ---
- */
-public class Solution implements DeprecatedSolver
-{
-    /**
-     * @param inputLines the puzzle input.
-     * @return the value left at position 0 after the program halts.
-     */
+/// --- Day 2: 1202 Program Alarm ---
+public class Solution implements DeprecatedSolver {
+    
+    /// @param inputLines the puzzle input.
+    /// @return the value left at position 0 after the program halts.
     @Override
-    public Object partOne(List<String> inputLines)
-    {
+    public Object partOne(List<String> inputLines) {
         String inputLine = inputLines.getFirst();
         
         List<Integer> intcode = Arrays.stream(inputLine.split(","))
-                .mapToInt(Integer::parseInt)
-                .boxed()
-                .collect(Collectors.toList());
+            .mapToInt(Integer::parseInt)
+            .boxed()
+            .collect(Collectors.toList());
         
         // Restore program state before running the program
         intcode.set(1, 12);
@@ -35,25 +30,19 @@ public class Solution implements DeprecatedSolver
         return intcode.getFirst();
     }
     
-    
-    /**
-     * @param inputLines the puzzle input.
-     * @return the input noun and verb that cause the program to produce the output 19690720, or -1 if there are none.
-     */
+    /// @param inputLines the puzzle input.
+    /// @return the input noun and verb that cause the program to produce the output 19690720, or -1 if there are none.
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
+    public Object partTwo(List<String> inputLines) {
         String inputLine = inputLines.getFirst();
         
         List<Integer> defaultIntcode = Arrays.stream(inputLine.split(","))
-                .mapToInt(Integer::parseInt)
-                .boxed()
-                .toList();
+            .mapToInt(Integer::parseInt)
+            .boxed()
+            .toList();
         
-        for (int noun = 0; noun <= 99; noun++)
-        {
-            for (int verb = 0; verb <= 99; verb++)
-            {
+        for (int noun = 0; noun <= 99; noun++) {
+            for (int verb = 0; verb <= 99; verb++) {
                 List<Integer> intcode = new ArrayList<>(List.copyOf(defaultIntcode));
                 
                 intcode.set(1, noun);
@@ -61,8 +50,7 @@ public class Solution implements DeprecatedSolver
                 
                 runProgram(intcode);
                 
-                if (intcode.getFirst() == 19690720)
-                {
+                if (intcode.getFirst() == 19690720) {
                     return 100 * noun + verb;
                 }
             }
@@ -71,15 +59,11 @@ public class Solution implements DeprecatedSolver
         return -1;
     }
     
-    
-    private static void runProgram(List<Integer> intcode)
-    {
-        for (int position = 0; position < intcode.size(); position += 4)
-        {
+    private static void runProgram(List<Integer> intcode) {
+        for (int position = 0; position < intcode.size(); position += 4) {
             int opcode = intcode.get(position);
             
-            switch (opcode)
-            {
+            switch (opcode) {
                 case 1 -> add(intcode, position);
                 case 2 -> multiply(intcode, position);
                 case 99 -> position = intcode.size();
@@ -87,9 +71,7 @@ public class Solution implements DeprecatedSolver
         }
     }
     
-    
-    private static void add(List<Integer> intcode, int position)
-    {
+    private static void add(List<Integer> intcode, int position) {
         int firstInputPosition = intcode.get(position + 1);
         int secondInputPosition = intcode.get(position + 2);
         int outputPosition = intcode.get(position + 3);
@@ -99,9 +81,7 @@ public class Solution implements DeprecatedSolver
         intcode.set(outputPosition, sum);
     }
     
-    
-    private static void multiply(List<Integer> intcode, int position)
-    {
+    private static void multiply(List<Integer> intcode, int position) {
         int firstInputPosition = intcode.get(position + 1);
         int secondInputPosition = intcode.get(position + 2);
         int outputPosition = intcode.get(position + 3);
