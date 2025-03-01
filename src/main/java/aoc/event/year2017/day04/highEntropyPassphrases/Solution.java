@@ -1,23 +1,36 @@
 package aoc.event.year2017.day04.highEntropyPassphrases;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
-public class Solution implements DeprecatedSolver {
+public class Solution implements Solver {
     
-    /// @param inputLines the puzzle input.
+    private final List<List<String>> wordLists;
+    
+    public Solution(String input) {
+        wordLists = Collections.unmodifiableList(parse(input));
+    }
+    
+    private static List<List<String>> parse(String input) {
+        final var wordLists = new ArrayList<List<String>>();
+        
+        for (final var line : input.lines().toList()) {
+            final var words = Arrays.stream(line.split(" ")).toList();
+            wordLists.add(words);
+        }
+        
+        return wordLists;
+    }
+    
     /// @return the number of valid passphrases.
     @Override
-    public Object partOne(List<String> inputLines) {
+    public Object partOne() {
         int validPassphrases = 0;
         
-        for (String line : inputLines) {
-            List<String> wordList = getWordList(line);
-            
-            if (!containsDuplicate(wordList)) {
+        for (final var list : wordLists) {
+            if (!containsDuplicate(list)) {
                 validPassphrases++;
             }
         }
@@ -25,16 +38,13 @@ public class Solution implements DeprecatedSolver {
         return validPassphrases;
     }
     
-    /// @param inputLines the puzzle input.
     /// @return the number of valid passphrases under the new system policy.
     @Override
-    public Object partTwo(List<String> inputLines) {
+    public Object partTwo() {
         int validPassphrases = 0;
         
-        for (String line : inputLines) {
-            List<String> wordList = getWordList(line);
-            
-            if (!containsAnagram(wordList)) {
+        for (final var list : wordLists) {
+            if (!containsAnagram(list)) {
                 validPassphrases++;
             }
         }
@@ -42,41 +52,40 @@ public class Solution implements DeprecatedSolver {
         return validPassphrases;
     }
     
-    private static List<String> getWordList(String line) {
-        return Arrays.stream(line.split(" "))
-            .toList();
-    }
-    
-    private static boolean containsDuplicate(List<String> words) {
-        HashSet<String> wordsEncountered = new HashSet<>();
+    private static boolean containsDuplicate(List<String> elements) {
+        final var encountered = new HashSet<>();
         
-        for (String word : words) {
-            if (wordsEncountered.contains(word)) {
+        for (final var element : elements) {
+            if (encountered.contains(element)) {
                 return true;
             } else {
-                wordsEncountered.add(word);
+                encountered.add(element);
             }
         }
         
         return false;
     }
     
-    private static boolean containsAnagram(List<String> wordList) {
-        HashSet<List<Character>> Anagrams = new HashSet<>();
+    private static boolean containsAnagram(List<String> list) {
+        final var anagrams = new HashSet<List<Character>>();
         
-        for (String word : wordList) {
-            List<Character> sortedWord = word.chars()
+        for (final var string : list) {
+            List<Character> sortedWord = string.chars()
                 .mapToObj(c -> (char) c)
                 .sorted()
                 .toList();
             
-            if (Anagrams.contains(sortedWord)) {
+            if (anagrams.contains(sortedWord)) {
                 return true;
             } else {
-                Anagrams.add(sortedWord);
+                anagrams.add(sortedWord);
             }
         }
         
         return false;
+    }
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2017, 4);
     }
 }
