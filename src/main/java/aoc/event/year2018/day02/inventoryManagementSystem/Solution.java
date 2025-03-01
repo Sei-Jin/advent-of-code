@@ -34,11 +34,11 @@ public class Solution implements Solver {
         for (final var line : lines) {
             final var characterCount = calculateCharacterCount(line);
             
-            if (containsCopies(characterCount, 2)) {
+            if (characterCount.containsValue(2)) {
                 twoCount++;
             }
             
-            if (containsCopies(characterCount, 3)) {
+            if (characterCount.containsValue(3)) {
                 threeCount++;
             }
         }
@@ -56,16 +56,6 @@ public class Solution implements Solver {
         }
         
         return letterCount;
-    }
-    
-    private static boolean containsCopies(Map<Character, Integer> letterCount, int copies) {
-        for (var count : letterCount.values()) {
-            if (count == copies) {
-                return true;
-            }
-        }
-        
-        return false;
     }
     
     /// Creates a new string using the common characters of the two correct box ids.
