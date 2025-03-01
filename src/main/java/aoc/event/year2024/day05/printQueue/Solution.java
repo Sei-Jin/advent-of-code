@@ -8,15 +8,15 @@ import java.util.stream.Collectors;
 
 public class Solution implements Solver {
     
-    private final HashMap<Integer, HashSet<Integer>> orderingRules;
+    private final Map<Integer, Set<Integer>> orderingRules;
     private final List<List<Integer>> updates;
     
     public Solution(String input) {
         final var lines = input.lines().toList();
-        int emptyLineIndex = getEmptyLineIndex(lines);
+        final var emptyLineIndex = getEmptyLineIndex(lines);
         
-        List<String> orderingRulesInput = lines.subList(0, emptyLineIndex);
-        List<String> updatesInput = lines.subList(emptyLineIndex + 1, lines.size());
+        final var orderingRulesInput = lines.subList(0, emptyLineIndex);
+        final var updatesInput = lines.subList(emptyLineIndex + 1, lines.size());
         
         orderingRules = getOrderingRules(orderingRulesInput);
         updates = getUpdates(updatesInput);
@@ -26,8 +26,8 @@ public class Solution implements Solver {
     ///
     /// @return the sum of the middle page numbers for valid updates.
     @Override
-    public Object partOne() {
-        List<List<Integer>> validUpdates = selectUpdates(updates, orderingRules, true);
+    public Integer partOne() {
+        final var validUpdates = selectUpdates(updates, orderingRules, true);
         return calculateMiddlePageNumberSum(validUpdates);
     }
     
@@ -35,8 +35,8 @@ public class Solution implements Solver {
     ///
     /// @return the sum of the middle page numbers for the corrected invalid updates.
     @Override
-    public Object partTwo() {
-        List<List<Integer>> invalidUpdates = selectUpdates(updates, orderingRules, false);
+    public Integer partTwo() {
+        final var invalidUpdates = selectUpdates(updates, orderingRules, false);
         correctPageNumberOrder(invalidUpdates, orderingRules);
         return calculateMiddlePageNumberSum(invalidUpdates);
     }
@@ -47,7 +47,7 @@ public class Solution implements Solver {
     /// @return the index of the first empty line in the puzzle input.
     /// @throws IllegalArgumentException if the puzzle input does not contain any empty lines.
     private static int getEmptyLineIndex(List<String> inputLines) {
-        for (int index = 0; index < inputLines.size(); index++) {
+        for (var index = 0; index < inputLines.size(); index++) {
             if (inputLines.get(index).isEmpty()) {
                 return index;
             }
@@ -59,25 +59,26 @@ public class Solution implements Solver {
     /// Parses the first section of the puzzle input for the ordering rules.
     ///
     /// @param orderingRulesInput the first section of the puzzle input, containing the ordering
-    ///                           rules.
+    ///                                                                               rules.
     /// @return the ordering rules.
-    private static HashMap<Integer, HashSet<Integer>> getOrderingRules(
-        List<String> orderingRulesInput) {
-        HashMap<Integer, HashSet<Integer>> orderingRules = new HashMap<>();
+    private static Map<Integer, Set<Integer>> getOrderingRules(
+        List<String> orderingRulesInput
+    ) {
+        final var orderingRules = new HashMap<Integer, Set<Integer>>();
         
-        for (String rule : orderingRulesInput) {
-            List<Integer> pageNumbers = Arrays.stream(rule.split("\\|"))
+        for (final var rule : orderingRulesInput) {
+            final var pageNumbers = Arrays.stream(rule.split("\\|"))
                 .mapToInt(Integer::parseInt)
                 .boxed()
                 .toList();
             
-            int precedingNumber = pageNumbers.getFirst();
-            int succeedingNumber = pageNumbers.getLast();
+            final var precedingNumber = pageNumbers.getFirst();
+            final var succeedingNumber = pageNumbers.getLast();
             
             if (orderingRules.containsKey(precedingNumber)) {
                 orderingRules.get(precedingNumber).add(succeedingNumber);
             } else {
-                HashSet<Integer> succeedingNumbers = new HashSet<>();
+                final var succeedingNumbers = new HashSet<Integer>();
                 succeedingNumbers.add(succeedingNumber);
                 orderingRules.put(precedingNumber, succeedingNumbers);
             }
@@ -91,10 +92,10 @@ public class Solution implements Solver {
     /// @param updatesInput the second section of the puzzle input, containing the list of updates.
     /// @return the list of updates.
     private static List<List<Integer>> getUpdates(List<String> updatesInput) {
-        List<List<Integer>> updates = new ArrayList<>();
+        final var updates = new ArrayList<List<Integer>>();
         
-        for (String input : updatesInput) {
-            List<Integer> update = Arrays.stream(input.split(","))
+        for (final var input : updatesInput) {
+            final var update = Arrays.stream(input.split(","))
                 .mapToInt(Integer::parseInt)
                 .boxed()
                 .collect(Collectors.toList());
@@ -116,12 +117,13 @@ public class Solution implements Solver {
     /// @return a list of either all the valid updates or all the invalid updates.
     private static List<List<Integer>> selectUpdates(
         List<List<Integer>> updates,
-        HashMap<Integer, HashSet<Integer>> orderingRules,
-        boolean selectValidUpdates) {
-        List<List<Integer>> selectedUpdates = new ArrayList<>();
+        Map<Integer, Set<Integer>> orderingRules,
+        boolean selectValidUpdates
+    ) {
+        final var selectedUpdates = new ArrayList<List<Integer>>();
         
-        for (List<Integer> update : updates) {
-            boolean isValidUpdate = isValidUpdate(update, orderingRules);
+        for (final var update : updates) {
+            final var isValidUpdate = isValidUpdate(update, orderingRules);
             
             if (selectValidUpdates == isValidUpdate) {
                 selectedUpdates.add(update);
@@ -141,12 +143,13 @@ public class Solution implements Solver {
     /// @return true if the update follows the ordering rules, or false otherwise.
     private static boolean isValidUpdate(
         List<Integer> update,
-        HashMap<Integer, HashSet<Integer>> orderingRules) {
-        HashSet<Integer> previousPageNumbers = new HashSet<>();
+        Map<Integer, Set<Integer>> orderingRules
+    ) {
+        final var previousPageNumbers = new HashSet<Integer>();
         
-        for (int pageNumber : update) {
+        for (final var pageNumber : update) {
             if (orderingRules.containsKey(pageNumber)) {
-                HashSet<Integer> intersection = new HashSet<>(orderingRules.get(pageNumber));
+                final var intersection = new HashSet<>(orderingRules.get(pageNumber));
                 intersection.retainAll(previousPageNumbers);
                 
                 if (!intersection.isEmpty()) {
@@ -166,10 +169,11 @@ public class Solution implements Solver {
     /// @param orderingRules rules that the page numbers should be ordered by.
     private static void correctPageNumberOrder(
         List<List<Integer>> updates,
-        HashMap<Integer, HashSet<Integer>> orderingRules) {
-        Comparator<Integer> comparator = getComparator(orderingRules);
+        Map<Integer, Set<Integer>> orderingRules
+    ) {
+        final var comparator = getComparator(orderingRules);
         
-        for (List<Integer> update : updates) {
+        for (final var update : updates) {
             update.sort(comparator);
         }
     }
@@ -178,7 +182,7 @@ public class Solution implements Solver {
     ///
     /// @param orderingRules rules that the page numbers should be ordered by.
     /// @return a custom comparator that follows the ordering rules.
-    private static Comparator<Integer> getComparator(HashMap<Integer, HashSet<Integer>> orderingRules) {
+    private static Comparator<Integer> getComparator(Map<Integer, Set<Integer>> orderingRules) {
         return (predecessor, successor) ->
         {
             if (orderingRules.getOrDefault(predecessor, new HashSet<>()).contains(successor)) {
@@ -196,9 +200,9 @@ public class Solution implements Solver {
     /// @param updates a list of updates.
     /// @return the sum of all the middle page numbers in the list of updates.
     private static int calculateMiddlePageNumberSum(List<List<Integer>> updates) {
-        int sumMiddlePageNumbers = 0;
+        var sumMiddlePageNumbers = 0;
         
-        for (List<Integer> update : updates) {
+        for (final var update : updates) {
             int middleIndex = update.size() / 2;
             sumMiddlePageNumbers += update.get(middleIndex);
         }
