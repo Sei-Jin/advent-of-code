@@ -6,22 +6,15 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-/**
- * --- Day 4: High-Entropy Passphrases ---
- */
-public class Solution implements DeprecatedSolver
-{
-    /**
-     * @param inputLines the puzzle input.
-     * @return the number of valid passphrases.
-     */
+public class Solution implements DeprecatedSolver {
+    
+    /// @param inputLines the puzzle input.
+    /// @return the number of valid passphrases.
     @Override
-    public Object partOne(List<String> inputLines)
-    {
+    public Object partOne(List<String> inputLines) {
         int validPassphrases = 0;
         
-        for (String line : inputLines)
-        {
+        for (String line : inputLines) {
             List<String> wordList = getWordList(line);
             
             if (!containsDuplicate(wordList)) {
@@ -32,18 +25,13 @@ public class Solution implements DeprecatedSolver
         return validPassphrases;
     }
     
-    
-    /**
-     * @param inputLines the puzzle input.
-     * @return the number of valid passphrases under the new system policy.
-     */
+    /// @param inputLines the puzzle input.
+    /// @return the number of valid passphrases under the new system policy.
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
+    public Object partTwo(List<String> inputLines) {
         int validPassphrases = 0;
         
-        for (String line : inputLines)
-        {
+        for (String line : inputLines) {
             List<String> wordList = getWordList(line);
             
             if (!containsAnagram(wordList)) {
@@ -54,26 +42,18 @@ public class Solution implements DeprecatedSolver
         return validPassphrases;
     }
     
-    
-    private static List<String> getWordList(String line)
-    {
+    private static List<String> getWordList(String line) {
         return Arrays.stream(line.split(" "))
-                .toList();
+            .toList();
     }
     
-    
-    private static boolean containsDuplicate(List<String> words)
-    {
+    private static boolean containsDuplicate(List<String> words) {
         HashSet<String> wordsEncountered = new HashSet<>();
         
-        for (String word : words)
-        {
-            if (wordsEncountered.contains(word))
-            {
+        for (String word : words) {
+            if (wordsEncountered.contains(word)) {
                 return true;
-            }
-            else
-            {
+            } else {
                 wordsEncountered.add(word);
             }
         }
@@ -81,24 +61,18 @@ public class Solution implements DeprecatedSolver
         return false;
     }
     
-    
-    private static boolean containsAnagram(List<String> wordList)
-    {
+    private static boolean containsAnagram(List<String> wordList) {
         HashSet<List<Character>> Anagrams = new HashSet<>();
         
-        for (String word : wordList)
-        {
+        for (String word : wordList) {
             List<Character> sortedWord = word.chars()
-                    .mapToObj(c -> (char) c)
-                    .sorted()
-                    .toList();
+                .mapToObj(c -> (char) c)
+                .sorted()
+                .toList();
             
-            if (Anagrams.contains(sortedWord))
-            {
+            if (Anagrams.contains(sortedWord)) {
                 return true;
-            }
-            else
-            {
+            } else {
                 Anagrams.add(sortedWord);
             }
         }
