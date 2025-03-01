@@ -18,27 +18,8 @@ public class Solution implements Solver {
         final var orderingRulesInput = lines.subList(0, emptyLineIndex);
         final var updatesInput = lines.subList(emptyLineIndex + 1, lines.size());
         
-        orderingRules = getOrderingRules(orderingRulesInput);
-        updates = getUpdates(updatesInput);
-    }
-    
-    /// Calculates the sum of the middle page numbers for valid updates.
-    ///
-    /// @return the sum of the middle page numbers for valid updates.
-    @Override
-    public Integer partOne() {
-        final var validUpdates = selectUpdates(updates, orderingRules, true);
-        return calculateMiddlePageNumberSum(validUpdates);
-    }
-    
-    /// Calculates the sum of the middle page numbers for the corrected invalid updates.
-    ///
-    /// @return the sum of the middle page numbers for the corrected invalid updates.
-    @Override
-    public Integer partTwo() {
-        final var invalidUpdates = selectUpdates(updates, orderingRules, false);
-        correctPageNumberOrder(invalidUpdates, orderingRules);
-        return calculateMiddlePageNumberSum(invalidUpdates);
+        orderingRules = parseOrderingRules(orderingRulesInput);
+        updates = parseUpdates(updatesInput);
     }
     
     /// Finds the index of the first empty line in the puzzle input if it exists.
@@ -59,9 +40,8 @@ public class Solution implements Solver {
     /// Parses the first section of the puzzle input for the ordering rules.
     ///
     /// @param orderingRulesInput the first section of the puzzle input, containing the ordering
-    ///                                                                               rules.
     /// @return the ordering rules.
-    private static Map<Integer, Set<Integer>> getOrderingRules(
+    private static Map<Integer, Set<Integer>> parseOrderingRules(
         List<String> orderingRulesInput
     ) {
         final var orderingRules = new HashMap<Integer, Set<Integer>>();
@@ -91,7 +71,7 @@ public class Solution implements Solver {
     ///
     /// @param updatesInput the second section of the puzzle input, containing the list of updates.
     /// @return the list of updates.
-    private static List<List<Integer>> getUpdates(List<String> updatesInput) {
+    private static List<List<Integer>> parseUpdates(List<String> updatesInput) {
         final var updates = new ArrayList<List<Integer>>();
         
         for (final var input : updatesInput) {
@@ -104,6 +84,30 @@ public class Solution implements Solver {
         }
         
         return updates;
+    }
+    
+    /// Calculates the sum of all the middle page numbers in the list of updates.
+    ///
+    /// @param updates a list of updates.
+    /// @return the sum of all the middle page numbers in the list of updates.
+    private static int calculateMiddlePageNumberSum(List<List<Integer>> updates) {
+        var sumMiddlePageNumbers = 0;
+        
+        for (final var update : updates) {
+            int middleIndex = update.size() / 2;
+            sumMiddlePageNumbers += update.get(middleIndex);
+        }
+        
+        return sumMiddlePageNumbers;
+    }
+    
+    /// Calculates the sum of the middle page numbers for valid updates.
+    ///
+    /// @return the sum of the middle page numbers for valid updates.
+    @Override
+    public Integer partOne() {
+        final var validUpdates = selectUpdates(updates, orderingRules, true);
+        return calculateMiddlePageNumberSum(validUpdates);
     }
     
     /// Creates a list of either all the valid, or all the invalid updates in `updates`.
@@ -163,6 +167,16 @@ public class Solution implements Solver {
         return true;
     }
     
+    /// Calculates the sum of the middle page numbers for the corrected invalid updates.
+    ///
+    /// @return the sum of the middle page numbers for the corrected invalid updates.
+    @Override
+    public Integer partTwo() {
+        final var invalidUpdates = selectUpdates(updates, orderingRules, false);
+        correctPageNumberOrder(invalidUpdates, orderingRules);
+        return calculateMiddlePageNumberSum(invalidUpdates);
+    }
+    
     /// Sorts the page numbers in the updates according to the ordering rules.
     ///
     /// @param updates       a list of updates.
@@ -193,21 +207,6 @@ public class Solution implements Solver {
                 return -1;
             }
         };
-    }
-    
-    /// Calculates the sum of all the middle page numbers in the list of updates.
-    ///
-    /// @param updates a list of updates.
-    /// @return the sum of all the middle page numbers in the list of updates.
-    private static int calculateMiddlePageNumberSum(List<List<Integer>> updates) {
-        var sumMiddlePageNumbers = 0;
-        
-        for (final var update : updates) {
-            int middleIndex = update.size() / 2;
-            sumMiddlePageNumbers += update.get(middleIndex);
-        }
-        
-        return sumMiddlePageNumbers;
     }
     
     public static void main(String[] args) {
