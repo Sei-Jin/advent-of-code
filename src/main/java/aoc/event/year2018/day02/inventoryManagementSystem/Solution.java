@@ -3,17 +3,30 @@ package aoc.event.year2018.day02.inventoryManagementSystem;
 import aoc.Runner;
 import aoc.Solver;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class Solution implements Solver {
     
-    private final List<String> lines;
+    private final List<List<Character>> characterLists;
     
     public Solution(String input) {
-        lines = input.lines().collect(Collectors.toUnmodifiableList());
+        characterLists = Collections.unmodifiableList(parse(input));
+    }
+    
+    private static List<List<Character>> parse(String input) {
+        final var characterLists = new ArrayList<List<Character>>();
+        
+        for (final var line : input.lines().toList()) {
+            final var list = new ArrayList<Character>();
+            
+            for (int i = 0; i < line.length(); i++) {
+                list.add(line.charAt(i));
+            }
+            
+            characterLists.add(Collections.unmodifiableList(list));
+        }
+        
+        return characterLists;
     }
     
     /// Calculates the checksum for the list of box ids.
@@ -31,8 +44,8 @@ public class Solution implements Solver {
         var twoCount = 0;
         var threeCount = 0;
         
-        for (final var line : lines) {
-            final var characterCount = calculateCharacterCount(line);
+        for (final var list : characterLists) {
+            final var characterCount = calculateCharacterCount(list);
             
             if (characterCount.containsValue(2)) {
                 twoCount++;
@@ -46,13 +59,12 @@ public class Solution implements Solver {
         return twoCount * threeCount;
     }
     
-    private static Map<Character, Integer> calculateCharacterCount(String line) {
+    private static Map<Character, Integer> calculateCharacterCount(List<Character> list) {
         final var letterCount = new HashMap<Character, Integer>();
         
-        for (var i = 0; i < line.length(); i++) {
-            final var character = line.charAt(i);
-            final var count = letterCount.getOrDefault(character, 0) + 1;
-            letterCount.put(character, count);
+        for (final var element : list) {
+            final var count = letterCount.getOrDefault(element, 0) + 1;
+            letterCount.put(element, count);
         }
         
         return letterCount;
@@ -69,22 +81,23 @@ public class Solution implements Solver {
     /// @return the characters common between the two correct box IDs.
     @Override
     public String partTwo() {
-        for (var i = 0; i < lines.size(); i++) {
-            for (var j = 0; j < lines.size(); j++) {
+        for (var i = 0; i < characterLists.size(); i++) {
+            for (var j = 0; j < characterLists.size(); j++) {
                 if (i == j) {
                     continue;
                 }
                 
-                final var first = lines.get(i);
-                final var second = lines.get(j);
+                final var first = characterLists.get(i);
+                final var second = characterLists.get(j);
                 
-                var differentCharacters = countDifferentCharacters(first, second);
+                final var differentCharacters = countDifferentCharacters(first, second);
                 
                 if (differentCharacters == 1) {
-                    var removeIndex = calculateRemoveIndex(first, second);
+                    final var removeIndex = calculateRemoveIndex(first, second);
+                    final var commonCharacters = new ArrayList<>(first);
+                    commonCharacters.remove(removeIndex);
                     
-                    return first.substring(0, removeIndex) +
-                        first.substring(removeIndex + 1);
+                    return buildString(commonCharacters);
                 }
             }
         }
@@ -92,11 +105,11 @@ public class Solution implements Solver {
         throw new IllegalStateException("Error: No box IDs differed by exactly one character.");
     }
     
-    private static int countDifferentCharacters(String first, String second) {
+    private static int countDifferentCharacters(List<Character> first, List<Character> second) {
         var differentCharacters = 0;
         
-        for (var i = 0; i < first.length(); i++) {
-            if (first.charAt(i) != second.charAt(i)) {
+        for (var i = 0; i < first.size(); i++) {
+            if (first.get(i) != second.get(i)) {
                 differentCharacters++;
             }
         }
@@ -104,16 +117,26 @@ public class Solution implements Solver {
         return differentCharacters;
     }
     
-    private static int calculateRemoveIndex(String first, String second) {
+    private static int calculateRemoveIndex(List<Character> first, List<Character> second) {
         var removeIndex = 0;
         
-        for (var i = 0; i < first.length(); i++) {
-            if (first.charAt(i) != second.charAt(i)) {
+        for (var i = 0; i < first.size(); i++) {
+            if (first.get(i) != second.get(i)) {
                 removeIndex = i;
             }
         }
         
         return removeIndex;
+    }
+    
+    private static String buildString(List<Character> list) {
+        final var stringBuilder = new StringBuilder();
+        
+        for (final var character : list) {
+            stringBuilder.append(character);
+        }
+        
+        return stringBuilder.toString();
     }
     
     public static void main(String[] args) {
