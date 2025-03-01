@@ -1,12 +1,20 @@
 package aoc.event.year2018.day02.inventoryManagementSystem;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-public class Solution implements DeprecatedSolver {
+public class Solution implements Solver {
+    
+    private final List<String> lines;
+    
+    public Solution(String input) {
+        lines = input.lines().collect(Collectors.toUnmodifiableList());
+    }
     
     /// Calculates the checksum for the list of box ids.
     ///
@@ -17,19 +25,14 @@ public class Solution implements DeprecatedSolver {
     ///
     /// Space Complexity: `O(n)`
     ///
-    /// @param puzzleInput the puzzle input.
     /// @return the checksum for the list of box IDs.
     @Override
-    public Object partOne(List<String> puzzleInput) {
+    public Integer partOne() {
         int twoCount = 0;
         int threeCount = 0;
         
-        for (String line : puzzleInput) {
-            List<Character> characters = line.chars()
-                .mapToObj(character -> (char) character)
-                .toList();
-            
-            Map<Character, Integer> characterCount = calculateCharacterCount(characters);
+        for (final var line : lines) {
+            Map<Character, Integer> characterCount = calculateCharacterCount(line);
             
             if (containsCopies(characterCount, 2)) {
                 twoCount++;
@@ -43,10 +46,11 @@ public class Solution implements DeprecatedSolver {
         return twoCount * threeCount;
     }
     
-    private static Map<Character, Integer> calculateCharacterCount(List<Character> characters) {
+    private static Map<Character, Integer> calculateCharacterCount(String line) {
         Map<Character, Integer> letterCount = new HashMap<>();
         
-        for (char character : characters) {
+        for (int i = 0; i < line.length(); i++) {
+            final var character = line.charAt(i);
             int count = letterCount.getOrDefault(character, 0) + 1;
             letterCount.put(character, count);
         }
@@ -72,18 +76,17 @@ public class Solution implements DeprecatedSolver {
     ///
     /// Space Complexity: `O(n)`
     ///
-    /// @param puzzleInput the puzzle input.
     /// @return the characters common between the two correct box IDs.
     @Override
-    public Object partTwo(List<String> puzzleInput) {
-        for (int outerIndex = 0; outerIndex < puzzleInput.size(); outerIndex++) {
-            for (int innerIndex = 0; innerIndex < puzzleInput.size(); innerIndex++) {
+    public String partTwo() {
+        for (int outerIndex = 0; outerIndex < lines.size(); outerIndex++) {
+            for (int innerIndex = 0; innerIndex < lines.size(); innerIndex++) {
                 if (outerIndex == innerIndex) {
                     continue;
                 }
                 
-                String mainLine = puzzleInput.get(outerIndex);
-                String comparisonLine = puzzleInput.get(innerIndex);
+                String mainLine = lines.get(outerIndex);
+                String comparisonLine = lines.get(innerIndex);
                 
                 int differentCharacters = 0;
                 
@@ -109,5 +112,9 @@ public class Solution implements DeprecatedSolver {
         }
         
         throw new IllegalStateException("Error: No box IDs differed by exactly one character.");
+    }
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2018, 2);
     }
 }
