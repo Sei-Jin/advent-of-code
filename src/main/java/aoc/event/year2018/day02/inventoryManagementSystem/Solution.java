@@ -69,39 +69,51 @@ public class Solution implements Solver {
     /// @return the characters common between the two correct box IDs.
     @Override
     public String partTwo() {
-        for (var outerIndex = 0; outerIndex < lines.size(); outerIndex++) {
-            for (var innerIndex = 0; innerIndex < lines.size(); innerIndex++) {
-                if (outerIndex == innerIndex) {
+        for (var i = 0; i < lines.size(); i++) {
+            for (var j = 0; j < lines.size(); j++) {
+                if (i == j) {
                     continue;
                 }
                 
-                String mainLine = lines.get(outerIndex);
-                String comparisonLine = lines.get(innerIndex);
+                final var first = lines.get(i);
+                final var second = lines.get(j);
                 
-                var differentCharacters = 0;
-                
-                for (var charIndex = 0; charIndex < mainLine.length(); charIndex++) {
-                    if (mainLine.charAt(charIndex) != comparisonLine.charAt(charIndex)) {
-                        differentCharacters++;
-                    }
-                }
+                var differentCharacters = countDifferentCharacters(first, second);
                 
                 if (differentCharacters == 1) {
-                    var removeIndex = 0;
+                    var removeIndex = calculateRemoveIndex(first, second);
                     
-                    for (var charIndex = 0; charIndex < mainLine.length(); charIndex++) {
-                        if (mainLine.charAt(charIndex) != comparisonLine.charAt(charIndex)) {
-                            removeIndex = charIndex;
-                        }
-                    }
-                    
-                    return mainLine.substring(0, removeIndex) +
-                        mainLine.substring(removeIndex + 1);
+                    return first.substring(0, removeIndex) +
+                        first.substring(removeIndex + 1);
                 }
             }
         }
         
         throw new IllegalStateException("Error: No box IDs differed by exactly one character.");
+    }
+    
+    private static int countDifferentCharacters(String first, String second) {
+        var differentCharacters = 0;
+        
+        for (var i = 0; i < first.length(); i++) {
+            if (first.charAt(i) != second.charAt(i)) {
+                differentCharacters++;
+            }
+        }
+        
+        return differentCharacters;
+    }
+    
+    private static int calculateRemoveIndex(String first, String second) {
+        var removeIndex = 0;
+        
+        for (var i = 0; i < first.length(); i++) {
+            if (first.charAt(i) != second.charAt(i)) {
+                removeIndex = i;
+            }
+        }
+        
+        return removeIndex;
     }
     
     public static void main(String[] args) {
