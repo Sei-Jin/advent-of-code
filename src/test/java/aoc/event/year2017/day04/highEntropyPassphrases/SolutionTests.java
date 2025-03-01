@@ -3,84 +3,69 @@ package aoc.event.year2017.day04.highEntropyPassphrases;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
-{
+public class SolutionTests {
+    
     @Nested
-    class PartOne
-    {
+    class PartOne {
         @Test
-        void noDuplicateWords1()
-        {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("aa bb cc dd ee");
-            assertEquals(1, new Solution().partOne(inputLines));
+        void noDuplicateWords1() {
+            final var input = "aa bb cc dd ee";
+            final var solution = new Solution(input);
+            assertEquals(1, solution.partOne());
         }
         
         @Test
-        void duplicateWords()
-        {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("aa bb cc dd aa");
-            assertEquals(0, new Solution().partOne(inputLines));
+        void duplicateWords() {
+            final var input = "aa bb cc dd aa";
+            final var solution = new Solution(input);
+            assertEquals(0, solution.partOne());
         }
         
         @Test
-        void noDuplicateWords2()
-        {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("aa bb cc dd aaa");
-            assertEquals(1, new Solution().partOne(inputLines));
+        void noDuplicateWords2() {
+            final var input = "aa bb cc dd aaa";
+            final var solution = new Solution(input);
+            assertEquals(1, solution.partOne());
         }
     }
     
-    
     @Nested
-    class PartTwo
-    {
+    class PartTwo {
         @Test
-        void noAnagrams1()
-        {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("abcde fghij");
-            assertEquals(1, new Solution().partTwo(inputLines));
-        }
-        
-        
-        @Test
-        void noAnagrams2()
-        {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("a ab abc abd abf abj");
-            assertEquals(1, new Solution().partTwo(inputLines));
+        void noAnagrams1() {
+            final var input = "abcde fghij";
+            final var solution = new Solution(input);
+            assertEquals(1, solution.partTwo());
         }
         
         @Test
-        void noAnagrams3()
-        {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("iiii oiii ooii oooi oooo");
-            assertEquals(1, new Solution().partTwo(inputLines));
+        void noAnagrams2() {
+            final var input = "a ab abc abd abf abj";
+            final var solution = new Solution(input);
+            assertEquals(1, solution.partTwo());
         }
         
         @Test
-        void containsAnagram()
-        {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("abcde xyz ecdab");
-            assertEquals(0, new Solution().partTwo(inputLines));
+        void noAnagrams3() {
+            final var input = "iiii oiii ooii oooi oooo";
+            final var solution = new Solution(input);
+            assertEquals(1, solution.partTwo());
         }
         
         @Test
-        void allAnagrams()
-        {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("oiii ioii iioi iiio");
-            assertEquals(0, new Solution().partTwo(inputLines));
+        void containsAnagram() {
+            final var input = "abcde xyz ecdab";
+            final var solution = new Solution(input);
+            assertEquals(0, solution.partTwo());
+        }
+        
+        @Test
+        void allAnagrams() {
+            final var input = "oiii ioii iioi iiio";
+            final var solution = new Solution(input);
+            assertEquals(0, solution.partTwo());
         }
     }
 }
