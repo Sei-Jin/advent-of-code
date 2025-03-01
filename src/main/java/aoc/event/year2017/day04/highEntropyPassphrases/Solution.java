@@ -4,7 +4,6 @@ import aoc.Runner;
 import aoc.Solver;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Solution implements Solver {
     
@@ -39,8 +38,8 @@ public class Solution implements Solver {
     
     /// @return the number of valid passphrases.
     @Override
-    public Object partOne() {
-        int validPassphrases = 0;
+    public Integer partOne() {
+        var validPassphrases = 0;
         
         for (final var list : wordLists) {
             if (!containsDuplicate(list)) {
@@ -53,8 +52,8 @@ public class Solution implements Solver {
     
     /// @return the number of valid passphrases under the new system policy.
     @Override
-    public Object partTwo() {
-        int validPassphrases = 0;
+    public Integer partTwo() {
+        var validPassphrases = 0;
         
         for (final var list : wordLists) {
             if (!containsAnagram(list)) {
