@@ -28,11 +28,11 @@ public class Solution implements Solver {
     /// @return the checksum for the list of box IDs.
     @Override
     public Integer partOne() {
-        int twoCount = 0;
-        int threeCount = 0;
+        var twoCount = 0;
+        var threeCount = 0;
         
         for (final var line : lines) {
-            Map<Character, Integer> characterCount = calculateCharacterCount(line);
+            final var characterCount = calculateCharacterCount(line);
             
             if (containsCopies(characterCount, 2)) {
                 twoCount++;
@@ -47,11 +47,11 @@ public class Solution implements Solver {
     }
     
     private static Map<Character, Integer> calculateCharacterCount(String line) {
-        Map<Character, Integer> letterCount = new HashMap<>();
+        final var letterCount = new HashMap<Character, Integer>();
         
-        for (int i = 0; i < line.length(); i++) {
+        for (var i = 0; i < line.length(); i++) {
             final var character = line.charAt(i);
-            int count = letterCount.getOrDefault(character, 0) + 1;
+            final var count = letterCount.getOrDefault(character, 0) + 1;
             letterCount.put(character, count);
         }
         
@@ -59,7 +59,7 @@ public class Solution implements Solver {
     }
     
     private static boolean containsCopies(Map<Character, Integer> letterCount, int copies) {
-        for (int count : letterCount.values()) {
+        for (var count : letterCount.values()) {
             if (count == copies) {
                 return true;
             }
@@ -79,8 +79,8 @@ public class Solution implements Solver {
     /// @return the characters common between the two correct box IDs.
     @Override
     public String partTwo() {
-        for (int outerIndex = 0; outerIndex < lines.size(); outerIndex++) {
-            for (int innerIndex = 0; innerIndex < lines.size(); innerIndex++) {
+        for (var outerIndex = 0; outerIndex < lines.size(); outerIndex++) {
+            for (var innerIndex = 0; innerIndex < lines.size(); innerIndex++) {
                 if (outerIndex == innerIndex) {
                     continue;
                 }
@@ -88,18 +88,18 @@ public class Solution implements Solver {
                 String mainLine = lines.get(outerIndex);
                 String comparisonLine = lines.get(innerIndex);
                 
-                int differentCharacters = 0;
+                var differentCharacters = 0;
                 
-                for (int charIndex = 0; charIndex < mainLine.length(); charIndex++) {
+                for (var charIndex = 0; charIndex < mainLine.length(); charIndex++) {
                     if (mainLine.charAt(charIndex) != comparisonLine.charAt(charIndex)) {
                         differentCharacters++;
                     }
                 }
                 
                 if (differentCharacters == 1) {
-                    int removeIndex = 0;
+                    var removeIndex = 0;
                     
-                    for (int charIndex = 0; charIndex < mainLine.length(); charIndex++) {
+                    for (var charIndex = 0; charIndex < mainLine.length(); charIndex++) {
                         if (mainLine.charAt(charIndex) != comparisonLine.charAt(charIndex)) {
                             removeIndex = charIndex;
                         }
