@@ -5,15 +5,14 @@ import aoc.DeprecatedSolver;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Solution implements DeprecatedSolver
-{
+public class Solution implements DeprecatedSolver {
+    
     /// Calculates the sum of the middle page numbers for valid updates.
     ///
     /// @param inputLines the puzzle input.
     /// @return the sum of the middle page numbers for valid updates.
     @Override
-    public Object partOne(List<String> inputLines)
-    {
+    public Object partOne(List<String> inputLines) {
         int emptyLineIndex = getEmptyLineIndex(inputLines);
         
         List<String> orderingRulesInput = inputLines.subList(0, emptyLineIndex);
@@ -32,8 +31,7 @@ public class Solution implements DeprecatedSolver
     /// @param inputLines the puzzle input
     /// @return the sum of the middle page numbers for the corrected invalid updates.
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
+    public Object partTwo(List<String> inputLines) {
         int emptyLineIndex = getEmptyLineIndex(inputLines);
         
         List<String> orderingRulesInput = inputLines.subList(0, emptyLineIndex);
@@ -53,12 +51,9 @@ public class Solution implements DeprecatedSolver
     /// @param inputLines the puzzle input.
     /// @return the index of the first empty line in the puzzle input.
     /// @throws IllegalArgumentException if the puzzle input does not contain any empty lines.
-    private static int getEmptyLineIndex(List<String> inputLines)
-    {
-        for (int index = 0; index < inputLines.size(); index++)
-        {
-            if (inputLines.get(index).isEmpty())
-            {
+    private static int getEmptyLineIndex(List<String> inputLines) {
+        for (int index = 0; index < inputLines.size(); index++) {
+            if (inputLines.get(index).isEmpty()) {
                 return index;
             }
         }
@@ -69,29 +64,24 @@ public class Solution implements DeprecatedSolver
     /// Parses the first section of the puzzle input for the ordering rules.
     ///
     /// @param orderingRulesInput the first section of the puzzle input, containing the ordering
-    /// rules.
+    ///                           rules.
     /// @return the ordering rules.
     private static HashMap<Integer, HashSet<Integer>> getOrderingRules(
-            List<String> orderingRulesInput)
-    {
+        List<String> orderingRulesInput) {
         HashMap<Integer, HashSet<Integer>> orderingRules = new HashMap<>();
         
-        for (String rule : orderingRulesInput)
-        {
+        for (String rule : orderingRulesInput) {
             List<Integer> pageNumbers = Arrays.stream(rule.split("\\|"))
-                    .mapToInt(Integer::parseInt)
-                    .boxed()
-                    .toList();
+                .mapToInt(Integer::parseInt)
+                .boxed()
+                .toList();
             
             int precedingNumber = pageNumbers.getFirst();
             int succeedingNumber = pageNumbers.getLast();
             
-            if (orderingRules.containsKey(precedingNumber))
-            {
+            if (orderingRules.containsKey(precedingNumber)) {
                 orderingRules.get(precedingNumber).add(succeedingNumber);
-            }
-            else
-            {
+            } else {
                 HashSet<Integer> succeedingNumbers = new HashSet<>();
                 succeedingNumbers.add(succeedingNumber);
                 orderingRules.put(precedingNumber, succeedingNumbers);
@@ -105,16 +95,14 @@ public class Solution implements DeprecatedSolver
     ///
     /// @param updatesInput the second section of the puzzle input, containing the list of updates.
     /// @return the list of updates.
-    private static List<List<Integer>> getUpdates(List<String> updatesInput)
-    {
+    private static List<List<Integer>> getUpdates(List<String> updatesInput) {
         List<List<Integer>> updates = new ArrayList<>();
         
-        for (String input : updatesInput)
-        {
+        for (String input : updatesInput) {
             List<Integer> update = Arrays.stream(input.split(","))
-                    .mapToInt(Integer::parseInt)
-                    .boxed()
-                    .collect(Collectors.toList());
+                .mapToInt(Integer::parseInt)
+                .boxed()
+                .collect(Collectors.toList());
             
             updates.add(update);
         }
@@ -127,23 +115,20 @@ public class Solution implements DeprecatedSolver
     /// If `selectValidUpdates` is true then all valid updates in `updates` are added to the list.
     /// If false, invalid updates are added instead.
     ///
-    /// @param updates a list of updates.
-    /// @param orderingRules rules the updates should follow.
+    /// @param updates            a list of updates.
+    /// @param orderingRules      rules the updates should follow.
     /// @param selectValidUpdates determines if valid or invalid updates are selected.
     /// @return a list of either all the valid updates or all the invalid updates.
     private static List<List<Integer>> selectUpdates(
-            List<List<Integer>> updates,
-            HashMap<Integer, HashSet<Integer>> orderingRules,
-            boolean selectValidUpdates)
-    {
+        List<List<Integer>> updates,
+        HashMap<Integer, HashSet<Integer>> orderingRules,
+        boolean selectValidUpdates) {
         List<List<Integer>> selectedUpdates = new ArrayList<>();
         
-        for (List<Integer> update : updates)
-        {
+        for (List<Integer> update : updates) {
             boolean isValidUpdate = isValidUpdate(update, orderingRules);
             
-            if (selectValidUpdates == isValidUpdate)
-            {
+            if (selectValidUpdates == isValidUpdate) {
                 selectedUpdates.add(update);
             }
         }
@@ -156,24 +141,20 @@ public class Solution implements DeprecatedSolver
     /// An update is valid if its page numbers follow the ordering rules, and is invalid if its
     /// follow the ordering rules.
     ///
-    /// @param update an update. Each update contains a list of page numbers.
+    /// @param update        an update. Each update contains a list of page numbers.
     /// @param orderingRules rules the ordering of the page numbers should follow.
     /// @return true if the update follows the ordering rules, or false otherwise.
     private static boolean isValidUpdate(
-            List<Integer> update,
-            HashMap<Integer, HashSet<Integer>> orderingRules)
-    {
+        List<Integer> update,
+        HashMap<Integer, HashSet<Integer>> orderingRules) {
         HashSet<Integer> previousPageNumbers = new HashSet<>();
         
-        for (int pageNumber : update)
-        {
-            if (orderingRules.containsKey(pageNumber))
-            {
+        for (int pageNumber : update) {
+            if (orderingRules.containsKey(pageNumber)) {
                 HashSet<Integer> intersection = new HashSet<>(orderingRules.get(pageNumber));
                 intersection.retainAll(previousPageNumbers);
                 
-                if (!intersection.isEmpty())
-                {
+                if (!intersection.isEmpty()) {
                     return false;
                 }
             }
@@ -186,16 +167,14 @@ public class Solution implements DeprecatedSolver
     
     /// Sorts the page numbers in the updates according to the ordering rules.
     ///
-    /// @param updates a list of updates.
+    /// @param updates       a list of updates.
     /// @param orderingRules rules that the page numbers should be ordered by.
     private static void correctPageNumberOrder(
-            List<List<Integer>> updates,
-            HashMap<Integer, HashSet<Integer>> orderingRules)
-    {
+        List<List<Integer>> updates,
+        HashMap<Integer, HashSet<Integer>> orderingRules) {
         Comparator<Integer> comparator = getComparator(orderingRules);
         
-        for (List<Integer> update : updates)
-        {
+        for (List<Integer> update : updates) {
             update.sort(comparator);
         }
     }
@@ -204,20 +183,14 @@ public class Solution implements DeprecatedSolver
     ///
     /// @param orderingRules rules that the page numbers should be ordered by.
     /// @return a custom comparator that follows the ordering rules.
-    private static Comparator<Integer> getComparator(HashMap<Integer, HashSet<Integer>> orderingRules)
-    {
+    private static Comparator<Integer> getComparator(HashMap<Integer, HashSet<Integer>> orderingRules) {
         return (predecessor, successor) ->
         {
-            if (orderingRules.getOrDefault(predecessor, new HashSet<>()).contains(successor))
-            {
+            if (orderingRules.getOrDefault(predecessor, new HashSet<>()).contains(successor)) {
                 return 1;
-            }
-            else if (predecessor.equals(successor))
-            {
+            } else if (predecessor.equals(successor)) {
                 return 0;
-            }
-            else
-            {
+            } else {
                 return -1;
             }
         };
@@ -227,12 +200,10 @@ public class Solution implements DeprecatedSolver
     ///
     /// @param updates a list of updates.
     /// @return the sum of all the middle page numbers in the list of updates.
-    private static int calculateMiddlePageNumberSum(List<List<Integer>> updates)
-    {
+    private static int calculateMiddlePageNumberSum(List<List<Integer>> updates) {
         int sumMiddlePageNumbers = 0;
         
-        for (List<Integer> update : updates)
-        {
+        for (List<Integer> update : updates) {
             int middleIndex = update.size() / 2;
             sumMiddlePageNumbers += update.get(middleIndex);
         }
