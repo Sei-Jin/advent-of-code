@@ -2,19 +2,12 @@ package aoc.event.year2024.day05.printQueue;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
-{
+public class SolutionTests {
     @Test
-    void example()
-    {
-        List<String> input = new ArrayList<>(
-                Arrays.stream("""
+    void example() {
+        final var input = """
                 47|53
                 97|13
                 97|61
@@ -43,9 +36,9 @@ public class SolutionTests
                 75,97,47,61,53
                 61,13,29
                 97,13,75,29,47
-                """.split("\n")).toList()
-        );
-        assertEquals(143, new Solution().partOne(input));
-        assertEquals(123, new Solution().partTwo(input));
+                """;
+        final var solution = new Solution(input);
+        assertEquals(143, solution.partOne());
+        assertEquals(123, solution.partTwo());
     }
 }

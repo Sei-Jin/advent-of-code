@@ -1,48 +1,43 @@
 package aoc.event.year2024.day05.printQueue;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Solution implements DeprecatedSolver {
+public class Solution implements Solver {
+    
+    private final HashMap<Integer, HashSet<Integer>> orderingRules;
+    private final List<List<Integer>> updates;
+    
+    public Solution(String input) {
+        final var lines = input.lines().toList();
+        int emptyLineIndex = getEmptyLineIndex(lines);
+        
+        List<String> orderingRulesInput = lines.subList(0, emptyLineIndex);
+        List<String> updatesInput = lines.subList(emptyLineIndex + 1, lines.size());
+        
+        orderingRules = getOrderingRules(orderingRulesInput);
+        updates = getUpdates(updatesInput);
+    }
     
     /// Calculates the sum of the middle page numbers for valid updates.
     ///
-    /// @param inputLines the puzzle input.
     /// @return the sum of the middle page numbers for valid updates.
     @Override
-    public Object partOne(List<String> inputLines) {
-        int emptyLineIndex = getEmptyLineIndex(inputLines);
-        
-        List<String> orderingRulesInput = inputLines.subList(0, emptyLineIndex);
-        List<String> updatesInput = inputLines.subList(emptyLineIndex + 1, inputLines.size());
-        
-        HashMap<Integer, HashSet<Integer>> orderingRules = getOrderingRules(orderingRulesInput);
-        List<List<Integer>> updates = getUpdates(updatesInput);
-        
+    public Object partOne() {
         List<List<Integer>> validUpdates = selectUpdates(updates, orderingRules, true);
-        
         return calculateMiddlePageNumberSum(validUpdates);
     }
     
     /// Calculates the sum of the middle page numbers for the corrected invalid updates.
     ///
-    /// @param inputLines the puzzle input
     /// @return the sum of the middle page numbers for the corrected invalid updates.
     @Override
-    public Object partTwo(List<String> inputLines) {
-        int emptyLineIndex = getEmptyLineIndex(inputLines);
-        
-        List<String> orderingRulesInput = inputLines.subList(0, emptyLineIndex);
-        List<String> updatesInput = inputLines.subList(emptyLineIndex + 1, inputLines.size());
-        
-        HashMap<Integer, HashSet<Integer>> orderingRules = getOrderingRules(orderingRulesInput);
-        List<List<Integer>> updates = getUpdates(updatesInput);
-        
+    public Object partTwo() {
         List<List<Integer>> invalidUpdates = selectUpdates(updates, orderingRules, false);
         correctPageNumberOrder(invalidUpdates, orderingRules);
-        
         return calculateMiddlePageNumberSum(invalidUpdates);
     }
     
@@ -209,5 +204,9 @@ public class Solution implements DeprecatedSolver {
         }
         
         return sumMiddlePageNumbers;
+    }
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2024, 5);
     }
 }
