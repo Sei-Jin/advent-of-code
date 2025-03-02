@@ -8,15 +8,16 @@ import java.util.regex.Pattern;
 
 public class Solution implements Solver {
     
+    private static final Set<String> mandatoryFields = createMandatoryFields();
+    private static final Set<String> colourSet = createColourSet();
+    
     private final List<Map<String, String>> fieldMaps;
-    private final Set<String> mandatoryFields;
     
     public Solution(String input) {
         fieldMaps = parse(input);
-        mandatoryFields = createMandatoryFields();
     }
     
-    private Set<String> createMandatoryFields() {
+    private static Set<String> createMandatoryFields() {
         final var fields = new HashSet<String>();
         
         for (final var field : Field.values()) {
@@ -26,6 +27,16 @@ public class Solution implements Solver {
         }
         
         return fields;
+    }
+    
+    private static Set<String> createColourSet() {
+        final var colours = new HashSet<String>();
+        
+        for (final var value : EyeColour.values()) {
+            colours.add(value.colour);
+        }
+        
+        return colours;
     }
     
     private static List<Map<String, String>> parse(String input) {
@@ -72,26 +83,12 @@ public class Solution implements Solver {
                 continue;
             }
             
-            if (hasValidFields(fieldMap)) {
+            if (Field.hasValidFields(fieldMap)) {
                 validCount++;
             }
         }
         
         return validCount;
-    }
-    
-    private static boolean hasValidFields(Map<String, String> fieldMap) {
-        boolean validity = true;
-        
-        validity &= Field.validBirthYear(fieldMap.get(Field.BIRTH_YEAR.key));
-        validity &= Field.validIssueYear(fieldMap.get(Field.ISSUE_YEAR.key));
-        validity &= Field.validExpirationYear(fieldMap.get(Field.EXPIRATION_YEAR.key));
-        validity &= Field.validHeight(fieldMap.get(Field.HEIGHT.key));
-        validity &= Field.validHairColor(fieldMap.get(Field.HAIR_COLOR.key));
-        validity &= Field.validEyeColor(fieldMap.get(Field.EYE_COLOR.key));
-        validity &= Field.validPassportId(fieldMap.get(Field.PASSPORT_ID.key));
-        
-        return validity;
     }
     
     private enum Field {
@@ -115,6 +112,20 @@ public class Solution implements Solver {
         private static final Pattern HEIGHT_PATTERN = Pattern.compile("^(\\d+)(\\w+)$");
         private static final Pattern HAIR_COLOR_PATTERN = Pattern.compile("^#[a-f0-9]{6}$");
         private static final Pattern PASSPORT_ID_PATTERN = Pattern.compile("^[0-9]{9}$");
+        
+        public static boolean hasValidFields(Map<String, String> fieldMap) {
+            boolean validity = true;
+            
+            validity &= validBirthYear(fieldMap.get(Field.BIRTH_YEAR.key));
+            validity &= validIssueYear(fieldMap.get(Field.ISSUE_YEAR.key));
+            validity &= validExpirationYear(fieldMap.get(Field.EXPIRATION_YEAR.key));
+            validity &= validHeight(fieldMap.get(Field.HEIGHT.key));
+            validity &= validHairColor(fieldMap.get(Field.HAIR_COLOR.key));
+            validity &= validEyeColor(fieldMap.get(Field.EYE_COLOR.key));
+            validity &= validPassportId(fieldMap.get(Field.PASSPORT_ID.key));
+            
+            return validity;
+        }
         
         private static boolean validBirthYear(String birthYear) {
             if (notNumeric(birthYear)) {
@@ -153,13 +164,11 @@ public class Solution implements Solver {
             final var magnitude = Integer.parseInt(matcher.group(1));
             final var units = matcher.group(2);
             
-            if (units.equals("cm")) {
-                return magnitude >= 150 && magnitude <= 193;
-            } else if (units.equals("in")) {
-                return magnitude >= 59 && magnitude <= 76;
-            }
-            
-            return false;
+            return switch (units) {
+                case "cm" -> magnitude >= 150 && magnitude <= 193;
+                case "in" -> magnitude >= 59 && magnitude <= 76;
+                default -> false;
+            };
         }
         
         private static boolean validHairColor(String hairColor) {
@@ -167,7 +176,7 @@ public class Solution implements Solver {
         }
         
         private static boolean validEyeColor(String eyeColor) {
-            return EyeColour.createColourSet().contains(eyeColor);
+            return colourSet.contains(eyeColor);
         }
         
         private static boolean validPassportId(String id) {
@@ -200,16 +209,6 @@ public class Solution implements Solver {
         
         EyeColour(String colour) {
             this.colour = colour;
-        }
-        
-        private static Set<String> createColourSet() {
-            final var colours = new HashSet<String>();
-            
-            for (final var value : EyeColour.values()) {
-                colours.add(value.colour);
-            }
-            
-            return colours;
         }
     }
     
