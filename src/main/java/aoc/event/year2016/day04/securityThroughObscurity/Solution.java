@@ -11,9 +11,6 @@ public class Solution implements DeprecatedSolver {
     /// Matches the data for the room input.
     private static final Pattern ROOM_PATTERN = Pattern.compile("([\\w-]+)-(\\d+)\\[(\\w+)]");
     
-    /// Stores the data for a room.
-    record Room(String encryptedName, int sectorId, String checksum) {}
-    
     /// Parses a line of the puzzle input for the room data.
     ///
     /// A room input is in the format: `aa-bbb-cc-dd-e-836[abcde]`.
@@ -187,4 +184,7 @@ public class Solution implements DeprecatedSolver {
         
         return decryptedNameBuilder.toString();
     }
+    
+    /// Stores the data for a room.
+    record Room(String encryptedName, int sectorId, String checksum) {}
 }
