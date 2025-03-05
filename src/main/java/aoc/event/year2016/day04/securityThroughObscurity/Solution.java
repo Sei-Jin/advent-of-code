@@ -1,17 +1,24 @@
 package aoc.event.year2016.day04.securityThroughObscurity;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Solution implements DeprecatedSolver {
+public class Solution implements Solver {
     
     /// Matches the data for the room input.
     private static final Pattern ROOM_PATTERN = Pattern.compile("([\\w-]+)-(\\d+)\\[(\\w+)]");
     
-    /// Parses a line of the puzzle input for the room data.
+    private final List<Room> rooms;
+    
+    public Solution(String input) {
+        rooms = parse(input);
+    }
+    
+    /// Parses the puzzle input for the room data.
     ///
     /// A room input is in the format: `aa-bbb-cc-dd-e-836[abcde]`.
     ///
@@ -21,37 +28,42 @@ public class Solution implements DeprecatedSolver {
     /// - The second part of the string, `836` is the sector id.
     /// - The third part of the string, `abcde` is the checksum.
     ///
-    /// @param line the puzzle input for a room.
-    /// @return a new Room created from the parsed data.
+    /// @param input the puzzle input.
+    /// @return a list of rooms from the parsed data.
     /// @throws IllegalArgumentException if the input does not match the expected pattern.
-    private static Room parseRoom(String line) {
-        Matcher matcher = ROOM_PATTERN.matcher(line);
+    private static List<Room> parse(String input) {
+        final var rooms = new ArrayList<Room>();
         
-        if (matcher.find()) {
-            String encryptedName = matcher.group(1);
-            int sectorId = Integer.parseInt(matcher.group(2));
-            String checksum = matcher.group(3);
+        for (final var line : input.lines().toList()) {
+            Matcher matcher = ROOM_PATTERN.matcher(line);
             
-            return new Room(encryptedName, sectorId, checksum);
-        } else {
-            throw new IllegalArgumentException(
-                "Input line did not match expected pattern: " + line
-            );
+            if (matcher.find()) {
+                String encryptedName = matcher.group(1);
+                int sectorId = Integer.parseInt(matcher.group(2));
+                String checksum = matcher.group(3);
+                
+                final var room = new Room(encryptedName, sectorId, checksum);
+                rooms.add(room);
+            } else {
+                throw new IllegalArgumentException(
+                    "Input line did not match expected pattern: " + line
+                );
+            }
         }
+        
+        return rooms;
     }
     
     /// Calculates the sum of the sector ids of the real rooms.
     ///
     /// A room is real if its checksum matches.
     ///
-    /// @param inputLines the puzzle input, containing a list of rooms.
     /// @return the sum of the sector ids of the real rooms
     @Override
-    public Object partOne(List<String> inputLines) {
+    public Object partOne() {
         int sectorIdSum = 0;
         
-        for (String line : inputLines) {
-            Room room = parseRoom(line);
+        for (final var room : rooms) {
             String encryptedName = room.encryptedName.replaceAll("-", "");
             
             String realChecksum = generateChecksum(encryptedName);
@@ -135,13 +147,11 @@ public class Solution implements DeprecatedSolver {
     /// All rooms have encrypted names, and each room name must be decrypted before it can be
     /// determined what type of room it is.
     ///
-    /// @param inputLines the puzzle input, containing a list of rooms.
     /// @return the sector id of the North Pole object storage.
     /// @throws IllegalArgumentException if there are no North Pole objects.
     @Override
-    public Object partTwo(List<String> inputLines) {
-        for (String line : inputLines) {
-            Room room = parseRoom(line);
+    public Object partTwo() {
+        for (final var room : rooms) {
             String decryptedName = decryptName(room);
             
             if (decryptedName.contains("north") && decryptedName.contains("pole")) {
@@ -187,4 +197,8 @@ public class Solution implements DeprecatedSolver {
     
     /// Stores the data for a room.
     record Room(String encryptedName, int sectorId, String checksum) {}
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2016, 4);
+    }
 }
