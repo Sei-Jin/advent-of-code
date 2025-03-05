@@ -39,9 +39,9 @@ public class Solution implements Solver {
             throw new IllegalArgumentException("There must be exactly 3 sides to form a triangle.");
         }
         
-        int side1 = sideLengths.get(0);
-        int side2 = sideLengths.get(1);
-        int side3 = sideLengths.get(2);
+        final var side1 = sideLengths.get(0);
+        final var side2 = sideLengths.get(1);
+        final var side3 = sideLengths.get(2);
         
         return (side1 + side2 > side3) &&
             (side1 + side3 > side2) &&
@@ -51,7 +51,7 @@ public class Solution implements Solver {
     /// @return the number of possible triangles.
     @Override
     public Object partOne() {
-        int possibleTriangles = 0;
+        var possibleTriangles = 0;
         
         for (final var list : numberLists) {
             if (possibleTriangle(list)) {
@@ -65,11 +65,11 @@ public class Solution implements Solver {
     /// @return the number of possible triangles in the vertical groups.
     @Override
     public Object partTwo() {
-        int possibleTriangles = 0;
+        var possibleTriangles = 0;
         
-        for (int row = 0; row < numberLists.size(); row += 3) {
-            for (int column = 0; column < numberLists.getFirst().size(); column++) {
-                List<Integer> triangle = Arrays.asList(
+        for (var row = 0; row < numberLists.size(); row += 3) {
+            for (var column = 0; column < numberLists.getFirst().size(); column++) {
+                final var triangle = Arrays.asList(
                     numberLists.get(row).get(column),
                     numberLists.get(row + 1).get(column),
                     numberLists.get(row + 2).get(column)
