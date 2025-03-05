@@ -4,7 +4,6 @@ import aoc.Runner;
 import aoc.Solver;
 
 import java.util.*;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Solution implements Solver {
@@ -35,12 +34,12 @@ public class Solution implements Solver {
         final var rooms = new ArrayList<Room>();
         
         for (final var line : input.lines().toList()) {
-            Matcher matcher = ROOM_PATTERN.matcher(line);
+            final var matcher = ROOM_PATTERN.matcher(line);
             
             if (matcher.find()) {
-                String encryptedName = matcher.group(1);
-                int sectorId = Integer.parseInt(matcher.group(2));
-                String checksum = matcher.group(3);
+                final var encryptedName = matcher.group(1);
+                final var sectorId = Integer.parseInt(matcher.group(2));
+                final var checksum = matcher.group(3);
                 
                 final var room = new Room(encryptedName, sectorId, checksum);
                 rooms.add(room);
@@ -61,13 +60,13 @@ public class Solution implements Solver {
     /// @return the sum of the sector ids of the real rooms
     @Override
     public Object partOne() {
-        int sectorIdSum = 0;
+        var sectorIdSum = 0;
         
         for (final var room : rooms) {
-            String encryptedName = room.encryptedName.replaceAll("-", "");
+            final var encryptedName = room.encryptedName.replaceAll("-", "");
             
-            String realChecksum = generateChecksum(encryptedName);
-            boolean realRoom = realChecksum.equals(room.checksum);
+            final var realChecksum = generateChecksum(encryptedName);
+            final var realRoom = realChecksum.equals(room.checksum);
             
             if (realRoom) {
                 sectorIdSum += room.sectorId;
@@ -85,13 +84,13 @@ public class Solution implements Solver {
     /// @param encryptedName the encrypted name of a room.
     /// @return the checksum of the encrypted name.
     private static String generateChecksum(String encryptedName) {
-        Map<Character, Integer> letterCount = getLetterCount(encryptedName);
-        List<Character> letters = new ArrayList<>(letterCount.keySet());
+        final var letterCount = getLetterCount(encryptedName);
+        final var letters = new ArrayList<>(letterCount.keySet());
         
-        Comparator<Character> comparator = getLetterComparator(letterCount);
+        final var comparator = getLetterComparator(letterCount);
         letters.sort(comparator);
         
-        StringBuilder checksumBuilder = new StringBuilder();
+        final var checksumBuilder = new StringBuilder();
         
         for (int index = 0; index < 5; index++) {
             checksumBuilder.append(letters.get(index));
@@ -105,12 +104,11 @@ public class Solution implements Solver {
     /// @param string a string.
     /// @return a mapping of the characters and their counts.
     private static Map<Character, Integer> getLetterCount(String string) {
-        Map<Character, Integer> letterCount = new HashMap<>();
+        final var letterCount = new HashMap<Character, Integer>();
         
-        for (int index = 0; index < string.length(); index++) {
-            char letter = string.charAt(index);
-            int count = letterCount.getOrDefault(letter, 0) + 1;
-            
+        for (var index = 0; index < string.length(); index++) {
+            final var letter = string.charAt(index);
+            final var count = letterCount.getOrDefault(letter, 0) + 1;
             letterCount.put(letter, count);
         }
         
@@ -129,8 +127,8 @@ public class Solution implements Solver {
     private static Comparator<Character> getLetterComparator(Map<Character, Integer> letterCount) {
         return (predecessor, successor) ->
         {
-            int predecessorCount = letterCount.get(predecessor);
-            int successorCount = letterCount.get(successor);
+            final var predecessorCount = letterCount.get(predecessor);
+            final var successorCount = letterCount.get(successor);
             
             if (predecessorCount < successorCount) {
                 return 1;
@@ -152,7 +150,7 @@ public class Solution implements Solver {
     @Override
     public Object partTwo() {
         for (final var room : rooms) {
-            String decryptedName = decryptName(room);
+            final var decryptedName = decryptName(room);
             
             if (decryptedName.contains("north") && decryptedName.contains("pole")) {
                 return room.sectorId;
@@ -173,16 +171,16 @@ public class Solution implements Solver {
     /// @param room a room.
     /// @return the decrypted name of the room.
     private static String decryptName(Room room) {
-        StringBuilder decryptedNameBuilder = new StringBuilder();
-        int sectorOffset = room.sectorId % 26;
+        final var decryptedNameBuilder = new StringBuilder();
+        final var sectorOffset = room.sectorId % 26;
         
-        for (int index = 0; index < room.encryptedName.length(); index++) {
-            char character = room.encryptedName.charAt(index);
+        for (var index = 0; index < room.encryptedName.length(); index++) {
+            final var character = room.encryptedName.charAt(index);
             
             if (character == '-') {
                 decryptedNameBuilder.append(" ");
             } else {
-                char decryptedCharacter = (char) (character + sectorOffset);
+                var decryptedCharacter = (char) (character + sectorOffset);
                 
                 if (decryptedCharacter > 'z') {
                     decryptedCharacter -= 26;
