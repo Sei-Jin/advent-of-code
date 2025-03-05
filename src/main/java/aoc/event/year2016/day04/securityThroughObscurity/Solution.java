@@ -6,8 +6,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Solution implements DeprecatedSolver
-{
+public class Solution implements DeprecatedSolver {
+    
     /// Matches the data for the room input.
     private static final Pattern ROOM_PATTERN = Pattern.compile("([\\w-]+)-(\\d+)\\[(\\w+)]");
     
@@ -27,22 +27,18 @@ public class Solution implements DeprecatedSolver
     /// @param line the puzzle input for a room.
     /// @return a new Room created from the parsed data.
     /// @throws IllegalArgumentException if the input does not match the expected pattern.
-    private static Room parseRoom(String line)
-    {
+    private static Room parseRoom(String line) {
         Matcher matcher = ROOM_PATTERN.matcher(line);
         
-        if (matcher.find())
-        {
+        if (matcher.find()) {
             String encryptedName = matcher.group(1);
             int sectorId = Integer.parseInt(matcher.group(2));
             String checksum = matcher.group(3);
             
             return new Room(encryptedName, sectorId, checksum);
-        }
-        else
-        {
+        } else {
             throw new IllegalArgumentException(
-                    "Input line did not match expected pattern: " + line
+                "Input line did not match expected pattern: " + line
             );
         }
     }
@@ -54,20 +50,17 @@ public class Solution implements DeprecatedSolver
     /// @param inputLines the puzzle input, containing a list of rooms.
     /// @return the sum of the sector ids of the real rooms
     @Override
-    public Object partOne(List<String> inputLines)
-    {
+    public Object partOne(List<String> inputLines) {
         int sectorIdSum = 0;
         
-        for (String line : inputLines)
-        {
+        for (String line : inputLines) {
             Room room = parseRoom(line);
             String encryptedName = room.encryptedName.replaceAll("-", "");
             
             String realChecksum = generateChecksum(encryptedName);
             boolean realRoom = realChecksum.equals(room.checksum);
             
-            if (realRoom)
-            {
+            if (realRoom) {
                 sectorIdSum += room.sectorId;
             }
         }
@@ -82,8 +75,7 @@ public class Solution implements DeprecatedSolver
     ///
     /// @param encryptedName the encrypted name of a room.
     /// @return the checksum of the encrypted name.
-    private static String generateChecksum(String encryptedName)
-    {
+    private static String generateChecksum(String encryptedName) {
         Map<Character, Integer> letterCount = getLetterCount(encryptedName);
         List<Character> letters = new ArrayList<>(letterCount.keySet());
         
@@ -92,8 +84,7 @@ public class Solution implements DeprecatedSolver
         
         StringBuilder checksumBuilder = new StringBuilder();
         
-        for (int index = 0; index < 5; index++)
-        {
+        for (int index = 0; index < 5; index++) {
             checksumBuilder.append(letters.get(index));
         }
         
@@ -104,12 +95,10 @@ public class Solution implements DeprecatedSolver
     ///
     /// @param string a string.
     /// @return a mapping of the characters and their counts.
-    private static Map<Character, Integer> getLetterCount(String string)
-    {
+    private static Map<Character, Integer> getLetterCount(String string) {
         Map<Character, Integer> letterCount = new HashMap<>();
         
-        for (int index = 0; index < string.length(); index++)
-        {
+        for (int index = 0; index < string.length(); index++) {
             char letter = string.charAt(index);
             int count = letterCount.getOrDefault(letter, 0) + 1;
             
@@ -128,23 +117,17 @@ public class Solution implements DeprecatedSolver
     ///
     /// @param letterCount a map of the characters and their counts.
     /// @return a comparator for the letters and their counts.
-    private static Comparator<Character> getLetterComparator(Map<Character, Integer> letterCount)
-    {
+    private static Comparator<Character> getLetterComparator(Map<Character, Integer> letterCount) {
         return (predecessor, successor) ->
         {
             int predecessorCount = letterCount.get(predecessor);
             int successorCount = letterCount.get(successor);
             
-            if (predecessorCount < successorCount)
-            {
+            if (predecessorCount < successorCount) {
                 return 1;
-            }
-            else if (predecessorCount == successorCount)
-            {
+            } else if (predecessorCount == successorCount) {
                 return predecessor.compareTo(successor);
-            }
-            else
-            {
+            } else {
                 return -1;
             }
         };
@@ -159,15 +142,12 @@ public class Solution implements DeprecatedSolver
     /// @return the sector id of the North Pole object storage.
     /// @throws IllegalArgumentException if there are no North Pole objects.
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
-        for (String line : inputLines)
-        {
+    public Object partTwo(List<String> inputLines) {
+        for (String line : inputLines) {
             Room room = parseRoom(line);
             String decryptedName = decryptName(room);
             
-            if (decryptedName.contains("north") && decryptedName.contains("pole"))
-            {
+            if (decryptedName.contains("north") && decryptedName.contains("pole")) {
                 return room.sectorId;
             }
         }
@@ -185,26 +165,19 @@ public class Solution implements DeprecatedSolver
     ///
     /// @param room a room.
     /// @return the decrypted name of the room.
-    private static String decryptName(Room room)
-    {
+    private static String decryptName(Room room) {
         StringBuilder decryptedNameBuilder = new StringBuilder();
-        
         int sectorOffset = room.sectorId % 26;
         
-        for (int index = 0; index < room.encryptedName.length(); index++)
-        {
+        for (int index = 0; index < room.encryptedName.length(); index++) {
             char character = room.encryptedName.charAt(index);
             
-            if (character == '-')
-            {
+            if (character == '-') {
                 decryptedNameBuilder.append(" ");
-            }
-            else
-            {
+            } else {
                 char decryptedCharacter = (char) (character + sectorOffset);
                 
-                if (decryptedCharacter > 'z')
-                {
+                if (decryptedCharacter > 'z') {
                     decryptedCharacter -= 26;
                 }
                 
