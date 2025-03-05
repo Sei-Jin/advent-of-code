@@ -6,18 +6,13 @@ import java.awt.*;
 import java.util.HashSet;
 import java.util.List;
 
-/**
- * --- Day 1: No Time for a Taxicab ---
- */
-public class Solution implements DeprecatedSolver
-{
-    /**
-     * @param inputLines the puzzle input.
-     * @return the number of blocks from the starting position to the Easter Bunny HQ.
-     */
+/// --- Day 1: No Time for a Taxicab ---
+public class Solution implements DeprecatedSolver {
+    
+    /// @param inputLines the puzzle input.
+    /// @return the number of blocks from the starting position to the Easter Bunny HQ.
     @Override
-    public Object partOne(List<String> inputLines)
-    {
+    public Object partOne(List<String> inputLines) {
         String inputLine = inputLines.getFirst();
         
         Point point = new Point();
@@ -25,15 +20,13 @@ public class Solution implements DeprecatedSolver
         
         String[] moveSequence = inputLine.split(", ");
         
-        for (String move : moveSequence)
-        {
+        for (String move : moveSequence) {
             char turningDirection = move.charAt(0);
             int distance = Integer.parseInt(move.substring(1));
             
             currentDirection = changeDirection(currentDirection, turningDirection);
             
-            switch (currentDirection)
-            {
+            switch (currentDirection) {
                 case NORTH -> point.y += distance;
                 case EAST -> point.x += distance;
                 case SOUTH -> point.y -= distance;
@@ -44,15 +37,11 @@ public class Solution implements DeprecatedSolver
         return Math.abs(point.x) + Math.abs(point.y);
     }
     
-    
-    /**
-     * @param inputLines the puzzle input.
-     * @return the distance from the starting location to the first location visited twice or {@code -1} if there
-     *         were no locations visited twice.
-     */
+    /// @param inputLines the puzzle input.
+    /// @return the distance from the starting location to the first location visited twice or `-1` if there
+    ///         were no locations visited twice.
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
+    public Object partTwo(List<String> inputLines) {
         String inputLine = inputLines.getFirst();
         
         Point point = new Point();
@@ -63,29 +52,23 @@ public class Solution implements DeprecatedSolver
         
         String[] moveSequence = inputLine.split(", ");
         
-        for (String move : moveSequence)
-        {
+        for (String move : moveSequence) {
             char turningDirection = move.charAt(0);
             int distance = Integer.parseInt(move.substring(1));
             
             currentDirection = changeDirection(currentDirection, turningDirection);
             
-            for (int blocksTravelled = 0; blocksTravelled < distance; blocksTravelled++)
-            {
-                switch (currentDirection)
-                {
+            for (int blocksTravelled = 0; blocksTravelled < distance; blocksTravelled++) {
+                switch (currentDirection) {
                     case NORTH -> point.y++;
                     case EAST -> point.x++;
                     case SOUTH -> point.y--;
                     case WEST -> point.x--;
                 }
                 
-                if (!pointsVisited.contains(point.toString()))
-                {
+                if (!pointsVisited.contains(point.toString())) {
                     pointsVisited.add(point.toString());
-                }
-                else
-                {
+                } else {
                     return Math.abs(point.x) + Math.abs(point.y);
                 }
             }
@@ -95,13 +78,9 @@ public class Solution implements DeprecatedSolver
         return -1;
     }
     
-    
-    private static Direction changeDirection(Direction currentDirection, char turningDirection)
-    {
-        if (turningDirection == 'R')
-        {
-            currentDirection = switch (currentDirection)
-            {
+    private static Direction changeDirection(Direction currentDirection, char turningDirection) {
+        if (turningDirection == 'R') {
+            currentDirection = switch (currentDirection) {
                 case NORTH -> Direction.EAST;
                 case EAST -> Direction.SOUTH;
                 case SOUTH -> Direction.WEST;
@@ -109,10 +88,8 @@ public class Solution implements DeprecatedSolver
             };
         }
         
-        if (turningDirection == 'L')
-        {
-            currentDirection = switch (currentDirection)
-            {
+        if (turningDirection == 'L') {
+            currentDirection = switch (currentDirection) {
                 case NORTH -> Direction.WEST;
                 case WEST -> Direction.SOUTH;
                 case SOUTH -> Direction.EAST;
@@ -123,9 +100,7 @@ public class Solution implements DeprecatedSolver
         return currentDirection;
     }
     
-    
-    private enum Direction
-    {
-        NORTH, EAST, SOUTH, WEST;
+    private enum Direction {
+        NORTH, EAST, SOUTH, WEST
     }
 }
