@@ -1,17 +1,41 @@
 package aoc.event.year2016.day02.bathroomSecurity;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /// --- Day 2: Bathroom Security ---
-public class Solution implements DeprecatedSolver {
+public class Solution implements Solver {
     
-    /// @param inputLines the puzzle input.
+    private final List<List<Character>> instructionLists;
+    
+    public Solution(String input) {
+        instructionLists = parse(input);
+    }
+    
+    private static List<List<Character>> parse(String input) {
+        final var instructionLists = new ArrayList<List<Character>>();
+        final var lines = input.lines().toList();
+        
+        for (final var line : lines) {
+            final var instructions = new ArrayList<Character>();
+            
+            for (int i = 0; i < line.length(); i++) {
+                instructions.add(line.charAt(i));
+            }
+            
+            instructionLists.add(instructions);
+        }
+        
+        return instructionLists;
+    }
+    
     /// @return the bathroom code.
     @Override
-    public Object partOne(List<String> inputLines) {
+    public Object partOne() {
         StringBuilder bathroomCode = new StringBuilder();
         
         int[][] keypad = {
@@ -22,13 +46,9 @@ public class Solution implements DeprecatedSolver {
         
         Point position = new Point(1, 1);
         
-        for (String line : inputLines) {
-            List<Character> moveSequence = line.chars()
-                .mapToObj(c -> (char) c)
-                .toList();
-            
-            for (char move : moveSequence) {
-                switch (move) {
+        for (final var list : instructionLists) {
+            for (final var instruction : list) {
+                switch (instruction) {
                     case 'U' -> {
                         if (position.y > 0) {
                             position.y--;
@@ -58,10 +78,9 @@ public class Solution implements DeprecatedSolver {
         return bathroomCode;
     }
     
-    /// @param inputLines the puzzle input.
     /// @return the correct bathroom code.
     @Override
-    public Object partTwo(List<String> inputLines) {
+    public Object partTwo() {
         StringBuilder bathroomCode = new StringBuilder();
         
         char[][] keypad = {
@@ -74,13 +93,9 @@ public class Solution implements DeprecatedSolver {
         
         Point position = new Point(0, 2);
         
-        for (String line : inputLines) {
-            List<Character> moveSequence = line.chars()
-                .mapToObj(c -> (char) c)
-                .toList();
-            
-            for (char move : moveSequence) {
-                switch (move) {
+        for (final var list : instructionLists) {
+            for (final var instruction : list) {
+                switch (instruction) {
                     case 'U' -> {
                         if (position.y > 0 && keypad[position.y - 1][position.x] != ' ') {
                             position.y--;
@@ -108,5 +123,9 @@ public class Solution implements DeprecatedSolver {
         }
         
         return bathroomCode;
+    }
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2016, 2);
     }
 }
