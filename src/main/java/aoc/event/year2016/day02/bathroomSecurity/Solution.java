@@ -23,7 +23,7 @@ public class Solution implements Solver {
         for (final var line : lines) {
             final var instructions = new ArrayList<Character>();
             
-            for (int i = 0; i < line.length(); i++) {
+            for (var i = 0; i < line.length(); i++) {
                 instructions.add(line.charAt(i));
             }
             
@@ -36,15 +36,13 @@ public class Solution implements Solver {
     /// @return the bathroom code.
     @Override
     public String partOne() {
-        StringBuilder bathroomCode = new StringBuilder();
-        
-        int[][] keypad = {
+        final var bathroomCode = new StringBuilder();
+        final var keypad = new int[][]{
             {1, 2, 3},
             {4, 5, 6},
             {7, 8, 9}
         };
-        
-        Point position = new Point(1, 1);
+        final var position = new Point(1, 1);
         
         for (final var list : instructionLists) {
             for (final var instruction : list) {
@@ -81,17 +79,15 @@ public class Solution implements Solver {
     /// @return the correct bathroom code.
     @Override
     public String partTwo() {
-        StringBuilder bathroomCode = new StringBuilder();
-        
-        char[][] keypad = {
+        final var bathroomCode = new StringBuilder();
+        final var keypad = new char[][]{
             {' ', ' ', '1', ' ', ' '},
             {' ', '2', '3', '4', ' '},
             {'5', '6', '7', '8', '9'},
             {' ', 'A', 'B', 'C', ' '},
             {' ', ' ', 'D', ' ', ' '},
         };
-        
-        Point position = new Point(0, 2);
+        final var position = new Point(0, 2);
         
         for (final var list : instructionLists) {
             for (final var instruction : list) {
