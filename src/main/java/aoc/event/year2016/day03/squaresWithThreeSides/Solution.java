@@ -1,27 +1,32 @@
 package aoc.event.year2016.day03.squaresWithThreeSides;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Solution implements DeprecatedSolver {
+public class Solution implements Solver {
     
+    private final List<List<Integer>> numberLists;
     
-    /// @param inputLines the puzzle input.
-    /// @return the puzzle input as a `List` of `List` of `Integers`.
-    private static List<List<Integer>> getInputValues(List<String> inputLines) {
-        List<List<Integer>> inputValues = new ArrayList<>();
+    public Solution(String input) {
+        numberLists = parse(input);
+    }
+    
+    private static List<List<Integer>> parse(String input) {
+        final var numberLists = new ArrayList<List<Integer>>();
         
-        for (String line : inputLines) {
-            inputValues.add(Arrays.stream(line.trim().split("\\s+"))
+        for (final var line : input.lines().toList()) {
+            final var numbers = Arrays.stream(line.trim().split("\\s+"))
                 .map(Integer::parseInt)
-                .toList()
-            );
+                .toList();
+            
+            numberLists.add(numbers);
         }
         
-        return inputValues;
+        return numberLists;
     }
     
     /// Determines whether a triangle could be formed with the given `sideLengths` or not. A triangle is
@@ -42,38 +47,32 @@ public class Solution implements DeprecatedSolver {
             (side1 + side3 > side2) &&
             (side2 + side3 > side1);
     }
-    
-    /// @param inputLines the puzzle input.
+
     /// @return the number of possible triangles.
     @Override
-    public Object partOne(List<String> inputLines) {
-        List<List<Integer>> triangles = getInputValues(inputLines);
-        
+    public Object partOne() {
         int possibleTriangles = 0;
         
-        for (List<Integer> triangle : triangles) {
-            if (possibleTriangle(triangle)) {
+        for (final var list : numberLists) {
+            if (possibleTriangle(list)) {
                 possibleTriangles++;
             }
         }
         
         return possibleTriangles;
     }
-    
-    /// @param inputLines the puzzle input.
+
     /// @return the number of possible triangles in the vertical groups.
     @Override
-    public Object partTwo(List<String> inputLines) {
-        List<List<Integer>> inputValues = getInputValues(inputLines);
-        
+    public Object partTwo() {
         int possibleTriangles = 0;
         
-        for (int row = 0; row < inputValues.size(); row += 3) {
-            for (int column = 0; column < inputValues.getFirst().size(); column++) {
+        for (int row = 0; row < numberLists.size(); row += 3) {
+            for (int column = 0; column < numberLists.getFirst().size(); column++) {
                 List<Integer> triangle = Arrays.asList(
-                    inputValues.get(row).get(column),
-                    inputValues.get(row + 1).get(column),
-                    inputValues.get(row + 2).get(column)
+                    numberLists.get(row).get(column),
+                    numberLists.get(row + 1).get(column),
+                    numberLists.get(row + 2).get(column)
                 );
                 
                 if (possibleTriangle(triangle)) {
@@ -83,5 +82,9 @@ public class Solution implements DeprecatedSolver {
         }
         
         return possibleTriangles;
+    }
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2016, 3);
     }
 }
