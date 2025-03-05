@@ -35,7 +35,7 @@ public class Solution implements Solver {
     
     /// @return the bathroom code.
     @Override
-    public Object partOne() {
+    public String partOne() {
         StringBuilder bathroomCode = new StringBuilder();
         
         int[][] keypad = {
@@ -75,12 +75,12 @@ public class Solution implements Solver {
             bathroomCode.append(keypad[position.y][position.x]);
         }
         
-        return bathroomCode;
+        return bathroomCode.toString();
     }
     
     /// @return the correct bathroom code.
     @Override
-    public Object partTwo() {
+    public String partTwo() {
         StringBuilder bathroomCode = new StringBuilder();
         
         char[][] keypad = {
@@ -122,7 +122,7 @@ public class Solution implements Solver {
             bathroomCode.append(keypad[position.y][position.x]);
         }
         
-        return bathroomCode;
+        return bathroomCode.toString();
     }
     
     public static void main(String[] args) {
