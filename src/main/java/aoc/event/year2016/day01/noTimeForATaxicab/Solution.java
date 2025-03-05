@@ -1,64 +1,75 @@
 package aoc.event.year2016.day01.noTimeForATaxicab;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /// --- Day 1: No Time for a Taxicab ---
-public class Solution implements DeprecatedSolver {
+public class Solution implements Solver {
     
-    /// @param inputLines the puzzle input.
+    private static final Pattern INSTRUCTION_PATTERN = Pattern.compile("(\\w)(\\d+)");
+    
+    private final List<Instruction> instructions;
+    
+    public Solution(String input) {
+        instructions = parse(input);
+    }
+    
+    private static List<Instruction> parse(String input) {
+        final var instructions = new ArrayList<Instruction>();
+        final var matcher = INSTRUCTION_PATTERN.matcher(input);
+        
+        while (matcher.find()) {
+            final var turn = Turn.of(matcher.group(1).charAt(0));
+            final var distance = Integer.parseInt(matcher.group(2));
+            
+            instructions.add(new Instruction(turn, distance));
+        }
+        
+        return instructions;
+    }
+    
+    private record Instruction(Turn turn, int distance) {}
+    
     /// @return the number of blocks from the starting position to the Easter Bunny HQ.
     @Override
-    public Object partOne(List<String> inputLines) {
-        String inputLine = inputLines.getFirst();
-        
+    public Integer partOne() {
         Point point = new Point();
         Direction currentDirection = Direction.NORTH;
         
-        String[] moveSequence = inputLine.split(", ");
-        
-        for (String move : moveSequence) {
-            char turningDirection = move.charAt(0);
-            int distance = Integer.parseInt(move.substring(1));
-            
-            currentDirection = changeDirection(currentDirection, turningDirection);
+        for (final var instruction : instructions) {
+            currentDirection = changeDirection(currentDirection, instruction.turn);
             
             switch (currentDirection) {
-                case NORTH -> point.y += distance;
-                case EAST -> point.x += distance;
-                case SOUTH -> point.y -= distance;
-                case WEST -> point.x -= distance;
+                case NORTH -> point.y += instruction.distance;
+                case EAST -> point.x += instruction.distance;
+                case SOUTH -> point.y -= instruction.distance;
+                case WEST -> point.x -= instruction.distance;
             }
         }
         
         return Math.abs(point.x) + Math.abs(point.y);
     }
     
-    /// @param inputLines the puzzle input.
     /// @return the distance from the starting location to the first location visited twice or `-1` if there
     ///         were no locations visited twice.
     @Override
-    public Object partTwo(List<String> inputLines) {
-        String inputLine = inputLines.getFirst();
-        
+    public Integer partTwo() {
         Point point = new Point();
         Direction currentDirection = Direction.NORTH;
         
         HashSet<String> pointsVisited = new HashSet<>();
         pointsVisited.add(point.toString());
         
-        String[] moveSequence = inputLine.split(", ");
-        
-        for (String move : moveSequence) {
-            char turningDirection = move.charAt(0);
-            int distance = Integer.parseInt(move.substring(1));
+        for (final var instruction : instructions) {
+            currentDirection = changeDirection(currentDirection, instruction.turn);
             
-            currentDirection = changeDirection(currentDirection, turningDirection);
-            
-            for (int blocksTravelled = 0; blocksTravelled < distance; blocksTravelled++) {
+            for (int blocksTravelled = 0; blocksTravelled < instruction.distance; blocksTravelled++) {
                 switch (currentDirection) {
                     case NORTH -> point.y++;
                     case EAST -> point.x++;
@@ -78,8 +89,8 @@ public class Solution implements DeprecatedSolver {
         return -1;
     }
     
-    private static Direction changeDirection(Direction currentDirection, char turningDirection) {
-        if (turningDirection == 'R') {
+    private static Direction changeDirection(Direction currentDirection, Turn turningDirection) {
+        if (turningDirection == Turn.RIGHT) {
             currentDirection = switch (currentDirection) {
                 case NORTH -> Direction.EAST;
                 case EAST -> Direction.SOUTH;
@@ -88,7 +99,7 @@ public class Solution implements DeprecatedSolver {
             };
         }
         
-        if (turningDirection == 'L') {
+        if (turningDirection == Turn.LEFT) {
             currentDirection = switch (currentDirection) {
                 case NORTH -> Direction.WEST;
                 case WEST -> Direction.SOUTH;
@@ -100,7 +111,27 @@ public class Solution implements DeprecatedSolver {
         return currentDirection;
     }
     
+    private enum Turn {
+        RIGHT,
+        LEFT;
+        
+        private static Turn of(char character) {
+            return switch (character) {
+                case 'R' -> RIGHT;
+                case 'L' -> LEFT;
+                default -> throw new IllegalStateException("Unexpected value: " + character);
+            };
+        }
+    }
+    
     private enum Direction {
-        NORTH, EAST, SOUTH, WEST
+        NORTH,
+        EAST,
+        SOUTH,
+        WEST
+    }
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2016, 1);
     }
 }

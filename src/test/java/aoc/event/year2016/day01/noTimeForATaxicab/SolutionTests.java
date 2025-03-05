@@ -2,46 +2,39 @@ package aoc.event.year2016.day01.noTimeForATaxicab;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
-{
+public class SolutionTests {
+    
     @Test
-    void northEast()
-    {
-        List<String> inputLines = new ArrayList<>();
-        inputLines.add("R2, L3");
-        assertEquals(5, new Solution().partOne(inputLines));
-        assertEquals(-1, new Solution().partTwo(inputLines));
+    void northEast() {
+        final var input = "R2, L3";
+        final var solution = new Solution(input);
+        assertEquals(5, solution.partOne());
+        assertEquals(-1, solution.partTwo());
     }
     
     @Test
-    void eastToSouth()
-    {
-        List<String> inputLines = new ArrayList<>();
-        inputLines.add("R2, R2, R2");
-        assertEquals(2, new Solution().partOne(inputLines));
-        assertEquals(-1, new Solution().partTwo(inputLines));
+    void eastToSouth() {
+        final var input = "R2, R2, R2";
+        final var solution = new Solution(input);
+        assertEquals(2, solution.partOne());
+        assertEquals(-1, solution.partTwo());
     }
     
     @Test
-    void snakeEastwards()
-    {
-        List<String> inputLines = new ArrayList<>();
-        inputLines.add("R5, L5, R5, R3");
-        assertEquals(12, new Solution().partOne(inputLines));
-        assertEquals(-1, new Solution().partTwo(inputLines));
+    void snakeEastwards() {
+        final var input = "R5, L5, R5, R3";
+        final var solution = new Solution(input);
+        assertEquals(12, solution.partOne());
+        assertEquals(-1, solution.partTwo());
     }
     
     @Test
-    void crossingPaths()
-    {
-        List<String> inputLines = new ArrayList<>();
-        inputLines.add("R8, R4, R4, R8");
-        assertEquals(8, new Solution().partOne(inputLines));
-        assertEquals(4, new Solution().partTwo(inputLines));
+    void crossingPaths() {
+        final var input = "R8, R4, R4, R8";
+        final var solution = new Solution(input);
+        assertEquals(8, solution.partOne());
+        assertEquals(4, solution.partTwo());
     }
 }
