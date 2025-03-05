@@ -7,22 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Solution implements DeprecatedSolver {
-    /// @param inputLines the puzzle input.
-    /// @return the number of possible triangles.
-    @Override
-    public Object partOne(List<String> inputLines) {
-        List<List<Integer>> triangles = getInputValues(inputLines);
-        
-        int possibleTriangles = 0;
-        
-        for (List<Integer> triangle : triangles) {
-            if (possibleTriangle(triangle)) {
-                possibleTriangles++;
-            }
-        }
-        
-        return possibleTriangles;
-    }
+    
     
     /// @param inputLines the puzzle input.
     /// @return the puzzle input as a `List` of `List` of `Integers`.
@@ -56,6 +41,23 @@ public class Solution implements DeprecatedSolver {
         return (side1 + side2 > side3) &&
             (side1 + side3 > side2) &&
             (side2 + side3 > side1);
+    }
+    
+    /// @param inputLines the puzzle input.
+    /// @return the number of possible triangles.
+    @Override
+    public Object partOne(List<String> inputLines) {
+        List<List<Integer>> triangles = getInputValues(inputLines);
+        
+        int possibleTriangles = 0;
+        
+        for (List<Integer> triangle : triangles) {
+            if (possibleTriangle(triangle)) {
+                possibleTriangles++;
+            }
+        }
+        
+        return possibleTriangles;
     }
     
     /// @param inputLines the puzzle input.
