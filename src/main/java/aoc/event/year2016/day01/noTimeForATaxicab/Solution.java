@@ -9,13 +9,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-/// --- Day 1: No Time for a Taxicab ---
 public class Solution implements Solver {
     
     private static final Pattern INSTRUCTION_PATTERN = Pattern.compile("(\\w)(\\d+)");
     
     private final List<Instruction> instructions;
     
+    /// Initializes the solution with the parsed puzzle input.
+    ///
+    /// The expected format for the puzzle input is a single string of instructions.
+    /// - Each instruction is separated by a comma and a space, such as `,`.
+    /// - Each instruction consists of a turning direction of left, `L,` or right `R` followed by
+    /// number, which is the distance to travel.
+    ///
+    /// An example input is `R2, L3`.
     public Solution(String input) {
         instructions = parse(input);
     }
@@ -34,10 +41,14 @@ public class Solution implements Solver {
         return instructions;
     }
     
-    /// @return the number of blocks from the starting position to the Easter Bunny HQ.
+    /// Calculates the distance from the starting position after all instructions have been
+    /// followed.
+    ///
+    /// @return the distance from the starting position after all instructions have been
+    ///     /// followed
     @Override
     public Integer partOne() {
-        final var current = new Point();
+        final var current = new Position();
         var direction = Direction.NORTH;
         
         for (final var instruction : instructions) {
@@ -54,14 +65,16 @@ public class Solution implements Solver {
         return Math.abs(current.x) + Math.abs(current.y);
     }
     
-    /// @return the distance from the starting location to the first location visited twice or `-1` if there
-    ///         were no locations visited twice.
+    /// Calculates the distance from the starting position to the first position visited twice.
+    ///
+    /// @return the distance from the starting position to the first position visited twice, or
+    /// -1 if there were no locations visited twice.
     @Override
     public Integer partTwo() {
-        final var current = new Point();
+        final var current = new Position();
         var direction = Direction.NORTH;
         
-        final var points = new HashSet<Point>();
+        final var points = new HashSet<Position>();
         points.add(current);
         
         for (final var instruction : instructions) {
@@ -76,7 +89,7 @@ public class Solution implements Solver {
                 }
                 
                 if (!points.contains(current)) {
-                    points.add(new Point(current.x, current.y));
+                    points.add(new Position(current.x, current.y));
                 } else {
                     return Math.abs(current.x) + Math.abs(current.y);
                 }
@@ -128,24 +141,24 @@ public class Solution implements Solver {
     
     private record Instruction(Turn turn, int distance) {}
     
-    private class Point {
+    private class Position {
         int x;
         int y;
         
-        public Point() {
+        public Position() {
             this.x = 0;
             this.y = 0;
         }
         
-        public Point(int x, int y) {
+        public Position(int x, int y) {
             this.x = x;
             this.y = y;
         }
         
         @Override
         public boolean equals(Object o) {
-            if (!(o instanceof Point point)) return false;
-            return x == point.x && y == point.y;
+            if (!(o instanceof Position position)) return false;
+            return x == position.x && y == position.y;
         }
         
         @Override
