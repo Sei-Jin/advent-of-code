@@ -3,94 +3,87 @@ package aoc.event.year2016.day03.squaresWithThreeSides;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
-{
+public class SolutionTests {
+    
     @Nested
-    class PartOne
-    {
+    class PartOne {
+        
         @Test
-        void possibleTriangle1()
-        {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("5 10 10");
-            assertEquals(1, new Solution().partOne(inputLines));
+        void possibleTriangle1() {
+            final var input = "5 10 10";
+            final var solution = new Solution(input);
+            assertEquals(1, solution.partOne());
         }
         
         @Test
-        void possibleTriangle2()
-        {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("5 10 14");
-            assertEquals(1, new Solution().partOne(inputLines));
+        void possibleTriangle2() {
+            final var input = "5 10 14";
+            final var solution = new Solution(input);
+            assertEquals(1, solution.partOne());
         }
         
         @Test
-        void impossibleTriangle1()
-        {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("5 10 25");
-            assertEquals(0, new Solution().partOne(inputLines));
+        void impossibleTriangle1() {
+            final var input = "5 10 25";
+            final var solution = new Solution(input);
+            assertEquals(0, solution.partOne());
         }
         
         @Test
-        void impossibleTriangle2()
-        {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("15 10 5");
-            assertEquals(0, new Solution().partOne(inputLines));
+        void impossibleTriangle2() {
+            final var input = "15 10 5";
+            final var solution = new Solution(input);
+            assertEquals(0, solution.partOne());
         }
     }
     
     @Nested
-    class PartTwo
-    {
+    class PartTwo {
+        
         @Test
-        void noPossibleTriangles()
-        {
-            List<String> inputLines = List.of(
-                    "101 301 1500",
-                    "102 700 501",
-                    "300 302 502"
-            );
-            assertEquals(0, new Solution().partTwo(inputLines));
+        void noPossibleTriangles() {
+            final var input = """
+                101 301 1500
+                102 700 501
+                300 302 502
+                """;
+            final var solution = new Solution(input);
+            assertEquals(0, solution.partTwo());
         }
         
         @Test
-        void onePossibleTriangle()
-        {
-            List<String> inputLines = List.of(
-                    "101 301 501",
-                    "102 302 502",
-                    "300 700 503"
-            );
-            assertEquals(1, new Solution().partTwo(inputLines));
+        void onePossibleTriangle() {
+            final var input = """
+                101 301 501
+                102 302 502
+                300 700 503
+                """;
+            final var solution = new Solution(input);
+            assertEquals(1, solution.partTwo());
         }
         
         @Test
-        void twoPossibleTriangles()
-        {
-            List<String> inputLines = List.of(
-                    "101 301 501",
-                    "102 302 502",
-                    "300 303 503"
-            );
-            assertEquals(2, new Solution().partTwo(inputLines));
+        void twoPossibleTriangles() {
+            final var input = """
+                101 301 501
+                102 302 502
+                300 303 503
+                """;
+            final var solution = new Solution(input);
+            assertEquals(2, solution.partTwo());
         }
         
         @Test
-        void threePossibleTriangles()
-        {
-            List<String> inputLines = List.of(
-                    "101 301 501",
-                    "102 302 502",
-                    "103 303 503"
-            );
-            assertEquals(3, new Solution().partTwo(inputLines));
+        void threePossibleTriangles() {
+            final var input = """
+                101 301 501
+                102 302 502
+                103 303 503
+                """;
+            final var solution = new Solution(input);
+            assertEquals(3, solution.partTwo());
         }
     }
 }
