@@ -3,15 +3,26 @@ package aoc.event.year2015.day03.perfectlySphericalHousesInAVacuum;
 import aoc.Runner;
 import aoc.Solver;
 
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
 
 public class Solution implements Solver {
     
-    private final String line;
+    private final List<Direction> directions;
     
     public Solution(String input) {
-        line = input;
+        directions = Collections.unmodifiableList(parse(input));
+    }
+    
+    private static List<Direction> parse(String input) {
+        final var directions = new ArrayList<Direction>();
+        
+        for (int i = 0; i < input.length(); i++) {
+            final var character = input.charAt(i);
+            final var direction = Direction.of(character);
+            directions.add(direction);
+        }
+        
+        return directions;
     }
     
     /// @return the number of houses that received at least one present.
@@ -23,8 +34,8 @@ public class Solution implements Solver {
         previous.add(current);
         var visited = 1;
         
-        for (var i = 0; i < line.length(); i++) {
-            updatePosition(current, line.charAt(i));
+        for (final var direction : directions) {
+            current.increment(direction);
             
             if (!previous.contains(current)) {
                 previous.add(Position.copyOf(current));
@@ -33,19 +44,6 @@ public class Solution implements Solver {
         }
         
         return visited;
-    }
-    
-    /// Moves `position` one unit in the given direction.
-    ///
-    /// @param position  a given position.
-    /// @param direction the direction the position be moved in.
-    private static void updatePosition(Position position, char direction) {
-        switch (direction) {
-            case '>' -> position.x++;
-            case '<' -> position.x--;
-            case '^' -> position.y++;
-            case 'v' -> position.y--;
-        }
     }
     
     /// @return the number of houses that received at least one present.
@@ -58,16 +56,18 @@ public class Solution implements Solver {
         previous.add(santa);
         var visited = 1;
         
-        for (var i = 0; i < line.length(); i++) {
+        for (int i = 0; i < directions.size(); i++) {
+            final var direction = directions.get(i);
+            
             if (isEven(i)) {
-                updatePosition(santa, line.charAt(i));
+                santa.increment(direction);
                 
                 if (!previous.contains(santa)) {
                     previous.add(Position.copyOf(santa));
                     visited++;
                 }
             } else {
-                updatePosition(robot, line.charAt(i));
+                robot.increment(direction);
                 
                 if (!previous.contains(robot)) {
                     previous.add(Position.copyOf(robot));
@@ -88,6 +88,7 @@ public class Solution implements Solver {
     }
     
     private static class Position {
+        
         int x;
         int y;
         
@@ -101,10 +102,6 @@ public class Solution implements Solver {
             this.y = y;
         }
         
-        private static Position copyOf(Position position) {
-            return new Position(position.x, position.y);
-        }
-        
         @Override
         public boolean equals(Object o) {
             if (!(o instanceof Position position)) return false;
@@ -114,6 +111,39 @@ public class Solution implements Solver {
         @Override
         public int hashCode() {
             return Objects.hash(x, y);
+        }
+        
+        /// Moves `position` one unit in the given direction.
+        ///
+        /// @param direction the direction the position be moved in.
+        private void increment(Direction direction) {
+            switch (direction) {
+                case UP -> y++;
+                case DOWN -> y--;
+                case LEFT -> x--;
+                case RIGHT -> x++;
+            }
+        }
+        
+        private static Position copyOf(Position position) {
+            return new Position(position.x, position.y);
+        }
+    }
+    
+    private enum Direction {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT;
+        
+        private static Direction of(char character) {
+            return switch (character) {
+                case '^' -> UP;
+                case 'v' -> DOWN;
+                case '<' -> LEFT;
+                case '>' -> RIGHT;
+                default -> throw new IllegalArgumentException("Unexpected value: " + character);
+            };
         }
     }
     
