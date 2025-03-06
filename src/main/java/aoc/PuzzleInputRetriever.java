@@ -9,8 +9,8 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class PuzzleInputRetriever
-{
+public class PuzzleInputRetriever {
+    
     /// Retrieves the puzzle input.
     ///
     /// The puzzle input is retrieved from local storage if present. If the puzzle is not present,
@@ -19,12 +19,10 @@ public class PuzzleInputRetriever
     ///
     /// @param puzzle the puzzle.
     /// @return the puzzle input.
-    public static String retrievePuzzleInput(Puzzle puzzle)
-    {
+    public static String retrievePuzzleInput(Puzzle puzzle) {
         Path inputFilePath = getInputFilePath(puzzle);
         
-        if (!Files.exists(inputFilePath))
-        {
+        if (!Files.exists(inputFilePath)) {
             String puzzleInput = getPuzzleInputFromWebsite(puzzle);
             storePuzzleInput(inputFilePath, puzzleInput);
         }
@@ -36,12 +34,11 @@ public class PuzzleInputRetriever
     ///
     /// @param puzzle the puzzle.
     /// @return the file path of the input file.
-    private static Path getInputFilePath(Puzzle puzzle)
-    {
+    private static Path getInputFilePath(Puzzle puzzle) {
         String inputFileString = String.format(
-                "input/year%d/day%s.txt",
-                puzzle.year(),
-                puzzle.getDayWithPadding()
+            "input/year%d/day%s.txt",
+            puzzle.year(),
+            puzzle.getDayWithPadding()
         );
         
         return Path.of(inputFileString);
@@ -55,14 +52,10 @@ public class PuzzleInputRetriever
     /// visiting the advent of code page while logged in.
     ///
     /// @return the session id.
-    private static String retrieveSessionId()
-    {
-        try
-        {
+    private static String retrieveSessionId() {
+        try {
             return Files.readString(Path.of("session.txt"));
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -74,43 +67,36 @@ public class PuzzleInputRetriever
     ///
     /// @param puzzle the puzzle.
     /// @return the puzzle input.
-    private static String getPuzzleInputFromWebsite(Puzzle puzzle)
-    {
+    private static String getPuzzleInputFromWebsite(Puzzle puzzle) {
         String inputURL = String.format(
-                "https://adventofcode.com/%d/day/%d/input",
-                puzzle.year(),
-                puzzle.day()
+            "https://adventofcode.com/%d/day/%d/input",
+            puzzle.year(),
+            puzzle.day()
         );
         
         String userAgent = "github.com/Sei-Jin/Advent-of-Code by seijin.tufts@gmail.com";
         
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(inputURL))
-                .header("User-Agent", userAgent)
-                .header("Cookie", "session=" + retrieveSessionId())
-                .GET()
-                .build();
+            .uri(URI.create(inputURL))
+            .header("User-Agent", userAgent)
+            .header("Cookie", "session=" + retrieveSessionId())
+            .GET()
+            .build();
         
         HttpClient httpClient = HttpClient.newBuilder()
-                .build();
+            .build();
         
         HttpResponse<String> httpResponse;
         
-        try
-        {
+        try {
             httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-        }
-        catch (IOException | InterruptedException e)
-        {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
         
-        if (httpResponse.statusCode() != 200)
-        {
+        if (httpResponse.statusCode() != 200) {
             throw new IllegalStateException("Error: Bad Request to website.");
-        }
-        else
-        {
+        } else {
             System.out.println("Successfully retrieved the puzzle input from: " + inputURL);
         }
         
@@ -120,26 +106,19 @@ public class PuzzleInputRetriever
     /// Writes the puzzle input to a text file.
     ///
     /// @param inputFilePath the path to the puzzle input.
-    /// @param puzzleInput the puzzle input.
-    private static void storePuzzleInput(Path inputFilePath, String puzzleInput)
-    {
-        try
-        {
+    /// @param puzzleInput   the puzzle input.
+    private static void storePuzzleInput(Path inputFilePath, String puzzleInput) {
+        try {
             Files.createFile(inputFilePath);
             System.out.println("Created file: " + inputFilePath.toAbsolutePath());
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
         
-        try (FileWriter fileWriter = new FileWriter(inputFilePath.toAbsolutePath().toString()))
-        {
+        try (FileWriter fileWriter = new FileWriter(inputFilePath.toAbsolutePath().toString())) {
             fileWriter.write(puzzleInput);
             System.out.println("Wrote to file: " + inputFilePath.toAbsolutePath());
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -148,14 +127,10 @@ public class PuzzleInputRetriever
     ///
     /// @param fileInputPath the path to the puzzle input.
     /// @return the puzzle input.
-    private static String getPuzzleInputFromLocalStorage(Path fileInputPath)
-    {
-        try
-        {
+    private static String getPuzzleInputFromLocalStorage(Path fileInputPath) {
+        try {
             return Files.readString(fileInputPath).stripTrailing();
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             throw new RuntimeException("Failed to read the file: " + e);
         }
     }

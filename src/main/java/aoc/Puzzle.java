@@ -5,16 +5,15 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Objects;
 
-public record Puzzle(int year, int day)
-{
+public record Puzzle(int year, int day) {
+    
     /// Determines the classpath of the puzzle solution.
     ///
     /// First, the name of the puzzle must be determined. Only after the puzzle name has been
     /// determined can the full classpath be determined.
     ///
     /// @return the classpath of the puzzle solution.
-    String determineClassPath()
-    {
+    String determineClassPath() {
         String outerPath = "src/main/java/";
         String innerPath = String.format("aoc/event/year%d/day%s/", year, getDayWithPadding());
         String totalPath = outerPath + innerPath;
@@ -22,9 +21,9 @@ public record Puzzle(int year, int day)
         File dayPackage = new File(Path.of(totalPath).toAbsolutePath().toString());
         
         String puzzleName = Arrays.stream(Objects.requireNonNull(dayPackage.listFiles()))
-                .toList()
-                .getFirst()
-                .getName();
+            .toList()
+            .getFirst()
+            .getName();
         
         String dayPackageName = innerPath.replace('/', '.');
         
@@ -37,16 +36,12 @@ public record Puzzle(int year, int day)
     /// digits of space.
     ///
     /// @return the padded day value.
-    public String getDayWithPadding()
-    {
+    public String getDayWithPadding() {
         boolean singleDigitDay = (day < 10);
         
-        if (singleDigitDay)
-        {
+        if (singleDigitDay) {
             return "0" + day;
-        }
-        else
-        {
+        } else {
             return String.valueOf(day);
         }
     }
