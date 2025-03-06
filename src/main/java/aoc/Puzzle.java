@@ -14,18 +14,18 @@ public record Puzzle(int year, int day) {
     ///
     /// @return the classpath of the puzzle solution.
     public String determineClassPath() {
-        String outerPath = "src/main/java/";
-        String innerPath = String.format("aoc/event/year%d/day%s/", year, getDayWithPadding());
-        String totalPath = outerPath + innerPath;
+        final var outerPath = "src/main/java/";
+        final var innerPath = String.format("aoc/event/year%d/day%s/", year, getDayWithPadding());
+        final var totalPath = outerPath + innerPath;
         
-        File dayPackage = new File(Path.of(totalPath).toAbsolutePath().toString());
+        final var dayPackage = new File(Path.of(totalPath).toAbsolutePath().toString());
         
-        String puzzleName = Arrays.stream(Objects.requireNonNull(dayPackage.listFiles()))
+        final var puzzleName = Arrays.stream(Objects.requireNonNull(dayPackage.listFiles()))
             .toList()
             .getFirst()
             .getName();
         
-        String dayPackageName = innerPath.replace('/', '.');
+        final var dayPackageName = innerPath.replace('/', '.');
         
         return String.format("%s%s.Solution", dayPackageName, puzzleName);
     }
@@ -37,7 +37,7 @@ public record Puzzle(int year, int day) {
     ///
     /// @return the padded day value.
     public String getDayWithPadding() {
-        boolean singleDigitDay = (day < 10);
+        final var singleDigitDay = (day < 10);
         
         if (singleDigitDay) {
             return "0" + day;
