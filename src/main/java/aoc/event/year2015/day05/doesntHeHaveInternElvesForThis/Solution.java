@@ -1,18 +1,24 @@
 package aoc.event.year2015.day05.doesntHeHaveInternElvesForThis;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
 import java.util.List;
 
-public class Solution implements DeprecatedSolver {
+public class Solution implements Solver {
     
-    /// @param inputLines the puzzle input
+    private final List<String> lines;
+    
+    public Solution(String input) {
+        lines = input.lines().toList();
+    }
+    
     /// @return the total number of nice strings.
     @Override
-    public Object partOne(List<String> inputLines) {
+    public Integer partOne() {
         int totalNiceStrings = 0;
         
-        for (String line : inputLines) {
+        for (final var line : lines) {
             boolean niceString = line.matches("^([^aeiou]*[aeiou]){3,}[^aeiou]*$");
             
             // The line must contain at least 3 vowels (aeiou only)
@@ -35,13 +41,12 @@ public class Solution implements DeprecatedSolver {
         return totalNiceStrings;
     }
     
-    /// @param inputLines the puzzle input.
     /// @return the total number of nice strings under the new rules.
     @Override
-    public Object partTwo(List<String> inputLines) {
+    public Integer partTwo() {
         int totalNiceStrings = 0;
         
-        for (String line : inputLines) {
+        for (final var line : lines) {
             boolean niceString = line.matches("^.*([a-z]{2}).*\\1.*$");
             
             // The line contains a pair of any two letters that appears at least twice in the string without overlapping
@@ -57,5 +62,9 @@ public class Solution implements DeprecatedSolver {
         }
         
         return totalNiceStrings;
+    }
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2015, 5);
     }
 }
