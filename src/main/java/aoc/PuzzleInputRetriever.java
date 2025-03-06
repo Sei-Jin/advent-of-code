@@ -20,10 +20,10 @@ public class PuzzleInputRetriever {
     /// @param puzzle the puzzle.
     /// @return the puzzle input.
     public static String retrievePuzzleInput(Puzzle puzzle) {
-        Path inputFilePath = getInputFilePath(puzzle);
+        final var inputFilePath = getInputFilePath(puzzle);
         
         if (!Files.exists(inputFilePath)) {
-            String puzzleInput = getPuzzleInputFromWebsite(puzzle);
+            final var puzzleInput = getPuzzleInputFromWebsite(puzzle);
             storePuzzleInput(inputFilePath, puzzleInput);
         }
         
@@ -35,7 +35,7 @@ public class PuzzleInputRetriever {
     /// @param puzzle the puzzle.
     /// @return the file path of the input file.
     private static Path getInputFilePath(Puzzle puzzle) {
-        String inputFileString = String.format(
+        final var inputFileString = String.format(
             "input/year%d/day%s.txt",
             puzzle.year(),
             puzzle.getDayWithPadding()
@@ -68,25 +68,25 @@ public class PuzzleInputRetriever {
     /// @param puzzle the puzzle.
     /// @return the puzzle input.
     private static String getPuzzleInputFromWebsite(Puzzle puzzle) {
-        String inputURL = String.format(
+        final var inputURL = String.format(
             "https://adventofcode.com/%d/day/%d/input",
             puzzle.year(),
             puzzle.day()
         );
         
-        String userAgent = "github.com/Sei-Jin/Advent-of-Code by seijin.tufts@gmail.com";
+        final var userAgent = "github.com/Sei-Jin/Advent-of-Code by seijin.tufts@gmail.com";
         
-        HttpRequest request = HttpRequest.newBuilder()
+        final var request = HttpRequest.newBuilder()
             .uri(URI.create(inputURL))
             .header("User-Agent", userAgent)
             .header("Cookie", "session=" + retrieveSessionId())
             .GET()
             .build();
         
-        HttpClient httpClient = HttpClient.newBuilder()
+        final var httpClient = HttpClient.newBuilder()
             .build();
         
-        HttpResponse<String> httpResponse;
+        final HttpResponse<String> httpResponse;
         
         try {
             httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -115,7 +115,7 @@ public class PuzzleInputRetriever {
             throw new RuntimeException(e);
         }
         
-        try (FileWriter fileWriter = new FileWriter(inputFilePath.toAbsolutePath().toString())) {
+        try (final var fileWriter = new FileWriter(inputFilePath.toAbsolutePath().toString())) {
             fileWriter.write(puzzleInput);
             System.out.println("Wrote to file: " + inputFilePath.toAbsolutePath());
         } catch (IOException e) {
