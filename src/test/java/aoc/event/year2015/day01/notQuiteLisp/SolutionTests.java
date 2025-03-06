@@ -8,11 +8,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
-{
+public class SolutionTests {
+    
     @Test
-    void ascendThenDescendSameAmount()
-    {
+    void ascendThenDescendSameAmount() {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("(())");
         Assertions.assertEquals(0, new Solution().partOne(inputLines));
@@ -20,8 +19,7 @@ public class SolutionTests
     }
     
     @Test
-    void loopingBetweenTwoFloors()
-    {
+    void loopingBetweenTwoFloors() {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("()()()()()");
         assertEquals(0, new Solution().partOne(inputLines));
@@ -29,8 +27,7 @@ public class SolutionTests
     }
     
     @Test
-    void onlyAscending()
-    {
+    void onlyAscending() {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("(((");
         assertEquals(3, new Solution().partOne(inputLines));
@@ -38,8 +35,7 @@ public class SolutionTests
     }
     
     @Test
-    void onlyDescending()
-    {
+    void onlyDescending() {
         List<String> inputLines = new ArrayList<>();
         inputLines.add(")))");
         assertEquals(-3, new Solution().partOne(inputLines));
@@ -47,8 +43,7 @@ public class SolutionTests
     }
     
     @Test
-    void ascendingWithLoops()
-    {
+    void ascendingWithLoops() {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("(()(()(");
         assertEquals(3, new Solution().partOne(inputLines));
@@ -56,8 +51,7 @@ public class SolutionTests
     }
     
     @Test
-    void descendingWithLoops()
-    {
+    void descendingWithLoops() {
         List<String> inputLines = new ArrayList<>();
         inputLines.add(")())())");
         assertEquals(-3, new Solution().partOne(inputLines));
@@ -65,8 +59,7 @@ public class SolutionTests
     }
     
     @Test
-    void descendThenSharpAscend()
-    {
+    void descendThenSharpAscend() {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("))(((((");
         assertEquals(3, new Solution().partOne(inputLines));
@@ -74,8 +67,7 @@ public class SolutionTests
     }
     
     @Test
-    void ascendThenSlightDescend()
-    {
+    void ascendThenSlightDescend() {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("())");
         assertEquals(-1, new Solution().partOne(inputLines));
@@ -83,8 +75,7 @@ public class SolutionTests
     }
     
     @Test
-    void descendThenSlightAscend()
-    {
+    void descendThenSlightAscend() {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("))(");
         assertEquals(-1, new Solution().partOne(inputLines));
@@ -92,8 +83,7 @@ public class SolutionTests
     }
     
     @Test
-    void immediateDescent()
-    {
+    void immediateDescent() {
         List<String> inputLines = new ArrayList<>();
         inputLines.add(")");
         assertEquals(-1, new Solution().partOne(inputLines));
@@ -101,8 +91,7 @@ public class SolutionTests
     }
     
     @Test
-    void loopingThenDescend()
-    {
+    void loopingThenDescend() {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("()())");
         assertEquals(-1, new Solution().partOne(inputLines));
