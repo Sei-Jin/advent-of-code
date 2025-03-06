@@ -46,7 +46,7 @@ public class Solution implements Solver {
     }
     
     @Override
-    public Object partOne() {
+    public String partOne() {
         final var messageBuilder = new StringBuilder();
         
         for (final var list : characterLists) {
@@ -66,7 +66,7 @@ public class Solution implements Solver {
     }
     
     @Override
-    public Object partTwo() {
+    public String partTwo() {
         final var messageBuilder = new StringBuilder();
         
         for (final var list : characterLists) {
