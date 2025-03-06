@@ -13,7 +13,7 @@ public record Puzzle(int year, int day) {
     /// determined can the full classpath be determined.
     ///
     /// @return the classpath of the puzzle solution.
-    String determineClassPath() {
+    public String determineClassPath() {
         String outerPath = "src/main/java/";
         String innerPath = String.format("aoc/event/year%d/day%s/", year, getDayWithPadding());
         String totalPath = outerPath + innerPath;
