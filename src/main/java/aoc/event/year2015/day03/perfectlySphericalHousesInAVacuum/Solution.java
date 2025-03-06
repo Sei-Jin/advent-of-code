@@ -3,8 +3,8 @@ package aoc.event.year2015.day03.perfectlySphericalHousesInAVacuum;
 import aoc.Runner;
 import aoc.Solver;
 
-import java.awt.*;
 import java.util.HashSet;
+import java.util.Objects;
 
 public class Solution implements Solver {
     
@@ -17,18 +17,18 @@ public class Solution implements Solver {
     /// @return the number of houses that received at least one present.
     @Override
     public Integer partOne() {
-        Point currentPosition = new Point();
+        Position currentPosition = new Position();
         
-        HashSet<String> previousPositions = new HashSet<>();
+        HashSet<Position> previousPositions = new HashSet<>();
         
-        previousPositions.add(currentPosition.toString());
+        previousPositions.add(currentPosition);
         int uniqueHousesVisited = 1;
         
         for (int index = 0; index < line.length(); index++) {
             updatePosition(currentPosition, line.charAt(index));
             
-            if (!previousPositions.contains(currentPosition.toString())) {
-                previousPositions.add(currentPosition.toString());
+            if (!previousPositions.contains(currentPosition)) {
+                previousPositions.add(Position.of(currentPosition));
                 uniqueHousesVisited++;
             }
         }
@@ -40,7 +40,7 @@ public class Solution implements Solver {
     ///
     /// @param position  a given position.
     /// @param direction the direction the position be moved in.
-    private static void updatePosition(Point position, char direction) {
+    private static void updatePosition(Position position, char direction) {
         switch (direction) {
             case '>' -> position.x++;
             case '<' -> position.x--;
@@ -52,27 +52,27 @@ public class Solution implements Solver {
     /// @return the number of houses that received at least one present.
     @Override
     public Integer partTwo() {
-        Point currentPositionSanta = new Point();
-        Point currentPositionRobot = new Point();
+        Position currentPositionSanta = new Position();
+        Position currentPositionRobot = new Position();
         
-        HashSet<String> previousPositions = new HashSet<>();
+        HashSet<Position> previousPositions = new HashSet<>();
         
-        previousPositions.add(currentPositionSanta.toString());
+        previousPositions.add(currentPositionSanta);
         int uniqueHousesVisited = 1;
         
         for (int index = 0; index < line.length(); index++) {
             if (isEven(index)) {
                 updatePosition(currentPositionSanta, line.charAt(index));
                 
-                if (!previousPositions.contains(currentPositionSanta.toString())) {
-                    previousPositions.add(currentPositionSanta.toString());
+                if (!previousPositions.contains(currentPositionSanta)) {
+                    previousPositions.add(Position.of(currentPositionSanta));
                     uniqueHousesVisited++;
                 }
             } else {
                 updatePosition(currentPositionRobot, line.charAt(index));
                 
-                if (!previousPositions.contains(currentPositionRobot.toString())) {
-                    previousPositions.add(currentPositionRobot.toString());
+                if (!previousPositions.contains(currentPositionRobot)) {
+                    previousPositions.add(Position.of(currentPositionRobot));
                     uniqueHousesVisited++;
                 }
             }
@@ -87,6 +87,36 @@ public class Solution implements Solver {
     /// @return true if the number is even, or false otherwise.
     private static boolean isEven(int index) {
         return index % 2 == 0;
+    }
+    
+    private static class Position {
+        int x;
+        int y;
+        
+        private Position() {
+            this.x = 0;
+            this.y = 0;
+        }
+        
+        private Position(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+        
+        private static Position of(Position position) {
+            return new Position(position.x, position.y);
+        }
+        
+        @Override
+        public boolean equals(Object o) {
+            if (!(o instanceof Position position)) return false;
+            return x == position.x && y == position.y;
+        }
+        
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
     }
     
     public static void main(String[] args) {
