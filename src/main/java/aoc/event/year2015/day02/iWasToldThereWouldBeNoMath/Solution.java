@@ -37,15 +37,15 @@ public class Solution implements Solver {
     /// @return the total square feet of wrapping paper the elves should order.
     @Override
     public Integer partOne() {
-        int totalArea = 0;
+        var totalArea = 0;
         
         for (final var box : boxes) {
-            int area1 = box.length * box.width;
-            int area2 = box.width * box.height;
-            int area3 = box.height * box.length;
+            final var area1 = box.length * box.width;
+            final var area2 = box.width * box.height;
+            final var area3 = box.height * box.length;
             
-            int minArea = Integer.min(Integer.min(area1, area2), area3);
-            int presentArea = 2 * (area1 + area2 + area3) + minArea;
+            final var minArea = Integer.min(Integer.min(area1, area2), area3);
+            final var presentArea = 2 * (area1 + area2 + area3) + minArea;
             
             totalArea += presentArea;
         }
@@ -56,10 +56,10 @@ public class Solution implements Solver {
     /// @return the total length of ribbon in feet the elves should order.
     @Override
     public Integer partTwo() {
-        int totalRibbonLength = 0;
+        var totalRibbonLength = 0;
         
         for (final var box : boxes) {
-            List<Integer> sideLengths = new ArrayList<>();
+            final var sideLengths = new ArrayList<Integer>();
             
             sideLengths.add(box.length);
             sideLengths.add(box.width);
@@ -67,8 +67,8 @@ public class Solution implements Solver {
             
             Collections.sort(sideLengths);
             
-            int wrapLength = 2 * (sideLengths.get(0) + sideLengths.get(1));
-            int bowLength = box.length * box.width * box.height;
+            final var wrapLength = 2 * (sideLengths.get(0) + sideLengths.get(1));
+            final var bowLength = box.length * box.width * box.height;
             
             totalRibbonLength += wrapLength + bowLength;
         }
