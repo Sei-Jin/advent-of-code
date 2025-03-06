@@ -1,21 +1,23 @@
 package aoc.event.year2015.day01.notQuiteLisp;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
-import java.util.List;
-
-public class Solution implements DeprecatedSolver {
+public class Solution implements Solver {
     
-    /// @param inputLines the puzzle input.
+    private static String line;
+    
+    public Solution(String input) {
+        line = input;
+    }
+    
     /// @return the floor level the instructions take Santa to.
     @Override
-    public Integer partOne(List<String> inputLines) {
-        String inputLine = inputLines.getFirst();
+    public Integer partOne() {
+        var floorLevel = 0;
         
-        int floorLevel = 0;
-        
-        for (int i = 0; i < inputLine.length(); i++) {
-            switch (inputLine.charAt(i)) {
+        for (var i = 0; i < line.length(); i++) {
+            switch (line.charAt(i)) {
                 case '(' -> floorLevel++;
                 case ')' -> floorLevel--;
             }
@@ -24,27 +26,27 @@ public class Solution implements DeprecatedSolver {
         return floorLevel;
     }
     
-    /// @param inputLines the puzzle input.
     /// @return the position of the character that causes Santa to first enter the basement, or -1
     /// if Santa never enters the basement.
     @Override
-    public Integer partTwo(List<String> inputLines) {
-        String inputLine = inputLines.getFirst();
+    public Integer partTwo() {
+        var floorLevel = 0;
         
-        int floorLevel = 0;
-        
-        for (int instructionNumber = 0; instructionNumber < inputLine.length(); instructionNumber++) {
-            switch (inputLine.charAt(instructionNumber)) {
+        for (var i = 0; i < line.length(); i++) {
+            switch (line.charAt(i)) {
                 case '(' -> floorLevel++;
                 case ')' -> floorLevel--;
             }
             
             if (floorLevel < 0) {
-                return instructionNumber + 1;
+                return i + 1;
             }
         }
         
-        // The basement was never entered.
         return -1;
+    }
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2015, 1);
     }
 }
