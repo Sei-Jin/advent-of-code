@@ -2,24 +2,20 @@ package aoc.event.year2015.day02.iWasToldThereWouldBeNoMath;
 
 import aoc.DeprecatedSolver;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-/**
- * --- Day 2: I Was Told There Would Be No Math ---
- */
-public class Solution implements DeprecatedSolver
-{
-    /**
-     * @param inputLines the puzzle input.
-     * @return the total square feet of wrapping paper the elves should order.
-     */
+public class Solution implements DeprecatedSolver {
+    
+    /// @param inputLines the puzzle input.
+    /// @return the total square feet of wrapping paper the elves should order.
     @Override
-    public Object partOne(List<String> inputLines)
-    {
+    public Object partOne(List<String> inputLines) {
         int totalArea = 0;
         
-        for (String line : inputLines)
-        {
+        for (String line : inputLines) {
             Box box = getBoxDimensions(line);
             
             int area1 = box.length * box.width;
@@ -35,18 +31,13 @@ public class Solution implements DeprecatedSolver
         return totalArea;
     }
     
-    
-    /**
-     * @param inputLines the puzzle input.
-     * @return the total length of ribbon in feet the elves should order.
-     */
+    /// @param inputLines the puzzle input.
+    /// @return the total length of ribbon in feet the elves should order.
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
+    public Object partTwo(List<String> inputLines) {
         int totalRibbonLength = 0;
         
-        for (String line : inputLines)
-        {
+        for (String line : inputLines) {
             Box box = getBoxDimensions(line);
             
             List<Integer> sideLengths = new ArrayList<>();
@@ -66,12 +57,10 @@ public class Solution implements DeprecatedSolver
         return totalRibbonLength;
     }
     
-    
-    private static Box getBoxDimensions(String line)
-    {
+    private static Box getBoxDimensions(String line) {
         int[] dimensions = Arrays.stream(line.split("x"))
-                .mapToInt(Integer::parseInt)
-                .toArray();
+            .mapToInt(Integer::parseInt)
+            .toArray();
         
         int length = dimensions[0];
         int width = dimensions[1];
@@ -79,7 +68,6 @@ public class Solution implements DeprecatedSolver
         
         return new Box(length, width, height);
     }
-    
     
     private record Box(int length, int width, int height) {}
 }
