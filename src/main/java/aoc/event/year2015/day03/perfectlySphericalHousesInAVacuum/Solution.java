@@ -27,7 +27,7 @@ public class Solution implements Solver {
             updatePosition(current, line.charAt(i));
             
             if (!previous.contains(current)) {
-                previous.add(Position.of(current));
+                previous.add(Position.copyOf(current));
                 visited++;
             }
         }
@@ -63,14 +63,14 @@ public class Solution implements Solver {
                 updatePosition(santa, line.charAt(i));
                 
                 if (!previous.contains(santa)) {
-                    previous.add(Position.of(santa));
+                    previous.add(Position.copyOf(santa));
                     visited++;
                 }
             } else {
                 updatePosition(robot, line.charAt(i));
                 
                 if (!previous.contains(robot)) {
-                    previous.add(Position.of(robot));
+                    previous.add(Position.copyOf(robot));
                     visited++;
                 }
             }
@@ -101,7 +101,7 @@ public class Solution implements Solver {
             this.y = y;
         }
         
-        private static Position of(Position position) {
+        private static Position copyOf(Position position) {
             return new Position(position.x, position.y);
         }
         
