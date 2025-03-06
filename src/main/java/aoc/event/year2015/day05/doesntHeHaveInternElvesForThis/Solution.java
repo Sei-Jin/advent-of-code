@@ -7,6 +7,13 @@ import java.util.List;
 
 public class Solution implements Solver {
     
+    private static final String AT_LEAST_THREE_VOWELS = "^([^aeiou]*[aeiou]){3,}[^aeiou]*$";
+    private static final String AT_LEAST_ONE_LETTER_TWICE_IN_A_ROW = "^.*([a-z])\\1.*$";
+    private static final String INVALID_SEQUENCES = "^(?:(?!ab|cd|pq|xy).)*$";
+    private static final String DUPLICATE_PAIRS = "^.*([a-z]{2}).*\\1.*$";
+    private static final String AT_LEAST_ONE_LETTER_REPEATING_WITH_ONE_LETTER_INBETWEEN =
+        "^.*([a-z]).\\1.*$";
+    
     private final List<String> lines;
     
     public Solution(String input) {
@@ -19,17 +26,13 @@ public class Solution implements Solver {
         int totalNiceStrings = 0;
         
         for (final var line : lines) {
-            boolean niceString = line.matches("^([^aeiou]*[aeiou]){3,}[^aeiou]*$");
+            boolean niceString = line.matches(AT_LEAST_THREE_VOWELS);
             
-            // The line must contain at least 3 vowels (aeiou only)
-            
-            // The line must contain at least one letter that appears twice in a row
-            if (!line.matches("^.*([a-z])\\1.*$")) {
+            if (!line.matches(AT_LEAST_ONE_LETTER_TWICE_IN_A_ROW)) {
                 niceString = false;
             }
             
-            // The line cannot contain the strings "ab", "cd", "pq", and "xy"
-            if (!line.matches("^(?:(?!ab|cd|pq|xy).)*$")) {
+            if (!line.matches(INVALID_SEQUENCES)) {
                 niceString = false;
             }
             
@@ -47,12 +50,9 @@ public class Solution implements Solver {
         int totalNiceStrings = 0;
         
         for (final var line : lines) {
-            boolean niceString = line.matches("^.*([a-z]{2}).*\\1.*$");
+            boolean niceString = line.matches(DUPLICATE_PAIRS);
             
-            // The line contains a pair of any two letters that appears at least twice in the string without overlapping
-            
-            // The line contains at least one letter that repeats with exactly 1 letter between them
-            if (!line.matches("^.*([a-z]).\\1.*$")) {
+            if (!line.matches(AT_LEAST_ONE_LETTER_REPEATING_WITH_ONE_LETTER_INBETWEEN)) {
                 niceString = false;
             }
             
