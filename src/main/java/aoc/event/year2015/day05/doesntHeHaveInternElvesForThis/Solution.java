@@ -23,10 +23,10 @@ public class Solution implements Solver {
     /// @return the total number of nice strings.
     @Override
     public Integer partOne() {
-        int totalNiceStrings = 0;
+        var totalNiceStrings = 0;
         
         for (final var line : lines) {
-            boolean niceString = line.matches(AT_LEAST_THREE_VOWELS);
+            var niceString = line.matches(AT_LEAST_THREE_VOWELS);
             
             if (!line.matches(AT_LEAST_ONE_LETTER_TWICE_IN_A_ROW)) {
                 niceString = false;
@@ -47,10 +47,10 @@ public class Solution implements Solver {
     /// @return the total number of nice strings under the new rules.
     @Override
     public Integer partTwo() {
-        int totalNiceStrings = 0;
+        var totalNiceStrings = 0;
         
         for (final var line : lines) {
-            boolean niceString = line.matches(DUPLICATE_PAIRS);
+            var niceString = line.matches(DUPLICATE_PAIRS);
             
             if (!line.matches(AT_LEAST_ONE_LETTER_REPEATING_WITH_ONE_LETTER_INBETWEEN)) {
                 niceString = false;
