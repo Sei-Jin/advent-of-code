@@ -3,98 +3,95 @@ package aoc.event.year2015.day01.notQuiteLisp;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SolutionTests {
     
     @Test
     void ascendThenDescendSameAmount() {
-        List<String> inputLines = new ArrayList<>();
-        inputLines.add("(())");
-        Assertions.assertEquals(0, new Solution().partOne(inputLines));
-        Assertions.assertEquals(-1, new Solution().partTwo(inputLines));
+        final var input = "(())";
+        final var solution = new Solution(input);
+        Assertions.assertEquals(0, solution.partOne());
+        Assertions.assertEquals(-1, solution.partTwo());
     }
     
     @Test
     void loopingBetweenTwoFloors() {
-        List<String> inputLines = new ArrayList<>();
-        inputLines.add("()()()()()");
-        assertEquals(0, new Solution().partOne(inputLines));
-        assertEquals(-1, new Solution().partTwo(inputLines));
+        final var input = "()()()()()";
+        final var solution = new Solution(input);
+        assertEquals(0, solution.partOne());
+        assertEquals(-1, solution.partTwo());
     }
     
     @Test
     void onlyAscending() {
-        List<String> inputLines = new ArrayList<>();
-        inputLines.add("(((");
-        assertEquals(3, new Solution().partOne(inputLines));
-        assertEquals(-1, new Solution().partTwo(inputLines));
+        final var input = "(((";
+        final var solution = new Solution(input);
+        assertEquals(3, solution.partOne());
+        assertEquals(-1, solution.partTwo());
     }
     
     @Test
     void onlyDescending() {
-        List<String> inputLines = new ArrayList<>();
-        inputLines.add(")))");
-        assertEquals(-3, new Solution().partOne(inputLines));
-        assertEquals(1, new Solution().partTwo(inputLines));
+        final var input = ")))";
+        final var solution = new Solution(input);
+        assertEquals(-3, solution.partOne());
+        assertEquals(1, solution.partTwo());
     }
     
     @Test
     void ascendingWithLoops() {
-        List<String> inputLines = new ArrayList<>();
-        inputLines.add("(()(()(");
-        assertEquals(3, new Solution().partOne(inputLines));
-        assertEquals(-1, new Solution().partTwo(inputLines));
+        final var input = "(()(()(";
+        final var solution = new Solution(input);
+        assertEquals(3, solution.partOne());
+        assertEquals(-1, solution.partTwo());
     }
     
     @Test
     void descendingWithLoops() {
-        List<String> inputLines = new ArrayList<>();
-        inputLines.add(")())())");
-        assertEquals(-3, new Solution().partOne(inputLines));
-        assertEquals(1, new Solution().partTwo(inputLines));
+        final var input = ")())())";
+        final var solution = new Solution(input);
+        assertEquals(-3, solution.partOne());
+        assertEquals(1, solution.partTwo());
     }
     
     @Test
     void descendThenSharpAscend() {
-        List<String> inputLines = new ArrayList<>();
-        inputLines.add("))(((((");
-        assertEquals(3, new Solution().partOne(inputLines));
-        assertEquals(1, new Solution().partTwo(inputLines));
+        final var input = "))(((((";
+        final var solution = new Solution(input);
+        assertEquals(3, solution.partOne());
+        assertEquals(1, solution.partTwo());
     }
     
     @Test
     void ascendThenSlightDescend() {
-        List<String> inputLines = new ArrayList<>();
-        inputLines.add("())");
-        assertEquals(-1, new Solution().partOne(inputLines));
-        assertEquals(3, new Solution().partTwo(inputLines));
+        final var input = "())";
+        final var solution = new Solution(input);
+        assertEquals(-1, solution.partOne());
+        assertEquals(3, solution.partTwo());
     }
     
     @Test
     void descendThenSlightAscend() {
-        List<String> inputLines = new ArrayList<>();
-        inputLines.add("))(");
-        assertEquals(-1, new Solution().partOne(inputLines));
-        assertEquals(1, new Solution().partTwo(inputLines));
+        final var input = "))(";
+        final var solution = new Solution(input);
+        assertEquals(-1, solution.partOne());
+        assertEquals(1, solution.partTwo());
     }
     
     @Test
     void immediateDescent() {
-        List<String> inputLines = new ArrayList<>();
-        inputLines.add(")");
-        assertEquals(-1, new Solution().partOne(inputLines));
-        assertEquals(1, new Solution().partTwo(inputLines));
+        final var input = ")";
+        final var solution = new Solution(input);
+        assertEquals(-1, solution.partOne());
+        assertEquals(1, solution.partTwo());
     }
     
     @Test
     void loopingThenDescend() {
-        List<String> inputLines = new ArrayList<>();
-        inputLines.add("()())");
-        assertEquals(-1, new Solution().partOne(inputLines));
-        assertEquals(5, new Solution().partTwo(inputLines));
+        final var input = "()())";
+        final var solution = new Solution(input);
+        assertEquals(-1, solution.partOne());
+        assertEquals(5, solution.partTwo());
     }
 }
