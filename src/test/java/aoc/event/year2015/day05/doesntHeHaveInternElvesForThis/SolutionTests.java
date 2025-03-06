@@ -8,76 +8,66 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
-{
+public class SolutionTests {
+    
     @Nested
-    class PartOne
-    {
+    class PartOne {
+        
         @Test
-        void allThreeRules()
-        {
+        void allThreeRules() {
             List<String> inputLines = new ArrayList<>();
             inputLines.add("ugknbfddgicrmopn");
             assertEquals(1, new Solution().partOne(inputLines));
         }
         
         @Test
-        void allThreeRulesOverlapping()
-        {
+        void allThreeRulesOverlapping() {
             List<String> inputLines = new ArrayList<>();
             inputLines.add("aaa");
             assertEquals(1, new Solution().partOne(inputLines));
         }
         
         @Test
-        void noDoubleLetter()
-        {
+        void noDoubleLetter() {
             List<String> inputLines = new ArrayList<>();
             inputLines.add("jchzalrnumimnmhp");
             assertEquals(0, new Solution().partOne(inputLines));
         }
         
         @Test
-        void disallowedSubstring()
-        {
+        void disallowedSubstring() {
             List<String> inputLines = new ArrayList<>();
             inputLines.add("haegwjzuvuyypxyu");
             assertEquals(0, new Solution().partOne(inputLines));
         }
         
         @Test
-        void onlyOneVowel()
-        {
+        void onlyOneVowel() {
             List<String> inputLines = new ArrayList<>();
             inputLines.add("dvszwmarrgswjxmb");
             assertEquals(0, new Solution().partOne(inputLines));
         }
-        
     }
     
-    
     @Nested
-    class PartTwo
-    {
+    class PartTwo {
+        
         @Test
-        void repeatingPairAndRepeatingLetterWithOneLetterBetween()
-        {
+        void repeatingPairAndRepeatingLetterWithOneLetterBetween() {
             List<String> inputLines = new ArrayList<>();
             inputLines.add("qjhvhtzxzqqjkmpb");
             assertEquals(1, new Solution().partTwo(inputLines));
         }
         
         @Test
-        void repeatingPair()
-        {
+        void repeatingPair() {
             List<String> inputLines = new ArrayList<>();
             inputLines.add("uurcxstgmygtbstg");
             assertEquals(0, new Solution().partTwo(inputLines));
         }
         
         @Test
-        void repeatingLetterWithOneLetterBetween()
-        {
+        void repeatingLetterWithOneLetterBetween() {
             List<String> inputLines = new ArrayList<>();
             inputLines.add("ieodomkazucvgmuy");
             assertEquals(0, new Solution().partTwo(inputLines));
