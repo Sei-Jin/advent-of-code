@@ -4,11 +4,13 @@ import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class Solution implements Solver {
+    
+    private static final Pattern NUMBER_PATTERN = Pattern.compile("^(\\d+)x(\\d+)x(\\d+)$");
     
     private final List<Box> boxes;
     
@@ -20,15 +22,15 @@ public class Solution implements Solver {
         final var boxes = new ArrayList<Box>();
         
         for (final var line : input.lines().toList()) {
-            final var dimensions = Arrays.stream(line.split("x"))
-                .mapToInt(Integer::parseInt)
-                .toArray();
+            final var matcher = NUMBER_PATTERN.matcher(line);
             
-            final var length = dimensions[0];
-            final var width = dimensions[1];
-            final var height = dimensions[2];
-            
-            boxes.add(new Box(length, width, height));
+            if (matcher.find()) {
+                final var length = Integer.parseInt(matcher.group(1));
+                final var width = Integer.parseInt(matcher.group(2));
+                final var height = Integer.parseInt(matcher.group(3));
+                
+                boxes.add(new Box(length, width, height));
+            }
         }
         
         return boxes;
