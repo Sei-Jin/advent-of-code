@@ -14,6 +14,8 @@ public class InputRetriever {
     private static final String USER_AGENT =
         "github.com/Sei-Jin/Advent-of-Code by seijin.tufts@gmail.com";
     
+    private static final String SESSION_FILENAME = "session.txt";
+    
     /// Retrieves the puzzle input.
     ///
     /// The puzzle input is retrieved from local storage if present. If the puzzle is not present,
@@ -57,7 +59,7 @@ public class InputRetriever {
     /// @return the session id.
     private static String retrieveSessionId() {
         try {
-            return Files.readString(Path.of("session.txt"));
+            return Files.readString(Path.of(SESSION_FILENAME));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
