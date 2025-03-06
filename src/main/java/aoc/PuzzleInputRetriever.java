@@ -11,6 +11,9 @@ import java.nio.file.Path;
 
 public class PuzzleInputRetriever {
     
+    private static final String USER_AGENT =
+        "github.com/Sei-Jin/Advent-of-Code by seijin.tufts@gmail.com";
+    
     /// Retrieves the puzzle input.
     ///
     /// The puzzle input is retrieved from local storage if present. If the puzzle is not present,
@@ -74,11 +77,9 @@ public class PuzzleInputRetriever {
             puzzle.day()
         );
         
-        final var userAgent = "github.com/Sei-Jin/Advent-of-Code by seijin.tufts@gmail.com";
-        
         final var request = HttpRequest.newBuilder()
             .uri(URI.create(inputURL))
-            .header("User-Agent", userAgent)
+            .header("User-Agent", USER_AGENT)
             .header("Cookie", "session=" + retrieveSessionId())
             .GET()
             .build();
