@@ -47,11 +47,11 @@ public class Solution implements Solver {
     
     @Override
     public Object partOne() {
-        StringBuilder messageBuilder = new StringBuilder();
+        final var messageBuilder = new StringBuilder();
         
         for (final var list : characterLists) {
-            Map<Character, Integer> characterCounts = calculateCharacterCounts(list);
-            char mostFrequentCharacter = calculateMostFrequentCharacter(characterCounts);
+            final var characterCounts = calculateCharacterCounts(list);
+            final var mostFrequentCharacter = calculateMostFrequentCharacter(characterCounts);
             
             messageBuilder.append(mostFrequentCharacter);
         }
@@ -60,11 +60,11 @@ public class Solution implements Solver {
     }
     
     private static Character calculateMostFrequentCharacter(Map<Character, Integer> characterCounts) {
-        char mostFrequentCharacter = 0;
-        int maxCount = 0;
+        var mostFrequentCharacter = Character.MIN_VALUE;
+        var maxCount = 0;
         
         for (char character : characterCounts.keySet()) {
-            int count = characterCounts.get(character);
+            final var count = characterCounts.get(character);
             
             if (count > maxCount) {
                 mostFrequentCharacter = character;
@@ -77,12 +77,11 @@ public class Solution implements Solver {
     
     @Override
     public Object partTwo() {
-        StringBuilder messageBuilder = new StringBuilder();
+        final var messageBuilder = new StringBuilder();
         
         for (final var list : characterLists) {
-            Map<Character, Integer> characterCounts = calculateCharacterCounts(list);
-            char leastFrequentCharacter = calculateLeastFrequentCharacter(characterCounts);
-            
+            final var characterCounts = calculateCharacterCounts(list);
+            final var leastFrequentCharacter = calculateLeastFrequentCharacter(characterCounts);
             messageBuilder.append(leastFrequentCharacter);
         }
         
@@ -90,11 +89,11 @@ public class Solution implements Solver {
     }
     
     private char calculateLeastFrequentCharacter(Map<Character, Integer> characterCounts) {
-        char leastFrequentCharacter = 0;
-        int minCount = Integer.MAX_VALUE;
+        var leastFrequentCharacter = Character.MIN_VALUE;
+        var minCount = Integer.MAX_VALUE;
         
-        for (char character : characterCounts.keySet()) {
-            int count = characterCounts.get(character);
+        for (final var character : characterCounts.keySet()) {
+            final var count = characterCounts.get(character);
             
             if (count < minCount) {
                 leastFrequentCharacter = character;
