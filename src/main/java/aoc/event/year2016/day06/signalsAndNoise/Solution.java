@@ -51,28 +51,18 @@ public class Solution implements Solver {
         
         for (final var list : characterLists) {
             final var characterCounts = calculateCharacterCounts(list);
-            final var mostFrequentCharacter = calculateMostFrequentCharacter(characterCounts);
+            
+            final var mostFrequentCharacter = characterCounts
+                .entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElseThrow();
             
             messageBuilder.append(mostFrequentCharacter);
         }
         
         return messageBuilder.toString();
-    }
-    
-    private static Character calculateMostFrequentCharacter(Map<Character, Integer> characterCounts) {
-        var mostFrequentCharacter = Character.MIN_VALUE;
-        var maxCount = 0;
-        
-        for (char character : characterCounts.keySet()) {
-            final var count = characterCounts.get(character);
-            
-            if (count > maxCount) {
-                mostFrequentCharacter = character;
-                maxCount = count;
-            }
-        }
-        
-        return mostFrequentCharacter;
     }
     
     @Override
@@ -81,27 +71,18 @@ public class Solution implements Solver {
         
         for (final var list : characterLists) {
             final var characterCounts = calculateCharacterCounts(list);
-            final var leastFrequentCharacter = calculateLeastFrequentCharacter(characterCounts);
+            
+            final var leastFrequentCharacter = characterCounts
+                .entrySet()
+                .stream()
+                .min(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElseThrow();
+            
             messageBuilder.append(leastFrequentCharacter);
         }
         
         return messageBuilder.toString();
-    }
-    
-    private char calculateLeastFrequentCharacter(Map<Character, Integer> characterCounts) {
-        var leastFrequentCharacter = Character.MIN_VALUE;
-        var minCount = Integer.MAX_VALUE;
-        
-        for (final var character : characterCounts.keySet()) {
-            final var count = characterCounts.get(character);
-            
-            if (count < minCount) {
-                leastFrequentCharacter = character;
-                minCount = count;
-            }
-        }
-        
-        return leastFrequentCharacter;
     }
     
     public static void main(String[] args) {
