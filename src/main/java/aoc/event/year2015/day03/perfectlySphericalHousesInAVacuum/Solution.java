@@ -1,19 +1,22 @@
 package aoc.event.year2015.day03.perfectlySphericalHousesInAVacuum;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
 import java.awt.*;
 import java.util.HashSet;
-import java.util.List;
 
-public class Solution implements DeprecatedSolver {
+public class Solution implements Solver {
     
-    /// @param inputLines the puzzle input.
+    private final String line;
+    
+    public Solution(String input) {
+        line = input;
+    }
+    
     /// @return the number of houses that received at least one present.
     @Override
-    public Object partOne(List<String> inputLines) {
-        String inputLine = inputLines.getFirst();
-        
+    public Integer partOne() {
         Point currentPosition = new Point();
         
         HashSet<String> previousPositions = new HashSet<>();
@@ -21,8 +24,8 @@ public class Solution implements DeprecatedSolver {
         previousPositions.add(currentPosition.toString());
         int uniqueHousesVisited = 1;
         
-        for (int index = 0; index < inputLine.length(); index++) {
-            updatePosition(currentPosition, inputLine.charAt(index));
+        for (int index = 0; index < line.length(); index++) {
+            updatePosition(currentPosition, line.charAt(index));
             
             if (!previousPositions.contains(currentPosition.toString())) {
                 previousPositions.add(currentPosition.toString());
@@ -46,12 +49,9 @@ public class Solution implements DeprecatedSolver {
         }
     }
     
-    /// @param inputLines the puzzle input.
     /// @return the number of houses that received at least one present.
     @Override
-    public Object partTwo(List<String> inputLines) {
-        String inputLine = inputLines.getFirst();
-        
+    public Integer partTwo() {
         Point currentPositionSanta = new Point();
         Point currentPositionRobot = new Point();
         
@@ -60,16 +60,16 @@ public class Solution implements DeprecatedSolver {
         previousPositions.add(currentPositionSanta.toString());
         int uniqueHousesVisited = 1;
         
-        for (int index = 0; index < inputLine.length(); index++) {
+        for (int index = 0; index < line.length(); index++) {
             if (isEven(index)) {
-                updatePosition(currentPositionSanta, inputLine.charAt(index));
+                updatePosition(currentPositionSanta, line.charAt(index));
                 
                 if (!previousPositions.contains(currentPositionSanta.toString())) {
                     previousPositions.add(currentPositionSanta.toString());
                     uniqueHousesVisited++;
                 }
             } else {
-                updatePosition(currentPositionRobot, inputLine.charAt(index));
+                updatePosition(currentPositionRobot, line.charAt(index));
                 
                 if (!previousPositions.contains(currentPositionRobot.toString())) {
                     previousPositions.add(currentPositionRobot.toString());
@@ -87,5 +87,9 @@ public class Solution implements DeprecatedSolver {
     /// @return true if the number is even, or false otherwise.
     private static boolean isEven(int index) {
         return index % 2 == 0;
+    }
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2015, 3);
     }
 }
