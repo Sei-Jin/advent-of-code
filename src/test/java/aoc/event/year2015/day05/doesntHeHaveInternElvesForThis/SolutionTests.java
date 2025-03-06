@@ -3,9 +3,6 @@ package aoc.event.year2015.day05.doesntHeHaveInternElvesForThis;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SolutionTests {
@@ -15,37 +12,37 @@ public class SolutionTests {
         
         @Test
         void allThreeRules() {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("ugknbfddgicrmopn");
-            assertEquals(1, new Solution().partOne(inputLines));
+            final var input = "ugknbfddgicrmopn";
+            final var solution = new Solution(input);
+            assertEquals(1, solution.partOne());
         }
         
         @Test
         void allThreeRulesOverlapping() {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("aaa");
-            assertEquals(1, new Solution().partOne(inputLines));
+            final var input = "aaa";
+            final var solution = new Solution(input);
+            assertEquals(1, solution.partOne());
         }
         
         @Test
         void noDoubleLetter() {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("jchzalrnumimnmhp");
-            assertEquals(0, new Solution().partOne(inputLines));
+            final var input = "jchzalrnumimnmhp";
+            final var solution = new Solution(input);
+            assertEquals(0, solution.partOne());
         }
         
         @Test
         void disallowedSubstring() {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("haegwjzuvuyypxyu");
-            assertEquals(0, new Solution().partOne(inputLines));
+            final var input = "haegwjzuvuyypxyu";
+            final var solution = new Solution(input);
+            assertEquals(0, solution.partOne());
         }
         
         @Test
         void onlyOneVowel() {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("dvszwmarrgswjxmb");
-            assertEquals(0, new Solution().partOne(inputLines));
+            final var input = "dvszwmarrgswjxmb";
+            final var solution = new Solution(input);
+            assertEquals(0, solution.partOne());
         }
     }
     
@@ -54,23 +51,23 @@ public class SolutionTests {
         
         @Test
         void repeatingPairAndRepeatingLetterWithOneLetterBetween() {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("qjhvhtzxzqqjkmpb");
-            assertEquals(1, new Solution().partTwo(inputLines));
+            final var input = "qjhvhtzxzqqjkmpb";
+            final var solution = new Solution(input);
+            assertEquals(1, solution.partTwo());
         }
         
         @Test
         void repeatingPair() {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("uurcxstgmygtbstg");
-            assertEquals(0, new Solution().partTwo(inputLines));
+            final var input = "uurcxstgmygtbstg";
+            final var solution = new Solution(input);
+            assertEquals(0, solution.partTwo());
         }
         
         @Test
         void repeatingLetterWithOneLetterBetween() {
-            List<String> inputLines = new ArrayList<>();
-            inputLines.add("ieodomkazucvgmuy");
-            assertEquals(0, new Solution().partTwo(inputLines));
+            final var input = "ieodomkazucvgmuy";
+            final var solution = new Solution(input);
+            assertEquals(0, solution.partTwo());
         }
     }
 }
