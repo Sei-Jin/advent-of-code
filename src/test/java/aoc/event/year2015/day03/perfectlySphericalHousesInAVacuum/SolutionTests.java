@@ -7,11 +7,10 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
-{
+public class SolutionTests {
+    
     @Test
-    void headEast()
-    {
+    void headEast() {
         List<String> inputLines = new ArrayList<>();
         inputLines.add(">");
         assertEquals(2, new Solution().partOne(inputLines));
@@ -19,8 +18,7 @@ public class SolutionTests
     }
     
     @Test
-    void cycleThroughDirections()
-    {
+    void cycleThroughDirections() {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("^>v<");
         assertEquals(4, new Solution().partOne(inputLines));
@@ -28,8 +26,7 @@ public class SolutionTests
     }
     
     @Test
-    void northAndSouthAlternating()
-    {
+    void northAndSouthAlternating() {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("^v^v^v^v^v");
         assertEquals(2, new Solution().partOne(inputLines));
@@ -37,8 +34,7 @@ public class SolutionTests
     }
     
     @Test
-    void northAndSouth()
-    {
+    void northAndSouth() {
         List<String> inputLines = new ArrayList<>();
         inputLines.add("^v");
         assertEquals(2, new Solution().partOne(inputLines));
