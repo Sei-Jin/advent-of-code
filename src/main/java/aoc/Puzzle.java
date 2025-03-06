@@ -2,8 +2,6 @@ package aoc;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Objects;
 
 public record Puzzle(int year, int day) {
     
@@ -14,20 +12,37 @@ public record Puzzle(int year, int day) {
     ///
     /// @return the classpath of the puzzle solution.
     public String determineClassPath() {
-        final var outerPath = "src/main/java/";
-        final var innerPath = String.format("aoc/event/year%d/day%s/", year, getDayWithPadding());
-        final var totalPath = outerPath + innerPath;
+        final var outerDirectories = "src/main/java/";
+        final var innerDirectories = String.format(
+            "aoc/event/year%d/day%s/",
+            year,
+            getDayWithPadding()
+        );
+        final var allDirectories = outerDirectories + innerDirectories;
         
-        final var dayPackage = new File(Path.of(totalPath).toAbsolutePath().toString());
-        
-        final var puzzleName = Arrays.stream(Objects.requireNonNull(dayPackage.listFiles()))
-            .toList()
-            .getFirst()
-            .getName();
-        
-        final var dayPackageName = innerPath.replace('/', '.');
+        final var dayPackageName = innerDirectories.replace('/', '.');
+        final var puzzleName = determinePuzzleName(allDirectories);
         
         return String.format("%s%s.Solution", dayPackageName, puzzleName);
+    }
+    
+    private static String determinePuzzleName(String totalPath) {
+        final var dayPackage = new File(Path.of(totalPath).toAbsolutePath().toString());
+        final var directories = dayPackage.listFiles();
+        
+        if (directories == null) {
+            throw new AssertionError(
+                "The package did not contain any directories."
+            );
+        }
+        
+        if (directories.length != 1) {
+            throw new AssertionError(
+                "There should only be one package for the puzzle name"
+            );
+        }
+        
+        return directories[0].getName();
     }
     
     /// This method pads an extra zero to days with single-digit values (1-9).
