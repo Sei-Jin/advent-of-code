@@ -9,12 +9,6 @@ public class CommandLineRunner {
         Runner.runAndPrint(userInput.year(), userInput.day());
     }
     
-    /// Stores the data entered by the user.
-    ///
-    /// @param year the year of the puzzle.
-    /// @param day  the day of the puzzle.
-    private record UserInput(int year, int day) {}
-    
     /// Retrieves the user input from the command line and stores the data in a new record class.
     ///
     /// @return a new record class that stores the user input.
@@ -31,4 +25,10 @@ public class CommandLineRunner {
         
         return new UserInput(year, day);
     }
+    
+    /// Stores the data entered by the user.
+    ///
+    /// @param year the year of the puzzle.
+    /// @param day  the day of the puzzle.
+    private record UserInput(int year, int day) {}
 }
