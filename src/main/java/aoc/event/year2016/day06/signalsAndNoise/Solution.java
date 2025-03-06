@@ -34,15 +34,15 @@ public class Solution implements Solver {
         return characterLists;
     }
     
-    private static Map<Character, Integer> calculateCharacterCounts(List<Character> list) {
-        Map<Character, Integer> characterCounts = new HashMap<>();
+    private static Map<Character, Integer> countEntries(List<Character> list) {
+        final var entryCounts = new HashMap<Character, Integer>();
         
-        for (final var character : list) {
-            int count = characterCounts.getOrDefault(character, 0) + 1;
-            characterCounts.put(character, count);
+        for (final var entry : list) {
+            final var count = entryCounts.getOrDefault(entry, 0) + 1;
+            entryCounts.put(entry, count);
         }
         
-        return characterCounts;
+        return entryCounts;
     }
     
     @Override
@@ -50,7 +50,7 @@ public class Solution implements Solver {
         final var messageBuilder = new StringBuilder();
         
         for (final var list : characterLists) {
-            final var characterCounts = calculateCharacterCounts(list);
+            final var characterCounts = countEntries(list);
             
             final var mostFrequentCharacter = characterCounts
                 .entrySet()
@@ -70,7 +70,7 @@ public class Solution implements Solver {
         final var messageBuilder = new StringBuilder();
         
         for (final var list : characterLists) {
-            final var characterCounts = calculateCharacterCounts(list);
+            final var characterCounts = countEntries(list);
             
             final var leastFrequentCharacter = characterCounts
                 .entrySet()
