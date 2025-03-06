@@ -28,7 +28,7 @@ public class Runner {
             throw new RuntimeException(e);
         }
         
-        final var input = PuzzleInputRetriever.retrievePuzzleInput(puzzle);
+        final var input = InputRetriever.retrieveInput(puzzle);
         
         final var startTime = System.nanoTime();
         

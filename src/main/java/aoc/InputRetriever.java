@@ -9,7 +9,7 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class PuzzleInputRetriever {
+public class InputRetriever {
     
     private static final String USER_AGENT =
         "github.com/Sei-Jin/Advent-of-Code by seijin.tufts@gmail.com";
@@ -22,22 +22,22 @@ public class PuzzleInputRetriever {
     ///
     /// @param puzzle the puzzle.
     /// @return the puzzle input.
-    public static String retrievePuzzleInput(Puzzle puzzle) {
-        final var inputFilePath = getInputFilePath(puzzle);
+    public static String retrieveInput(Puzzle puzzle) {
+        final var inputPath = getInputPath(puzzle);
         
-        if (!Files.exists(inputFilePath)) {
-            final var puzzleInput = getPuzzleInputFromWebsite(puzzle);
-            storePuzzleInput(inputFilePath, puzzleInput);
+        if (!Files.exists(inputPath)) {
+            final var input = getInputFromWebsite(puzzle);
+            storeInput(inputPath, input);
         }
         
-        return getPuzzleInputFromLocalStorage(inputFilePath);
+        return getInputFromLocalStorage(inputPath);
     }
     
     /// Returns the file path of the input file.
     ///
     /// @param puzzle the puzzle.
     /// @return the file path of the input file.
-    private static Path getInputFilePath(Puzzle puzzle) {
+    private static Path getInputPath(Puzzle puzzle) {
         final var inputFileString = String.format(
             "input/year%d/day%s.txt",
             puzzle.year(),
@@ -70,7 +70,7 @@ public class PuzzleInputRetriever {
     ///
     /// @param puzzle the puzzle.
     /// @return the puzzle input.
-    private static String getPuzzleInputFromWebsite(Puzzle puzzle) {
+    private static String getInputFromWebsite(Puzzle puzzle) {
         final var inputURL = String.format(
             "https://adventofcode.com/%d/day/%d/input",
             puzzle.year(),
@@ -106,19 +106,19 @@ public class PuzzleInputRetriever {
     
     /// Writes the puzzle input to a text file.
     ///
-    /// @param inputFilePath the path to the puzzle input.
-    /// @param puzzleInput   the puzzle input.
-    private static void storePuzzleInput(Path inputFilePath, String puzzleInput) {
+    /// @param inputPath the path to the puzzle input.
+    /// @param input   the puzzle input.
+    private static void storeInput(Path inputPath, String input) {
         try {
-            Files.createFile(inputFilePath);
-            System.out.println("Created file: " + inputFilePath.toAbsolutePath());
+            Files.createFile(inputPath);
+            System.out.println("Created file: " + inputPath.toAbsolutePath());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         
-        try (final var fileWriter = new FileWriter(inputFilePath.toAbsolutePath().toString())) {
-            fileWriter.write(puzzleInput);
-            System.out.println("Wrote to file: " + inputFilePath.toAbsolutePath());
+        try (final var fileWriter = new FileWriter(inputPath.toAbsolutePath().toString())) {
+            fileWriter.write(input);
+            System.out.println("Wrote to file: " + inputPath.toAbsolutePath());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -126,11 +126,11 @@ public class PuzzleInputRetriever {
     
     /// Retrieves the puzzle input from the puzzle input file.
     ///
-    /// @param fileInputPath the path to the puzzle input.
+    /// @param inputPath the path to the puzzle input.
     /// @return the puzzle input.
-    private static String getPuzzleInputFromLocalStorage(Path fileInputPath) {
+    private static String getInputFromLocalStorage(Path inputPath) {
         try {
-            return Files.readString(fileInputPath).stripTrailing();
+            return Files.readString(inputPath).stripTrailing();
         } catch (IOException e) {
             throw new RuntimeException("Failed to read the file: " + e);
         }
