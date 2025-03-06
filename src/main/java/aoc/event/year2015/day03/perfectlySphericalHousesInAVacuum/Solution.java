@@ -6,18 +6,12 @@ import java.awt.*;
 import java.util.HashSet;
 import java.util.List;
 
-/**
- * --- Day 3: Perfectly Spherical Houses in a Vacuum ---
- */
-public class Solution implements DeprecatedSolver
-{
-    /**
-     * @param inputLines the puzzle input.
-     * @return the number of houses that received at least one present.
-     */
+public class Solution implements DeprecatedSolver {
+    
+    /// @param inputLines the puzzle input.
+    /// @return the number of houses that received at least one present.
     @Override
-    public Object partOne(List<String> inputLines)
-    {
+    public Object partOne(List<String> inputLines) {
         String inputLine = inputLines.getFirst();
         
         Point currentPosition = new Point();
@@ -27,31 +21,24 @@ public class Solution implements DeprecatedSolver
         previousPositions.add(currentPosition.toString());
         int uniqueHousesVisited = 1;
         
-        for (int index = 0; index < inputLine.length(); index++)
-        {
+        for (int index = 0; index < inputLine.length(); index++) {
             updatePosition(currentPosition, inputLine.charAt(index));
             
-            if (!previousPositions.contains(currentPosition.toString()))
-            {
+            if (!previousPositions.contains(currentPosition.toString())) {
                 previousPositions.add(currentPosition.toString());
                 uniqueHousesVisited++;
             }
         }
-
+        
         return uniqueHousesVisited;
     }
     
-    
-    /**
-     * Moves {@code position} one unit in the given direction.
-     *
-     * @param position a given position.
-     * @param direction the direction the position be moved in.
-     */
-    private static void updatePosition(Point position, char direction)
-    {
-        switch (direction)
-        {
+    /// Moves `position` one unit in the given direction.
+    ///
+    /// @param position  a given position.
+    /// @param direction the direction the position be moved in.
+    private static void updatePosition(Point position, char direction) {
+        switch (direction) {
             case '>' -> position.x++;
             case '<' -> position.x--;
             case '^' -> position.y++;
@@ -59,14 +46,10 @@ public class Solution implements DeprecatedSolver
         }
     }
     
-    
-    /**
-     * @param inputLines the puzzle input.
-     * @return the number of houses that received at least one present.
-     */
+    /// @param inputLines the puzzle input.
+    /// @return the number of houses that received at least one present.
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
+    public Object partTwo(List<String> inputLines) {
         String inputLine = inputLines.getFirst();
         
         Point currentPositionSanta = new Point();
@@ -77,24 +60,18 @@ public class Solution implements DeprecatedSolver
         previousPositions.add(currentPositionSanta.toString());
         int uniqueHousesVisited = 1;
         
-        for (int index = 0; index < inputLine.length(); index++)
-        {
-            if (isEven(index))
-            {
+        for (int index = 0; index < inputLine.length(); index++) {
+            if (isEven(index)) {
                 updatePosition(currentPositionSanta, inputLine.charAt(index));
                 
-                if (!previousPositions.contains(currentPositionSanta.toString()))
-                {
+                if (!previousPositions.contains(currentPositionSanta.toString())) {
                     previousPositions.add(currentPositionSanta.toString());
                     uniqueHousesVisited++;
                 }
-            }
-            else
-            {
+            } else {
                 updatePosition(currentPositionRobot, inputLine.charAt(index));
                 
-                if (!previousPositions.contains(currentPositionRobot.toString()))
-                {
+                if (!previousPositions.contains(currentPositionRobot.toString())) {
                     previousPositions.add(currentPositionRobot.toString());
                     uniqueHousesVisited++;
                 }
@@ -104,15 +81,11 @@ public class Solution implements DeprecatedSolver
         return uniqueHousesVisited;
     }
     
-    
-    /**
-     * Determines if a given integer is even or not.
-     *
-     * @param index an integer.
-     * @return true if the number is even, or false otherwise.
-     */
-    private static boolean isEven(int index)
-    {
+    /// Determines if a given integer is even or not.
+    ///
+    /// @param index an integer.
+    /// @return true if the number is even, or false otherwise.
+    private static boolean isEven(int index) {
         return index % 2 == 0;
     }
 }
