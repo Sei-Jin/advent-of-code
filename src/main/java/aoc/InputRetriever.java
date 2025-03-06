@@ -111,6 +111,15 @@ public class InputRetriever {
     /// @param inputPath the path to the puzzle input.
     /// @param input   the puzzle input.
     private static void storeInput(Path inputPath, String input) {
+        
+        if (!Files.exists(inputPath.getParent())) {
+            try {
+                Files.createDirectories(inputPath.getParent());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        
         try {
             Files.createFile(inputPath);
             System.out.println("Created file: " + inputPath.toAbsolutePath());
