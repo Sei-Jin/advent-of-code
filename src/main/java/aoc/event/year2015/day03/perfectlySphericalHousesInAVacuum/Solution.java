@@ -17,14 +17,13 @@ public class Solution implements Solver {
     /// @return the number of houses that received at least one present.
     @Override
     public Integer partOne() {
-        Position currentPosition = new Position();
-        
-        HashSet<Position> previousPositions = new HashSet<>();
+        final var currentPosition = new Position();
+        final var previousPositions = new HashSet<>();
         
         previousPositions.add(currentPosition);
-        int uniqueHousesVisited = 1;
+        var uniqueHousesVisited = 1;
         
-        for (int index = 0; index < line.length(); index++) {
+        for (var index = 0; index < line.length(); index++) {
             updatePosition(currentPosition, line.charAt(index));
             
             if (!previousPositions.contains(currentPosition)) {
@@ -52,15 +51,14 @@ public class Solution implements Solver {
     /// @return the number of houses that received at least one present.
     @Override
     public Integer partTwo() {
-        Position currentPositionSanta = new Position();
-        Position currentPositionRobot = new Position();
-        
-        HashSet<Position> previousPositions = new HashSet<>();
+        final var currentPositionSanta = new Position();
+        final var currentPositionRobot = new Position();
+        final var previousPositions = new HashSet<Position>();
         
         previousPositions.add(currentPositionSanta);
-        int uniqueHousesVisited = 1;
+        var uniqueHousesVisited = 1;
         
-        for (int index = 0; index < line.length(); index++) {
+        for (var index = 0; index < line.length(); index++) {
             if (isEven(index)) {
                 updatePosition(currentPositionSanta, line.charAt(index));
                 
