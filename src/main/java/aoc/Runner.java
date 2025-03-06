@@ -4,27 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 
 public class Runner {
     
-    /// There are two parts to each puzzle.
-    private enum Part {
-        ONE, TWO
-    }
-    
-    /// Stores the execution data for a single part of the puzzle.
-    private record Data(String result, long executionTimeInMicroseconds) {}
-    
-    /// Stores the execution data for both parts of the puzzle.
-    protected record RunData(Data parser, Data partOne, Data partTwo) {
-        
-        /// Calculates the total execution time for all parts of the solution.
-        ///
-        /// @return the total execution time.
-        private long calculateTotalExecutionTime() {
-            return this.parser.executionTimeInMicroseconds +
-                this.partOne.executionTimeInMicroseconds +
-                this.partTwo.executionTimeInMicroseconds;
-        }
-    }
-    
     /// Runs and prints both parts of the puzzle.
     ///
     /// @param year the year of the puzzle.
@@ -125,6 +104,28 @@ public class Runner {
             System.out.printf("%13s\n", result);
         } else {
             System.out.println("Not implemented yet.");
+        }
+    }
+    
+    /// There are two parts to each puzzle.
+    private enum Part {
+        ONE,
+        TWO
+    }
+    
+    /// Stores the execution data for a single part of the puzzle.
+    private record Data(String result, long executionTimeInMicroseconds) {}
+    
+    /// Stores the execution data for both parts of the puzzle.
+    protected record RunData(Data parser, Data partOne, Data partTwo) {
+        
+        /// Calculates the total execution time for all parts of the solution.
+        ///
+        /// @return the total execution time.
+        private long calculateTotalExecutionTime() {
+            return this.parser.executionTimeInMicroseconds +
+                this.partOne.executionTimeInMicroseconds +
+                this.partTwo.executionTimeInMicroseconds;
         }
     }
 }
