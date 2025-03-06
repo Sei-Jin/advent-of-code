@@ -86,24 +86,24 @@ public class InputRetriever {
             .GET()
             .build();
         
-        final var httpClient = HttpClient.newBuilder()
+        final var client = HttpClient.newBuilder()
             .build();
         
-        final HttpResponse<String> httpResponse;
+        final HttpResponse<String> response;
         
         try {
-            httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
         
-        if (httpResponse.statusCode() != 200) {
+        if (response.statusCode() != 200) {
             throw new IllegalStateException("Error: Bad Request to website.");
         } else {
             System.out.println("Successfully retrieved the puzzle input from: " + inputURL);
         }
         
-        return httpResponse.body();
+        return response.body();
     }
     
     /// Writes the puzzle input to a text file.
