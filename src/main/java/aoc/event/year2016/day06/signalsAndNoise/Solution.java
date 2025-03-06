@@ -3,28 +3,42 @@ package aoc.event.year2016.day06.signalsAndNoise;
 import aoc.Runner;
 import aoc.Solver;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Solution implements Solver {
     
-    private final List<String> lines;
+    private final List<List<Character>> characterLists;
     
     public Solution(String input) {
-        lines = input.lines().toList();
+        characterLists = parse(input);
     }
     
-    private static Map<Character, Integer> calculateCharacterCounts(
-        List<String> lines,
-        int index
-    ) {
+    private static List<List<Character>> parse(String input) {
+        final var characterLists = new ArrayList<List<Character>>();
+        final var lines = input.lines().toList();
+        
+        for (int i = 0; i < lines.getFirst().length(); i++) {
+            characterLists.add(new ArrayList<>());
+        }
+        
+        for (final var line : lines) {
+            for (int i = 0; i < line.length(); i++) {
+                final var character = line.charAt(i);
+                characterLists.get(i).add(character);
+            }
+        }
+        
+        return characterLists;
+    }
+    
+    private static Map<Character, Integer> calculateCharacterCounts(List<Character> list) {
         Map<Character, Integer> characterCounts = new HashMap<>();
         
-        for (String line : lines) {
-            char character = line.charAt(index);
+        for (final var character : list) {
             int count = characterCounts.getOrDefault(character, 0) + 1;
-            
             characterCounts.put(character, count);
         }
         
@@ -35,8 +49,8 @@ public class Solution implements Solver {
     public Object partOne() {
         StringBuilder messageBuilder = new StringBuilder();
         
-        for (int index = 0; index < lines.getFirst().length(); index++) {
-            Map<Character, Integer> characterCounts = calculateCharacterCounts(lines, index);
+        for (final var list : characterLists) {
+            Map<Character, Integer> characterCounts = calculateCharacterCounts(list);
             char mostFrequentCharacter = calculateMostFrequentCharacter(characterCounts);
             
             messageBuilder.append(mostFrequentCharacter);
@@ -45,7 +59,7 @@ public class Solution implements Solver {
         return messageBuilder.toString();
     }
     
-    private static char calculateMostFrequentCharacter(Map<Character, Integer> characterCounts) {
+    private static Character calculateMostFrequentCharacter(Map<Character, Integer> characterCounts) {
         char mostFrequentCharacter = 0;
         int maxCount = 0;
         
@@ -65,8 +79,8 @@ public class Solution implements Solver {
     public Object partTwo() {
         StringBuilder messageBuilder = new StringBuilder();
         
-        for (int index = 0; index < lines.getFirst().length(); index++) {
-            Map<Character, Integer> characterCounts = calculateCharacterCounts(lines, index);
+        for (final var list : characterLists) {
+            Map<Character, Integer> characterCounts = calculateCharacterCounts(list);
             char leastFrequentCharacter = calculateLeastFrequentCharacter(characterCounts);
             
             messageBuilder.append(leastFrequentCharacter);
