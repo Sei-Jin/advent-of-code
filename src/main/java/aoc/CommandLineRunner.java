@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class CommandLineRunner {
     
     public static void main(String[] args) {
-        UserInput userInput = retrieveUserInput();
+        final var userInput = retrieveUserInput();
         Runner.runAndPrint(userInput.year(), userInput.day());
     }
     
@@ -13,16 +13,15 @@ public class CommandLineRunner {
     ///
     /// @return a new record class that stores the user input.
     private static UserInput retrieveUserInput() {
-        Scanner commandLineInput = new Scanner(System.in);
+        final var commandLineInput = new Scanner(System.in);
         
         System.out.print("Enter the year for the puzzle you would like to run: ");
-        int year = commandLineInput.nextInt();
+        final var year = commandLineInput.nextInt();
         
         System.out.print("Enter the day for the puzzle you would like to run: ");
-        int day = commandLineInput.nextInt();
+        final var day = commandLineInput.nextInt();
         
         commandLineInput.close();
-        
         return new UserInput(year, day);
     }
     
