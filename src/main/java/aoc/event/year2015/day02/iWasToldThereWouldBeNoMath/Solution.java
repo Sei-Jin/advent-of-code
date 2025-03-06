@@ -1,23 +1,45 @@
 package aoc.event.year2015.day02.iWasToldThereWouldBeNoMath;
 
-import aoc.DeprecatedSolver;
+import aoc.Runner;
+import aoc.Solver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class Solution implements DeprecatedSolver {
+public class Solution implements Solver {
     
-    /// @param inputLines the puzzle input.
+    private final List<Box> boxes;
+    
+    public Solution(String input) {
+        boxes = parse(input);
+    }
+    
+    private static List<Box> parse(String input) {
+        final var boxes = new ArrayList<Box>();
+        
+        for (final var line : input.lines().toList()) {
+            final var dimensions = Arrays.stream(line.split("x"))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+            
+            final var length = dimensions[0];
+            final var width = dimensions[1];
+            final var height = dimensions[2];
+            
+            boxes.add(new Box(length, width, height));
+        }
+        
+        return boxes;
+    }
+    
     /// @return the total square feet of wrapping paper the elves should order.
     @Override
-    public Object partOne(List<String> inputLines) {
+    public Integer partOne() {
         int totalArea = 0;
         
-        for (String line : inputLines) {
-            Box box = getBoxDimensions(line);
-            
+        for (final var box : boxes) {
             int area1 = box.length * box.width;
             int area2 = box.width * box.height;
             int area3 = box.height * box.length;
@@ -31,15 +53,12 @@ public class Solution implements DeprecatedSolver {
         return totalArea;
     }
     
-    /// @param inputLines the puzzle input.
     /// @return the total length of ribbon in feet the elves should order.
     @Override
-    public Object partTwo(List<String> inputLines) {
+    public Integer partTwo() {
         int totalRibbonLength = 0;
         
-        for (String line : inputLines) {
-            Box box = getBoxDimensions(line);
-            
+        for (final var box : boxes) {
             List<Integer> sideLengths = new ArrayList<>();
             
             sideLengths.add(box.length);
@@ -57,17 +76,9 @@ public class Solution implements DeprecatedSolver {
         return totalRibbonLength;
     }
     
-    private static Box getBoxDimensions(String line) {
-        int[] dimensions = Arrays.stream(line.split("x"))
-            .mapToInt(Integer::parseInt)
-            .toArray();
-        
-        int length = dimensions[0];
-        int width = dimensions[1];
-        int height = dimensions[2];
-        
-        return new Box(length, width, height);
-    }
-    
     private record Box(int length, int width, int height) {}
+    
+    public static void main(String[] args) {
+        Runner.runAndPrint(2015, 2);
+    }
 }
