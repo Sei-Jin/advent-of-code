@@ -4,44 +4,30 @@ import aoc.DeprecatedSolver;
 
 import java.util.List;
 
-/**
- * --- Day 5: Doesn't He Have Intern-Elves For This? ---
- */
-public class Solution implements DeprecatedSolver
-{
-    /**
-     * @param inputLines the puzzle input
-     * @return the total number of nice strings.
-     */
+public class Solution implements DeprecatedSolver {
+    
+    /// @param inputLines the puzzle input
+    /// @return the total number of nice strings.
     @Override
-    public Object partOne(List<String> inputLines)
-    {
+    public Object partOne(List<String> inputLines) {
         int totalNiceStrings = 0;
         
-        for (String line : inputLines)
-        {
-            boolean niceString = true;
+        for (String line : inputLines) {
+            boolean niceString = line.matches("^([^aeiou]*[aeiou]){3,}[^aeiou]*$");
             
             // The line must contain at least 3 vowels (aeiou only)
-            if (!line.matches("^([^aeiou]*[aeiou]){3,}[^aeiou]*$"))
-            {
-                niceString = false;
-            }
             
             // The line must contain at least one letter that appears twice in a row
-            if (!line.matches("^.*([a-z])\\1.*$"))
-            {
+            if (!line.matches("^.*([a-z])\\1.*$")) {
                 niceString = false;
             }
             
             // The line cannot contain the strings "ab", "cd", "pq", and "xy"
-            if (!line.matches("^(?:(?!ab|cd|pq|xy).)*$"))
-            {
+            if (!line.matches("^(?:(?!ab|cd|pq|xy).)*$")) {
                 niceString = false;
             }
             
-            if (niceString)
-            {
+            if (niceString) {
                 totalNiceStrings++;
             }
         }
@@ -49,34 +35,23 @@ public class Solution implements DeprecatedSolver
         return totalNiceStrings;
     }
     
-    
-    /**
-     * @param inputLines the puzzle input.
-     * @return the total number of nice strings under the new rules.
-     */
+    /// @param inputLines the puzzle input.
+    /// @return the total number of nice strings under the new rules.
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
+    public Object partTwo(List<String> inputLines) {
         int totalNiceStrings = 0;
         
-        for (String line : inputLines)
-        {
-            boolean niceString = true;
+        for (String line : inputLines) {
+            boolean niceString = line.matches("^.*([a-z]{2}).*\\1.*$");
             
             // The line contains a pair of any two letters that appears at least twice in the string without overlapping
-            if (!line.matches("^.*([a-z]{2}).*\\1.*$"))
-            {
-                niceString = false;
-            }
             
             // The line contains at least one letter that repeats with exactly 1 letter between them
-            if (!line.matches("^.*([a-z]).\\1.*$"))
-            {
+            if (!line.matches("^.*([a-z]).\\1.*$")) {
                 niceString = false;
             }
             
-            if (niceString)
-            {
+            if (niceString) {
                 totalNiceStrings++;
             }
         }
