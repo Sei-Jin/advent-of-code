@@ -17,22 +17,22 @@ public class Solution implements Solver {
     /// @return the number of houses that received at least one present.
     @Override
     public Integer partOne() {
-        final var currentPosition = new Position();
-        final var previousPositions = new HashSet<>();
+        final var current = new Position();
+        final var previous = new HashSet<>();
         
-        previousPositions.add(currentPosition);
-        var uniqueHousesVisited = 1;
+        previous.add(current);
+        var visited = 1;
         
-        for (var index = 0; index < line.length(); index++) {
-            updatePosition(currentPosition, line.charAt(index));
+        for (var i = 0; i < line.length(); i++) {
+            updatePosition(current, line.charAt(i));
             
-            if (!previousPositions.contains(currentPosition)) {
-                previousPositions.add(Position.of(currentPosition));
-                uniqueHousesVisited++;
+            if (!previous.contains(current)) {
+                previous.add(Position.of(current));
+                visited++;
             }
         }
         
-        return uniqueHousesVisited;
+        return visited;
     }
     
     /// Moves `position` one unit in the given direction.
@@ -51,32 +51,32 @@ public class Solution implements Solver {
     /// @return the number of houses that received at least one present.
     @Override
     public Integer partTwo() {
-        final var currentPositionSanta = new Position();
-        final var currentPositionRobot = new Position();
-        final var previousPositions = new HashSet<Position>();
+        final var santa = new Position();
+        final var robot = new Position();
+        final var previous = new HashSet<Position>();
         
-        previousPositions.add(currentPositionSanta);
-        var uniqueHousesVisited = 1;
+        previous.add(santa);
+        var visited = 1;
         
-        for (var index = 0; index < line.length(); index++) {
-            if (isEven(index)) {
-                updatePosition(currentPositionSanta, line.charAt(index));
+        for (var i = 0; i < line.length(); i++) {
+            if (isEven(i)) {
+                updatePosition(santa, line.charAt(i));
                 
-                if (!previousPositions.contains(currentPositionSanta)) {
-                    previousPositions.add(Position.of(currentPositionSanta));
-                    uniqueHousesVisited++;
+                if (!previous.contains(santa)) {
+                    previous.add(Position.of(santa));
+                    visited++;
                 }
             } else {
-                updatePosition(currentPositionRobot, line.charAt(index));
+                updatePosition(robot, line.charAt(i));
                 
-                if (!previousPositions.contains(currentPositionRobot)) {
-                    previousPositions.add(Position.of(currentPositionRobot));
-                    uniqueHousesVisited++;
+                if (!previous.contains(robot)) {
+                    previous.add(Position.of(robot));
+                    visited++;
                 }
             }
         }
         
-        return uniqueHousesVisited;
+        return visited;
     }
     
     /// Determines if a given integer is even or not.
