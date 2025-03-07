@@ -3,7 +3,6 @@ package aoc.event.year2015.day06.probablyAFireHazard;
 import aoc.Runner;
 import aoc.Solver;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -42,10 +41,7 @@ public class Solution implements Solver {
             final var maxX = Integer.parseInt(matcher.group(4));
             final var maxY = Integer.parseInt(matcher.group(5));
             
-            final var min = new Point(minX, minY);
-            final var max = new Point(maxX, maxY);
-            
-            return new Instruction(operation, min, max);
+            return new Instruction(operation, minX, minY, maxX, maxY);
         } else {
             throw new AssertionError("Line did not meet the expect format" + line);
         }
@@ -69,8 +65,8 @@ public class Solution implements Solver {
         final var lightGrid = new int[GRID_SIZE][GRID_SIZE];
         
         for (final var instruction : instructions) {
-            for (int row = instruction.topCorner.y; row <= instruction.bottomCorner.y; row++) {
-                for (int column = instruction.topCorner.x; column <= instruction.bottomCorner.x; column++) {
+            for (var row = instruction.minY; row <= instruction.maxY; row++) {
+                for (var column = instruction.minX; column <= instruction.maxX; column++) {
                     switch (instruction.operation) {
                         case ON -> lightGrid[row][column] = 1;
                         case OFF -> lightGrid[row][column] = 0;
@@ -95,8 +91,8 @@ public class Solution implements Solver {
         final var lightGrid = new int[GRID_SIZE][GRID_SIZE];
         
         for (final var instruction : instructions) {
-            for (var row = instruction.topCorner.y; row <= instruction.bottomCorner.y; row++) {
-                for (var column = instruction.topCorner.x; column <= instruction.bottomCorner.x; column++) {
+            for (var row = instruction.minY; row <= instruction.maxY; row++) {
+                for (var column = instruction.minX; column <= instruction.maxX; column++) {
                     switch (instruction.operation) {
                         case ON -> lightGrid[row][column]++;
                         case OFF -> {
@@ -113,7 +109,7 @@ public class Solution implements Solver {
         return sumGrid(lightGrid);
     }
     
-    private record Instruction(Operation operation, Point topCorner, Point bottomCorner) {}
+    private record Instruction(Operation operation, int minX, int minY, int maxX, int maxY) {}
     
     private enum Operation {
         ON,
