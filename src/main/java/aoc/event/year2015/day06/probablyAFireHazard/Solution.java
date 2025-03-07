@@ -51,7 +51,7 @@ public class Solution implements Solver {
     
     /// @return the number of lit lights after following the instructions.
     @Override
-    public Object partOne() {
+    public Integer partOne() {
         boolean[][] lightGrid = new boolean[1000][1000];
         
         for (final var instruction : instructions) {
@@ -81,7 +81,7 @@ public class Solution implements Solver {
     
     /// @return the total brightness of all lights combined after following Santa's instructions.
     @Override
-    public Object partTwo() {
+    public Integer partTwo() {
         int[][] lightGrid = new int[1000][1000];
         
         for (final var instruction : instructions) {
