@@ -54,7 +54,7 @@ public class Solution implements Solver {
     /// @return the number of lit lights after following the instructions.
     @Override
     public Integer partOne() {
-        boolean[][] lightGrid = new boolean[GRID_SIZE][GRID_SIZE];
+        final var lightGrid = new boolean[GRID_SIZE][GRID_SIZE];
         
         for (final var instruction : instructions) {
             for (int row = instruction.topCorner.y; row <= instruction.bottomCorner.y; row++) {
@@ -68,10 +68,10 @@ public class Solution implements Solver {
             }
         }
         
-        int totalLightsTurnedOn = 0;
+        var totalLightsTurnedOn = 0;
         
-        for (int row = 0; row < lightGrid.length; row++) {
-            for (int column = 0; column < lightGrid[0].length; column++) {
+        for (var row = 0; row < lightGrid.length; row++) {
+            for (var column = 0; column < lightGrid[0].length; column++) {
                 if (lightGrid[row][column]) {
                     totalLightsTurnedOn++;
                 }
@@ -84,11 +84,11 @@ public class Solution implements Solver {
     /// @return the total brightness of all lights combined after following Santa's instructions.
     @Override
     public Integer partTwo() {
-        int[][] lightGrid = new int[GRID_SIZE][GRID_SIZE];
+        final var lightGrid = new int[GRID_SIZE][GRID_SIZE];
         
         for (final var instruction : instructions) {
-            for (int row = instruction.topCorner.y; row <= instruction.bottomCorner.y; row++) {
-                for (int column = instruction.topCorner.x; column <= instruction.bottomCorner.x; column++) {
+            for (var row = instruction.topCorner.y; row <= instruction.bottomCorner.y; row++) {
+                for (var column = instruction.topCorner.x; column <= instruction.bottomCorner.x; column++) {
                     switch (instruction.operation) {
                         case ON -> lightGrid[row][column]++;
                         case OFF -> {
@@ -102,10 +102,10 @@ public class Solution implements Solver {
             }
         }
         
-        int totalBrightness = 0;
+        var totalBrightness = 0;
         
-        for (int row = 0; row < lightGrid.length; row++) {
-            for (int column = 0; column < lightGrid[0].length; column++) {
+        for (var row = 0; row < lightGrid.length; row++) {
+            for (var column = 0; column < lightGrid[0].length; column++) {
                 totalBrightness += lightGrid[row][column];
             }
         }
