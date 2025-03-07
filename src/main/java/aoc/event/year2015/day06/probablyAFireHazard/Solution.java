@@ -5,10 +5,13 @@ import aoc.Solver;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class Solution implements Solver {
+    
+    private static final Pattern INSTRUCTION_PATTERN =
+        Pattern.compile("([\\w ]+) (\\d+),(\\d+) through (\\d+),(\\d+)");
     
     private final List<Instruction> instructions;
     
@@ -20,38 +23,30 @@ public class Solution implements Solver {
         final var instructions = new ArrayList<Instruction>();
         
         for (final var line : input.lines().toList()) {
-            final var instruction = getInstruction(line);
+            final var instruction = parseInstruction(line);
             instructions.add(instruction);
         }
         
         return instructions;
     }
     
-    private static Instruction getInstruction(String line) {
-        int[] values = Arrays.stream(line.split("[^0-9]+"))
-            .skip(1)
-            .mapToInt(Integer::parseInt)
-            .toArray();
+    private static Instruction parseInstruction(String line) {
+        final var matcher = INSTRUCTION_PATTERN.matcher(line);
         
-        int topCornerX = values[0];
-        int topCornerY = values[1];
-        Point topCorner = new Point(topCornerX, topCornerY);
-        
-        int bottomCornerX = values[2];
-        int bottomCornerY = values[3];
-        Point bottomCorner = new Point(bottomCornerX, bottomCornerY);
-        
-        Operation operation = null;
-        
-        if (line.contains(Operation.ON.getValue())) {
-            operation = Operation.ON;
-        } else if (line.contains(Operation.OFF.getValue())) {
-            operation = Operation.OFF;
-        } else if (line.contains(Operation.TOGGLE.getValue())) {
-            operation = Operation.TOGGLE;
+        if (matcher.find()) {
+            final var operation = Operation.of(matcher.group(1));
+            final var minX = Integer.parseInt(matcher.group(2));
+            final var minY = Integer.parseInt(matcher.group(3));
+            final var maxX = Integer.parseInt(matcher.group(4));
+            final var maxY = Integer.parseInt(matcher.group(5));
+            
+            final var min = new Point(minX, minY);
+            final var max = new Point(maxX, maxY);
+            
+            return new Instruction(operation, min, max);
+        } else {
+            throw new AssertionError("Line did not meet the expect format" + line);
         }
-        
-        return new Instruction(operation, topCorner, bottomCorner);
     }
     
     /// @return the number of lit lights after following the instructions.
@@ -119,18 +114,17 @@ public class Solution implements Solver {
     private record Instruction(Operation operation, Point topCorner, Point bottomCorner) {}
     
     private enum Operation {
-        ON("on"),
-        OFF("off"),
-        TOGGLE("toggle");
+        ON,
+        OFF,
+        TOGGLE;
         
-        private final String value;
-        
-        Operation(String value) {
-            this.value = value;
-        }
-        
-        private String getValue() {
-            return value;
+        private static Operation of(String string) {
+            return switch (string) {
+                case "turn on" -> ON;
+                case "turn off" -> OFF;
+                case "toggle" -> TOGGLE;
+                default -> throw new IllegalStateException("Unexpected value: " + string);
+            };
         }
     }
     
