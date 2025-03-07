@@ -13,6 +13,8 @@ public class Solution implements Solver {
     private static final Pattern INSTRUCTION_PATTERN =
         Pattern.compile("([\\w ]+) (\\d+),(\\d+) through (\\d+),(\\d+)");
     
+    private static final int GRID_SIZE = 1000;
+    
     private final List<Instruction> instructions;
     
     public Solution(String input) {
@@ -52,7 +54,7 @@ public class Solution implements Solver {
     /// @return the number of lit lights after following the instructions.
     @Override
     public Integer partOne() {
-        boolean[][] lightGrid = new boolean[1000][1000];
+        boolean[][] lightGrid = new boolean[GRID_SIZE][GRID_SIZE];
         
         for (final var instruction : instructions) {
             for (int row = instruction.topCorner.y; row <= instruction.bottomCorner.y; row++) {
@@ -82,7 +84,7 @@ public class Solution implements Solver {
     /// @return the total brightness of all lights combined after following Santa's instructions.
     @Override
     public Integer partTwo() {
-        int[][] lightGrid = new int[1000][1000];
+        int[][] lightGrid = new int[GRID_SIZE][GRID_SIZE];
         
         for (final var instruction : instructions) {
             for (int row = instruction.topCorner.y; row <= instruction.bottomCorner.y; row++) {
