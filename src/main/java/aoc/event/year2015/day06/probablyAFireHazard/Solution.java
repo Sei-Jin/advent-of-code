@@ -51,34 +51,42 @@ public class Solution implements Solver {
         }
     }
     
+    private static int sumGrid(int[][] lightGrid) {
+        var sum = 0;
+        
+        for (int[] row : lightGrid) {
+            for (var column = 0; column < lightGrid[0].length; column++) {
+                sum += row[column];
+            }
+        }
+        
+        return sum;
+    }
+    
     /// @return the number of lit lights after following the instructions.
     @Override
     public Integer partOne() {
-        final var lightGrid = new boolean[GRID_SIZE][GRID_SIZE];
+        final var lightGrid = new int[GRID_SIZE][GRID_SIZE];
         
         for (final var instruction : instructions) {
             for (int row = instruction.topCorner.y; row <= instruction.bottomCorner.y; row++) {
                 for (int column = instruction.topCorner.x; column <= instruction.bottomCorner.x; column++) {
                     switch (instruction.operation) {
-                        case ON -> lightGrid[row][column] = true;
-                        case OFF -> lightGrid[row][column] = false;
-                        case TOGGLE -> lightGrid[row][column] = !lightGrid[row][column];
+                        case ON -> lightGrid[row][column] = 1;
+                        case OFF -> lightGrid[row][column] = 0;
+                        case TOGGLE -> {
+                            if (lightGrid[row][column] == 1) {
+                                lightGrid[row][column] = 0;
+                            } else {
+                                lightGrid[row][column] = 1;
+                            }
+                        }
                     }
                 }
             }
         }
         
-        var totalLightsTurnedOn = 0;
-        
-        for (var row = 0; row < lightGrid.length; row++) {
-            for (var column = 0; column < lightGrid[0].length; column++) {
-                if (lightGrid[row][column]) {
-                    totalLightsTurnedOn++;
-                }
-            }
-        }
-        
-        return totalLightsTurnedOn;
+        return sumGrid(lightGrid);
     }
     
     /// @return the total brightness of all lights combined after following Santa's instructions.
@@ -102,15 +110,7 @@ public class Solution implements Solver {
             }
         }
         
-        var totalBrightness = 0;
-        
-        for (var row = 0; row < lightGrid.length; row++) {
-            for (var column = 0; column < lightGrid[0].length; column++) {
-                totalBrightness += lightGrid[row][column];
-            }
-        }
-        
-        return totalBrightness;
+        return sumGrid(lightGrid);
     }
     
     private record Instruction(Operation operation, Point topCorner, Point bottomCorner) {}
