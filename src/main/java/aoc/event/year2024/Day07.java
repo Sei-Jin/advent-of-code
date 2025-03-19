@@ -1,6 +1,5 @@
 package aoc.event.year2024;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
@@ -131,9 +130,5 @@ public class Day07 implements Solver {
         ADD,
         MULTIPLY,
         CONCAT
-    }
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2024, 7);
     }
 }

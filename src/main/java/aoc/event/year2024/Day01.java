@@ -1,6 +1,5 @@
 package aoc.event.year2024;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.*;
@@ -138,9 +137,4 @@ public class Day01 implements Solver {
     /// @param first  the first list of ids.
     /// @param second the second list of ids.
     private record IdLists(List<Integer> first, List<Integer> second) {}
-    
-    /// Runs the solution.
-    public static void main(String[] args) {
-        Runner.runAndPrint(2024, 1);
-    }
 }
