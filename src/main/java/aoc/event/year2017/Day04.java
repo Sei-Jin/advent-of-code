@@ -1,15 +1,15 @@
-package aoc.event.year2017.day04.highEntropyPassphrases;
+package aoc.event.year2017;
 
 import aoc.Runner;
 import aoc.Solver;
 
 import java.util.*;
 
-public class Solution implements Solver {
+public class Day04 implements Solver {
     
     private final List<List<List<Character>>> wordLists;
     
-    public Solution(String input) {
+    public Day04(String input) {
         wordLists = Collections.unmodifiableList(parse(input));
     }
     

@@ -1,4 +1,4 @@
-package aoc.event.year2017.day02.corruptionChecksum;
+package aoc.event.year2017;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Solution implements Solver {
+public class Day02 implements Solver {
     
     /// Compiles a pattern that matches integers.
     private static final Pattern PATTERN = Pattern.compile("(\\d+)");
@@ -19,7 +19,7 @@ public class Solution implements Solver {
     /// Initializes the solution.
     ///
     /// @param input the puzzle input.
-    public Solution(String input) {
+    public Day02(String input) {
         this.numberLists = Collections.unmodifiableList(parse(input));
     }
     

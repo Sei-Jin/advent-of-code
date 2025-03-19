@@ -1,4 +1,4 @@
-package aoc.event.year2017.day01.inverseCaptcha;
+package aoc.event.year2017;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -6,7 +6,7 @@ import aoc.Solver;
 import java.util.Collections;
 import java.util.List;
 
-public class Solution implements Solver {
+public class Day01 implements Solver {
     
     /// Stores the puzzle input as a list of digits.
     private final List<Integer> digits;
@@ -14,7 +14,7 @@ public class Solution implements Solver {
     /// Initializes the solution.
     ///
     /// @param input the puzzle input.
-    public Solution(String input) {
+    public Day01(String input) {
         this.digits = Collections.unmodifiableList(parse(input));
     }
     

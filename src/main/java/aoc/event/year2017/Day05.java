@@ -1,4 +1,4 @@
-package aoc.event.year2017.day05.aMazeOfTwistyTrampolinesAllAlike;
+package aoc.event.year2017;
 
 import aoc.DeprecatedSolver;
 
@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 /**
  * --- Day 5: A Maze of Twisty Trampolines, All Alike ---
  */
-public class Solution implements DeprecatedSolver
+public class Day05 implements DeprecatedSolver
 {
     /**
      * @param inputLines the puzzle input.

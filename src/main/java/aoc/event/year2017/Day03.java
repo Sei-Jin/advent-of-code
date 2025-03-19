@@ -1,10 +1,10 @@
-package aoc.event.year2017.day03.spiralMemory;
+package aoc.event.year2017;
 
 import aoc.DeprecatedSolver;
 
 import java.util.List;
 
-public class Solution implements DeprecatedSolver
+public class Day03 implements DeprecatedSolver
 {
     @Override
     public Object partOne(List<String> inputLines)
