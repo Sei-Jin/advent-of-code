@@ -1,4 +1,4 @@
-package aoc.event.year2019.day02.the1202ProgramAlarm;
+package aoc.event.year2019;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -9,11 +9,11 @@ import java.util.Collections;
 import java.util.List;
 
 /// --- Day 2: 1202 Program Alarm ---
-public class Solution implements Solver {
+public class Day02 implements Solver {
     
     private final List<Integer> initialState;
     
-    public Solution(String input) {
+    public Day02(String input) {
         initialState = Collections.unmodifiableList(parse(input));
     }
     

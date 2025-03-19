@@ -1,10 +1,11 @@
-package aoc.event.year2019.day03.crossedWires;
+package aoc.event.year2019;
 
 import aoc.DeprecatedSolver;
 
 import java.awt.*;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -13,13 +14,13 @@ import java.util.List;
  * <p>Puzzle Input - Two sets of instructions, one for each wire. Each set of instructions is a {@code String}
  * of comma-separated values, and each instruction contains the direction and distance the wire should follow.
  * <ul>
- *     <li>{@link Solution#partOne(List)} - Calculates the shortest Manhattan distance between an intersection
+ *     <li>{@link Day03#partOne(List)} - Calculates the shortest Manhattan distance between an intersection
  *     of the two wires and their starting location.</li>
- *     <li>{@link Solution#partTwo(List)} - Calculates the shortest combined distance of the two wires from their
+ *     <li>{@link Day03#partTwo(List)} - Calculates the shortest combined distance of the two wires from their
  *     starting location to an intersection point.</li>
  * </ul>
  */
-public class Solution implements DeprecatedSolver
+public class Day03 implements DeprecatedSolver
 {
     /**
      * The location of the central port is (0, 0). The central port is the starting location of the wires,

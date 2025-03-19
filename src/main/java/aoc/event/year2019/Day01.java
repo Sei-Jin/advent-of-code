@@ -1,4 +1,4 @@
-package aoc.event.year2019.day01.theTyrannyOfTheRocketEquation;
+package aoc.event.year2019;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -6,14 +6,14 @@ import aoc.Solver;
 import java.util.Collections;
 import java.util.List;
 
-public class Solution implements Solver {
+public class Day01 implements Solver {
     
     private final List<Integer> moduleMasses;
     
     /// Initializes the solution with the parsed puzzle input.
     ///
     /// The puzzle input contains one number per line.
-    public Solution(String input) {
+    public Day01(String input) {
         moduleMasses = Collections.unmodifiableList(parse(input));
     }
     

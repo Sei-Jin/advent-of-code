@@ -1,4 +1,4 @@
-package aoc.event.year2019.day04.secureContainer;
+package aoc.event.year2019;
 
 import aoc.DeprecatedSolver;
 
@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class Solution implements DeprecatedSolver
+public class Day04 implements DeprecatedSolver
 {
     @Override
     public Object partOne(List<String> inputLines)
