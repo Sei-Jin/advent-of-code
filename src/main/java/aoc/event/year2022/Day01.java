@@ -1,6 +1,5 @@
 package aoc.event.year2022;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
@@ -101,10 +100,5 @@ public class Day01 implements Solver {
                 .limit(3)
                 .mapToInt(Integer::intValue)
                 .sum();
-    }
-    
-    /// Runs the solution.
-    public static void main(String[] args) {
-        Runner.runAndPrint(2022, 1);
     }
 }

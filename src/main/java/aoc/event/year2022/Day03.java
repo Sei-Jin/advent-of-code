@@ -1,6 +1,5 @@
 package aoc.event.year2022;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.Collections;
@@ -87,9 +86,5 @@ public class Day03 implements Solver {
         }
         
         return totalItemPriority;
-    }
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2022, 3);
     }
 }

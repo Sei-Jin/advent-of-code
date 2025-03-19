@@ -1,6 +1,5 @@
 package aoc.event.year2022;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
@@ -189,8 +188,4 @@ public class Day05 implements Solver {
     }
     
     record Move(int amount, int from, int to) {}
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2022, 5);
-    }
 }

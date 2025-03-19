@@ -1,6 +1,5 @@
 package aoc.event.year2022;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
@@ -170,9 +169,4 @@ public class Day02 implements Solver {
     }
     
     private record Round(char first, char second) {}
-    
-    /// Runs the solution.
-    public static void main(String[] args) {
-        Runner.runAndPrint(2022, 2);
-    }
 }

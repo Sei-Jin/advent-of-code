@@ -1,6 +1,5 @@
 package aoc.event.year2022;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.Collections;
@@ -94,8 +93,4 @@ public class Day04 implements Solver {
     record Range(int start, int end) {}
     
     record RangePair(Range first, Range second) {}
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2022, 4);
-    }
 }
