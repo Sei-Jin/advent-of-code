@@ -7,9 +7,9 @@ public class Runner {
     /// @param year the year of the puzzle.
     /// @param day  the day of the puzzle.
     public static void runAndPrint(int year, int day) {
-        final var puzzle = new Solution(year, day);
-        final var runData = run(puzzle);
-        print(puzzle, runData);
+        final var solution = new Solution(year, day);
+        final var runData = run(solution);
+        print(solution, runData);
     }
     
     /// Runs both parts of the given puzzle
