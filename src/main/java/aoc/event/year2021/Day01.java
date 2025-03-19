@@ -1,6 +1,5 @@
 package aoc.event.year2021;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
@@ -83,10 +82,5 @@ public class Day01 implements Solver {
         }
         
         return increases;
-    }
-    
-    /// Runs the solution.
-    public static void main(String[] args) {
-        Runner.runAndPrint(2021, 1);
     }
 }
