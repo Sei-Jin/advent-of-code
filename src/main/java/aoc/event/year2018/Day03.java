@@ -4,7 +4,6 @@ import aoc.Solver;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Day03 implements Solver<Integer> {
@@ -25,10 +24,10 @@ public class Day03 implements Solver<Integer> {
     /// @param puzzleInput the puzzle input.
     /// @return a list of claims.
     private static List<Claim> parseClaims(List<String> puzzleInput) {
-        List<Claim> claims = new ArrayList<>();
+        final var claims = new ArrayList<Claim>();
         
-        for (String line : puzzleInput) {
-            Claim claim = parseClaim(line);
+        for (final var line : puzzleInput) {
+            final var claim = parseClaim(line);
             claims.add(claim);
         }
         
@@ -48,14 +47,14 @@ public class Day03 implements Solver<Integer> {
     /// @return a new claim storing the relevant parsed data.
     /// @throws IllegalArgumentException if the input line did not match the expected format.
     private static Claim parseClaim(String line) {
-        Matcher matcher = CLAIM_PATTERN.matcher(line);
+        final var matcher = CLAIM_PATTERN.matcher(line);
         
         if (matcher.find()) {
-            int claimId = Integer.parseInt(matcher.group(1));
-            int leftOffset = Integer.parseInt(matcher.group(2));
-            int topOffset = Integer.parseInt(matcher.group(3));
-            int width = Integer.parseInt(matcher.group(4));
-            int height = Integer.parseInt(matcher.group(5));
+            final var claimId = Integer.parseInt(matcher.group(1));
+            final var leftOffset = Integer.parseInt(matcher.group(2));
+            final var topOffset = Integer.parseInt(matcher.group(3));
+            final var width = Integer.parseInt(matcher.group(4));
+            final var height = Integer.parseInt(matcher.group(5));
             
             return new Claim(claimId, leftOffset, topOffset, width, height);
         } else {
@@ -68,14 +67,14 @@ public class Day03 implements Solver<Integer> {
     /// @param claims a list of claims.
     /// @return a 2D array of the number of claims at each index.
     private static int[][] countClaims(List<Claim> claims) {
-        int[][] claimArea = new int[1000][1000];
+        final var claimArea = new int[1000][1000];
         
-        for (Claim claim : claims) {
-            int maxRowIndex = claim.topOffset + claim.height;
-            int maxColumnIndex = claim.leftOffset + claim.width;
+        for (final var claim : claims) {
+            final var maxRowIndex = claim.topOffset + claim.height;
+            final var maxColumnIndex = claim.leftOffset + claim.width;
             
-            for (int rowIndex = claim.topOffset; rowIndex < maxRowIndex; rowIndex++) {
-                for (int columnIndex = claim.leftOffset; columnIndex < maxColumnIndex; columnIndex++) {
+            for (var rowIndex = claim.topOffset; rowIndex < maxRowIndex; rowIndex++) {
+                for (var columnIndex = claim.leftOffset; columnIndex < maxColumnIndex; columnIndex++) {
                     claimArea[rowIndex][columnIndex]++;
                 }
             }
@@ -89,12 +88,12 @@ public class Day03 implements Solver<Integer> {
     /// @return the square inches of fabric within two or more claims.
     @Override
     public Integer partOne() {
-        int[][] claimCounts = countClaims(claims);
+        final var claimCounts = countClaims(claims);
         
-        int areaWithTwoOrMoreClaims = 0;
+        var areaWithTwoOrMoreClaims = 0;
         
-        for (int[] claimCount : claimCounts) {
-            for (int columnIndex = 0; columnIndex < claimCounts.length; columnIndex++) {
+        for (final var claimCount : claimCounts) {
+            for (var columnIndex = 0; columnIndex < claimCounts.length; columnIndex++) {
                 if (claimCount[columnIndex] > 1) {
                     areaWithTwoOrMoreClaims++;
                 }
@@ -110,9 +109,9 @@ public class Day03 implements Solver<Integer> {
     /// @throws IllegalStateException if there were no claims that did not overlap.
     @Override
     public Integer partTwo() {
-        int[][] claimCounts = countClaims(claims);
+        final var claimCounts = countClaims(claims);
         
-        for (Claim claim : claims) {
+        for (final var claim : claims) {
             if (!isOverlappingClaim(claimCounts, claim)) {
                 return claim.claimId;
             }
@@ -127,11 +126,11 @@ public class Day03 implements Solver<Integer> {
     /// @param claim       a claim.
     /// @return true if the claim overlaps with any other claims, or false otherwise.
     private static boolean isOverlappingClaim(int[][] claimCounts, Claim claim) {
-        int maxRowIndex = claim.topOffset + claim.height;
-        int maxColumnIndex = claim.leftOffset + claim.width;
+        final var maxRowIndex = claim.topOffset + claim.height;
+        final var maxColumnIndex = claim.leftOffset + claim.width;
         
-        for (int rowIndex = claim.topOffset; rowIndex < maxRowIndex; rowIndex++) {
-            for (int columnIndex = claim.leftOffset; columnIndex < maxColumnIndex; columnIndex++) {
+        for (var rowIndex = claim.topOffset; rowIndex < maxRowIndex; rowIndex++) {
+            for (var columnIndex = claim.leftOffset; columnIndex < maxColumnIndex; columnIndex++) {
                 if (claimCounts[rowIndex][columnIndex] > 1) {
                     return true;
                 }
