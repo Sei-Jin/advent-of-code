@@ -1,4 +1,4 @@
-package aoc.event.year2016.day01.noTimeForATaxicab;
+package aoc.event.year2016;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class Solution implements Solver {
+public class Day01 implements Solver {
     
     private static final Pattern INSTRUCTION_PATTERN = Pattern.compile("(\\w)(\\d+)");
     
@@ -23,7 +23,7 @@ public class Solution implements Solver {
     /// number, which is the distance to travel.
     ///
     /// An example input is `R2, L3`.
-    public Solution(String input) {
+    public Day01(String input) {
         instructions = parse(input);
     }
     

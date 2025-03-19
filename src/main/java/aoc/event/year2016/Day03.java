@@ -1,4 +1,4 @@
-package aoc.event.year2016.day03.squaresWithThreeSides;
+package aoc.event.year2016;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Solution implements Solver {
+public class Day03 implements Solver {
     
     private final List<List<Integer>> numberLists;
     
-    public Solution(String input) {
+    public Day03(String input) {
         numberLists = parse(input);
     }
     

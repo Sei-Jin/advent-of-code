@@ -1,4 +1,4 @@
-package aoc.event.year2016.day02.bathroomSecurity;
+package aoc.event.year2016;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /// --- Day 2: Bathroom Security ---
-public class Solution implements Solver {
+public class Day02 implements Solver {
     
     private final List<List<Character>> instructionLists;
     
-    public Solution(String input) {
+    public Day02(String input) {
         instructionLists = parse(input);
     }
     

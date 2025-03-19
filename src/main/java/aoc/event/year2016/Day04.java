@@ -1,4 +1,4 @@
-package aoc.event.year2016.day04.securityThroughObscurity;
+package aoc.event.year2016;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -6,14 +6,14 @@ import aoc.Solver;
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class Solution implements Solver {
+public class Day04 implements Solver {
     
     /// Matches the data for the room input.
     private static final Pattern ROOM_PATTERN = Pattern.compile("([\\w-]+)-(\\d+)\\[(\\w+)]");
     
     private final List<Room> rooms;
     
-    public Solution(String input) {
+    public Day04(String input) {
         rooms = parse(input);
     }
     

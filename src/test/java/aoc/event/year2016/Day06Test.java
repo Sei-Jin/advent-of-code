@@ -1,10 +1,10 @@
-package aoc.event.year2016.day06.signalsAndNoise;
+package aoc.event.year2016;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests {
+public class Day06Test {
     
     @Test
     void example() {
@@ -26,7 +26,7 @@ public class SolutionTests {
             dvrsen
             enarar
             """;
-        final var solution = new Solution(input);
+        final var solution = new Day06(input);
         assertEquals("easter", solution.partOne());
         assertEquals("advent", solution.partTwo());
     }

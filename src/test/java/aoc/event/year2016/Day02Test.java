@@ -1,10 +1,10 @@
-package aoc.event.year2016.day02.bathroomSecurity;
+package aoc.event.year2016;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests {
+public class Day02Test {
     
     @Test
     void example() {
@@ -14,7 +14,7 @@ public class SolutionTests {
             LURDL
             UUUUD
             """;
-        final var solution = new Solution(input);
+        final var solution = new Day02(input);
         assertEquals("1985", solution.partOne());
         assertEquals("5DB3", solution.partTwo());
     }

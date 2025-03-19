@@ -1,4 +1,4 @@
-package aoc.event.year2016.day06.signalsAndNoise;
+package aoc.event.year2016;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Solution implements Solver {
+public class Day06 implements Solver {
     
     private final List<List<Character>> characterLists;
     
-    public Solution(String input) {
+    public Day06(String input) {
         characterLists = parse(input);
     }
     
