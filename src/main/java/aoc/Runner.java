@@ -1,7 +1,5 @@
 package aoc;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class Runner {
     
     /// Runs and prints both parts of the puzzle.
@@ -19,28 +17,10 @@ public class Runner {
     /// @param solution a puzzle.
     /// @return the execution data for each of the two parts.
     private static RunData run(Solution solution) {
-        String classPath = solution.determineClassPath();
-        Class<?> solutionClass;
-        
-        try {
-            solutionClass = Class.forName(classPath);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        
         final var input = InputRetriever.retrieveInput(solution);
         
         final var startTime = System.nanoTime();
-        
-        final Solver solver;
-        
-        try {
-            solver = (Solver) solutionClass.getConstructor(String.class).newInstance(input);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-        
+        final var solver = solution.construct(input);
         final var endTime = System.nanoTime();
         final var executionTimeInMicroseconds = (endTime - startTime) / 1000;
         
