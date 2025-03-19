@@ -2,7 +2,6 @@ package aoc.event.year2018;
 
 import aoc.Solver;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -17,26 +16,11 @@ public class Day03 implements Solver<Integer> {
     private static int[][] claimCounts;
     
     public Day03(String input) {
-        claims = parseClaims(input.lines().toList());
+        claims = parseClaims(input);
         claimCounts = countClaims(claims);
     }
     
     /// Parses the puzzle input to create a list of claims.
-    ///
-    /// @param puzzleInput the puzzle input.
-    /// @return a list of claims.
-    private static List<Claim> parseClaims(List<String> puzzleInput) {
-        final var claims = new ArrayList<Claim>();
-        
-        for (final var line : puzzleInput) {
-            final var claim = parseClaim(line);
-            claims.add(claim);
-        }
-        
-        return claims;
-    }
-    
-    /// Parses a line of the puzzle input for the claim data.
     ///
     /// Each line of the puzzle input is in the form: `#8 @ 3,7: 3x6`
     ///
@@ -45,23 +29,27 @@ public class Day03 implements Solver<Integer> {
     /// thought of as the offset from the left and top sides of the claim area.
     /// - `3x6` refers to the size of the claim, where `3` is the columns and `6` is the rows.
     ///
-    /// @param line a line of the puzzle input.
-    /// @return a new claim storing the relevant parsed data.
-    /// @throws IllegalArgumentException if the input line did not match the expected format.
-    private static Claim parseClaim(String line) {
-        final var matcher = CLAIM_PATTERN.matcher(line);
-        
-        if (matcher.find()) {
-            final var claimId = Integer.parseInt(matcher.group(1));
-            final var leftOffset = Integer.parseInt(matcher.group(2));
-            final var topOffset = Integer.parseInt(matcher.group(3));
-            final var width = Integer.parseInt(matcher.group(4));
-            final var height = Integer.parseInt(matcher.group(5));
-            
-            return new Claim(claimId, leftOffset, topOffset, width, height);
-        } else {
-            throw new IllegalArgumentException("Error: Invalid input line: " + line);
-        }
+    /// @param input the puzzle input.
+    /// @return a list of claims.
+    private static List<Claim> parseClaims(String input) {
+        return input
+            .lines()
+            .map(line -> {
+                final var matcher = CLAIM_PATTERN.matcher(line);
+                
+                if (matcher.find()) {
+                    final var claimId = Integer.parseInt(matcher.group(1));
+                    final var leftOffset = Integer.parseInt(matcher.group(2));
+                    final var topOffset = Integer.parseInt(matcher.group(3));
+                    final var width = Integer.parseInt(matcher.group(4));
+                    final var height = Integer.parseInt(matcher.group(5));
+                    
+                    return new Claim(claimId, leftOffset, topOffset, width, height);
+                } else {
+                    throw new IllegalArgumentException("Error: Invalid input line: " + line);
+                }
+            })
+            .toList();
     }
     
     /// Counts the number of claims at each index.
