@@ -1,18 +1,24 @@
 package aoc.event.year2018;
 
-import aoc.DeprecatedSolver;
+import aoc.Solver;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Day03 implements DeprecatedSolver
+public class Day03 implements Solver<Integer>
 {
     /// Pattern of the relevant claim information given in each line of the puzzle input.
     private static final Pattern CLAIM_PATTERN = Pattern.compile(
             "#(\\d+) @ (\\d+),(\\d+): (\\d+)x(\\d+)"
     );
+    
+    private static List<Claim> claims;
+    
+    public Day03(String input) {
+        claims = parseClaims(input.lines().toList());
+    }
     
     /// Stores the information for a claim.
     ///
@@ -105,12 +111,10 @@ public class Day03 implements DeprecatedSolver
     
     /// Calculates the square inches of fabric within two or more claims.
     ///
-    /// @param puzzleInput the puzzle input.
     /// @return the square inches of fabric within two or more claims.
     @Override
-    public Object partOne(List<String> puzzleInput)
+    public Integer partOne()
     {
-        List<Claim> claims = parseClaims(puzzleInput);
         int[][] claimCounts = countClaims(claims);
         
         int areaWithTwoOrMoreClaims = 0;
@@ -131,13 +135,11 @@ public class Day03 implements DeprecatedSolver
     
     /// Finds the claim id of the only claim that does not overlap with any other claims
     ///
-    /// @param puzzleInput the puzzle input.
     /// @return the id of the only claim that does not overlap.
     /// @throws IllegalStateException if there were no claims that did not overlap.
     @Override
-    public Object partTwo(List<String> puzzleInput)
+    public Integer partTwo()
     {
-        List<Claim> claims = parseClaims(puzzleInput);
         int[][] claimCounts = countClaims(claims);
         
         for (Claim claim : claims)
