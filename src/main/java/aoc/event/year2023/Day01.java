@@ -1,6 +1,5 @@
 package aoc.event.year2023;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.HashMap;
@@ -121,10 +120,5 @@ public class Day01 implements Solver {
         digitsMap.put("nine", 9);
         
         return digitsMap;
-    }
-    
-    /// Runs the solution
-    public static void main(String[] args) {
-        Runner.runAndPrint(2023, 1);
     }
 }

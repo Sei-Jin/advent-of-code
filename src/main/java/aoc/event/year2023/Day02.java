@@ -1,6 +1,5 @@
 package aoc.event.year2023;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
@@ -122,9 +121,4 @@ public class Day02 implements Solver {
     /// @param id a unique id for the game.
     /// @param maxCounts stores the highest count for each color across all sets.
     record Game(int id, Map<String, Integer> maxCounts) {}
-    
-    /// Runs the solution.
-    public static void main(String[] args) {
-        Runner.runAndPrint(2023, 2);
-    }
 }
