@@ -1,10 +1,10 @@
-package aoc.event.year2020.day01.reportRepair;
+package aoc.event.year2020;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
+public class Day01Test
 {
     @Test
     void example() {
@@ -16,7 +16,7 @@ public class SolutionTests
                 675
                 1456
                 """;
-        final var solution = new Solution(input);
+        final var solution = new Day01(input);
         assertEquals(514579, solution.partOne());
         assertEquals(241861950, solution.partTwo());
     }

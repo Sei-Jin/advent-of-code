@@ -1,14 +1,14 @@
-package aoc.event.year2020.day01.reportRepair;
+package aoc.event.year2020;
 
-import aoc.Solver;
 import aoc.Runner;
+import aoc.Solver;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class Solution implements Solver {
+public class Day01 implements Solver {
     
     private static final int TARGET_SUM = 2020;
     
@@ -17,7 +17,7 @@ public class Solution implements Solver {
     /// Initializes the solution with the parsed puzzle input.
     ///
     /// The puzzle input contains one number on each line.
-    public Solution(String input) {
+    public Day01(String input) {
         numbers = Collections.unmodifiableList(parse(input));
     }
     

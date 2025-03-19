@@ -1,4 +1,4 @@
-package aoc.event.year2020.day05.binaryBoarding;
+package aoc.event.year2020;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -8,13 +8,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Solution implements Solver
+public class Day05 implements Solver
 {
     private static final Pattern BOARDING_SEQUENCE = Pattern.compile("^([BF]+)([LR]+)$");
     
     private final List<BoardingSequence> boardingSequences;
     
-    public Solution(String input) {
+    public Day05(String input) {
         boardingSequences = parse(input);
     }
     

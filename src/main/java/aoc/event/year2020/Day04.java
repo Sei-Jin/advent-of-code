@@ -1,4 +1,4 @@
-package aoc.event.year2020.day04.passportProcessing;
+package aoc.event.year2020;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -6,14 +6,14 @@ import aoc.Solver;
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class Solution implements Solver {
+public class Day04 implements Solver {
     
     private static final Set<String> mandatoryFields = createMandatoryFields();
     private static final Set<String> colourSet = createColourSet();
     
     private final List<Map<String, String>> fieldMaps;
     
-    public Solution(String input) {
+    public Day04(String input) {
         fieldMaps = parse(input);
     }
     

@@ -1,4 +1,4 @@
-package aoc.event.year2020.day02.passwordPhilosophy;
+package aoc.event.year2020;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Solution implements Solver {
+public class Day02 implements Solver {
     
     private static final Pattern LINE_PATTERN = Pattern.compile(
             "^(\\d+)-(\\d+) (\\w): (\\w+)$"
@@ -15,7 +15,7 @@ public class Solution implements Solver {
     
     private final List<Line> lines;
     
-    public Solution(String input) {
+    public Day02(String input) {
         lines = Collections.unmodifiableList(parse(input));
     }
     

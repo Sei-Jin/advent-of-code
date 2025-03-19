@@ -1,10 +1,10 @@
-package aoc.event.year2020.day04.passportProcessing;
+package aoc.event.year2020;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests {
+public class Day04Test {
     
     @Test
     void example1() {
@@ -23,7 +23,7 @@ public class SolutionTests {
             hcl:#cfa07d eyr:2025 pid:166559648
             iyr:2011 ecl:brn hgt:59in
             """;
-        final var solution = new Solution(input);
+        final var solution = new Day04(input);
         assertEquals(2, solution.partOne());
     }
     
@@ -44,7 +44,7 @@ public class SolutionTests {
             eyr:2038 hcl:74454a iyr:2023
             pid:3556412378 byr:2007
             """;
-        final var solution = new Solution(input);
+        final var solution = new Day04(input);
         assertEquals(0, solution.partTwo());
     }
     
@@ -64,7 +64,7 @@ public class SolutionTests {
             
             iyr:2010 hgt:158cm hcl:#b6652a ecl:blu byr:1944 eyr:2021 pid:093154719
             """;
-        final var solution = new Solution(input);
+        final var solution = new Day04(input);
         assertEquals(4, solution.partTwo());
     }
 }

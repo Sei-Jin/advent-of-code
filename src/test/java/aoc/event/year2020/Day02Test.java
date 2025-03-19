@@ -1,10 +1,10 @@
-package aoc.event.year2020.day02.passwordPhilosophy;
+package aoc.event.year2020;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
+public class Day02Test
 {
     @Test
     void example() {
@@ -13,7 +13,7 @@ public class SolutionTests
                 1-3 b: cdefg
                 2-9 c: ccccccccc
                 """;
-        final var solution = new Solution(input);
+        final var solution = new Day02(input);
         assertEquals(2, solution.partOne());
         assertEquals(1, solution.partTwo());
     }

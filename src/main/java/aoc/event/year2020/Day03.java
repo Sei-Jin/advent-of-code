@@ -1,10 +1,10 @@
-package aoc.event.year2020.day03.tobogganTrajectory;
+package aoc.event.year2020;
 
 import aoc.DeprecatedSolver;
 
 import java.util.List;
 
-public class Solution implements DeprecatedSolver
+public class Day03 implements DeprecatedSolver
 {
     @Override
     public Object partOne(List<String> inputLines)
