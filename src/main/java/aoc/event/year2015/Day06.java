@@ -1,4 +1,4 @@
-package aoc.event.year2015.day06.probablyAFireHazard;
+package aoc.event.year2015;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Solution implements Solver {
+public class Day06 implements Solver {
     
     private static final Pattern INSTRUCTION_PATTERN =
         Pattern.compile("([\\w ]+) (\\d+),(\\d+) through (\\d+),(\\d+)");
@@ -16,7 +16,7 @@ public class Solution implements Solver {
     
     private final List<Instruction> instructions;
     
-    public Solution(String input) {
+    public Day06(String input) {
         instructions = parse(input);
     }
     

@@ -1,11 +1,11 @@
-package aoc.event.year2015.day05.doesntHeHaveInternElvesForThis;
+package aoc.event.year2015;
 
 import aoc.Runner;
 import aoc.Solver;
 
 import java.util.List;
 
-public class Solution implements Solver {
+public class Day05 implements Solver {
     
     private static final String AT_LEAST_THREE_VOWELS = "^([^aeiou]*[aeiou]){3,}[^aeiou]*$";
     private static final String AT_LEAST_ONE_LETTER_TWICE_IN_A_ROW = "^.*([a-z])\\1.*$";
@@ -16,7 +16,7 @@ public class Solution implements Solver {
     
     private final List<String> lines;
     
-    public Solution(String input) {
+    public Day05(String input) {
         lines = input.lines().toList();
     }
     

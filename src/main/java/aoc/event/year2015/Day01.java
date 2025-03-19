@@ -1,13 +1,13 @@
-package aoc.event.year2015.day01.notQuiteLisp;
+package aoc.event.year2015;
 
 import aoc.Runner;
 import aoc.Solver;
 
-public class Solution implements Solver {
+public class Day01 implements Solver {
     
     private static String line;
     
-    public Solution(String input) {
+    public Day01(String input) {
         line = input;
     }
     

@@ -1,15 +1,15 @@
-package aoc.event.year2015.day03.perfectlySphericalHousesInAVacuum;
+package aoc.event.year2015;
 
 import aoc.Runner;
 import aoc.Solver;
 
 import java.util.*;
 
-public class Solution implements Solver {
+public class Day03 implements Solver {
     
     private final List<Direction> directions;
     
-    public Solution(String input) {
+    public Day03(String input) {
         directions = Collections.unmodifiableList(parse(input));
     }
     

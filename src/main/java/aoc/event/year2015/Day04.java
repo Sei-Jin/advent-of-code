@@ -1,10 +1,10 @@
-package aoc.event.year2015.day04.theIdealStockingStuffer;
+package aoc.event.year2015;
 
 import aoc.DeprecatedSolver;
 
 import java.util.List;
 
-public class Solution implements DeprecatedSolver
+public class Day04 implements DeprecatedSolver
 {
     @Override
     public Object partOne(List<String> inputLines)

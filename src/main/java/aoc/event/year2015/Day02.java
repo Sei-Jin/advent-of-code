@@ -1,4 +1,4 @@
-package aoc.event.year2015.day02.iWasToldThereWouldBeNoMath;
+package aoc.event.year2015;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -8,13 +8,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Solution implements Solver {
+public class Day02 implements Solver {
     
     private static final Pattern NUMBER_PATTERN = Pattern.compile("^(\\d+)x(\\d+)x(\\d+)$");
     
     private final List<Box> boxes;
     
-    public Solution(String input) {
+    public Day02(String input) {
         boxes = parse(input);
     }
     
