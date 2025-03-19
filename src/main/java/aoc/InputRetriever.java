@@ -22,13 +22,13 @@ public class InputRetriever {
     /// the puzzle input is retrieved from the website, stored in local storage, and then
     /// retrieved from local storage.
     ///
-    /// @param puzzle the puzzle.
+    /// @param solution the puzzle.
     /// @return the puzzle input.
-    public static String retrieveInput(Puzzle puzzle) {
-        final var inputPath = getInputPath(puzzle);
+    public static String retrieveInput(Solution solution) {
+        final var inputPath = getInputPath(solution);
         
         if (!Files.exists(inputPath)) {
-            final var input = getInputFromWebsite(puzzle);
+            final var input = getInputFromWebsite(solution);
             storeInput(inputPath, input);
         }
         
@@ -37,13 +37,13 @@ public class InputRetriever {
     
     /// Returns the file path of the input file.
     ///
-    /// @param puzzle the puzzle.
+    /// @param solution the puzzle.
     /// @return the file path of the input file.
-    private static Path getInputPath(Puzzle puzzle) {
+    private static Path getInputPath(Solution solution) {
         final var inputFileString = String.format(
             "input/year%d/day%s.txt",
-            puzzle.year(),
-            puzzle.getDayWithPadding()
+            solution.year(),
+            solution.getDayWithPadding()
         );
         
         return Path.of(inputFileString);
@@ -70,13 +70,13 @@ public class InputRetriever {
     /// The input is retrieved from the website by making a GET request at the puzzle input URL.
     /// Puzzle inputs are user-specific, so a valid session cookie for a user must be provided.
     ///
-    /// @param puzzle the puzzle.
+    /// @param solution the puzzle.
     /// @return the puzzle input.
-    private static String getInputFromWebsite(Puzzle puzzle) {
+    private static String getInputFromWebsite(Solution solution) {
         final var inputURL = String.format(
             "https://adventofcode.com/%d/day/%d/input",
-            puzzle.year(),
-            puzzle.day()
+            solution.year(),
+            solution.day()
         );
         
         final var request = HttpRequest.newBuilder()

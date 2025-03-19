@@ -9,17 +9,17 @@ public class Runner {
     /// @param year the year of the puzzle.
     /// @param day  the day of the puzzle.
     public static void runAndPrint(int year, int day) {
-        final var puzzle = new Puzzle(year, day);
+        final var puzzle = new Solution(year, day);
         final var runData = run(puzzle);
         print(puzzle, runData);
     }
     
     /// Runs both parts of the given puzzle
     ///
-    /// @param puzzle a puzzle.
+    /// @param solution a puzzle.
     /// @return the execution data for each of the two parts.
-    private static RunData run(Puzzle puzzle) {
-        String classPath = puzzle.determineClassPath();
+    private static RunData run(Solution solution) {
+        String classPath = solution.determineClassPath();
         Class<?> solutionClass;
         
         try {
@@ -28,7 +28,7 @@ public class Runner {
             throw new RuntimeException(e);
         }
         
-        final var input = InputRetriever.retrieveInput(puzzle);
+        final var input = InputRetriever.retrieveInput(solution);
         
         final var startTime = System.nanoTime();
         
@@ -72,10 +72,10 @@ public class Runner {
     
     /// Prints the execution data for the puzzle.
     ///
-    /// @param puzzle  the puzzle
+    /// @param solution  the puzzle
     /// @param runData the execution data of the puzzle.
-    private static void print(Puzzle puzzle, RunData runData) {
-        System.out.printf("\nYear: %d Day: %d\n", puzzle.year(), puzzle.day());
+    private static void print(Solution solution, RunData runData) {
+        System.out.printf("\nYear: %d Day: %d\n", solution.year(), solution.day());
         System.out.println("--------------------------------------");
         System.out.printf("%-10s|%12s |%13s\n", "Part", "Time", "Result");
         System.out.println("--------------------------------------");

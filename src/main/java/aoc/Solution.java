@@ -3,7 +3,7 @@ package aoc;
 import java.io.File;
 import java.nio.file.Path;
 
-public record Puzzle(int year, int day) {
+public record Solution(int year, int day) {
     
     /// Determines the classpath of the puzzle solution.
     ///
