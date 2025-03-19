@@ -1,15 +1,15 @@
-package aoc.event.year2022.day06.tuningTrouble;
+package aoc.event.year2022;
 
-import aoc.Solver;
 import aoc.Runner;
+import aoc.Solver;
 
 import java.util.HashMap;
 
-public class Solution implements Solver {
+public class Day06 implements Solver {
     
     private final String string;
     
-    public Solution(String input) {
+    public Day06(String input) {
         this.string = input;
     }
     

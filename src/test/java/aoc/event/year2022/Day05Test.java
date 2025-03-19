@@ -1,10 +1,10 @@
-package aoc.event.year2022.day05.supplyStacks;
+package aoc.event.year2022;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests {
+public class Day05Test {
     
     @Test
     void example() {
@@ -19,7 +19,7 @@ public class SolutionTests {
                move 2 from 2 to 1
                move 1 from 1 to 2
                """;
-        final var solution = new Solution(input);
+        final var solution = new Day05(input);
         assertEquals("CMZ", solution.partOne());
         assertEquals("MCD", solution.partTwo());
     }

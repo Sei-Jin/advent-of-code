@@ -1,4 +1,4 @@
-package aoc.event.year2022.day01.calorieCounting;
+package aoc.event.year2022;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -8,13 +8,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class Solution implements Solver {
+public class Day01 implements Solver {
     
     /// Stores the sublist sums.
     private final List<Integer> sublistSums;
     
     /// Initializes the solution.
-    public Solution(String input) {
+    public Day01(String input) {
         final var lists = Collections.unmodifiableList(parse(input));
         sublistSums = Collections.unmodifiableList(calculateSums(lists));
     }

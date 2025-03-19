@@ -1,10 +1,10 @@
-package aoc.event.year2022.day01.calorieCounting;
+package aoc.event.year2022;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests {
+public class Day01Test {
     
     @Test
     void example() {
@@ -24,7 +24,7 @@ public class SolutionTests {
                 
                 10000
                 """;
-        final var solution = new Solution(input);
+        final var solution = new Day01(input);
         assertEquals(24000, solution.partOne());
         assertEquals(45000, solution.partTwo());
     }

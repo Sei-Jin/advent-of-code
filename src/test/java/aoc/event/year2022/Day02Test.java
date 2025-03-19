@@ -1,10 +1,10 @@
-package aoc.event.year2022.day02.rockPaperScissors;
+package aoc.event.year2022;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests {
+public class Day02Test {
     
     @Test
     void example() {
@@ -13,7 +13,7 @@ public class SolutionTests {
                 B X
                 C Z
                 """;
-        final var solution = new Solution(input);
+        final var solution = new Day02(input);
         assertEquals(15, solution.partOne());
         assertEquals(12, solution.partTwo());
     }

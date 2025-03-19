@@ -1,4 +1,4 @@
-package aoc.event.year2022.day05.supplyStacks;
+package aoc.event.year2022;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Solution implements Solver {
+public class Day05 implements Solver {
     
     private final Pattern MOVE_PATTERN = Pattern.compile(
             "move (\\d+) from (\\d+) to (\\d+)"
@@ -26,7 +26,7 @@ public class Solution implements Solver {
     ///  the stacks.
     ///
     /// @param input the puzzle input.
-    public Solution(String input) {
+    public Day05(String input) {
         final var lines = input.lines().toList();
         
         final var emptyLineIndex = getEmptyLineIndex(lines);

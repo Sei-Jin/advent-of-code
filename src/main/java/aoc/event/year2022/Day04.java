@@ -1,4 +1,4 @@
-package aoc.event.year2022.day04.campCleanup;
+package aoc.event.year2022;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Solution implements Solver {
+public class Day04 implements Solver {
     
     private static final Pattern RANGE_PATTERN = Pattern.compile(
             "^(\\d+)-(\\d+),(\\d+)-(\\d+)$"
@@ -19,7 +19,7 @@ public class Solution implements Solver {
     ///
     /// The puzzle input contains two ranges on each line, such as `2-4,4-6`. In this example the
     /// first range would be `2-4` and the second range would be `4-6`.
-    public Solution(String input) {
+    public Day04(String input) {
         rangePairs = Collections.unmodifiableList(parse(input));
     }
     

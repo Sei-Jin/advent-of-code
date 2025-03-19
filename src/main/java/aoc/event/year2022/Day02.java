@@ -1,4 +1,4 @@
-package aoc.event.year2022.day02.rockPaperScissors;
+package aoc.event.year2022;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Solution implements Solver {
+public class Day02 implements Solver {
     
     private final List<Round> rounds;
     
@@ -17,7 +17,7 @@ public class Solution implements Solver {
     /// represent the data for a round.
     ///
     /// @param input the puzzle input.
-    public Solution(String input) {
+    public Day02(String input) {
         rounds = Collections.unmodifiableList(parse(input));
     }
     

@@ -1,10 +1,10 @@
-package aoc.event.year2022.day04.campCleanup;
+package aoc.event.year2022;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests {
+public class Day04Test {
     
     @Test
     void example() {
@@ -16,7 +16,7 @@ public class SolutionTests {
                 6-6,4-6
                 2-6,4-8
                 """;
-        final var solution = new Solution(input);
+        final var solution = new Day04(input);
         assertEquals(2, solution.partOne());
         assertEquals(4, solution.partTwo());
     }
@@ -27,7 +27,7 @@ public class SolutionTests {
                 5-5,4-6
                 4-6,5-5
                 """;
-        final var solution = new Solution(input);
+        final var solution = new Day04(input);
         assertEquals(2, solution.partTwo());
     }
 }

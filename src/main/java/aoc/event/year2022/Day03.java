@@ -1,4 +1,4 @@
-package aoc.event.year2022.day03.rucksackReorganization;
+package aoc.event.year2022;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-public class Solution implements Solver {
+public class Day03 implements Solver {
     
     private final List<List<Character>> lines;
     
@@ -17,7 +17,7 @@ public class Solution implements Solver {
     /// alphabetical character from `a-z` that may or may not be capitalized.
     ///
     /// @param input the puzzle input.
-    public Solution(String input) {
+    public Day03(String input) {
         lines = Collections.unmodifiableList(parse(input));
     }
     
