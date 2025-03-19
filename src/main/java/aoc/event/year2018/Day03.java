@@ -20,16 +20,20 @@ public class Day03 implements Solver<Integer> {
         claims = parseClaims(input.lines().toList());
     }
     
-    /// Stores the information for a claim.
+    /// Parses the puzzle input to create a list of claims.
     ///
-    /// @param claimId    the id of the claim.
-    /// @param leftOffset the offset from the start of the claim to the left side of the
-    ///                           claim area.
-    /// @param topOffset  the offset from the start of the claim to the top side of the claim
-    ///                           area.
-    /// @param width      the width of the claim.
-    /// @param height     the height of the claim.
-    private record Claim(int claimId, int leftOffset, int topOffset, int width, int height) {}
+    /// @param puzzleInput the puzzle input.
+    /// @return a list of claims.
+    private static List<Claim> parseClaims(List<String> puzzleInput) {
+        List<Claim> claims = new ArrayList<>();
+        
+        for (String line : puzzleInput) {
+            Claim claim = parseClaim(line);
+            claims.add(claim);
+        }
+        
+        return claims;
+    }
     
     /// Parses a line of the puzzle input for the claim data.
     ///
@@ -61,21 +65,6 @@ public class Day03 implements Solver<Integer> {
         } else {
             throw new IllegalArgumentException("Error: Invalid input line: " + line);
         }
-    }
-    
-    /// Parses the puzzle input to create a list of claims.
-    ///
-    /// @param puzzleInput the puzzle input.
-    /// @return a list of claims.
-    private static List<Claim> parseClaims(List<String> puzzleInput) {
-        List<Claim> claims = new ArrayList<>();
-        
-        for (String line : puzzleInput) {
-            Claim claim = parseClaim(line);
-            claims.add(claim);
-        }
-        
-        return claims;
     }
     
     /// Counts the number of claims at each index.
@@ -155,4 +144,15 @@ public class Day03 implements Solver<Integer> {
         
         return false;
     }
+    
+    /// Stores the information for a claim.
+    ///
+    /// @param claimId    the id of the claim.
+    /// @param leftOffset the offset from the start of the claim to the left side of the
+    ///                                             claim area.
+    /// @param topOffset  the offset from the start of the claim to the top side of the claim
+    ///                                             area.
+    /// @param width      the width of the claim.
+    /// @param height     the height of the claim.
+    private record Claim(int claimId, int leftOffset, int topOffset, int width, int height) {}
 }
