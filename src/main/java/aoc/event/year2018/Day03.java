@@ -38,12 +38,12 @@ public class Day03 implements Solver<Integer> {
                 
                 if (matcher.find()) {
                     final var claimId = Integer.parseInt(matcher.group(1));
-                    final var leftOffset = Integer.parseInt(matcher.group(2));
-                    final var topOffset = Integer.parseInt(matcher.group(3));
-                    final var width = Integer.parseInt(matcher.group(4));
-                    final var height = Integer.parseInt(matcher.group(5));
+                    final var columnOffset = Integer.parseInt(matcher.group(2));
+                    final var rowOffset = Integer.parseInt(matcher.group(3));
+                    final var columns = Integer.parseInt(matcher.group(4));
+                    final var rows = Integer.parseInt(matcher.group(5));
                     
-                    return new Claim(claimId, leftOffset, topOffset, width, height);
+                    return new Claim(claimId, columnOffset, rowOffset, columns, rows);
                 } else {
                     throw new IllegalArgumentException("Error: Invalid input line: " + line);
                 }
