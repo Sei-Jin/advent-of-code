@@ -14,10 +14,11 @@ public class Day03 implements Solver<Integer> {
     );
     
     private static List<Claim> claims;
+    private static int[][] claimCounts;
     
     public Day03(String input) {
         claims = parseClaims(input.lines().toList());
-        
+        claimCounts = countClaims(claims);
     }
     
     /// Parses the puzzle input to create a list of claims.
@@ -89,8 +90,6 @@ public class Day03 implements Solver<Integer> {
     /// @return the square inches of fabric within two or more claims.
     @Override
     public Integer partOne() {
-        final var claimCounts = countClaims(claims);
-        
         var count = 0;
         
         for (int row = 0; row < claimCounts[0].length; row++) {
@@ -110,8 +109,6 @@ public class Day03 implements Solver<Integer> {
     /// @throws IllegalStateException if there were no claims that did not overlap.
     @Override
     public Integer partTwo() {
-        final var claimCounts = countClaims(claims);
-        
         return claims
             .stream()
             .filter(claim -> !isOverlappingClaim(claimCounts, claim))
