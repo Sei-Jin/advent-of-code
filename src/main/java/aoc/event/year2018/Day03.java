@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
 
 public class Day03 implements Solver<Integer> {
     
-    /// Pattern of the relevant claim information given in each line of the puzzle input.
     private static final Pattern CLAIM_PATTERN = Pattern.compile(
         "#(\\d+) @ (\\d+),(\\d+): (\\d+)x(\\d+)"
     );
@@ -51,11 +50,7 @@ public class Day03 implements Solver<Integer> {
             })
             .toList();
     }
-    
-    /// Counts the number of claims at each index.
-    ///
-    /// @param claims a list of claims.
-    /// @return a 2D array of the number of claims at each index.
+
     private static int[][] countClaims(List<Claim> claims) {
         final var claimArea = new int[1000][1000];
         
@@ -74,8 +69,6 @@ public class Day03 implements Solver<Integer> {
     }
     
     /// Calculates the square inches of fabric within two or more claims.
-    ///
-    /// @return the square inches of fabric within two or more claims.
     @Override
     public Integer partOne() {
         var count = 0;
@@ -91,10 +84,7 @@ public class Day03 implements Solver<Integer> {
         return count;
     }
     
-    /// Finds the claim id of the only claim that does not overlap with any other claims
-    ///
-    /// @return the id of the only claim that does not overlap.
-    /// @throws IllegalStateException if there were no claims that did not overlap.
+    /// Finds the claim id of the only claim that does not overlap with any other claims.
     @Override
     public Integer partTwo() {
         return claims
@@ -107,10 +97,6 @@ public class Day03 implements Solver<Integer> {
             .claimId;
     }
     
-    /// Determines if the given claim overlaps with any other claim.
-    ///
-    /// @param claim a claim.
-    /// @return true if the claim overlaps with any other claims, or false otherwise.
     private static boolean isOverlappingClaim(Claim claim) {
         final var maxRow = claim.rowOffset + claim.rows;
         final var maxColumn = claim.columnOffset + claim.columns;
@@ -126,12 +112,5 @@ public class Day03 implements Solver<Integer> {
         return false;
     }
     
-    /// Stores the information for a claim.
-    ///
-    /// @param claimId the id of the claim.
-    /// @param columnOffset the offset from the start of the claim to the left side of the claim area.
-    /// @param rowOffset the offset from the start of the claim to the top side of the claim area.
-    /// @param columns the columns of the claim.
-    /// @param rows the rows of the claim.
     private record Claim(int claimId, int columnOffset, int rowOffset, int columns, int rows) {}
 }
