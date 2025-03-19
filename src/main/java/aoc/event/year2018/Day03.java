@@ -17,6 +17,7 @@ public class Day03 implements Solver<Integer> {
     
     public Day03(String input) {
         claims = parseClaims(input.lines().toList());
+        
     }
     
     /// Parses the puzzle input to create a list of claims.
@@ -41,7 +42,7 @@ public class Day03 implements Solver<Integer> {
     /// - `#8` refers to the id of the claim.
     /// - `@ 3,7` refers to the coordinates of the top left corner of the claim. This can also be
     /// thought of as the offset from the left and top sides of the claim area.
-    /// - `3x6` refers to the size of the claim, where `3` is the width and `6` is the height.
+    /// - `3x6` refers to the size of the claim, where `3` is the columns and `6` is the rows.
     ///
     /// @param line a line of the puzzle input.
     /// @return a new claim storing the relevant parsed data.
@@ -70,12 +71,12 @@ public class Day03 implements Solver<Integer> {
         final var claimArea = new int[1000][1000];
         
         for (final var claim : claims) {
-            final var maxRowIndex = claim.topOffset + claim.height;
-            final var maxColumnIndex = claim.leftOffset + claim.width;
+            final var maxRow = claim.rowOffset + claim.rows;
+            final var maxColumn = claim.columnOffset + claim.columns;
             
-            for (var rowIndex = claim.topOffset; rowIndex < maxRowIndex; rowIndex++) {
-                for (var columnIndex = claim.leftOffset; columnIndex < maxColumnIndex; columnIndex++) {
-                    claimArea[rowIndex][columnIndex]++;
+            for (var row = claim.rowOffset; row < maxRow; row++) {
+                for (var column = claim.columnOffset; column < maxColumn; column++) {
+                    claimArea[row][column]++;
                 }
             }
         }
@@ -90,17 +91,17 @@ public class Day03 implements Solver<Integer> {
     public Integer partOne() {
         final var claimCounts = countClaims(claims);
         
-        var areaWithTwoOrMoreClaims = 0;
+        var count = 0;
         
-        for (final var claimCount : claimCounts) {
-            for (var columnIndex = 0; columnIndex < claimCounts.length; columnIndex++) {
-                if (claimCount[columnIndex] > 1) {
-                    areaWithTwoOrMoreClaims++;
+        for (int row = 0; row < claimCounts[0].length; row++) {
+            for (var column = 0; column < claimCounts.length; column++) {
+                if (claimCounts[row][column] > 1) {
+                    count++;
                 }
             }
         }
         
-        return areaWithTwoOrMoreClaims;
+        return count;
     }
     
     /// Finds the claim id of the only claim that does not overlap with any other claims
@@ -111,27 +112,28 @@ public class Day03 implements Solver<Integer> {
     public Integer partTwo() {
         final var claimCounts = countClaims(claims);
         
-        for (final var claim : claims) {
-            if (!isOverlappingClaim(claimCounts, claim)) {
-                return claim.claimId;
-            }
-        }
-        
-        throw new IllegalStateException("Error: There were no claims that overlapped.");
+        return claims
+            .stream()
+            .filter(claim -> !isOverlappingClaim(claimCounts, claim))
+            .findAny()
+            .orElseThrow(() ->
+                new IllegalStateException("There were no claims that did not overlap.")
+            )
+            .claimId;
     }
     
     /// Determines if the given claim overlaps with any other claim.
     ///
     /// @param claimCounts a 2D array of the claim counts at each index.
-    /// @param claim       a claim.
+    /// @param claim a claim.
     /// @return true if the claim overlaps with any other claims, or false otherwise.
     private static boolean isOverlappingClaim(int[][] claimCounts, Claim claim) {
-        final var maxRowIndex = claim.topOffset + claim.height;
-        final var maxColumnIndex = claim.leftOffset + claim.width;
+        final var maxRow = claim.rowOffset + claim.rows;
+        final var maxColumn = claim.columnOffset + claim.columns;
         
-        for (var rowIndex = claim.topOffset; rowIndex < maxRowIndex; rowIndex++) {
-            for (var columnIndex = claim.leftOffset; columnIndex < maxColumnIndex; columnIndex++) {
-                if (claimCounts[rowIndex][columnIndex] > 1) {
+        for (var row = claim.rowOffset; row < maxRow; row++) {
+            for (var column = claim.columnOffset; column < maxColumn; column++) {
+                if (claimCounts[row][column] > 1) {
                     return true;
                 }
             }
@@ -142,12 +144,10 @@ public class Day03 implements Solver<Integer> {
     
     /// Stores the information for a claim.
     ///
-    /// @param claimId    the id of the claim.
-    /// @param leftOffset the offset from the start of the claim to the left side of the
-    ///                                             claim area.
-    /// @param topOffset  the offset from the start of the claim to the top side of the claim
-    ///                                             area.
-    /// @param width      the width of the claim.
-    /// @param height     the height of the claim.
-    private record Claim(int claimId, int leftOffset, int topOffset, int width, int height) {}
+    /// @param claimId the id of the claim.
+    /// @param columnOffset the offset from the start of the claim to the left side of the claim area.
+    /// @param rowOffset the offset from the start of the claim to the top side of the claim area.
+    /// @param columns the columns of the claim.
+    /// @param rows the rows of the claim.
+    private record Claim(int claimId, int columnOffset, int rowOffset, int columns, int rows) {}
 }
