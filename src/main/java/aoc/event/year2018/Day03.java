@@ -99,7 +99,7 @@ public class Day03 implements Solver<Integer> {
     public Integer partTwo() {
         return claims
             .stream()
-            .filter(claim -> !isOverlappingClaim(claimCounts, claim))
+            .filter(claim -> !isOverlappingClaim(claim))
             .findAny()
             .orElseThrow(() ->
                 new IllegalStateException("There were no claims that did not overlap.")
@@ -109,10 +109,9 @@ public class Day03 implements Solver<Integer> {
     
     /// Determines if the given claim overlaps with any other claim.
     ///
-    /// @param claimCounts a 2D array of the claim counts at each index.
     /// @param claim a claim.
     /// @return true if the claim overlaps with any other claims, or false otherwise.
-    private static boolean isOverlappingClaim(int[][] claimCounts, Claim claim) {
+    private static boolean isOverlappingClaim(Claim claim) {
         final var maxRow = claim.rowOffset + claim.rows;
         final var maxColumn = claim.columnOffset + claim.columns;
         
