@@ -1,6 +1,5 @@
 package aoc.event.year2017;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
@@ -120,9 +119,5 @@ public class Day02 implements Solver {
         }
         
         throw new IllegalArgumentException("No divisible numbers were found");
-    }
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2017, 2);
     }
 }

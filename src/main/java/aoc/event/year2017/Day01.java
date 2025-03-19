@@ -1,6 +1,5 @@
 package aoc.event.year2017;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.Collections;
@@ -73,10 +72,5 @@ public class Day01 implements Solver {
     @Override
     public Integer partTwo() {
         return sumRepeatingDigits(digits.size() / 2);
-    }
-    
-    /// Runs the solution.
-    public static void main(String[] args) {
-        Runner.runAndPrint(2017, 1);
     }
 }

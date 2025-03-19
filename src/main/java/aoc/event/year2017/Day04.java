@@ -1,6 +1,5 @@
 package aoc.event.year2017;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.*;
@@ -90,9 +89,5 @@ public class Day04 implements Solver {
         }
         
         return containsDuplicate(mutableList);
-    }
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2017, 4);
     }
 }
