@@ -2,14 +2,14 @@ package aoc;
 
 public class Runner {
     
-    /// Runs and prints both parts of the puzzle.
-    ///
-    /// @param year the year of the puzzle.
-    /// @param day  the day of the puzzle.
-    public static void runAndPrint(int year, int day) {
-        final var solution = new Solution(year, day);
+    public static void main(String[] args) {
+        final var solution = new Solution(2024, 1);
         final var runData = run(solution);
         print(solution, runData);
+    }
+    
+    @Deprecated(since = "2025-03-19", forRemoval = true)
+    public static void runAndPrint(int year, int day) {
     }
     
     /// Runs both parts of the given puzzle
