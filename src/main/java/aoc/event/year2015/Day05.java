@@ -1,6 +1,5 @@
 package aoc.event.year2015;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.List;
@@ -62,9 +61,5 @@ public class Day05 implements Solver {
         }
         
         return totalNiceStrings;
-    }
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2015, 5);
     }
 }

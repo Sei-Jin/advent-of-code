@@ -1,6 +1,5 @@
 package aoc.event.year2015;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.*;
@@ -145,9 +144,5 @@ public class Day03 implements Solver {
                 default -> throw new IllegalArgumentException("Unexpected value: " + character);
             };
         }
-    }
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2015, 3);
     }
 }

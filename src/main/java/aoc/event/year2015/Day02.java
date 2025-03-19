@@ -1,6 +1,5 @@
 package aoc.event.year2015;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
@@ -79,8 +78,4 @@ public class Day02 implements Solver {
     }
     
     private record Box(int length, int width, int height) {}
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2015, 2);
-    }
 }
