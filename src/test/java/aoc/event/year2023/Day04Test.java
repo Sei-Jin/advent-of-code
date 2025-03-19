@@ -1,6 +1,5 @@
-package aoc.event.year2023.day04.scratchcards;
+package aoc.event.year2023;
 
-import aoc.event.year2023.Day04;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
+public class Day04Test
 {
     @Nested
     class PartOne

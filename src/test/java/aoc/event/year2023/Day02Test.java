@@ -1,11 +1,10 @@
-package aoc.event.year2023.day02.cubeConundrum;
+package aoc.event.year2023;
 
-import aoc.event.year2023.Day02;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests {
+public class Day02Test {
     
     @Test
     void exampleGame1() {

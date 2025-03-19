@@ -1,12 +1,11 @@
-package aoc.event.year2023.day01.trebuchet;
+package aoc.event.year2023;
 
-import aoc.event.year2023.Day01;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests {
+public class Day01Test {
     
     @Nested
     class PartOne {

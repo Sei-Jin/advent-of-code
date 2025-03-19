@@ -1,13 +1,12 @@
-package aoc.event.year2023.day03.gearRatios;
+package aoc.event.year2023;
 
-import aoc.event.year2023.Day03;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
+public class Day03Test
 {
     @Test
     void exampleSchematic()
