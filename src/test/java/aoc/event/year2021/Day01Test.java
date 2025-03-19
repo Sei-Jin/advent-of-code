@@ -1,10 +1,10 @@
-package aoc.event.year2021.day01.sonarSweep;
+package aoc.event.year2021;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests {
+public class Day01Test {
     @Test
     void example() {
         final var input = """
@@ -20,7 +20,7 @@ public class SolutionTests {
                 263
                 """;
         
-        final var solution = new Solution(input);
+        final var solution = new Day01(input);
         assertEquals(7, solution.partOne());
         assertEquals(5, solution.partTwo());
     }

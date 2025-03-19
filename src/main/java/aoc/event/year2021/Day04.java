@@ -1,4 +1,4 @@
-package aoc.event.year2021.day04.giantSquid;
+package aoc.event.year2021;
 
 import aoc.DeprecatedSolver;
 
@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Solution implements DeprecatedSolver
+public class Day04 implements DeprecatedSolver
 {
     /// Pattern that matches all numbers in a string.
     private static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+");

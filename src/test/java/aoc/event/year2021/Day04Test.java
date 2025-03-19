@@ -1,4 +1,4 @@
-package aoc.event.year2021.day04.giantSquid;
+package aoc.event.year2021;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
+public class Day04Test
 {
     @Test
     void example()
@@ -35,7 +35,7 @@ public class SolutionTests
                  2  0 12  3  7
                 """.split("\n")).toList()
         );
-        assertEquals(4512, new Solution().partOne(input));
-        assertEquals(1924, new Solution().partTwo(input));
+        assertEquals(4512, new Day04().partOne(input));
+        assertEquals(1924, new Day04().partTwo(input));
     }
 }

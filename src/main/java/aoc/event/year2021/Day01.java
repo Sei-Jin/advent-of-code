@@ -1,4 +1,4 @@
-package aoc.event.year2021.day01.sonarSweep;
+package aoc.event.year2021;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Solution implements Solver {
+public class Day01 implements Solver {
     
     /// Defines the size of the measurement windows.
     private static final int WINDOW_SIZE = 3;
@@ -16,7 +16,7 @@ public class Solution implements Solver {
     private final List<Integer> depths;
     
     /// Initializes the solution with the puzzle input.
-    public Solution(String input) {
+    public Day01(String input) {
         this.depths = Collections.unmodifiableList(parse(input));
     }
     

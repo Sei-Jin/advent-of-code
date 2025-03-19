@@ -1,10 +1,10 @@
-package aoc.event.year2021.day02.dive;
+package aoc.event.year2021;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
+public class Day02Test
 {
     @Test
     void example() {
@@ -16,7 +16,7 @@ public class SolutionTests
                 down 8
                 forward 2
                 """;
-        final var solution = new Solution(input);
+        final var solution = new Day02(input);
         assertEquals(150, solution.partOne());
         assertEquals(900, solution.partTwo());
     }

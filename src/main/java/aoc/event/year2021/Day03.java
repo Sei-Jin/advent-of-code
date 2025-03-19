@@ -1,4 +1,4 @@
-package aoc.event.year2021.day03.binaryDiagnostic;
+package aoc.event.year2021;
 
 import aoc.DeprecatedSolver;
 
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * --- Day 3: Binary Diagnostic ---
  */
-public class Solution implements DeprecatedSolver
+public class Day03 implements DeprecatedSolver
 {
     /**
      * @param inputLines the puzzle input.
