@@ -36,7 +36,7 @@ public class Runner {
     /// @param part   the part to run.
     /// @param solver the puzzle solver.
     /// @return the execution data for the part.
-    private static Data runPart(Part part, Solver solver) {
+    private static Data runPart(Part part, Solver<?> solver) {
         final var startTime = System.nanoTime();
         
         final var result = switch (part) {

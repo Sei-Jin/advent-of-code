@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 public record Solution(int year, int day) {
     
-    public Solver construct(String input) {
+    public Solver<?> construct(String input) {
         final var classPath = determineClassPath();
         final var clazz = determineClass(classPath);
         final var constructor = getConstructor(clazz);
@@ -34,9 +34,9 @@ public record Solution(int year, int day) {
         }
     }
     
-    private static Solver createInstance(Constructor<?> executable, String input) {
+    private static Solver<?> createInstance(Constructor<?> executable, String input) {
         try {
-            return (Solver) executable.newInstance(input);
+            return (Solver<?>) executable.newInstance(input);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
