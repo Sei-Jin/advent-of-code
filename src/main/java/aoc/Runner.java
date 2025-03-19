@@ -8,10 +8,6 @@ public class Runner {
         print(solution, runData);
     }
     
-    @Deprecated(since = "2025-03-19", forRemoval = true)
-    public static void runAndPrint(int year, int day) {
-    }
-    
     /// Runs both parts of the given puzzle
     ///
     /// @param solution a puzzle.
