@@ -1,6 +1,5 @@
 package aoc.event.year2016;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
@@ -83,9 +82,5 @@ public class Day06 implements Solver {
         }
         
         return messageBuilder.toString();
-    }
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2016, 6);
     }
 }

@@ -1,6 +1,5 @@
 package aoc.event.year2016;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
@@ -82,9 +81,5 @@ public class Day03 implements Solver {
         }
         
         return possibleTriangles;
-    }
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2016, 3);
     }
 }

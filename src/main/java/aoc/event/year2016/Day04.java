@@ -1,6 +1,5 @@
 package aoc.event.year2016;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.*;
@@ -195,8 +194,4 @@ public class Day04 implements Solver {
     
     /// Stores the data for a room.
     record Room(String encryptedName, int sectorId, String checksum) {}
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2016, 4);
-    }
 }

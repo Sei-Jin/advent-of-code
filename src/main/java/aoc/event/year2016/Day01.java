@@ -1,6 +1,5 @@
 package aoc.event.year2016;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
@@ -165,9 +164,5 @@ public class Day01 implements Solver {
         public int hashCode() {
             return Objects.hash(x, y);
         }
-    }
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2016, 1);
     }
 }
