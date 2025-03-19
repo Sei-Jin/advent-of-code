@@ -37,11 +37,7 @@ public class Day03 implements Solver<Integer> {
     
     /// Parses a line of the puzzle input for the claim data.
     ///
-    /// Each line of the puzzle input is in the form:
-    ///
-    /// ```
-    ///#8 @ 3,7: 3x6
-    ///```
+    /// Each line of the puzzle input is in the form: `#8 @ 3,7: 3x6`
     ///
     /// - `#8` refers to the id of the claim.
     /// - `@ 3,7` refers to the coordinates of the top left corner of the claim. This can also be
