@@ -1,17 +1,20 @@
-package aoc.event.year2018.day01.chronalCalibration;
+package aoc.event.year2018;
 
 import aoc.Solver;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-public class Solution implements Solver {
+public class Day01 implements Solver {
     
     /// The starting frequency value.
     private static final int STARTING_FREQUENCY = 0;
     
     private final List<Integer> frequencies;
     
-    public Solution(String input) {
+    public Day01(String input) {
         frequencies = Collections.unmodifiableList(parse(input));
     }
     

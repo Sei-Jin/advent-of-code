@@ -1,15 +1,15 @@
-package aoc.event.year2018.day02.inventoryManagementSystem;
+package aoc.event.year2018;
 
 import aoc.Runner;
 import aoc.Solver;
 
 import java.util.*;
 
-public class Solution implements Solver {
+public class Day02 implements Solver {
     
     private final List<List<Character>> characterLists;
     
-    public Solution(String input) {
+    public Day02(String input) {
         characterLists = Collections.unmodifiableList(parse(input));
     }
     

@@ -1,4 +1,4 @@
-package aoc.event.year2018.day03.noMatterHowYouSliceIt;
+package aoc.event.year2018;
 
 import aoc.DeprecatedSolver;
 
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Solution implements DeprecatedSolver
+public class Day03 implements DeprecatedSolver
 {
     /// Pattern of the relevant claim information given in each line of the puzzle input.
     private static final Pattern CLAIM_PATTERN = Pattern.compile(

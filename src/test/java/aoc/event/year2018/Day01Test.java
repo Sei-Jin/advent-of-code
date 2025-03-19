@@ -1,10 +1,10 @@
-package aoc.event.year2018.day01.chronalCalibration;
+package aoc.event.year2018;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests {
+public class Day01Test {
 
     @Test
     void example1() {
@@ -14,7 +14,7 @@ public class SolutionTests {
             +3
             +1
             """;
-        final var solution = new Solution(input);
+        final var solution = new Day01(input);
         assertEquals(3, solution.partOne());
         assertEquals(2, solution.partTwo());
     }
@@ -26,7 +26,7 @@ public class SolutionTests {
             +1
             +1
             """;
-        final var solution = new Solution(input);
+        final var solution = new Day01(input);
         assertEquals(3, solution.partOne());
     }
     
@@ -37,7 +37,7 @@ public class SolutionTests {
             +1
             -2
             """;
-        final var solution = new Solution(input);
+        final var solution = new Day01(input);
         assertEquals(0, solution.partOne());
     }
     
@@ -48,7 +48,7 @@ public class SolutionTests {
             -2
             -3
             """;
-        final var solution = new Solution(input);
+        final var solution = new Day01(input);
         assertEquals(-6, solution.partOne());
     }
     
@@ -58,7 +58,7 @@ public class SolutionTests {
             +1
             -1
             """;
-        final var solution = new Solution(input);
+        final var solution = new Day01(input);
         assertEquals(0, solution.partTwo());
     }
     
@@ -71,7 +71,7 @@ public class SolutionTests {
             -2
             -4
             """;
-        final var solution = new Solution(input);
+        final var solution = new Day01(input);
         assertEquals(10, solution.partTwo());
     }
     
@@ -84,7 +84,7 @@ public class SolutionTests {
             +5
             -6
             """;
-        final var solution = new Solution(input);
+        final var solution = new Day01(input);
         assertEquals(5, solution.partTwo());
     }
     
@@ -97,7 +97,7 @@ public class SolutionTests {
             -7
             -4
             """;
-        final var solution = new Solution(input);
+        final var solution = new Day01(input);
         assertEquals(14, solution.partTwo());
     }
 }
