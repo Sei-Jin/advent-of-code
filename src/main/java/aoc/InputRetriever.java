@@ -41,9 +41,9 @@ public class InputRetriever {
     /// @return the file path of the input file.
     private static Path getInputPath(Solution solution) {
         final var inputFileString = String.format(
-            "input/year%d/day%s.txt",
+            "input/year%d/day%02d.txt",
             solution.year(),
-            solution.getDayWithPadding()
+            solution.day()
         );
         
         return Path.of(inputFileString);
