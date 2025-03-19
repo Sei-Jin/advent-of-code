@@ -1,6 +1,5 @@
 package aoc.event.year2020;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.Collections;
@@ -82,8 +81,4 @@ public class Day02 implements Solver {
     }
     
     private record Line(int first, int second, char character, List<Character> password) {}
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2020, 2);
-    }
 }

@@ -1,6 +1,5 @@
 package aoc.event.year2020;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
@@ -86,9 +85,5 @@ public class Day01 implements Solver {
         throw new IllegalArgumentException(
                 "There were no three numbers with a sum equal to the target value."
         );
-    }
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2020, 1);
     }
 }

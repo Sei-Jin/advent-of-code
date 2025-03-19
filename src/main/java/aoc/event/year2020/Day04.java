@@ -1,6 +1,5 @@
 package aoc.event.year2020;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.*;
@@ -210,9 +209,5 @@ public class Day04 implements Solver {
         EyeColour(String colour) {
             this.colour = colour;
         }
-    }
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2020, 4);
     }
 }

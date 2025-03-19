@@ -1,6 +1,5 @@
 package aoc.event.year2020;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
@@ -101,8 +100,4 @@ public class Day05 implements Solver
     }
     
     private record BoardingSequence(List<Character> rowSequence, List<Character> columnSequence) {}
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2020, 5);
-    }
 }
