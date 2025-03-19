@@ -1,6 +1,5 @@
 package aoc.event.year2019;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.ArrayList;
@@ -94,8 +93,4 @@ public class Day02 implements Solver {
     }
     
     private record Positions(Integer first, Integer second, Integer output) {}
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2019, 2);
-    }
 }

@@ -1,6 +1,5 @@
 package aoc.event.year2019;
 
-import aoc.Runner;
 import aoc.Solver;
 
 import java.util.Collections;
@@ -62,9 +61,5 @@ public class Day01 implements Solver {
         } else {
             return fuelMass + calculateFuelMassRecursively(fuelMass);
         }
-    }
-    
-    public static void main(String[] args) {
-        Runner.runAndPrint(2019, 1);
     }
 }
