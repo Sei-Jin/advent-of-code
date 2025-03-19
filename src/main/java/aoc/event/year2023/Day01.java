@@ -1,4 +1,4 @@
-package aoc.event.year2023.day01.trebuchet;
+package aoc.event.year2023;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -6,13 +6,13 @@ import aoc.Solver;
 import java.util.HashMap;
 import java.util.List;
 
-public class Solution implements Solver {
+public class Day01 implements Solver {
     
     /// Stores the puzzle input.
     private final List<String> lines;
     
     /// Initializes the solution.
-    public Solution(String input) {
+    public Day01(String input) {
         lines = input.lines().toList();
     }
     

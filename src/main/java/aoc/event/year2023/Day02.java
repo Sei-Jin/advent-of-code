@@ -1,11 +1,14 @@
-package aoc.event.year2023.day02.cubeConundrum;
+package aoc.event.year2023;
 
 import aoc.Runner;
 import aoc.Solver;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class Solution implements Solver {
+public class Day02 implements Solver {
     
     // Stores the data for the games.
     private final List<Game> games;
@@ -13,7 +16,7 @@ public class Solution implements Solver {
     /// Initializes the solution
     ///
     /// @param input the puzzle input
-    public Solution(String input) {
+    public Day02(String input) {
         this.games = parse(input);
     }
     

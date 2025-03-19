@@ -1,4 +1,4 @@
-package aoc.event.year2023.day04.scratchcards;
+package aoc.event.year2023;
 
 import aoc.DeprecatedSolver;
 
@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Solution implements DeprecatedSolver
+public class Day04 implements DeprecatedSolver
 {
     /// A regex pattern to parse the numbers for each set in the scratchcard.
     ///

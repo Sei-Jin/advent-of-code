@@ -1,4 +1,4 @@
-package aoc.event.year2023.day03.gearRatios;
+package aoc.event.year2023;
 
 import aoc.DeprecatedSolver;
 
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class Solution implements DeprecatedSolver
+public class Day03 implements DeprecatedSolver
 {
     final char EMPTY_POSITION = '.';
     

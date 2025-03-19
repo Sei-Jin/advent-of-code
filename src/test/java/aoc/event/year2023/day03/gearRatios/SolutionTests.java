@@ -1,5 +1,6 @@
 package aoc.event.year2023.day03.gearRatios;
 
+import aoc.event.year2023.Day03;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -23,6 +24,6 @@ public class SolutionTests
                 "...$.*....",
                 ".664.598.."
         );
-        assertEquals(4361, new Solution().partOne(schematic));
+        assertEquals(4361, new Day03().partOne(schematic));
     }
 }
