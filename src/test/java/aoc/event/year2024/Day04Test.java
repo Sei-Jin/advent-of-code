@@ -1,4 +1,4 @@
-package aoc.event.year2024.day04.ceresSearch;
+package aoc.event.year2024;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
+public class Day04Test
 {
     @Test
     void example()
@@ -27,6 +27,6 @@ public class SolutionTests
                 MXMXAXMASX
                 """.split("\n")).toList()
         );
-        assertEquals(18, new Solution().partOne(input));
+        assertEquals(18, new Day04().partOne(input));
     }
 }

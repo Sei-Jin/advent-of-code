@@ -1,11 +1,11 @@
-package aoc.event.year2024.day02.rednosedReports;
+package aoc.event.year2024;
 
 import aoc.DeprecatedSolver;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class Solution implements DeprecatedSolver
+public class Day02 implements DeprecatedSolver
 {
     @Override
     public Object partOne(List<String> inputLines)

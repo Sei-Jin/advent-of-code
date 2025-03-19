@@ -1,4 +1,4 @@
-package aoc.event.year2024.day06.guardGallivant;
+package aoc.event.year2024;
 
 import aoc.DeprecatedSolver;
 
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class Solution implements DeprecatedSolver
+public class Day06 implements DeprecatedSolver
 {
     /// This character represents any obstructions that can be run into.
     static final char OBSTRUCTION = '#';

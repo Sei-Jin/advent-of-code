@@ -1,10 +1,10 @@
-package aoc.event.year2024.day01.historianHysteria;
+package aoc.event.year2024;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
+public class Day01Test
 {
     @Test
     void exampleList()
@@ -18,7 +18,7 @@ public class SolutionTests
                 3   3
                 """;
         
-        final var solution = new Solution(input);
+        final var solution = new Day01(input);
         assertEquals(11, solution.partOne());
         assertEquals(31, solution.partTwo());
     }

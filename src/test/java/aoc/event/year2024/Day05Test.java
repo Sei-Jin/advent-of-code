@@ -1,10 +1,10 @@
-package aoc.event.year2024.day05.printQueue;
+package aoc.event.year2024;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests {
+public class Day05Test {
     @Test
     void example() {
         final var input = """
@@ -37,7 +37,7 @@ public class SolutionTests {
                 61,13,29
                 97,13,75,29,47
                 """;
-        final var solution = new Solution(input);
+        final var solution = new Day05(input);
         assertEquals(143, solution.partOne());
         assertEquals(123, solution.partTwo());
     }

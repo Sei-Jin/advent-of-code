@@ -1,4 +1,4 @@
-package aoc.event.year2024.day05.printQueue;
+package aoc.event.year2024;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -6,12 +6,12 @@ import aoc.Solver;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Solution implements Solver {
+public class Day05 implements Solver {
     
     private final Map<Integer, Set<Integer>> orderingRules;
     private final List<List<Integer>> updates;
     
-    public Solution(String input) {
+    public Day05(String input) {
         final var lines = input.lines().toList();
         final var emptyLineIndex = getEmptyLineIndex(lines);
         

@@ -1,4 +1,4 @@
-package aoc.event.year2024.day01.historianHysteria;
+package aoc.event.year2024;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 /// 2024 Day 1 - Historian Hysteria
-public class Solution implements Solver {
+public class Day01 implements Solver {
     
     /// Pattern for each line of the puzzle input
     private static final Pattern LINE_PATTERN = Pattern.compile("(\\d+)\\s+(\\d+)");
@@ -16,7 +16,7 @@ public class Solution implements Solver {
     private static IdLists idLists;
     
     /// Initializes the solution with the parsed puzzle input.
-    public Solution(String input) {
+    public Day01(String input) {
         idLists = parse(input);
     }
     

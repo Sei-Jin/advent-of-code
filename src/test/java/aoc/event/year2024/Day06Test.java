@@ -1,4 +1,4 @@
-package aoc.event.year2024.day06.guardGallivant;
+package aoc.event.year2024;
 
 import org.junit.jupiter.api.Test;
 
@@ -8,7 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests
+public class Day06Test
 {
     @Test
     void example()
@@ -27,6 +27,6 @@ public class SolutionTests
                 ......#...
                 """.split("\n")).toList()
         );
-        assertEquals(41, new Solution().partOne(input));
+        assertEquals(41, new Day06().partOne(input));
     }
 }

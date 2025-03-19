@@ -1,17 +1,17 @@
-package aoc.event.year2024.day07.bridgeRepair;
+package aoc.event.year2024;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SolutionTests {
+public class Day07Test {
     
     @Test
     void exampleLine1() {
         final var input = """
                 190: 10 19
                 """;
-        final var solution = new Solution(input);
+        final var solution = new Day07(input);
         assertEquals(190L, solution.partOne());
     }
     
@@ -20,7 +20,7 @@ public class SolutionTests {
         final var input = """
                 3267: 81 40 27
                 """;
-        final var solution = new Solution(input);
+        final var solution = new Day07(input);
         assertEquals(3267L, solution.partOne());
     }
     
@@ -29,7 +29,7 @@ public class SolutionTests {
         final var input = """
                 292: 11 6 16 20
                 """;
-        final var solution = new Solution(input);
+        final var solution = new Day07(input);
         assertEquals(292L, solution.partOne());
     }
     
@@ -46,7 +46,7 @@ public class SolutionTests {
                 21037: 9 7 18 13
                 292: 11 6 16 20
                 """;
-        final var solution = new Solution(input);
+        final var solution = new Day07(input);
         assertEquals(3749L, solution.partOne());
         assertEquals(11387, solution.partTwo());
     }

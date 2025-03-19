@@ -1,4 +1,4 @@
-package aoc.event.year2024.day07.bridgeRepair;
+package aoc.event.year2024;
 
 import aoc.Runner;
 import aoc.Solver;
@@ -8,13 +8,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Solution implements Solver {
+public class Day07 implements Solver {
     
     private static final Pattern NUMBER_PATTERN = Pattern.compile("(\\d+)");
     
     private final List<Equation> equations;
     
-    public Solution(String input) {
+    public Day07(String input) {
         equations = Collections.unmodifiableList(parse(input));
     }
     

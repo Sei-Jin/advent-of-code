@@ -1,4 +1,4 @@
-package aoc.event.year2024.day03.mullItOver;
+package aoc.event.year2024;
 
 import aoc.DeprecatedSolver;
 
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Solution implements DeprecatedSolver
+public class Day03 implements DeprecatedSolver
 {
     /// This enum stores the regular expression for each type of instruction.
     enum Instruction
