@@ -1,92 +1,72 @@
 package aoc.event.year2017;
 
-import aoc.DeprecatedSolver;
+import aoc.Solver;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
-/**
- * --- Day 5: A Maze of Twisty Trampolines, All Alike ---
- */
-public class Day05 implements DeprecatedSolver
-{
-    /**
-     * @param inputLines the puzzle input.
-     * @return the number of steps it takes to reach the exit.
-     */
-    @Override
-    public Object partOne(List<String> inputLines)
-    {
-        int steps = 0;
-        
-        List<Integer> instructions = getInstructions(inputLines);
-        
-        int nextInstruction = instructions.getFirst();
-        
-        while (nextInstruction >= 0 && nextInstruction < instructions.size())
-        {
-            int previousInstruction = nextInstruction;
-            
-            int jumpOffset = instructions.get(nextInstruction);
-            
-            nextInstruction += jumpOffset;
-            
-            updateInstruction(instructions, previousInstruction, 1);
-
-            steps++;
-        }
-        
-        return steps;
+/// --- Day 5: A Maze of Twisty Trampolines, All Alike ---
+public class Day05 implements Solver<Integer> {
+    
+    private static List<Integer> instructions;
+    
+    public Day05(String input) {
+        instructions = Collections.unmodifiableList(parse(input));
     }
     
-    
-    /**
-     * @param inputLines the puzzle input.
-     * @return the number of steps it now takes to reach the exit.
-     */
-    @Override
-    public Object partTwo(List<String> inputLines)
-    {
-        int steps = 0;
-        
-        List<Integer> instructions = getInstructions(inputLines);
-        
-        int nextInstruction = instructions.getFirst();
-        
-        while (nextInstruction >= 0 && nextInstruction < instructions.size())
-        {
-            int previousInstruction = nextInstruction;
-            
-            int jumpOffset = instructions.get(nextInstruction);
-            
-            nextInstruction += jumpOffset;
-            
-            if (jumpOffset >= 3)
-            {
-                updateInstruction(instructions, previousInstruction, -1);
-            }
-            else
-            {
-                updateInstruction(instructions, previousInstruction, 1);
-            }
-            
-            steps++;
-        }
-        
-        return steps;
+    private static List<Integer> parse(String input) {
+        return input
+            .lines()
+            .map(Integer::parseInt)
+            .toList();
     }
     
-    
-    private static List<Integer> getInstructions(List<String> inputLines)
-    {
-        return inputLines.stream()
-                .map(Integer::parseInt)
-                .collect(Collectors.toList());
-    }
-    
-    
-    private static void updateInstruction(List<Integer> instructions, int instruction, int change)
-    {
+    private static void updateInstruction(List<Integer> instructions, int instruction, int change) {
         instructions.set(instruction, instructions.get(instruction) + change);
+    }
+    
+    /// @return the number of steps it takes to reach the exit.
+    @Override
+    public Integer partOne() {
+        final var instructionsCopy = new ArrayList<>(instructions);
+        
+        int steps = 0;
+        int nextInstruction = instructionsCopy.getFirst();
+        
+        while (nextInstruction >= 0 && nextInstruction < instructionsCopy.size()) {
+            int previousInstruction = nextInstruction;
+            int jumpOffset = instructionsCopy.get(nextInstruction);
+            nextInstruction += jumpOffset;
+            updateInstruction(instructionsCopy, previousInstruction, 1);
+            steps++;
+        }
+        
+        return steps;
+    }
+    
+    /// @return the number of steps it now takes to reach the exit.
+    @Override
+    public Integer partTwo() {
+        final var instructionsCopy = new ArrayList<>(instructions);
+        
+        int steps = 0;
+        int nextInstruction = instructionsCopy.getFirst();
+        
+        while (nextInstruction >= 0 && nextInstruction < instructionsCopy.size()) {
+            int previousInstruction = nextInstruction;
+            int jumpOffset = instructionsCopy.get(nextInstruction);
+            nextInstruction += jumpOffset;
+            
+            if (jumpOffset >= 3) {
+                updateInstruction(instructionsCopy, previousInstruction, -1);
+            } else {
+                updateInstruction(instructionsCopy, previousInstruction, 1);
+            }
+            
+            steps++;
+        }
+        
+        return steps;
     }
 }
