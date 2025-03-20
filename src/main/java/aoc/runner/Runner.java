@@ -15,7 +15,7 @@ public class Runner {
     /// @param solution a puzzle.
     /// @return the execution data for each of the two parts.
     private static RunData run(Solution solution) {
-        final var input = InputRetriever.retrieveInput(solution);
+        final var input = Input.retrieve(solution);
         
         final var startTime = System.nanoTime();
         final var solver = solution.construct(input);

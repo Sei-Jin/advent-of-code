@@ -9,7 +9,7 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-class InputRetriever {
+class Input {
     
     private static final String USER_AGENT =
         "github.com/Sei-Jin/Advent-of-Code by seijin.tufts@gmail.com";
@@ -24,7 +24,7 @@ class InputRetriever {
     ///
     /// @param solution the puzzle.
     /// @return the puzzle input.
-    public static String retrieveInput(Solution solution) {
+    public static String retrieve(Solution solution) {
         final var inputPath = getInputPath(solution);
         
         if (!Files.exists(inputPath)) {
