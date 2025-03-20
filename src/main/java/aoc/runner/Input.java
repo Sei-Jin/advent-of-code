@@ -25,21 +25,21 @@ class Input {
     /// @param solution the puzzle.
     /// @return the puzzle input.
     public static String retrieve(Solution solution) {
-        final var inputPath = getInputPath(solution);
+        final var path = determinePath(solution);
         
-        if (!Files.exists(inputPath)) {
-            final var input = getInputFromWebsite(solution);
-            storeInput(inputPath, input);
+        if (!Files.exists(path)) {
+            final var input = fetchHttp(solution);
+            cache(path, input);
         }
         
-        return getInputFromLocalStorage(inputPath);
+        return fetchLocal(path);
     }
     
     /// Returns the file path of the input file.
     ///
     /// @param solution the puzzle.
     /// @return the file path of the input file.
-    private static Path getInputPath(Solution solution) {
+    private static Path determinePath(Solution solution) {
         final var inputFileString = String.format(
             "input/year%d/day%02d.txt",
             solution.year(),
@@ -72,7 +72,7 @@ class Input {
     ///
     /// @param solution the puzzle.
     /// @return the puzzle input.
-    private static String getInputFromWebsite(Solution solution) {
+    private static String fetchHttp(Solution solution) {
         final var inputURL = String.format(
             "https://adventofcode.com/%d/day/%d/input",
             solution.year(),
@@ -110,7 +110,7 @@ class Input {
     ///
     /// @param inputPath the path to the puzzle input.
     /// @param input   the puzzle input.
-    private static void storeInput(Path inputPath, String input) {
+    private static void cache(Path inputPath, String input) {
         
         if (!Files.exists(inputPath.getParent())) {
             try {
@@ -139,7 +139,7 @@ class Input {
     ///
     /// @param inputPath the path to the puzzle input.
     /// @return the puzzle input.
-    private static String getInputFromLocalStorage(Path inputPath) {
+    private static String fetchLocal(Path inputPath) {
         try {
             return Files.readString(inputPath).stripTrailing();
         } catch (IOException e) {
