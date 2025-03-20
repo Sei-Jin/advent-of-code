@@ -22,23 +22,21 @@ public class Day05 implements Solver<Integer> {
             .toList();
     }
     
-    private static void updateInstruction(List<Integer> instructions, int instruction, int change) {
-        instructions.set(instruction, instructions.get(instruction) + change);
-    }
-    
     /// @return the number of steps it takes to reach the exit.
     @Override
     public Integer partOne() {
-        final var instructionsCopy = new ArrayList<>(instructions);
+        final var list = new ArrayList<>(instructions);
         
-        int steps = 0;
-        int nextInstruction = instructionsCopy.getFirst();
+        var steps = 0;
+        var next = list.getFirst();
         
-        while (nextInstruction >= 0 && nextInstruction < instructionsCopy.size()) {
-            int previousInstruction = nextInstruction;
-            int jumpOffset = instructionsCopy.get(nextInstruction);
-            nextInstruction += jumpOffset;
-            updateInstruction(instructionsCopy, previousInstruction, 1);
+        while (next >= 0 && next < list.size()) {
+            final int previous = next;
+            final var jumpOffset = list.get(next);
+            
+            list.set(previous, list.get(previous) + 1);
+            
+            next += jumpOffset;
             steps++;
         }
         
@@ -48,22 +46,22 @@ public class Day05 implements Solver<Integer> {
     /// @return the number of steps it now takes to reach the exit.
     @Override
     public Integer partTwo() {
-        final var instructionsCopy = new ArrayList<>(instructions);
+        final var list = new ArrayList<>(instructions);
         
-        int steps = 0;
-        int nextInstruction = instructionsCopy.getFirst();
+        var steps = 0;
+        var next = list.getFirst();
         
-        while (nextInstruction >= 0 && nextInstruction < instructionsCopy.size()) {
-            int previousInstruction = nextInstruction;
-            int jumpOffset = instructionsCopy.get(nextInstruction);
-            nextInstruction += jumpOffset;
+        while (next >= 0 && next < list.size()) {
+            final int previous = next;
+            final var jumpOffset = list.get(next);
             
             if (jumpOffset >= 3) {
-                updateInstruction(instructionsCopy, previousInstruction, -1);
+                list.set(previous, list.get(previous) - 1);
             } else {
-                updateInstruction(instructionsCopy, previousInstruction, 1);
+                list.set(previous, list.get(previous) + 1);
             }
             
+            next += jumpOffset;
             steps++;
         }
         
