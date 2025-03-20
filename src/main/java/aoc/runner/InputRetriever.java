@@ -1,4 +1,4 @@
-package aoc;
+package aoc.runner;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class InputRetriever {
+class InputRetriever {
     
     private static final String USER_AGENT =
         "github.com/Sei-Jin/Advent-of-Code by seijin.tufts@gmail.com";

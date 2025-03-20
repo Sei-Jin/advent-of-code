@@ -1,4 +1,6 @@
-package aoc;
+package aoc.runner;
+
+import aoc.Solver;
 
 public class Runner {
     

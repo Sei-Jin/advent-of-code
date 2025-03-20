@@ -1,9 +1,11 @@
-package aoc;
+package aoc.runner;
+
+import aoc.Solver;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-public record Solution(int year, int day) {
+record Solution(int year, int day) {
     
     public Solver<?> construct(String input) {
         final var classPath = determineClassPath();
