@@ -46,29 +46,23 @@ public class Day07 implements Solver<Integer> {
     
     @Override
     public Integer partOne() {
-        var count = 0;
-        
-        for (final var pair : sequences) {
-            final var outsideSequence = pair.outside()
-                .stream()
-                .gather(Gatherers.windowSliding(4))
-                .anyMatch(i ->
-                    i.getFirst() == i.get(3) && i.get(1) == i.get(2) && i.getFirst() != i.get(1)
-                );
-            
-            final var insideSequence = pair.inside()
-                .stream()
-                .gather(Gatherers.windowSliding(4))
-                .anyMatch(i ->
-                    i.getFirst() == i.get(3) && i.get(1) == i.get(2) && i.getFirst() != i.get(1)
-                );
-            
-            if (outsideSequence && !insideSequence) {
-                count++;
-            }
-        }
-        
-        return count;
+        return (int) sequences
+            .stream()
+            .filter(sequence -> {
+                final var hasAbbaOutside = hasAbba(sequence.outside());
+                final var hasAbbaInside = hasAbba(sequence.inside());
+                return hasAbbaOutside && !hasAbbaInside;
+            })
+            .count();
+    }
+    
+    private static boolean hasAbba(ArrayList<Character> sequence) {
+        return sequence
+            .stream()
+            .gather(Gatherers.windowSliding(4))
+            .anyMatch(i ->
+                i.getFirst() == i.get(3) && i.get(1) == i.get(2) && i.getFirst() != i.get(1)
+            );
     }
     
     @Override
