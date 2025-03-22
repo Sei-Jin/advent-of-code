@@ -22,6 +22,6 @@ class Day05Test {
             """;
         final var solution = new Day05(input);
         assertEquals(5, solution.partOne());
+        assertEquals(12, solution.partTwo());
     }
-    
 }

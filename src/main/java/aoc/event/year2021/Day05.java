@@ -51,16 +51,65 @@ public class Day05 implements Solver<Integer> {
             }
         }
         
+        return countOverlapping(positionCounts);
+    }
+    
+    @Override
+    public Integer partTwo() {
+        final var positionCounts = new HashMap<Position, Integer>();
+        
+        for (final var segment : segments) {
+            final var isHorizontal = segment.start.x == segment.end.x;
+            final var isVertical = segment.start.y == segment.end.y;
+            final var isDiagonal = Math.abs(segment.start.x - segment.end.x) ==
+                Math.abs(segment.start.y - segment.end.y);
+            
+            if (isHorizontal || isVertical) {
+                final var minY = Math.min(segment.start.y, segment.end.y);
+                final var maxY = Math.max(segment.start.y, segment.end.y);
+                
+                final var minX = Math.min(segment.start.x, segment.end.x);
+                final var maxX = Math.max(segment.start.x, segment.end.x);
+                
+                for (int x = minX; x <= maxX; x++) {
+                    for (int y = minY; y <= maxY; y++) {
+                        final var position = new Position(x, y);
+                        final var count = positionCounts.getOrDefault(position, 0) + 1;
+                        positionCounts.put(position, count);
+                    }
+                }
+            } else if (isDiagonal) {
+                final var isDescendingX = segment.start.x > segment.end.x;
+                final var isDescendingY = segment.start.y > segment.end.y;
+                
+                final var incrementX = isDescendingX ? -1 : 1;
+                final var incrementY = isDescendingY ? -1 : 1;
+                
+                final var length = Math.abs(segment.start.x - segment.end.x);
+                
+                var x = segment.start.x;
+                var y = segment.start.y;
+                
+                for (int i = 0; i <= length; i++) {
+                    final var position = new Position(x, y);
+                    final var count = positionCounts.getOrDefault(position, 0) + 1;
+                    positionCounts.put(position, count);
+                    
+                    x += incrementX;
+                    y += incrementY;
+                }
+            }
+        }
+        
+        return countOverlapping(positionCounts);
+    }
+    
+    private static int countOverlapping(HashMap<Position, Integer> positionCounts) {
         return (int) positionCounts
             .values()
             .stream()
             .filter(value -> value >= 2)
             .count();
-    }
-    
-    @Override
-    public Integer partTwo() {
-        return 0;
     }
     
     private record LineSegment(Position start, Position end) {}
