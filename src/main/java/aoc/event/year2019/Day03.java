@@ -65,10 +65,10 @@ public class Day03 implements Solver<Integer> {
     /// their starting location.
     @Override
     public Integer partOne() {
-        final var crossings = new HashSet<>(firstPoints.keySet());
-        crossings.retainAll(secondPoints.keySet());
+        final var intersections = new HashSet<>(firstPoints.keySet());
+        intersections.retainAll(secondPoints.keySet());
         
-        return crossings
+        return intersections
             .stream()
             .mapToInt(point -> Math.abs(point.x) + Math.abs(point.y))
             .min()
@@ -79,10 +79,10 @@ public class Day03 implements Solver<Integer> {
     /// the first intersection point.
     @Override
     public Integer partTwo() {
-        final var crossingPoints = new HashSet<>(firstPoints.keySet());
-        crossingPoints.retainAll(secondPoints.keySet());
+        final var intersections = new HashSet<>(firstPoints.keySet());
+        intersections.retainAll(secondPoints.keySet());
         
-        return crossingPoints
+        return intersections
             .stream()
             .mapToInt(point -> firstPoints.get(point) + secondPoints.get(point))
             .min()
