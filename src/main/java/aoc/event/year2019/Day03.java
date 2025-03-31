@@ -1,6 +1,6 @@
 package aoc.event.year2019;
 
-import aoc.DeprecatedSolver;
+import aoc.Solver;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
 /// Puzzle Input - Two sets of instructions, one for each wire. Each set of instructions is a
 /// `String` of comma-separated values, and each instruction contains the direction and distance the
 /// wire should follow.
-public class Day03 implements DeprecatedSolver {
+public class Day03 implements Solver<Integer> {
     
     /// The location of the central port is (0, 0). The central port is the starting location of the
     /// wires, and it does not count if the wires cross at the central port location, since they
@@ -21,23 +21,25 @@ public class Day03 implements DeprecatedSolver {
     private static final Point STARTING_LOCATION = new Point(0, 0);
     
     
+    private HashMap<Point, Integer> firstWirePoints;
+    private HashMap<Point, Integer> secondWirePoints;
+    
+    
+    public Day03(String input) {
+        final var parts = input.split("\n");
+        firstWirePoints = createWirePointMapping(parseInstructionList(parts[0]));
+        secondWirePoints = createWirePointMapping(parseInstructionList(parts[1]));
+    }
+    
     /// Calculates the shortest Manhattan distance between an intersection of the two wires and
     /// their starting location.
     ///
-    /// @param inputLines the puzzle input.
     /// @return the Manhattan distance from the central port to the closest intersection of the two
     ///  wires.
     @Override
-    public Object partOne(List<String> inputLines) {
-        List<Instruction> firstWireInstructions = parseInstructionList(inputLines.getFirst());
-        List<Instruction> secondWireInstructions = parseInstructionList(inputLines.getLast());
-        
-        HashMap<Point, Integer> firstWirePoints = createWirePointMapping(firstWireInstructions);
-        HashMap<Point, Integer> secondWirePoints = createWirePointMapping(secondWireInstructions);
-        
+    public Integer partOne() {
         HashSet<Point> crossingPoints = new HashSet<>(firstWirePoints.keySet());
         crossingPoints.retainAll(secondWirePoints.keySet());
-        
         return calculateClosestDistance(crossingPoints);
     }
     
@@ -127,17 +129,10 @@ public class Day03 implements DeprecatedSolver {
     /// Calculates the shortest combined distance of the two wires from their starting location to
     /// an intersection point.
     ///
-    /// @param inputLines the puzzle input.
     /// @return the shortest combined distance of the two wires it takes to reach an intersection
     ///  between them.
     @Override
-    public Object partTwo(List<String> inputLines) {
-        List<Instruction> firstWireInstructions = parseInstructionList(inputLines.getFirst());
-        List<Instruction> secondWireInstructions = parseInstructionList(inputLines.getLast());
-        
-        HashMap<Point, Integer> firstWirePoints = createWirePointMapping(firstWireInstructions);
-        HashMap<Point, Integer> secondWirePoints = createWirePointMapping(secondWireInstructions);
-        
+    public Integer partTwo() {
         HashSet<Point> crossingPoints = new HashSet<>(firstWirePoints.keySet());
         crossingPoints.retainAll(secondWirePoints.keySet());
         
