@@ -94,7 +94,7 @@ public class Day03 implements Solver<Integer> {
     }
     
     /// Calculates the shortest combined distance of the two wires from their starting location to
-    /// an intersection point.
+    /// the first intersection point.
     @Override
     public Integer partTwo() {
         final var crossingPoints = new HashSet<>(firstPoints.keySet());
