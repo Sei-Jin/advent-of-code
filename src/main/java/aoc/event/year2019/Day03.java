@@ -2,9 +2,7 @@ package aoc.event.year2019;
 
 import aoc.Solver;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 /// --- Day 3: Crossed Wires ---
 ///
@@ -168,4 +166,18 @@ public class Day03 implements Solver<Integer> {
     /// @param direction the direction to be taken. Can be `U`, `D`, `L`, `R`.
     /// @param distance the distance to be travelled.
     private record Instruction(Character direction, int distance) {}
+    
+    private record Point(int x, int y) {
+        
+        @Override
+        public boolean equals(Object o) {
+            if (!(o instanceof Point(int x1, int y1))) return false;
+            return x == x1 && y == y1;
+        }
+        
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+    }
 }
