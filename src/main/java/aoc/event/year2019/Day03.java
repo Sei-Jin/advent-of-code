@@ -18,10 +18,8 @@ public class Day03 implements Solver<Integer> {
     /// cross there by default.
     private static final Point STARTING_LOCATION = new Point(0, 0);
     
-    
     private final Map<Point, Integer> firstPoints;
     private final Map<Point, Integer> secondPoints;
-    
     
     public Day03(String input) {
         final var parts = input.split("\n");
@@ -41,7 +39,6 @@ public class Day03 implements Solver<Integer> {
         return calculateClosestDistance(crossings);
     }
     
-    
     /// Parses a line from the puzzle input and returns a `List` of `Instruction`.
     ///
     /// @param inputLine a line from the puzzle input.
@@ -58,7 +55,6 @@ public class Day03 implements Solver<Integer> {
         
         return instructionList;
     }
-    
     
     /// Creates a mapping between the unique points crossed by a wire and the total length of the
     /// wire when it first reached each point.
@@ -94,7 +90,6 @@ public class Day03 implements Solver<Integer> {
         return pointsVisited;
     }
     
-    
     /// Calculates the shortest Manhattan distance from an intersection between the two wires and
     /// their starting location.
     ///
@@ -121,7 +116,6 @@ public class Day03 implements Solver<Integer> {
         return closestDistance;
     }
     
-    
     /// Calculates the shortest combined distance of the two wires from their starting location to
     /// an intersection point.
     ///
@@ -134,7 +128,6 @@ public class Day03 implements Solver<Integer> {
         
         return calculateShortestCombinedDistance(crossingPoints, firstPoints, secondPoints);
     }
-    
     
     /// Calculates the shortest combined distance of the two wires from their starting location to
     /// an intersection point.
@@ -170,7 +163,6 @@ public class Day03 implements Solver<Integer> {
         
         return fewestCombinedSteps;
     }
-    
     
     /// The Move record class stores the information for a move in the instruction set.
     ///
