@@ -3,6 +3,7 @@ package aoc.event.year2019;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class Day03Test {
     
@@ -48,5 +49,16 @@ public class Day03Test {
         final var solution = new Day03(input);
         assertEquals(4, solution.partOne());
         assertEquals(8, solution.partTwo());
+    }
+    
+    @Test
+    void noIntersections() {
+        final var input = """
+            U2
+            R2
+            """;
+        final var solution = new Day03(input);
+        assertThrows(IllegalStateException.class, solution::partOne);
+        assertThrows(IllegalStateException.class, solution::partTwo);
     }
 }

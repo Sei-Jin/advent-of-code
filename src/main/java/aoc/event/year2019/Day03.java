@@ -72,7 +72,7 @@ public class Day03 implements Solver<Integer> {
             .stream()
             .mapToInt(point -> Math.abs(point.x) + Math.abs(point.y))
             .min()
-            .orElse(0);
+            .orElseThrow(() -> new IllegalStateException("There were no intersections"));
     }
     
     /// Calculates the shortest combined distance of the two wires from their starting location to
@@ -86,7 +86,7 @@ public class Day03 implements Solver<Integer> {
             .stream()
             .mapToInt(point -> firstPoints.get(point) + secondPoints.get(point))
             .min()
-            .orElse(0);
+            .orElseThrow(() -> new IllegalStateException("There were no intersections"));
     }
     
     private record Instruction(Character direction, int distance) {}
