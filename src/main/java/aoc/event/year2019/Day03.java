@@ -67,27 +67,12 @@ public class Day03 implements Solver<Integer> {
     public Integer partOne() {
         final var crossings = new HashSet<>(firstPoints.keySet());
         crossings.retainAll(secondPoints.keySet());
-        return calculateClosestDistance(crossings);
-    }
-
-    private static int calculateClosestDistance(HashSet<Point> points) {
-        var closestDistance = 0;
         
-        for (final var point : points) {
-            final var distance = Math.abs(point.x) + Math.abs(point.y);
-            
-            if (distance == 0) {
-                continue;
-            }
-            
-            if (closestDistance == 0) {
-                closestDistance = distance;
-            } else {
-                closestDistance = Math.min(closestDistance, distance);
-            }
-        }
-        
-        return closestDistance;
+        return crossings
+            .stream()
+            .mapToInt(point -> Math.abs(point.x) + Math.abs(point.y))
+            .min()
+            .orElse(0);
     }
     
     /// Calculates the shortest combined distance of the two wires from their starting location to
