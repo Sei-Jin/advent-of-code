@@ -16,22 +16,19 @@ public class Day03 implements Solver<Integer> {
     
     public Day03(String input) {
         final var parts = input.split("\n");
-        firstPoints = createPointMap(parseInstructionList(parts[0]));
-        secondPoints = createPointMap(parseInstructionList(parts[1]));
+        firstPoints = createPointMap(parse(parts[0]));
+        secondPoints = createPointMap(parse(parts[1]));
     }
     
-    /// Parses a line from the puzzle input and returns a `List` of `Instruction`.
-    private static List<Instruction> parseInstructionList(String inputLine) {
-        final var instructionList = new ArrayList<Instruction>();
-        final var instructions = List.of(inputLine.split(","));
-        
-        for (final var instruction : instructions) {
-            final var direction = instruction.charAt(0);
-            final var moveDistance = Integer.parseInt(instruction.substring(1));
-            instructionList.add(new Instruction(direction, moveDistance));
-        }
-        
-        return instructionList;
+    /// Parses a line from the puzzle input.
+    private static List<Instruction> parse(String line) {
+        return Arrays.stream(line.split(","))
+            .map(instruction -> {
+                final var direction = instruction.charAt(0);
+                final var moveDistance = Integer.parseInt(instruction.substring(1));
+                return new Instruction(direction, moveDistance);
+            })
+            .toList();
     }
     
     /// Creates a mapping between the unique points crossed by a wire and the total length of the
