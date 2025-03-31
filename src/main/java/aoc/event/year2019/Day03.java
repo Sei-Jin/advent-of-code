@@ -3,9 +3,7 @@ package aoc.event.year2019;
 import aoc.Solver;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
 
 /// --- Day 3: Crossed Wires ---
@@ -21,8 +19,8 @@ public class Day03 implements Solver<Integer> {
     private static final Point STARTING_LOCATION = new Point(0, 0);
     
     
-    private final HashMap<Point, Integer> firstWirePoints;
-    private final HashMap<Point, Integer> secondWirePoints;
+    private final Map<Point, Integer> firstWirePoints;
+    private final Map<Point, Integer> secondWirePoints;
     
     
     public Day03(String input) {
@@ -68,7 +66,7 @@ public class Day03 implements Solver<Integer> {
     /// @param instructions a `List` of moves that the wire should follow.
     /// @return a `HashMap` the unique points crossed by a wire and the total length of the wire
     ///  when it first reached each point.
-    private static HashMap<Point, Integer> createWirePointMapping(List<Instruction> instructions) {
+    private static Map<Point, Integer> createWirePointMapping(List<Instruction> instructions) {
         final var pointsVisited = new HashMap<Point, Integer>();
         
         var xPosition = STARTING_LOCATION.x;
@@ -150,9 +148,9 @@ public class Day03 implements Solver<Integer> {
     /// intersection point.
     private int calculateShortestCombinedDistance
     (
-        HashSet<Point> crossingPoints,
-        HashMap<Point, Integer> firstWirePoints,
-        HashMap<Point, Integer> secondWirePoints
+        Set<Point> crossingPoints,
+        Map<Point, Integer> firstWirePoints,
+        Map<Point, Integer> secondWirePoints
     ) {
         var fewestCombinedSteps = 0;
         
