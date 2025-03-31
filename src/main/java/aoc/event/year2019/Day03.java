@@ -82,31 +82,11 @@ public class Day03 implements Solver<Integer> {
         final var crossingPoints = new HashSet<>(firstPoints.keySet());
         crossingPoints.retainAll(secondPoints.keySet());
         
-        return calculateShortestCombinedDistance(crossingPoints, firstPoints, secondPoints);
-    }
-    
-    private int calculateShortestCombinedDistance(
-        Set<Point> points,
-        Map<Point, Integer> firstPoints,
-        Map<Point, Integer> secondPoints
-    ) {
-        var fewestCombinedSteps = 0;
-        
-        for (final var point : points) {
-            final var combinedSteps = firstPoints.get(point) + secondPoints.get(point);
-            
-            if (combinedSteps == 0) {
-                continue;
-            }
-            
-            if (fewestCombinedSteps == 0) {
-                fewestCombinedSteps = combinedSteps;
-            } else {
-                fewestCombinedSteps = Math.min(fewestCombinedSteps, combinedSteps);
-            }
-        }
-        
-        return fewestCombinedSteps;
+        return crossingPoints
+            .stream()
+            .mapToInt(point -> firstPoints.get(point) + secondPoints.get(point))
+            .min()
+            .orElse(0);
     }
     
     private record Instruction(Character direction, int distance) {}
