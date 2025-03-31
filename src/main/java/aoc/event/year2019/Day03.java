@@ -19,14 +19,14 @@ public class Day03 implements Solver<Integer> {
     private static final Point STARTING_LOCATION = new Point(0, 0);
     
     
-    private final Map<Point, Integer> firstWirePoints;
-    private final Map<Point, Integer> secondWirePoints;
+    private final Map<Point, Integer> firstPoints;
+    private final Map<Point, Integer> secondPoints;
     
     
     public Day03(String input) {
         final var parts = input.split("\n");
-        firstWirePoints = createWirePointMapping(parseInstructionList(parts[0]));
-        secondWirePoints = createWirePointMapping(parseInstructionList(parts[1]));
+        firstPoints = createPointMap(parseInstructionList(parts[0]));
+        secondPoints = createPointMap(parseInstructionList(parts[1]));
     }
     
     /// Calculates the shortest Manhattan distance between an intersection of the two wires and
@@ -36,9 +36,9 @@ public class Day03 implements Solver<Integer> {
     ///  wires.
     @Override
     public Integer partOne() {
-        final var crossingPoints = new HashSet<>(firstWirePoints.keySet());
-        crossingPoints.retainAll(secondWirePoints.keySet());
-        return calculateClosestDistance(crossingPoints);
+        final var crossings = new HashSet<>(firstPoints.keySet());
+        crossings.retainAll(secondPoints.keySet());
+        return calculateClosestDistance(crossings);
     }
     
     
@@ -66,7 +66,7 @@ public class Day03 implements Solver<Integer> {
     /// @param instructions a `List` of moves that the wire should follow.
     /// @return a `HashMap` the unique points crossed by a wire and the total length of the wire
     ///  when it first reached each point.
-    private static Map<Point, Integer> createWirePointMapping(List<Instruction> instructions) {
+    private static Map<Point, Integer> createPointMap(List<Instruction> instructions) {
         final var pointsVisited = new HashMap<Point, Integer>();
         
         var xPosition = STARTING_LOCATION.x;
@@ -83,10 +83,10 @@ public class Day03 implements Solver<Integer> {
                 }
                 totalSteps++;
                 
-                final var pointVisited = new Point(xPosition, yPosition);
+                final var current = new Point(xPosition, yPosition);
                 
-                if (!pointsVisited.containsKey(pointVisited)) {
-                    pointsVisited.put(pointVisited, totalSteps);
+                if (!pointsVisited.containsKey(current)) {
+                    pointsVisited.put(current, totalSteps);
                 }
             }
         }
@@ -98,14 +98,14 @@ public class Day03 implements Solver<Integer> {
     /// Calculates the shortest Manhattan distance from an intersection between the two wires and
     /// their starting location.
     ///
-    /// @param crossingPoints a `HashSet` of the points where the two wires cross.
+    /// @param points a `HashSet` of the points where the two wires cross.
     /// @return the Manhattan distance from the central port to the closest intersection of the two
     ///  wires.
-    private static int calculateClosestDistance(HashSet<Point> crossingPoints) {
+    private static int calculateClosestDistance(HashSet<Point> points) {
         var closestDistance = 0;
         
-        for (final var crossingPoint : crossingPoints) {
-            final var distance = Math.abs(crossingPoint.x) + Math.abs(crossingPoint.y);
+        for (final var point : points) {
+            final var distance = Math.abs(point.x) + Math.abs(point.y);
             
             if (distance == 0) {
                 continue;
@@ -129,34 +129,33 @@ public class Day03 implements Solver<Integer> {
     ///  between them.
     @Override
     public Integer partTwo() {
-        final var crossingPoints = new HashSet<>(firstWirePoints.keySet());
-        crossingPoints.retainAll(secondWirePoints.keySet());
+        final var crossingPoints = new HashSet<>(firstPoints.keySet());
+        crossingPoints.retainAll(secondPoints.keySet());
         
-        return calculateShortestCombinedDistance(crossingPoints, firstWirePoints, secondWirePoints);
+        return calculateShortestCombinedDistance(crossingPoints, firstPoints, secondPoints);
     }
     
     
     /// Calculates the shortest combined distance of the two wires from their starting location to
     /// an intersection point.
     ///
-    /// @param crossingPoints a `HashSet` of the points where the two wires cross.
-    /// @param firstWirePoints a `HashMap` that maps the points where the first wire crosses to the
+    /// @param points a `HashSet` of the points where the two wires cross.
+    /// @param firstPoints a `HashMap` that maps the points where the first wire crosses to the
     /// shortest length of the wire at the point of crossing.
-    /// @param secondWirePoints a `HashMap` that maps the points where the second wire crosses to
+    /// @param secondPoints a `HashMap` that maps the points where the second wire crosses to
     /// the shortest length of the wire at the point of crossing.
     /// @return the shortest combined distance of the two wires from their starting location to an
     /// intersection point.
     private int calculateShortestCombinedDistance
     (
-        Set<Point> crossingPoints,
-        Map<Point, Integer> firstWirePoints,
-        Map<Point, Integer> secondWirePoints
+        Set<Point> points,
+        Map<Point, Integer> firstPoints,
+        Map<Point, Integer> secondPoints
     ) {
         var fewestCombinedSteps = 0;
         
-        for (final var crossingPoint : crossingPoints) {
-            final var combinedSteps =
-                firstWirePoints.get(crossingPoint) + secondWirePoints.get(crossingPoint);
+        for (final var point : points) {
+            final var combinedSteps = firstPoints.get(point) + secondPoints.get(point);
             
             if (combinedSteps == 0) {
                 continue;
