@@ -27,18 +27,6 @@ public class Day03 implements Solver<Integer> {
         secondPoints = createPointMap(parseInstructionList(parts[1]));
     }
     
-    /// Calculates the shortest Manhattan distance between an intersection of the two wires and
-    /// their starting location.
-    ///
-    /// @return the Manhattan distance from the central port to the closest intersection of the two
-    ///  wires.
-    @Override
-    public Integer partOne() {
-        final var crossings = new HashSet<>(firstPoints.keySet());
-        crossings.retainAll(secondPoints.keySet());
-        return calculateClosestDistance(crossings);
-    }
-    
     /// Parses a line from the puzzle input and returns a `List` of `Instruction`.
     ///
     /// @param inputLine a line from the puzzle input.
@@ -90,6 +78,18 @@ public class Day03 implements Solver<Integer> {
         return pointsVisited;
     }
     
+    /// Calculates the shortest Manhattan distance between an intersection of the two wires and
+    /// their starting location.
+    ///
+    /// @return the Manhattan distance from the central port to the closest intersection of the two
+    ///  wires.
+    @Override
+    public Integer partOne() {
+        final var crossings = new HashSet<>(firstPoints.keySet());
+        crossings.retainAll(secondPoints.keySet());
+        return calculateClosestDistance(crossings);
+    }
+
     /// Calculates the shortest Manhattan distance from an intersection between the two wires and
     /// their starting location.
     ///
@@ -139,8 +139,7 @@ public class Day03 implements Solver<Integer> {
     /// the shortest length of the wire at the point of crossing.
     /// @return the shortest combined distance of the two wires from their starting location to an
     /// intersection point.
-    private int calculateShortestCombinedDistance
-    (
+    private int calculateShortestCombinedDistance(
         Set<Point> points,
         Map<Point, Integer> firstPoints,
         Map<Point, Integer> secondPoints
