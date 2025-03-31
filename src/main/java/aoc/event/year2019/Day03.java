@@ -21,8 +21,8 @@ public class Day03 implements Solver<Integer> {
     private static final Point STARTING_LOCATION = new Point(0, 0);
     
     
-    private HashMap<Point, Integer> firstWirePoints;
-    private HashMap<Point, Integer> secondWirePoints;
+    private final HashMap<Point, Integer> firstWirePoints;
+    private final HashMap<Point, Integer> secondWirePoints;
     
     
     public Day03(String input) {
@@ -38,7 +38,7 @@ public class Day03 implements Solver<Integer> {
     ///  wires.
     @Override
     public Integer partOne() {
-        HashSet<Point> crossingPoints = new HashSet<>(firstWirePoints.keySet());
+        final var crossingPoints = new HashSet<>(firstWirePoints.keySet());
         crossingPoints.retainAll(secondWirePoints.keySet());
         return calculateClosestDistance(crossingPoints);
     }
@@ -49,14 +49,12 @@ public class Day03 implements Solver<Integer> {
     /// @param inputLine a line from the puzzle input.
     /// @return a `List` of `Instruction` parsed from a line of the puzzle input.
     private static List<Instruction> parseInstructionList(String inputLine) {
-        List<Instruction> instructionList = new ArrayList<>();
+        final var instructionList = new ArrayList<Instruction>();
+        final var instructions = List.of(inputLine.split(","));
         
-        List<String> instructions = List.of(inputLine.split(","));
-        
-        for (String instruction : instructions) {
-            Character direction = instruction.charAt(0);
-            int moveDistance = Integer.parseInt(instruction.substring(1));
-            
+        for (final var instruction : instructions) {
+            final var direction = instruction.charAt(0);
+            final var moveDistance = Integer.parseInt(instruction.substring(1));
             instructionList.add(new Instruction(direction, moveDistance));
         }
         
@@ -71,14 +69,14 @@ public class Day03 implements Solver<Integer> {
     /// @return a `HashMap` the unique points crossed by a wire and the total length of the wire
     ///  when it first reached each point.
     private static HashMap<Point, Integer> createWirePointMapping(List<Instruction> instructions) {
-        HashMap<Point, Integer> pointsVisited = new HashMap<>();
+        final var pointsVisited = new HashMap<Point, Integer>();
         
-        int xPosition = STARTING_LOCATION.x;
-        int yPosition = STARTING_LOCATION.y;
-        int totalSteps = 0;
+        var xPosition = STARTING_LOCATION.x;
+        var yPosition = STARTING_LOCATION.y;
+        var totalSteps = 0;
         
-        for (Instruction instruction : instructions) {
-            for (int steps = 0; steps < instruction.distance; steps++) {
+        for (final var instruction : instructions) {
+            for (var steps = 0; steps < instruction.distance; steps++) {
                 switch (instruction.direction) {
                     case 'U' -> yPosition++;
                     case 'D' -> yPosition--;
@@ -87,7 +85,7 @@ public class Day03 implements Solver<Integer> {
                 }
                 totalSteps++;
                 
-                Point pointVisited = new Point(xPosition, yPosition);
+                final var pointVisited = new Point(xPosition, yPosition);
                 
                 if (!pointsVisited.containsKey(pointVisited)) {
                     pointsVisited.put(pointVisited, totalSteps);
@@ -106,10 +104,10 @@ public class Day03 implements Solver<Integer> {
     /// @return the Manhattan distance from the central port to the closest intersection of the two
     ///  wires.
     private static int calculateClosestDistance(HashSet<Point> crossingPoints) {
-        int closestDistance = 0;
+        var closestDistance = 0;
         
-        for (Point crossingPoint : crossingPoints) {
-            int distance = Math.abs(crossingPoint.x) + Math.abs(crossingPoint.y);
+        for (final var crossingPoint : crossingPoints) {
+            final var distance = Math.abs(crossingPoint.x) + Math.abs(crossingPoint.y);
             
             if (distance == 0) {
                 continue;
@@ -133,7 +131,7 @@ public class Day03 implements Solver<Integer> {
     ///  between them.
     @Override
     public Integer partTwo() {
-        HashSet<Point> crossingPoints = new HashSet<>(firstWirePoints.keySet());
+        final var crossingPoints = new HashSet<>(firstWirePoints.keySet());
         crossingPoints.retainAll(secondWirePoints.keySet());
         
         return calculateShortestCombinedDistance(crossingPoints, firstWirePoints, secondWirePoints);
@@ -156,10 +154,11 @@ public class Day03 implements Solver<Integer> {
         HashMap<Point, Integer> firstWirePoints,
         HashMap<Point, Integer> secondWirePoints
     ) {
-        int fewestCombinedSteps = 0;
+        var fewestCombinedSteps = 0;
         
-        for (Point crossingPoint : crossingPoints) {
-            int combinedSteps = firstWirePoints.get(crossingPoint) + secondWirePoints.get(crossingPoint);
+        for (final var crossingPoint : crossingPoints) {
+            final var combinedSteps =
+                firstWirePoints.get(crossingPoint) + secondWirePoints.get(crossingPoint);
             
             if (combinedSteps == 0) {
                 continue;
