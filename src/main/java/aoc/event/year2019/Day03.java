@@ -34,31 +34,31 @@ public class Day03 implements Solver<Integer> {
     /// Creates a mapping between the unique points crossed by a wire and the total length of the
     /// wire when it first reached each point.
     private static Map<Point, Integer> createPointMap(List<Instruction> instructions) {
-        final var pointsVisited = new HashMap<Point, Integer>();
+        final var visited = new HashMap<Point, Integer>();
         
-        var xPosition = STARTING_LOCATION.x;
-        var yPosition = STARTING_LOCATION.y;
+        var x = STARTING_LOCATION.x;
+        var y = STARTING_LOCATION.y;
         var totalSteps = 0;
         
         for (final var instruction : instructions) {
             for (var steps = 0; steps < instruction.distance; steps++) {
                 switch (instruction.direction) {
-                    case 'U' -> yPosition++;
-                    case 'D' -> yPosition--;
-                    case 'L' -> xPosition--;
-                    case 'R' -> xPosition++;
+                    case 'U' -> y++;
+                    case 'D' -> y--;
+                    case 'L' -> x--;
+                    case 'R' -> x++;
                 }
                 totalSteps++;
                 
-                final var current = new Point(xPosition, yPosition);
+                final var current = new Point(x, y);
                 
-                if (!pointsVisited.containsKey(current)) {
-                    pointsVisited.put(current, totalSteps);
+                if (!visited.containsKey(current)) {
+                    visited.put(current, totalSteps);
                 }
             }
         }
         
-        return pointsVisited;
+        return visited;
     }
     
     /// Calculates the shortest Manhattan distance between an intersection of the two wires and
