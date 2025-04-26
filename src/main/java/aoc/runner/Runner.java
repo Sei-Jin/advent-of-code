@@ -5,7 +5,7 @@ import aoc.Solver;
 public class Runner {
     
     public static void main(String[] args) {
-        final var solution = new Solution(2024, 1);
+        final var solution = new Solution(2021, 6);
         final var runData = run(solution);
         print(solution, runData);
     }
