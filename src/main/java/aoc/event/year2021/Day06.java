@@ -2,52 +2,48 @@ package aoc.event.year2021;
 
 import aoc.Solver;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Day06 implements Solver<Long> {
     
-    private final List<Long> initialState;
+    private final int[] initialState;
     
     public Day06(String input) {
         initialState = parse(input);
     }
     
-    private static List<Long> parse(String input) {
+    private static int[] parse(String input) {
         return Arrays.stream(input.split(","))
-            .map(Long::parseLong)
-            .toList();
+            .mapToInt(Integer::parseInt)
+            .toArray();
+    }
+    
+    private long fishAfterXDays(int x) {
+        final var fishState = new long[9];
+        
+        for (final int timer : initialState) {
+            fishState[timer]++;
+        }
+        
+        for (int day = 0; day < x; day++) {
+            final var zeroTimerCount = fishState[0];
+            for (int j = 0; j < fishState.length - 1; j++) {
+                fishState[j] = fishState[j + 1];
+            }
+            fishState[6] += zeroTimerCount;
+            fishState[8] = zeroTimerCount;
+        }
+        
+        return Arrays.stream(fishState).sum();
     }
     
     @Override
     public Long partOne() {
-        final var state = new ArrayList<>(initialState);
-        
-        for (int i = 0; i < 80; i++) {
-            var count = 0;
-            
-            for (int j = 0; j < state.size(); j++) {
-                final var timer = state.get(j) - 1;
-                
-                if (timer >= 0) {
-                    state.set(j, timer);
-                } else {
-                    state.set(j, 6L);
-                    count++;
-                }
-            }
-            
-            for (int j = 0; j < count; j++) {
-                state.add(8L);
-            }
-        }
-        
-        return (long) state.size();
+        return fishAfterXDays(80);
     }
     
     @Override
     public Long partTwo() {
-        return 0L;
+        return fishAfterXDays(256);
     }
 }
