@@ -40,11 +40,11 @@ public class Day01 implements Solver {
     ///
     /// @param input the puzzle input.
     private IdLists parse(String input) {
-        final var first = new ArrayList<Integer>();
-        final var second = new ArrayList<Integer>();
+        var first = new ArrayList<Integer>();
+        var second = new ArrayList<Integer>();
         
         input.lines().forEach(line -> {
-            final var matcher = LINE_PATTERN.matcher(line);
+            var matcher = LINE_PATTERN.matcher(line);
             
             if (matcher.find()) {
                 first.add(Integer.valueOf(matcher.group(1)));
@@ -79,8 +79,8 @@ public class Day01 implements Solver {
         var totalDistance = 0;
         
         for (var index = 0; index < idLists.first().size(); index++) {
-            final var first = idLists.first().get(index);
-            final var second = idLists.second().get(index);
+            var first = idLists.first().get(index);
+            var second = idLists.second().get(index);
             totalDistance += Math.abs(first - second);
         }
         
@@ -105,12 +105,12 @@ public class Day01 implements Solver {
     /// @return the similarity score between the two lists of ids.
     @Override
     public Integer partTwo() {
-        final var frequencies = calculateFrequencies(idLists.second);
+        var frequencies = calculateFrequencies(idLists.second);
         
         var similarityScore = 0;
         
-        for (final var id : idLists.first) {
-            final var frequency = frequencies.getOrDefault(id, 0);
+        for (var id : idLists.first) {
+            var frequency = frequencies.getOrDefault(id, 0);
             similarityScore += id * frequency;
         }
         
@@ -122,10 +122,10 @@ public class Day01 implements Solver {
     /// @param list a list.
     /// @return a frequency map of the numbers in the list.
     private static Map<Integer, Integer> calculateFrequencies(List<Integer> list) {
-        final var frequencies = new HashMap<Integer, Integer>();
+        var frequencies = new HashMap<Integer, Integer>();
         
-        for (final var number : list) {
-            final var frequency = frequencies.getOrDefault(number, 0) + 1;
+        for (var number : list) {
+            var frequency = frequencies.getOrDefault(number, 0) + 1;
             frequencies.put(number, frequency);
         }
         

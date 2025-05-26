@@ -18,17 +18,17 @@ public class Day07 implements Solver {
     }
     
     private static List<Equation> parse(String input) {
-        final var equations = new ArrayList<Equation>();
+        var equations = new ArrayList<Equation>();
         
         input.lines().forEach(line -> {
-            final var values = line.split(": ");
+            var values = line.split(": ");
             
-            final var target = Long.parseLong(values[0]);
-            final var numbersInput = values[1];
+            var target = Long.parseLong(values[0]);
+            var numbersInput = values[1];
             
-            final var matcher = NUMBER_PATTERN.matcher(numbersInput);
+            var matcher = NUMBER_PATTERN.matcher(numbersInput);
             
-            final var numbers = new ArrayList<Integer>();
+            var numbers = new ArrayList<Integer>();
             
             while (matcher.find()) {
                 numbers.add(Integer.parseInt(matcher.group(1)));
@@ -46,16 +46,16 @@ public class Day07 implements Solver {
     /// ](https://www.baeldung.com/cs/permutations-with-repetition)
     private static <T> List<List<T>> generatePermutations(List<T> operations, int k) {
         if (k == 0) {
-            final var base = new ArrayList<List<T>>();
+            var base = new ArrayList<List<T>>();
             base.add(new ArrayList<>());
             return base;
         } else {
-            final var tuplesKMinus1 = generatePermutations(operations, k - 1);
-            final var tuplesK = new ArrayList<List<T>>();
+            var tuplesKMinus1 = generatePermutations(operations, k - 1);
+            var tuplesK = new ArrayList<List<T>>();
             
-            for (final var tuple : tuplesKMinus1) {
-                for (final var operation : operations) {
-                    final var newTuple = new ArrayList<>(tuple);
+            for (var tuple : tuplesKMinus1) {
+                for (var operation : operations) {
+                    var newTuple = new ArrayList<>(tuple);
                     newTuple.add(operation);
                     tuplesK.add(newTuple);
                 }
@@ -66,12 +66,12 @@ public class Day07 implements Solver {
     }
     
     private static boolean isPossible(Equation equation, List<List<Operation>> permutations) {
-        for (final var permutation : permutations) {
+        for (var permutation : permutations) {
             var total = (long) equation.numbers.getFirst();
             
             for (int i = 0; i < permutation.size(); i++) {
-                final var operation = permutation.get(i);
-                final var number = equation.numbers.get(i + 1);
+                var operation = permutation.get(i);
+                var number = equation.numbers.get(i + 1);
                 
                 switch (operation) {
                     case ADD -> total += number;
@@ -92,11 +92,11 @@ public class Day07 implements Solver {
     public Long partOne() {
         var total = 0L;
         
-        for (final var equation : equations) {
-            final var operations = List.of(Operation.ADD, Operation.MULTIPLY);
-            final var operationCount = equation.numbers.size() - 1;
+        for (var equation : equations) {
+            var operations = List.of(Operation.ADD, Operation.MULTIPLY);
+            var operationCount = equation.numbers.size() - 1;
             
-            final var permutations = generatePermutations(operations, operationCount);
+            var permutations = generatePermutations(operations, operationCount);
             
             if (isPossible(equation, permutations)) {
                 total += equation.target;
@@ -110,11 +110,11 @@ public class Day07 implements Solver {
     public Long partTwo() {
         var total = 0L;
         
-        for (final var equation : equations) {
-            final var operations = List.of(Operation.ADD, Operation.MULTIPLY, Operation.CONCAT);
-            final var operationCount = equation.numbers.size() - 1;
+        for (var equation : equations) {
+            var operations = List.of(Operation.ADD, Operation.MULTIPLY, Operation.CONCAT);
+            var operationCount = equation.numbers.size() - 1;
             
-            final var permutations = generatePermutations(operations, operationCount);
+            var permutations = generatePermutations(operations, operationCount);
             
             if (isPossible(equation, permutations)) {
                 total += equation.target;

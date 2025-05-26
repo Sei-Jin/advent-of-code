@@ -11,11 +11,11 @@ public class Day05 implements Solver {
     private final List<List<Integer>> updates;
     
     public Day05(String input) {
-        final var lines = input.lines().toList();
-        final var emptyLineIndex = getEmptyLineIndex(lines);
+        var lines = input.lines().toList();
+        var emptyLineIndex = getEmptyLineIndex(lines);
         
-        final var orderingRulesInput = lines.subList(0, emptyLineIndex);
-        final var updatesInput = lines.subList(emptyLineIndex + 1, lines.size());
+        var orderingRulesInput = lines.subList(0, emptyLineIndex);
+        var updatesInput = lines.subList(emptyLineIndex + 1, lines.size());
         
         orderingRules = parseOrderingRules(orderingRulesInput);
         updates = parseUpdates(updatesInput);
@@ -43,21 +43,21 @@ public class Day05 implements Solver {
     private static Map<Integer, Set<Integer>> parseOrderingRules(
         List<String> orderingRulesInput
     ) {
-        final var orderingRules = new HashMap<Integer, Set<Integer>>();
+        var orderingRules = new HashMap<Integer, Set<Integer>>();
         
-        for (final var rule : orderingRulesInput) {
-            final var pageNumbers = Arrays.stream(rule.split("\\|"))
+        for (var rule : orderingRulesInput) {
+            var pageNumbers = Arrays.stream(rule.split("\\|"))
                 .mapToInt(Integer::parseInt)
                 .boxed()
                 .toList();
             
-            final var precedingNumber = pageNumbers.getFirst();
-            final var succeedingNumber = pageNumbers.getLast();
+            var precedingNumber = pageNumbers.getFirst();
+            var succeedingNumber = pageNumbers.getLast();
             
             if (orderingRules.containsKey(precedingNumber)) {
                 orderingRules.get(precedingNumber).add(succeedingNumber);
             } else {
-                final var succeedingNumbers = new HashSet<Integer>();
+                var succeedingNumbers = new HashSet<Integer>();
                 succeedingNumbers.add(succeedingNumber);
                 orderingRules.put(precedingNumber, succeedingNumbers);
             }
@@ -71,10 +71,10 @@ public class Day05 implements Solver {
     /// @param updatesInput the second section of the puzzle input, containing the list of updates.
     /// @return the list of updates.
     private static List<List<Integer>> parseUpdates(List<String> updatesInput) {
-        final var updates = new ArrayList<List<Integer>>();
+        var updates = new ArrayList<List<Integer>>();
         
-        for (final var input : updatesInput) {
-            final var update = Arrays.stream(input.split(","))
+        for (var input : updatesInput) {
+            var update = Arrays.stream(input.split(","))
                 .mapToInt(Integer::parseInt)
                 .boxed()
                 .collect(Collectors.toList());
@@ -92,7 +92,7 @@ public class Day05 implements Solver {
     private static int calculateMiddlePageNumberSum(List<List<Integer>> updates) {
         var sumMiddlePageNumbers = 0;
         
-        for (final var update : updates) {
+        for (var update : updates) {
             int middleIndex = update.size() / 2;
             sumMiddlePageNumbers += update.get(middleIndex);
         }
@@ -105,7 +105,7 @@ public class Day05 implements Solver {
     /// @return the sum of the middle page numbers for valid updates.
     @Override
     public Integer partOne() {
-        final var validUpdates = selectUpdates(updates, orderingRules, true);
+        var validUpdates = selectUpdates(updates, orderingRules, true);
         return calculateMiddlePageNumberSum(validUpdates);
     }
     
@@ -123,10 +123,10 @@ public class Day05 implements Solver {
         Map<Integer, Set<Integer>> orderingRules,
         boolean selectValidUpdates
     ) {
-        final var selectedUpdates = new ArrayList<List<Integer>>();
+        var selectedUpdates = new ArrayList<List<Integer>>();
         
-        for (final var update : updates) {
-            final var isValidUpdate = isValidUpdate(update, orderingRules);
+        for (var update : updates) {
+            var isValidUpdate = isValidUpdate(update, orderingRules);
             
             if (selectValidUpdates == isValidUpdate) {
                 selectedUpdates.add(update);
@@ -148,11 +148,11 @@ public class Day05 implements Solver {
         List<Integer> update,
         Map<Integer, Set<Integer>> orderingRules
     ) {
-        final var previousPageNumbers = new HashSet<Integer>();
+        var previousPageNumbers = new HashSet<Integer>();
         
-        for (final var pageNumber : update) {
+        for (var pageNumber : update) {
             if (orderingRules.containsKey(pageNumber)) {
-                final var intersection = new HashSet<>(orderingRules.get(pageNumber));
+                var intersection = new HashSet<>(orderingRules.get(pageNumber));
                 intersection.retainAll(previousPageNumbers);
                 
                 if (!intersection.isEmpty()) {
@@ -171,7 +171,7 @@ public class Day05 implements Solver {
     /// @return the sum of the middle page numbers for the corrected invalid updates.
     @Override
     public Integer partTwo() {
-        final var invalidUpdates = selectUpdates(updates, orderingRules, false);
+        var invalidUpdates = selectUpdates(updates, orderingRules, false);
         correctPageNumberOrder(invalidUpdates, orderingRules);
         return calculateMiddlePageNumberSum(invalidUpdates);
     }
@@ -184,9 +184,9 @@ public class Day05 implements Solver {
         List<List<Integer>> updates,
         Map<Integer, Set<Integer>> orderingRules
     ) {
-        final var comparator = getComparator(orderingRules);
+        var comparator = getComparator(orderingRules);
         
-        for (final var update : updates) {
+        for (var update : updates) {
             update.sort(comparator);
         }
     }

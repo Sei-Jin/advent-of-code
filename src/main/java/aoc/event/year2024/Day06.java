@@ -83,7 +83,7 @@ public class Day06 implements DeprecatedSolver
         DOWN('v'),
         LEFT('<');
         
-        final char symbol;
+        char symbol;
         
         Direction(char symbol)
         {
