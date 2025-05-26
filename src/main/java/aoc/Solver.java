@@ -1,8 +1,7 @@
 package aoc;
 
-public interface Solver<T> {
+public interface Solver<Type1, Type2> {
     
-    T partOne();
-    
-    T partTwo();
+    Type1 partOne();
+    Type2 partTwo();
 }
