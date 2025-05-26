@@ -1,63 +1,61 @@
 package aoc.event.year2024;
 
-import aoc.DeprecatedSolver;
+import aoc.Solver;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Gatherers;
 
-public class Day02 implements DeprecatedSolver
-{
-    @Override
-    public Object partOne(List<String> inputLines)
-    {
-        int safeReports = 0;
-        
-        for (String line : inputLines)
-        {
-            String whitespace = "\\s";
-            List<Integer> levels = Arrays.stream(line.split(whitespace))
+/// # [2024-02: Red-Nosed Reports](https://adventofcode.com/2024/day/2)
+public class Day02 implements Solver<Integer, Integer> {
+    
+    private final List<List<Integer>> reports;
+    
+    public Day02(String input) {
+        reports = parse(input);
+    }
+    
+    private static List<List<Integer>> parse(String input) {
+        return input
+            .lines()
+            .map(line ->
+                Arrays.stream(line.split(" "))
                     .mapToInt(Integer::parseInt)
                     .boxed()
-                    .toList();
-            
-            boolean allDecreasing = true, allIncreasing = true, safeDifference = true;
-            
-            for (int index = 0; index < levels.size() - 1; index++)
-            {
-                if (levels.get(index) < levels.get(index + 1))
-                {
-                    allDecreasing = false;
-                }
-                else if ((levels.get(index) > levels.get(index + 1)))
-                {
-                    allIncreasing = false;
-                }
-                else
-                {
-                    allIncreasing = false;
-                    allDecreasing = false;
-                }
-                
-                int difference = Math.abs(levels.get(index) - levels.get(index + 1));
-                
-                if (difference < 1 || difference > 3)
-                {
-                    safeDifference = false;
-                }
-            }
-            
-            if ((allDecreasing || allIncreasing) && safeDifference)
-            {
-                safeReports += 1;
-            }
-        }
-        
-        return safeReports;
+                    .toList())
+            .toList();
     }
     
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
-        return null;
+    public Integer partOne() {
+        return (int) reports
+            .stream()
+            .filter(report -> {
+                var allIncreasing = report
+                    .stream()
+                    .gather(Gatherers.windowSliding(2))
+                    .noneMatch(list -> list.get(0) >= list.get(1));
+                
+                var allDecreasing = report
+                    .stream()
+                    .gather(Gatherers.windowSliding(2))
+                    .noneMatch(list -> list.get(0) <= list.get(1));
+                
+                var safeDifference = report
+                    .stream()
+                    .gather(Gatherers.windowSliding(2))
+                    .noneMatch(list -> {
+                        var difference = Math.abs(list.get(0) - list.get(1));
+                        return (difference < 1 || difference > 3);
+                    });
+                
+                return (allDecreasing || allIncreasing) && safeDifference;
+            })
+            .count();
+    }
+    
+    @Override
+    public Integer partTwo() {
+        return 0;
     }
 }
