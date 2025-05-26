@@ -28,14 +28,6 @@ public class Day02 implements Solver<Integer, Integer> {
             .toList();
     }
     
-    @Override
-    public Integer partOne() {
-        return (int) reports
-            .stream()
-            .filter(Day02::safe)
-            .count();
-    }
-    
     private static boolean safe(List<Integer> report) {
         var allIncreasing = report
             .stream()
@@ -56,6 +48,14 @@ public class Day02 implements Solver<Integer, Integer> {
             });
         
         return (allDecreasing || allIncreasing) && safeDifference;
+    }
+    
+    @Override
+    public Integer partOne() {
+        return (int) reports
+            .stream()
+            .filter(Day02::safe)
+            .count();
     }
     
     @Override
