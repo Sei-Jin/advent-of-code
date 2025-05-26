@@ -4,6 +4,7 @@ import aoc.DeprecatedSolver;
 
 import java.util.List;
 
+/// # [2024-04: Ceres Search](https://adventofcode.com/2024/day/4)
 public class Day04 implements DeprecatedSolver
 {
     /// The target string.

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+/// # [2024-06: Guard Gallivant](https://adventofcode.com/2024/day/6)
 public class Day06 implements DeprecatedSolver
 {
     /// This character represents any obstructions that can be run into.

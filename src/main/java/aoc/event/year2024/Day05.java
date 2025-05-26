@@ -5,6 +5,7 @@ import aoc.DeprecatedSolver2;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/// # [2024-05: Print Queue](https://adventofcode.com/2024/day/5)
 public class Day05 implements DeprecatedSolver2 {
     
     private final Map<Integer, Set<Integer>> orderingRules;

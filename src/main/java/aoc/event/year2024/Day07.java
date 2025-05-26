@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/// # [2024-07: Bridge Repair](https://adventofcode.com/2024/day/7)
 public class Day07 implements DeprecatedSolver2 {
     
     private static final Pattern NUMBER_PATTERN = Pattern.compile("(\\d+)");
