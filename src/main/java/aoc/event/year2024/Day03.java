@@ -41,6 +41,7 @@ public class Day03 implements Solver<Integer, Integer> {
     public Integer partOne() {
         return instructions
             .stream()
+            .filter(instruction -> instruction.matches(Instruction.MULTIPLY.getRegex()))
             .mapToInt(Day03::calculateProduct)
             .sum();
     }
