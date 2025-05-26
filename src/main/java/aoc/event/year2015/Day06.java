@@ -1,12 +1,12 @@
 package aoc.event.year2015;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Day06 implements Solver {
+public class Day06 implements DeprecatedSolver2 {
     
     private static final Pattern INSTRUCTION_PATTERN =
         Pattern.compile("([\\w ]+) (\\d+),(\\d+) through (\\d+),(\\d+)");

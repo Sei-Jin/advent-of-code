@@ -1,12 +1,12 @@
 package aoc.event.year2022;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Day04 implements Solver {
+public class Day04 implements DeprecatedSolver2 {
     
     private static final Pattern RANGE_PATTERN = Pattern.compile(
             "^(\\d+)-(\\d+),(\\d+)-(\\d+)$"

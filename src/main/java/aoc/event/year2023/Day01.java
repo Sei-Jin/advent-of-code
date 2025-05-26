@@ -1,11 +1,11 @@
 package aoc.event.year2023;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class Day01 implements Solver {
+public class Day01 implements DeprecatedSolver2 {
     
     /// Stores the puzzle input.
     private final List<String> lines;

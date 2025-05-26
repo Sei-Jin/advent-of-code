@@ -1,13 +1,13 @@
 package aoc.event.year2021;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Day02 implements Solver {
+public class Day02 implements DeprecatedSolver2 {
     
     /// Pre-compiles the expected input format for a command.
     private static final Pattern COMMAND_PATTERN = Pattern.compile("^(\\w+)\\s+(\\d+)$");

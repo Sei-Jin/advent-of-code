@@ -1,10 +1,10 @@
 package aoc.event.year2022;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.HashMap;
 
-public class Day06 implements Solver {
+public class Day06 implements DeprecatedSolver2 {
     
     private final String string;
     

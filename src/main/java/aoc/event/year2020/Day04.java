@@ -1,11 +1,11 @@
 package aoc.event.year2020;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class Day04 implements Solver {
+public class Day04 implements DeprecatedSolver2 {
     
     private static final Set<String> mandatoryFields = createMandatoryFields();
     private static final Set<String> colourSet = createColourSet();

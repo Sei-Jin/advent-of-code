@@ -1,6 +1,6 @@
 package aoc.event.year2019;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 /// --- Day 2: 1202 Program Alarm ---
-public class Day02 implements Solver {
+public class Day02 implements DeprecatedSolver2 {
     
     private final List<Integer> initialState;
     

@@ -1,13 +1,13 @@
 package aoc.event.year2017;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /// --- Day 5: A Maze of Twisty Trampolines, All Alike ---
-public class Day05 implements Solver<Integer> {
+public class Day05 implements DeprecatedSolver2<Integer> {
     
     private static List<Integer> instructions;
     

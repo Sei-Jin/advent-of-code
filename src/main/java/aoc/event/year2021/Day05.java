@@ -1,12 +1,12 @@
 package aoc.event.year2021;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class Day05 implements Solver<Integer> {
+public class Day05 implements DeprecatedSolver2<Integer> {
     
     private static List<LineSegment> segments;
     

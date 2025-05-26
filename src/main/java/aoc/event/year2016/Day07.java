@@ -1,12 +1,12 @@
 package aoc.event.year2016;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Gatherers;
 
-public class Day07 implements Solver<Integer> {
+public class Day07 implements DeprecatedSolver2<Integer> {
     
     private static List<Sequence> sequences;
     

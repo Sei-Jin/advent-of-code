@@ -1,10 +1,10 @@
 package aoc.event.year2021;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.Arrays;
 
-public class Day06 implements Solver<Long> {
+public class Day06 implements DeprecatedSolver2<Long> {
     
     private final int[] initialState;
     

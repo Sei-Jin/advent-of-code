@@ -1,13 +1,13 @@
 package aoc.event.year2022;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class Day01 implements Solver {
+public class Day01 implements DeprecatedSolver2 {
     
     /// Stores the sublist sums.
     private final List<Integer> sublistSums;

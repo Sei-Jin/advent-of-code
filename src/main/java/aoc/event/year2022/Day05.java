@@ -1,13 +1,13 @@
 package aoc.event.year2022;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Day05 implements Solver {
+public class Day05 implements DeprecatedSolver2 {
     
     private final Pattern MOVE_PATTERN = Pattern.compile(
             "move (\\d+) from (\\d+) to (\\d+)"

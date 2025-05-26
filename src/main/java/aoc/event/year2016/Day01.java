@@ -1,6 +1,6 @@
 package aoc.event.year2016;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class Day01 implements Solver {
+public class Day01 implements DeprecatedSolver2 {
     
     private static final Pattern INSTRUCTION_PATTERN = Pattern.compile("(\\w)(\\d+)");
     

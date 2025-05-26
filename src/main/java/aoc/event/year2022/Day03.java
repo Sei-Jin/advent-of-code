@@ -1,12 +1,12 @@
 package aoc.event.year2022;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-public class Day03 implements Solver {
+public class Day03 implements DeprecatedSolver2 {
     
     private final List<List<Character>> lines;
     

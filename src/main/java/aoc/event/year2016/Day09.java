@@ -1,8 +1,8 @@
 package aoc.event.year2016;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
-public class Day09 implements Solver<Long> {
+public class Day09 implements DeprecatedSolver2<Long> {
     
     private static String line;
     

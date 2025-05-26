@@ -1,13 +1,13 @@
 package aoc.event.year2018;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class Day01 implements Solver {
+public class Day01 implements DeprecatedSolver2 {
     
     /// The starting frequency value.
     private static final int STARTING_FREQUENCY = 0;

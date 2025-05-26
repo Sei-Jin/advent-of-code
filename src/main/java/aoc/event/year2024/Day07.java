@@ -1,13 +1,13 @@
 package aoc.event.year2024;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Day07 implements Solver {
+public class Day07 implements DeprecatedSolver2 {
     
     private static final Pattern NUMBER_PATTERN = Pattern.compile("(\\d+)");
     

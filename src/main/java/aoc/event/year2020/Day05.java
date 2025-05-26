@@ -1,13 +1,13 @@
 package aoc.event.year2020;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Day05 implements Solver
+public class Day05 implements DeprecatedSolver2
 {
     private static final Pattern BOARDING_SEQUENCE = Pattern.compile("^([BF]+)([LR]+)$");
     

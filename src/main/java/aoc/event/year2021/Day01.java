@@ -1,12 +1,12 @@
 package aoc.event.year2021;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Day01 implements Solver {
+public class Day01 implements DeprecatedSolver2 {
     
     /// Defines the size of the measurement windows.
     private static final int WINDOW_SIZE = 3;

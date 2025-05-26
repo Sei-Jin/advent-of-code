@@ -1,13 +1,13 @@
 package aoc.event.year2023;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Day02 implements Solver {
+public class Day02 implements DeprecatedSolver2 {
     
     // Stores the data for the games.
     private final List<Game> games;

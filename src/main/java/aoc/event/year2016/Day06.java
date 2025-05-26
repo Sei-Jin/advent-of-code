@@ -1,13 +1,13 @@
 package aoc.event.year2016;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Day06 implements Solver {
+public class Day06 implements DeprecatedSolver2 {
     
     private final List<List<Character>> characterLists;
     

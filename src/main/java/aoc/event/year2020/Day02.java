@@ -1,12 +1,12 @@
 package aoc.event.year2020;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Day02 implements Solver {
+public class Day02 implements DeprecatedSolver2 {
     
     private static final Pattern LINE_PATTERN = Pattern.compile(
             "^(\\d+)-(\\d+) (\\w): (\\w+)$"

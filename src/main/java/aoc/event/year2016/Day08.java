@@ -1,11 +1,11 @@
 package aoc.event.year2016;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Day08 implements Solver<Integer> {
+public class Day08 implements DeprecatedSolver2<Integer> {
     
     private static final int SCREEN_WIDTH = 50;
     private static final int SCREEN_HEIGHT = 6;

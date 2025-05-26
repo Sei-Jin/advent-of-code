@@ -1,13 +1,13 @@
 package aoc.event.year2016;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Day12 implements Solver<Integer> {
+public class Day12 implements DeprecatedSolver2<Integer> {
     
     private final List<Instruction> instructions;
     

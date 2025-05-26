@@ -1,13 +1,13 @@
 package aoc.event.year2016;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /// --- Day 2: Bathroom Security ---
-public class Day02 implements Solver {
+public class Day02 implements DeprecatedSolver2 {
     
     private final List<List<Character>> instructionLists;
     

@@ -1,10 +1,10 @@
 package aoc.event.year2019;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.*;
 
-public class Day03 implements Solver<Integer> {
+public class Day03 implements DeprecatedSolver2<Integer> {
     
     /// The location of the central port is (0, 0). The central port is the starting location of the
     /// wires, and it does not count if the wires cross at the central port location, since they

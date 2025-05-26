@@ -1,10 +1,10 @@
 package aoc.event.year2017;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.*;
 
-public class Day04 implements Solver {
+public class Day04 implements DeprecatedSolver2 {
     
     private final List<List<List<Character>>> wordLists;
     

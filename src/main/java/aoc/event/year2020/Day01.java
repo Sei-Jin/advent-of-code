@@ -1,13 +1,13 @@
 package aoc.event.year2020;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class Day01 implements Solver {
+public class Day01 implements DeprecatedSolver2 {
     
     private static final int TARGET_SUM = 2020;
     

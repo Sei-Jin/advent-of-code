@@ -1,11 +1,11 @@
 package aoc.event.year2019;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.Collections;
 import java.util.List;
 
-public class Day01 implements Solver {
+public class Day01 implements DeprecatedSolver2 {
     
     private final List<Integer> moduleMasses;
     

@@ -1,11 +1,11 @@
 package aoc.event.year2016;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class Day04 implements Solver {
+public class Day04 implements DeprecatedSolver2 {
     
     /// Matches the data for the room input.
     private static final Pattern ROOM_PATTERN = Pattern.compile("([\\w-]+)-(\\d+)\\[(\\w+)]");

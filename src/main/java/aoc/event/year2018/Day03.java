@@ -1,11 +1,11 @@
 package aoc.event.year2018;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Day03 implements Solver<Integer> {
+public class Day03 implements DeprecatedSolver2<Integer> {
     
     private static final Pattern CLAIM_PATTERN = Pattern.compile(
         "#(\\d+) @ (\\d+),(\\d+): (\\d+)x(\\d+)"

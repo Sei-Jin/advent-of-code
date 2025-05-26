@@ -1,11 +1,11 @@
 package aoc.event.year2024;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Day05 implements Solver {
+public class Day05 implements DeprecatedSolver2 {
     
     private final Map<Integer, Set<Integer>> orderingRules;
     private final List<List<Integer>> updates;

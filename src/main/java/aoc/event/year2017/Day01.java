@@ -1,11 +1,11 @@
 package aoc.event.year2017;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.Collections;
 import java.util.List;
 
-public class Day01 implements Solver {
+public class Day01 implements DeprecatedSolver2 {
     
     /// Stores the puzzle input as a list of digits.
     private final List<Integer> digits;

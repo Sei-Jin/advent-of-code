@@ -1,10 +1,10 @@
 package aoc.event.year2015;
 
-import aoc.Solver;
+import aoc.DeprecatedSolver2;
 
 import java.util.List;
 
-public class Day05 implements Solver {
+public class Day05 implements DeprecatedSolver2 {
     
     private static final String AT_LEAST_THREE_VOWELS = "^([^aeiou]*[aeiou]){3,}[^aeiou]*$";
     private static final String AT_LEAST_ONE_LETTER_TWICE_IN_A_ROW = "^.*([a-z])\\1.*$";
