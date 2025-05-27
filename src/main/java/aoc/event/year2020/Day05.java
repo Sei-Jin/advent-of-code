@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/// # [2020-05: Binary Boarding](https://adventofcode.com/2020/day/5)
 public class Day05 implements DeprecatedSolver2
 {
     private static final Pattern BOARDING_SEQUENCE = Pattern.compile("^([BF]+)([LR]+)$");

@@ -5,6 +5,7 @@ import aoc.DeprecatedSolver2;
 import java.util.*;
 import java.util.regex.Pattern;
 
+/// # [2020-04: Passport Processing](https://adventofcode.com/2020/day/4)
 public class Day04 implements DeprecatedSolver2 {
     
     private static final Set<String> mandatoryFields = createMandatoryFields();

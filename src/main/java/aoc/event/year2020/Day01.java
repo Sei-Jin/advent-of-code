@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+/// # [2020-01: Report Repair](https://adventofcode.com/2020/day/1)
 public class Day01 implements DeprecatedSolver2 {
     
     private static final int TARGET_SUM = 2020;

@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/// # [2020-02: Password Philosophy](https://adventofcode.com/2020/day/2)
 public class Day02 implements DeprecatedSolver2 {
     
     private static final Pattern LINE_PATTERN = Pattern.compile(
