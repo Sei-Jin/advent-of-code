@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+/// # [2021-05: Hydrothermal Venture](https://adventofcode.com/2021/day/5)
 public class Day05 implements DeprecatedSolver2<Integer> {
     
     private static List<LineSegment> segments;

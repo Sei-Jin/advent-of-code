@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/// # [2021-04: Giant Squid](https://adventofcode.com/2021/day/4)
 public class Day04 implements DeprecatedSolver
 {
     /// Pattern that matches all numbers in a string.

@@ -5,9 +5,7 @@ import aoc.DeprecatedSolver;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * --- Day 3: Binary Diagnostic ---
- */
+/// # [2021-03: Binary Diagnostic](https://adventofcode.com/2021/day/3)
 public class Day03 implements DeprecatedSolver
 {
     /**

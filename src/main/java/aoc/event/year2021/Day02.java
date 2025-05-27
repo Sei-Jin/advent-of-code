@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/// # [2021-02: Dive!](https://adventofcode.com/2021/day/2)
 public class Day02 implements DeprecatedSolver2 {
     
     /// Pre-compiles the expected input format for a command.

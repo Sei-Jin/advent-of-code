@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/// # [2021-01: Sonar Sweep](https://adventofcode.com/2021/day/1)
 public class Day01 implements DeprecatedSolver2 {
     
     /// Defines the size of the measurement windows.

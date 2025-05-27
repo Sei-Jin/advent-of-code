@@ -4,6 +4,7 @@ import aoc.DeprecatedSolver2;
 
 import java.util.Arrays;
 
+/// # [2021-06: Lanternfish](https://adventofcode.com/2021/day/6)
 public class Day06 implements DeprecatedSolver2<Long> {
     
     private final int[] initialState;
