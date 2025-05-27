@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/// # [2016-03: Squares With Three Sides](https://adventofcode.com/2016/day/3)
 public class Day03 implements DeprecatedSolver2 {
     
     private final List<List<Integer>> numberLists;

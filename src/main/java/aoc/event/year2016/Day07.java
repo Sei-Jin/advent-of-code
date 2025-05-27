@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Gatherers;
 
+/// # [2016-07: Internet Protocol Version 7](https://adventofcode.com/2016/day/7)
 public class Day07 implements DeprecatedSolver2<Integer> {
     
     private static List<Sequence> sequences;

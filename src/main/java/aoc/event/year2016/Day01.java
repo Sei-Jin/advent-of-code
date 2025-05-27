@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+/// # [2016-01: No Time for a Taxicab](https://adventofcode.com/2016/day/1)
 public class Day01 implements DeprecatedSolver2 {
     
     private static final Pattern INSTRUCTION_PATTERN = Pattern.compile("(\\w)(\\d+)");

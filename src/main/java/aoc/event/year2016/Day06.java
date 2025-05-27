@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/// # [2016-06: Signals and Noise](https://adventofcode.com/2016/day/6)
 public class Day06 implements DeprecatedSolver2 {
     
     private final List<List<Character>> characterLists;

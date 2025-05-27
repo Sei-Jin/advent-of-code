@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/// # [2016-12: Leonardo's Monorail](https://adventofcode.com/2016/day/12)
 public class Day12 implements DeprecatedSolver2<Integer> {
     
     private final List<Instruction> instructions;

@@ -5,6 +5,7 @@ import aoc.DeprecatedSolver2;
 import java.util.*;
 import java.util.regex.Pattern;
 
+/// # [2016-04: Security Through Obscurity](https://adventofcode.com/2016/day/4)
 public class Day04 implements DeprecatedSolver2 {
     
     /// Matches the data for the room input.

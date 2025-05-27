@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/// --- Day 2: Bathroom Security ---
+/// # [2016-02: Bathroom Security](https://adventofcode.com/2016/day/2)
 public class Day02 implements DeprecatedSolver2 {
     
     private final List<List<Character>> instructionLists;

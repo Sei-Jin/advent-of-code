@@ -2,6 +2,7 @@ package aoc.event.year2016;
 
 import aoc.DeprecatedSolver2;
 
+/// # [2016-09: Explosives in Cyberspace](https://adventofcode.com/2016/day/9)
 public class Day09 implements DeprecatedSolver2<Long> {
     
     private static String line;

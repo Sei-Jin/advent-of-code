@@ -5,6 +5,7 @@ import aoc.DeprecatedSolver2;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/// # [2016-08: Two-Factor Authentication](https://adventofcode.com/2016/day/8)
 public class Day08 implements DeprecatedSolver2<Integer> {
     
     private static final int SCREEN_WIDTH = 50;
