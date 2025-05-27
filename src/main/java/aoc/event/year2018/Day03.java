@@ -5,6 +5,7 @@ import aoc.DeprecatedSolver2;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/// # [2018-03: No Matter How You Slice It](https://adventofcode.com/2018/day/3)
 public class Day03 implements DeprecatedSolver2<Integer> {
     
     private static final Pattern CLAIM_PATTERN = Pattern.compile(

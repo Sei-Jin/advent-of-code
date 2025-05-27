@@ -4,6 +4,7 @@ import aoc.DeprecatedSolver2;
 
 import java.util.*;
 
+/// # [2018-02: Inventory Management System](https://adventofcode.com/2018/day/2)
 public class Day02 implements DeprecatedSolver2 {
     
     private final List<List<Character>> characterLists;

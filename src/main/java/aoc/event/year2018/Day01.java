@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/// # [2018-01: Chronal Calibration](https://adventofcode.com/2018/day/1)
 public class Day01 implements DeprecatedSolver2 {
     
     /// The starting frequency value.
