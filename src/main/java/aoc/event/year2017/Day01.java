@@ -5,6 +5,7 @@ import aoc.DeprecatedSolver2;
 import java.util.Collections;
 import java.util.List;
 
+/// # [2017-01: Inverse Captcha](https://adventofcode.com/2017/day/1)
 public class Day01 implements DeprecatedSolver2 {
     
     /// Stores the puzzle input as a list of digits.

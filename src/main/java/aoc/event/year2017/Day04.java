@@ -4,6 +4,7 @@ import aoc.DeprecatedSolver2;
 
 import java.util.*;
 
+/// # [2017-04: High-Entropy Passphrases](https://adventofcode.com/2017/day/4)
 public class Day04 implements DeprecatedSolver2 {
     
     private final List<List<List<Character>>> wordLists;

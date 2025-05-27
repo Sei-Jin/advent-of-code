@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/// # [2017-02: Corruption Checksum](https://adventofcode.com/2017/day/2)
 public class Day02 implements DeprecatedSolver2 {
     
     /// Compiles a pattern that matches integers.

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/// --- Day 5: A Maze of Twisty Trampolines, All Alike ---
+/// # [2017-05: A Maze of Twisty Trampolines, All Alike](https://adventofcode.com/2017/day/5)
 public class Day05 implements DeprecatedSolver2<Integer> {
     
     private static List<Integer> instructions;
