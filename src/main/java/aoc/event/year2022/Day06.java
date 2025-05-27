@@ -4,6 +4,7 @@ import aoc.DeprecatedSolver2;
 
 import java.util.HashMap;
 
+/// # [2022-06: Tuning Trouble](https://adventofcode.com/2022/day/6)
 public class Day06 implements DeprecatedSolver2 {
     
     private final String string;

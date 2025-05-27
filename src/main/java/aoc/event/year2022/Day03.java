@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+/// # [2022-03: Rucksack Reorganization](https://adventofcode.com/2022/day/3)
 public class Day03 implements DeprecatedSolver2 {
     
     private final List<List<Character>> lines;

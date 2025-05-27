@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/// # [2022-02: Rock Paper Scissors](https://adventofcode.com/2022/day/2)
 public class Day02 implements DeprecatedSolver2 {
     
     private final List<Round> rounds;

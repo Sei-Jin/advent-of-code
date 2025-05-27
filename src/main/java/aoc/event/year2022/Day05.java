@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/// # [2022-05: Supply Stacks](https://adventofcode.com/2022/day/5)
 public class Day05 implements DeprecatedSolver2 {
     
     private final Pattern MOVE_PATTERN = Pattern.compile(

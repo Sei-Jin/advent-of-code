@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/// # [2022-04: Camp Cleanup](https://adventofcode.com/2022/day/4)
 public class Day04 implements DeprecatedSolver2 {
     
     private static final Pattern RANGE_PATTERN = Pattern.compile(

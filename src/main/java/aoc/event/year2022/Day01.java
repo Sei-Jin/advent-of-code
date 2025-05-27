@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/// # [2022-01: Calorie Counting](https://adventofcode.com/2022/day/1)
 public class Day01 implements DeprecatedSolver2 {
     
     /// Stores the sublist sums.
