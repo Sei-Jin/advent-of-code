@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/// --- Day 2: 1202 Program Alarm ---
+/// # [2019-02: 1202 Program Alarm](https://adventofcode.com/2019/day/2)
 public class Day02 implements DeprecatedSolver2 {
     
     private final List<Integer> initialState;

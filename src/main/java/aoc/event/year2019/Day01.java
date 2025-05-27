@@ -5,6 +5,7 @@ import aoc.DeprecatedSolver2;
 import java.util.Collections;
 import java.util.List;
 
+/// # [2019-01: The Tyranny of the Rocket Equation](https://adventofcode.com/2019/day/1)
 public class Day01 implements DeprecatedSolver2 {
     
     private final List<Integer> moduleMasses;

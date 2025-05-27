@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+/// # [2019-04: Secure Container](https://adventofcode.com/2019/day/4)
 public class Day04 implements DeprecatedSolver
 {
     @Override

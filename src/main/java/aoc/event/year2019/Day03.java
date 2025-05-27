@@ -4,6 +4,7 @@ import aoc.DeprecatedSolver2;
 
 import java.util.*;
 
+/// # [2019-03: Crossed Wires](https://adventofcode.com/2019/day/3)
 public class Day03 implements DeprecatedSolver2<Integer> {
     
     /// The location of the central port is (0, 0). The central port is the starting location of the
