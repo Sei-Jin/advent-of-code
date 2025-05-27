@@ -5,6 +5,7 @@ import aoc.DeprecatedSolver2;
 import java.util.HashMap;
 import java.util.List;
 
+/// # [2023-01: Trebuchet?!](https://adventofcode.com/2023/day/1)
 public class Day01 implements DeprecatedSolver2 {
     
     /// Stores the puzzle input.

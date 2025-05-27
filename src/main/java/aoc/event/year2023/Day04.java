@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/// # [2023-04: Scratchcards](https://adventofcode.com/2023/day/4)
 public class Day04 implements DeprecatedSolver
 {
     /// A regex pattern to parse the numbers for each set in the scratchcard.

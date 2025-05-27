@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/// # [2023-02: Cube Conundrum](https://adventofcode.com/2023/day/2)
 public class Day02 implements DeprecatedSolver2 {
     
     // Stores the data for the games.
