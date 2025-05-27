@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/// # [2015-02: I Was Told There Would Be No Math](https://adventofcode.com/2015/day/2)
 public class Day02 implements DeprecatedSolver2 {
     
     private static final Pattern NUMBER_PATTERN = Pattern.compile("^(\\d+)x(\\d+)x(\\d+)$");

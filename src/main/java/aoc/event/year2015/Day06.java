@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/// # [2015-06: Probably a Fire Hazard](https://adventofcode.com/2015/day/6)
 public class Day06 implements DeprecatedSolver2 {
     
     private static final Pattern INSTRUCTION_PATTERN =

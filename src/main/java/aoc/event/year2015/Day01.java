@@ -2,6 +2,7 @@ package aoc.event.year2015;
 
 import aoc.DeprecatedSolver2;
 
+/// # [2015-01: Not Quite Lisp](https://adventofcode.com/2015/day/1)
 public class Day01 implements DeprecatedSolver2 {
     
     private static String line;

@@ -4,6 +4,7 @@ import aoc.DeprecatedSolver2;
 
 import java.util.List;
 
+/// # [2015-05: Doesn't He Have Intern-Elves For This?](https://adventofcode.com/2015/day/5)
 public class Day05 implements DeprecatedSolver2 {
     
     private static final String AT_LEAST_THREE_VOWELS = "^([^aeiou]*[aeiou]){3,}[^aeiou]*$";
