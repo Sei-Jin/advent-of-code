@@ -54,9 +54,11 @@ public class Day03 implements Solver<Integer, Integer> {
         for (var instruction : instructions) {
             if (instruction.matches(Instruction.DO_NOT.getRegex())) {
                 enableMultiply = false;
-            } else if (instruction.matches(Instruction.DO.getRegex())) {
+            }
+            else if (instruction.matches(Instruction.DO.getRegex())) {
                 enableMultiply = true;
-            } else if (enableMultiply) {
+            }
+            else if (enableMultiply) {
                 sum += calculateProduct(instruction);
             }
         }
