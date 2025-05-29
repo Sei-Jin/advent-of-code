@@ -1,125 +1,94 @@
 package aoc.event.year2023;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /// # [2023-02: Cube Conundrum](https://adventofcode.com/2023/day/2)
-public class Day02 implements DeprecatedSolver2 {
+public class Day02 implements Solver<Integer, Integer> {
     
-    // Stores the data for the games.
     private final List<Game> games;
     
-    /// Initializes the solution
-    ///
-    /// @param input the puzzle input
     public Day02(String input) {
-        this.games = parse(input);
+        games = parse(input);
     }
     
-    /// Parses the puzzle input for the game data.
-    ///
-    /// Each line of the input contains the data for a single game. The expected format for a
-    /// game is:
-    ///
-    /// `Game #: # colour, # colour, # colour; # colour; # colour, #colour...`
-    ///
-    /// - The first part of the input, `Game #`, contains the unique id of the game, `#`.
-    /// - The second half of the input contains the sets of cubes.
-    ///     - The semicolons, `;`, separate each set of cubes.
-    ///     - The commas, `,`, separate each pair of cubes.
-    ///         - Each pair, `# colour`, defines the number of cubes with that colour.
-    ///
-    /// @param input the puzzle input.
-    /// @return the list of game data.
     private static List<Game> parse(String input) {
-        var games = new ArrayList<Game>();
-        
-        input.lines().forEach(line -> {
-            var parts = line.split(":");
-            
-            var id = Integer.parseInt(parts[0].split(" ")[1]);
-            var sets = parts[1].split(";");
-            
-            var maxCounts = calculateMaxCounts(sets);
-            
-            games.add(new Game(id, maxCounts));
-        });
-        
-        return games;
+        return input
+            .lines()
+            .map(line -> {
+                var parts = line.split(":");
+                
+                var id = Integer.parseInt(parts[0].split(" ")[1]);
+                var sets = parts[1].split(";");
+                
+                var maxCounts = calculateMaxCounts(sets);
+                return new Game(id, maxCounts);
+            })
+            .toList();
     }
     
-    private static HashMap<String, Integer> calculateMaxCounts(String[] sets) {
-        var maxCounts = new HashMap<String, Integer>();
-        
+    private static Map<Colour, Integer> calculateMaxCounts(String[] sets) {
+        var maxCounts = new HashMap<Colour, Integer>();
         for (var set : sets) {
             var pairs = set.split(",");
-            
             for (var pair : pairs) {
-                var values = pair.trim().split(" ");
+                var values = pair
+                    .stripLeading()
+                    .split(" ");
                 
                 var count = Integer.parseInt(values[0]);
-                var colour = values[1];
+                var colour = Colour.of(values[1]);
                 
                 if (maxCounts.getOrDefault(colour, 0) < count) {
                     maxCounts.put(colour, count);
                 }
             }
         }
-        
         return maxCounts;
     }
     
     /// Calculates the sum of the ids for the possible games.
-    ///
-    /// A game is considered possible if the game contained a maximum of:
-    /// - 12 red cubes
-    /// - 13 green cubes
-    /// - 14 blue cubes
-    ///
-    /// @return the sum of the ids of the possible games
     @Override
-    public Object partOne() {
-        var sum = 0;
-        
-        for (var game : games) {
-            boolean possibleGame = game.maxCounts.get("red") <= 12
-                    && game.maxCounts.get("green") <= 13
-                    && game.maxCounts.get("blue") <= 14;
-            
-            if (possibleGame) {
-                sum += game.id;
-            }
-        }
-        
-        return sum;
+    public Integer partOne() {
+        return games
+            .stream()
+            .filter(game -> {
+                var maxCounts = game.maxCounts();
+                return maxCounts.get(Colour.RED) <= 12
+                    && maxCounts.get(Colour.GREEN) <= 13
+                    && maxCounts.get(Colour.BLUE) <= 14;
+            })
+            .mapToInt(Game::id)
+            .sum();
     }
     
-    /// Calculates the sum of the powers from all games.
-    ///
-    /// The power of a game is the product of the maximum counts seen across all sets. The total
-    /// power is the sum of the powers from all games.
-    ///
-    /// @return the total power of the minimum sets of cubes counts.
+    /// Calculates the sum of the products of the max counts for all games.
     @Override
-    public Object partTwo() {
-        var sum = 0;
-        
-        for (var game : games) {
-            sum += game.maxCounts.get("red")
-                    * game.maxCounts.get("green")
-                    * game.maxCounts.get("blue");
-        }
-        
-        return sum;
+    public Integer partTwo() {
+        return games
+            .stream()
+            .map(Game::maxCounts)
+            .mapToInt(maxCounts ->
+                maxCounts.get(Colour.RED) * maxCounts.get(Colour.GREEN) * maxCounts.get(Colour.BLUE)
+            )
+            .sum();
     }
     
-    /// Stores the data for a game.
-    ///
-    /// @param id a unique id for the game.
-    /// @param maxCounts stores the highest count for each color across all sets.
-    record Game(int id, Map<String, Integer> maxCounts) {}
+    private enum Colour {
+        RED, GREEN, BLUE;
+        
+        private static Colour of(String string) {
+            return switch (string) {
+                case "red" -> RED;
+                case "green" -> GREEN;
+                case "blue" -> BLUE;
+                default -> throw new IllegalArgumentException();
+            };
+        }
+    }
+    
+    private record Game(int id, Map<Colour, Integer> maxCounts) {}
 }
