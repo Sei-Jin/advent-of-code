@@ -1,236 +1,142 @@
 package aoc.event.year2024;
 
-import aoc.DeprecatedSolver;
+import aoc.Solver;
 
 import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.Set;
 
 /// # [2024-06: Guard Gallivant](https://adventofcode.com/2024/day/6)
-public class Day06 implements DeprecatedSolver
-{
+public class Day06 implements Solver<Integer, Integer> {
+    
     /// This character represents any obstructions that can be run into.
-    static final char OBSTRUCTION = '#';
+    private static final char OBSTRUCTION = '#';
+    private final char[][] map;
     
-    @Override
-    public Object partOne(List<String> inputLines)
-    {
-        char[][] map = getMap(inputLines);
-        State startingState = getStartingState(map);
-        
-        HashSet<Position> previousPositions = getPreviousPositions(startingState, map);
-        return previousPositions.size();
+    public Day06(String input) {
+        map = parseMap(input);
     }
     
-    private static HashSet<Position> getPreviousPositions(State startingState, char[][] map)
-    {
-        HashSet<Position> previousPositions = new HashSet<>();
-        previousPositions.add(startingState.position());
+    private static char[][] parseMap(String input) {
+        var lines = input.lines().toList();
         
-        Position currentPosition = new Position(
-                startingState.position().rowIndex,
-                startingState.position().columnIndex
-        );
-        Direction currentDirection = startingState.direction();
+        var rowSize = lines.size();
+        var columnSize = lines.getFirst().length();
         
-        while (true)
-        {
-            moveForward(currentPosition, currentDirection);
-            
-            if (outOfArea(map, currentPosition))
-            {
-                break;
-            }
-            else if (map[currentPosition.rowIndex][currentPosition.columnIndex] == OBSTRUCTION)
-            {
-                moveBackward(currentPosition, currentDirection);
-                currentDirection = Direction.getRightDirection(currentDirection);
-            }
-            else
-            {
-                Position position = new Position(currentPosition.rowIndex, currentPosition.columnIndex);
-                previousPositions.add(position);
+        var map = new char[rowSize][columnSize];
+        for (int row = 0; row < rowSize; row++) {
+            for (int column = 0; column < columnSize; column++) {
+                map[row][column] = lines.get(row).charAt(column);
             }
         }
-        
-        return previousPositions;
-    }
-    
-    /// Returns the layout of the laboratory floor.
-    ///
-    /// @param inputLines the puzzle input.
-    /// @return the layout of the laboratory floor.
-    private static char[][] getMap(List<String> inputLines)
-    {
-        char[][] map = new char[inputLines.size()][inputLines.getFirst().length()];
-        
-        for (int rowIndex = 0; rowIndex < inputLines.size(); rowIndex++)
-        {
-            for (int columnIndex = 0; columnIndex < inputLines.getFirst().length(); columnIndex++)
-            {
-                map[rowIndex][columnIndex] = inputLines.get(rowIndex).charAt(columnIndex);
-            }
-        }
-        
         return map;
     }
     
-    /// This enum stores the different directions that the starting position of the guard can be in.
-    enum Direction
-    {
-        UP('^'),
-        RIGHT('>'),
-        DOWN('v'),
-        LEFT('<');
-        
-        char symbol;
-        
-        Direction(char symbol)
-        {
-            this.symbol = symbol;
-        }
-        
-        char getSymbol()
-        {
-            return this.symbol;
-        }
-        
-        /// Returns the direction the provided symbol represents.
-        ///
-        /// @param symbol the symbol used to indicate the starting direction of the guard.
-        /// @return the direction the symbol represents.
-        static Optional<Direction> getDirection(char symbol)
-        {
-            for (Direction direction : Direction.values())
-            {
-                if (direction.getSymbol() == symbol)
-                {
-                    return Optional.of(direction);
+    @Override
+    public Integer partOne() {
+        var starting = determineStartingState();
+        var positions = getAllPositions(starting, map);
+        return positions.size();
+    }
+    
+    private State determineStartingState() {
+        var position = findStartingPosition(map);
+        var value = map[position.row()][position.column()];
+        var direction = Direction.of(value);
+        return new State(position, direction);
+    }
+    
+    private static Position findStartingPosition(char[][] map) {
+        for (int row = 0; row < map.length; row++) {
+            for (int column = 0; column < map[row].length; column++) {
+                char current = map[row][column];
+                if (current == '^' || current == '>' || current == 'v' || current == '<') {
+                    return new Position(row, column);
                 }
             }
-            
-            return Optional.empty();
         }
+        throw new IllegalArgumentException("No starting position found");
+    }
+    
+    private static Set<Position> getAllPositions(State starting, char[][] map) {
+        var positions = new HashSet<Position>();
+        positions.add(starting.position());
         
-        /// Returns the direction after taking a 90-degree turn from the given direction.
-        ///
-        /// @param direction a direction.
-        /// @return the direction after making a 90-degree turn to the right.
-        static Direction getRightDirection(Direction direction)
-        {
-            return switch (direction)
-            {
+        var row = starting.position().row();
+        var column = starting.position().column();
+        var direction = starting.direction();
+        while (true) {
+            switch (direction) {
+                case UP -> row--;
+                case RIGHT -> column++;
+                case DOWN -> row++;
+                case LEFT -> column--;
+            }
+            
+            if (isWithinBounds(row, column, map)) {
+                break;
+            }
+            else if (map[row][column] == OBSTRUCTION) {
+                switch (direction.ofOpposite()) {
+                    case UP -> row--;
+                    case RIGHT -> column++;
+                    case DOWN -> row++;
+                    case LEFT -> column--;
+                }
+                direction = direction.ofRight();
+            }
+            else {
+                positions.add(new Position(row, column));
+            }
+        }
+        return positions;
+    }
+    
+    private static boolean isWithinBounds(int row, int column, char[][] map) {
+        return (row < 0)
+            || (row >= map.length)
+            || (column < 0)
+            || (column >= map[row].length);
+    }
+    
+    @Override
+    public Integer partTwo() {
+        return 0;
+    }
+    
+    private record Position(int row, int column) {}
+    
+    private enum Direction {
+        
+        UP, RIGHT, DOWN, LEFT;
+        
+        private Direction ofRight() {
+            return switch (this) {
                 case UP -> Direction.RIGHT;
                 case RIGHT -> Direction.DOWN;
                 case DOWN -> Direction.LEFT;
                 case LEFT -> Direction.UP;
             };
         }
-    }
-    
-    /// This class stores the indices for a position. Equals and HashCode methods are overridden so positions
-    /// can be compared by their indices.
-    static class Position
-    {
-        int rowIndex;
-        int columnIndex;
         
-        public Position(int rowIndex, int columnIndex)
-        {
-            this.rowIndex = rowIndex;
-            this.columnIndex = columnIndex;
+        private Direction ofOpposite() {
+            return switch (this) {
+                case UP -> Direction.DOWN;
+                case RIGHT -> Direction.LEFT;
+                case DOWN -> Direction.UP;
+                case LEFT -> Direction.RIGHT;
+            };
         }
         
-        @Override
-        public boolean equals(Object o)
-        {
-            if (o == null || getClass() != o.getClass()) { return false; }
-            Position position = (Position) o;
-            return rowIndex == position.rowIndex && columnIndex == position.columnIndex;
-        }
-        
-        @Override
-        public int hashCode()
-        {
-            return Objects.hash(rowIndex, columnIndex);
+        private static Direction of(char symbol) {
+            return switch (symbol) {
+                case '^' -> Direction.UP;
+                case '>' -> Direction.RIGHT;
+                case 'v' -> Direction.DOWN;
+                case '<' -> Direction.LEFT;
+                default -> throw new IllegalArgumentException("Invalid symbol provided");
+            };
         }
     }
     
-    /// This record stores the initial state of the guard.
     record State(Position position, Direction direction) {}
-    
-    /// Returns the starting state of the guard.
-    ///
-    /// @param map the layout of the laboratory floor.
-    /// @return the starting state of the guard.
-    private static State getStartingState(char[][] map)
-    {
-        for (int rowIndex = 0; rowIndex < map.length; rowIndex++)
-        {
-            for (int columnIndex = 0; columnIndex < map[rowIndex].length; columnIndex++)
-            {
-                char currentSymbol = map[rowIndex][columnIndex];
-                
-                Optional<Direction> direction = Direction.getDirection(currentSymbol);
-                
-                if (direction.isPresent())
-                {
-                    Position position = new Position(rowIndex, columnIndex);
-                    return new State(position, direction.get());
-                }
-            }
-        }
-        
-        throw new RuntimeException("No starting position found");
-    }
-    
-    /// Moves the position one step forward in the given direction.
-    ///
-    /// @param position the current position.
-    /// @param direction the current direction.
-    private static void moveForward(Position position, Direction direction)
-    {
-        switch (direction)
-        {
-            case UP -> position.rowIndex--;
-            case RIGHT -> position.columnIndex++;
-            case DOWN -> position.rowIndex++;
-            case LEFT -> position.columnIndex--;
-        }
-    }
-    
-    /// Determines if the position is within the layout boundaries.
-    ///
-    /// @param map the layout of the laboratory floor.
-    /// @param position a position.
-    /// @return true if the position is within the bounds of the layout, or false otherwise.
-    private static boolean outOfArea(char[][] map, Position position)
-    {
-        return position.rowIndex < 0 ||
-                position.rowIndex >= map.length ||
-                position.columnIndex < 0 ||
-                position.columnIndex >= map[position.rowIndex].length;
-    }
-    
-    /// Moves the position one step backward in the given direction.
-    ///
-    /// @param position the current position.
-    /// @param direction the current direction.
-    private static void moveBackward(Position position, Direction direction)
-    {
-        switch (direction)
-        {
-            case UP -> position.rowIndex++;
-            case RIGHT -> position.columnIndex--;
-            case DOWN -> position.rowIndex--;
-            case LEFT -> position.columnIndex++;
-        }
-    }
-    
-    @Override
-    public Object partTwo(List<String> inputLines)
-    {
-        return null;
-    }
 }
