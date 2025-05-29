@@ -36,15 +36,15 @@ public class Day02 implements DeprecatedSolver2 {
     /// @param input the puzzle input.
     /// @return the list of game data.
     private static List<Game> parse(String input) {
-        final var games = new ArrayList<Game>();
+        var games = new ArrayList<Game>();
         
         input.lines().forEach(line -> {
-            final var parts = line.split(":");
+            var parts = line.split(":");
             
-            final var id = Integer.parseInt(parts[0].split(" ")[1]);
-            final var sets = parts[1].split(";");
+            var id = Integer.parseInt(parts[0].split(" ")[1]);
+            var sets = parts[1].split(";");
             
-            final var maxCounts = calculateMaxCounts(sets);
+            var maxCounts = calculateMaxCounts(sets);
             
             games.add(new Game(id, maxCounts));
         });
@@ -53,16 +53,16 @@ public class Day02 implements DeprecatedSolver2 {
     }
     
     private static HashMap<String, Integer> calculateMaxCounts(String[] sets) {
-        final var maxCounts = new HashMap<String, Integer>();
+        var maxCounts = new HashMap<String, Integer>();
         
-        for (final var set : sets) {
-            final var pairs = set.split(",");
+        for (var set : sets) {
+            var pairs = set.split(",");
             
-            for (final var pair: pairs) {
-                final var values = pair.trim().split(" ");
+            for (var pair : pairs) {
+                var values = pair.trim().split(" ");
                 
-                final var count = Integer.parseInt(values[0]);
-                final var colour = values[1];
+                var count = Integer.parseInt(values[0]);
+                var colour = values[1];
                 
                 if (maxCounts.getOrDefault(colour, 0) < count) {
                     maxCounts.put(colour, count);
@@ -85,7 +85,7 @@ public class Day02 implements DeprecatedSolver2 {
     public Object partOne() {
         var sum = 0;
         
-        for (final var game : games) {
+        for (var game : games) {
             boolean possibleGame = game.maxCounts.get("red") <= 12
                     && game.maxCounts.get("green") <= 13
                     && game.maxCounts.get("blue") <= 14;
@@ -108,7 +108,7 @@ public class Day02 implements DeprecatedSolver2 {
     public Object partTwo() {
         var sum = 0;
         
-        for (final var game : games) {
+        for (var game : games) {
             sum += game.maxCounts.get("red")
                     * game.maxCounts.get("green")
                     * game.maxCounts.get("blue");

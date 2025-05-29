@@ -22,8 +22,8 @@ public class Day01 implements DeprecatedSolver2 {
         return lines
                 .stream()
                 .mapToInt(line -> {
-                    final var firstDigit = findFirstDigit(line);
-                    final var lastDigit = findLastDigit(line);
+                    var firstDigit = findFirstDigit(line);
+                    var lastDigit = findLastDigit(line);
                     return firstDigit * 10 + lastDigit;
                 })
                 .sum();
@@ -31,7 +31,7 @@ public class Day01 implements DeprecatedSolver2 {
     
     private static int findFirstDigit(String line) {
         for (var i = 0; i < line.length(); i++) {
-            final var character = line.charAt(i);
+            var character = line.charAt(i);
             
             if (Character.isDigit(character)) {
                 return Character.getNumericValue(character);
@@ -45,7 +45,7 @@ public class Day01 implements DeprecatedSolver2 {
     
     private static int findLastDigit(String line) {
         for (int i = line.length() - 1; i >= 0; i--) {
-            final var character = line.charAt(i);
+            var character = line.charAt(i);
             
             if (Character.isDigit(character)) {
                 return Character.getNumericValue(character);
@@ -61,17 +61,17 @@ public class Day01 implements DeprecatedSolver2 {
     @Override
     public Integer partTwo() {
         var calibrationTotal = 0;
-        final var digitsMap = createDigitsMap();
+        var digitsMap = createDigitsMap();
 
         for (String line : lines) {
             var firstDigit = -1;
             var lastDigit = -1;
             
             for (int i = 0; i < line.length(); i++) {
-                final var character = line.charAt(i);
+                var character = line.charAt(i);
                 
                 if (Character.isDigit(character)) {
-                    final var digit = Character.getNumericValue(character);
+                    var digit = Character.getNumericValue(character);
                     
                     if (firstDigit == -1) {
                         firstDigit = digit;
@@ -83,10 +83,10 @@ public class Day01 implements DeprecatedSolver2 {
                             break;
                         }
                         
-                        final var substring = line.substring(i, j);
+                        var substring = line.substring(i, j);
                         
                         if (digitsMap.containsKey(substring)) {
-                            final var digit = digitsMap.get(substring);
+                            var digit = digitsMap.get(substring);
                             
                             if (firstDigit == -1) {
                                 firstDigit = digit;
@@ -108,7 +108,7 @@ public class Day01 implements DeprecatedSolver2 {
     }
     
     private static HashMap<String, Integer> createDigitsMap() {
-        final var digitsMap = new HashMap<String, Integer>();
+        var digitsMap = new HashMap<String, Integer>();
         
         digitsMap.put("one", 1);
         digitsMap.put("two", 2);

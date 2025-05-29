@@ -9,7 +9,8 @@ import java.util.List;
 /// # [2023-03: Gear Ratios](https://adventofcode.com/2023/day/3)
 public class Day03 implements DeprecatedSolver
 {
-    final char EMPTY_POSITION = '.';
+    
+    private static final char EMPTY_POSITION = '.';
     
     @Override
     public Object partOne(List<String> engineSchematic)
