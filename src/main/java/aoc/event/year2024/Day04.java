@@ -1,6 +1,7 @@
 package aoc.event.year2024;
 
 import aoc.Solver;
+import aoc.util.Parse;
 
 import java.util.Arrays;
 
@@ -21,22 +22,7 @@ public class Day04 implements Solver<Integer, Integer> {
     };
     
     public Day04(String input) {
-        wordSearch = parse(input);
-    }
-    
-    private static char[][] parse(String input) {
-        var lines = input.lines().toList();
-        
-        var rowSize = lines.size();
-        var columnSize = lines.getFirst().length();
-        
-        char[][] wordSearch = new char[rowSize][columnSize];
-        for (int row = 0; row < rowSize; row++) {
-            for (int column = 0; column < columnSize; column++) {
-                wordSearch[row][column] = lines.get(row).charAt(column);
-            }
-        }
-        return wordSearch;
+        wordSearch = Parse.toCharGrid(input);
     }
     
     /// Counts the number of strings in the word search that match the target string.

@@ -1,6 +1,7 @@
 package aoc.event.year2024;
 
 import aoc.Solver;
+import aoc.util.Parse;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,22 +14,7 @@ public class Day06 implements Solver<Integer, Integer> {
     private final char[][] map;
     
     public Day06(String input) {
-        map = parseMap(input);
-    }
-    
-    private static char[][] parseMap(String input) {
-        var lines = input.lines().toList();
-        
-        var rowSize = lines.size();
-        var columnSize = lines.getFirst().length();
-        
-        var map = new char[rowSize][columnSize];
-        for (int row = 0; row < rowSize; row++) {
-            for (int column = 0; column < columnSize; column++) {
-                map[row][column] = lines.get(row).charAt(column);
-            }
-        }
-        return map;
+        map = Parse.toCharGrid(input);
     }
     
     @Override
