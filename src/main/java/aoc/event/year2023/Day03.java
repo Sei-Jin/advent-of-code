@@ -1,131 +1,111 @@
 package aoc.event.year2023;
 
-import aoc.DeprecatedSolver;
+import aoc.Solver;
+import aoc.util.Parse;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /// # [2023-03: Gear Ratios](https://adventofcode.com/2023/day/3)
-public class Day03 implements DeprecatedSolver
-{
+public class Day03 implements Solver<Integer, Integer> {
     
     private static final char EMPTY_POSITION = '.';
+    private final char[][] schematic;
     
-    @Override
-    public Object partOne(List<String> engineSchematic)
-    {
-        List<Position> symbolPositions = getSymbolPositions(engineSchematic);
-        HashSet<Position> partNumberPositions = getPartNumberPositions(engineSchematic, symbolPositions);
-        List<Integer> partNumbers = getPartNumbers(engineSchematic, partNumberPositions);
-        
-        return partNumbers.stream()
-                .reduce(Integer::sum)
-                .orElse(0);
+    public Day03(String input) {
+        schematic = Parse.toCharGrid(input);
     }
     
-    private record Position(int row, int column) {}
+    @Override
+    public Integer partOne() {
+        var symbolPositions = findSymbols(schematic);
+        var numberPositions = findAdjacentNumbers(schematic, symbolPositions);
+        var partNumbers = parsePartNumbers(schematic, numberPositions);
+        return partNumbers
+            .stream()
+            .reduce(Integer::sum)
+            .orElse(0);
+    }
     
-    private List<Position> getSymbolPositions(List<String> engineSchematic)
-    {
-        List<Position> symbolPositions = new ArrayList<>();
-        
-        for (int row = 0; row < engineSchematic.size(); row++)
-        {
-            String schematicRow = engineSchematic.get(row);
-            
-            for (int column = 0; column < schematicRow.length(); column++)
-            {
-                char character = schematicRow.charAt(column);
-                boolean symbolCharacter = (character != EMPTY_POSITION && !Character.isDigit(character));
-                
-                if (symbolCharacter)
-                {
-                    symbolPositions.add(new Position(row, column));
+    private static List<Position> findSymbols(char[][] schematic) {
+        var symbols = new ArrayList<Position>();
+        for (int row = 0; row < schematic.length; row++) {
+            for (int column = 0; column < schematic[row].length; column++) {
+                char character = schematic[row][column];
+                boolean isSymbol = (character != EMPTY_POSITION && !Character.isDigit(character));
+                if (isSymbol) {
+                    symbols.add(new Position(row, column));
                 }
             }
         }
-        
-        return symbolPositions;
+        return symbols;
     }
     
-    private static HashSet<Position> getPartNumberPositions(List<String> engineSchematic, List<Position> symbolPositions)
-    {
-        HashSet<Position> partNumberPositions = new HashSet<>();
-        
-        for (Position symbolPosition : symbolPositions)
-        {
-            int rowStart = Math.max(symbolPosition.row() - 1, 0);
-            int rowEnd = Math.min(symbolPosition.row() + 1, engineSchematic.size() - 1);
+    private static Set<Position> findAdjacentNumbers(char[][] schematic, List<Position> symbols) {
+        var numbers = new HashSet<Position>();
+        for (var symbol : symbols) {
+            int rowStart = Math.max(symbol.row() - 1, 0);
+            int rowEnd = Math.min(symbol.row() + 1, schematic.length - 1);
+            int columnStart = Math.max(symbol.column() - 1, 0);
+            int columnEnd = Math.min(symbol.column() + 1, schematic[symbol.row()].length - 1);
             
-            int columnStart = Math.max(symbolPosition.column() - 1, 0);
-            int columnEnd = Math.min(symbolPosition.column() + 1, engineSchematic.get(symbolPosition.row()).length() - 1);
-            
-            for (int row = rowStart; row <= rowEnd; row++)
-            {
-                for (int column = columnStart; column <= columnEnd; column++)
-                {
-                    char character = engineSchematic.get(row).charAt(column);
-                    
-                    if (Character.isDigit(character))
-                    {
-                        partNumberPositions.add(new Position(row, column));
+            for (int row = rowStart; row <= rowEnd; row++) {
+                for (int column = columnStart; column <= columnEnd; column++) {
+                    if (Character.isDigit(schematic[row][column])) {
+                        numbers.add(new Position(row, column));
                     }
                 }
             }
         }
-        
-        return partNumberPositions;
+        return numbers;
     }
     
-    private static List<Integer> getPartNumbers(List<String> engineSchematic, HashSet<Position> partNumberPositions)
-    {
-        List<Integer> partNumbers = new ArrayList<>();
+    private static List<Integer> parsePartNumbers(
+        char[][] schematic,
+        Set<Position> numberPositions
+    ) {
+        var numbers = new ArrayList<Integer>();
+        var seen = new HashSet<Position>();
         
-        HashSet<String> addedPositions = new HashSet<>();
-        
-        for (Position partNumberPosition : partNumberPositions)
-        {
-            if (addedPositions.contains(partNumberPosition.toString()))
-            {
+        for (var position : numberPositions) {
+            if (seen.contains(position)) {
                 continue;
             }
-            
-            StringBuilder partNumber = getPartNumber(engineSchematic, partNumberPosition, addedPositions);
-            partNumbers.add(Integer.valueOf(partNumber.toString()));
+            var partNumber = parsePartNumber(schematic, position, seen);
+            numbers.add(Integer.valueOf(partNumber));
         }
-        
-        return partNumbers;
+        return numbers;
     }
     
-    private static StringBuilder getPartNumber(List<String> engineSchematic, Position partNumberPosition, HashSet<String> addedPositions)
-    {
-        StringBuilder partNumber = new StringBuilder();
+    private static String parsePartNumber(
+        char[][] engineSchematic,
+        Position part,
+        Set<Position> seen
+    ) {
+        var number = new StringBuilder();
+        var row = part.row;
+        int column = part.column() - 1;
         
-        int columnPointer = partNumberPosition.column - 1;
-        
-        while (columnPointer >= 0 &&
-                Character.isDigit(engineSchematic.get(partNumberPosition.row()).charAt(columnPointer)))
-        {
-            columnPointer--;
+        while (column >= 0 && Character.isDigit(engineSchematic[row][column])) {
+            column--;
         }
-        
-        columnPointer++;
-        
-        while (columnPointer < engineSchematic.get(partNumberPosition.row()).length() &&
-                Character.isDigit(engineSchematic.get(partNumberPosition.row()).charAt(columnPointer)))
-        {
-            partNumber.append(engineSchematic.get(partNumberPosition.row()).charAt(columnPointer));
-            addedPositions.add(new Position(partNumberPosition.row(), columnPointer).toString());
-            columnPointer++;
+        column++;
+        while (column < engineSchematic[row].length &&
+            Character.isDigit(engineSchematic[row][column])
+        ) {
+            number.append(engineSchematic[row][column]);
+            seen.add(new Position(row, column));
+            column++;
         }
-        
-        return partNumber;
+        return number.toString();
     }
     
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
-        return null;
+    public Integer partTwo() {
+        return 0;
     }
+    
+    private record Position(int row, int column) {}
 }
