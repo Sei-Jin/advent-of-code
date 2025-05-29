@@ -1,125 +1,97 @@
 package aoc.event.year2023;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
 
 /// # [2023-01: Trebuchet?!](https://adventofcode.com/2023/day/1)
-public class Day01 implements DeprecatedSolver2 {
+public class Day01 implements Solver<Integer, Integer> {
     
-    /// Stores the puzzle input.
+    private static final Map<String, Integer> digitMap = Map.of(
+        "one", 1,
+        "two", 2,
+        "three", 3,
+        "four", 4,
+        "five", 5,
+        "six", 6,
+        "seven", 7,
+        "eight", 8,
+        "nine", 9
+    );
     private final List<String> lines;
     
-    /// Initializes the solution.
     public Day01(String input) {
-        lines = input.lines().toList();
+        lines = input
+            .lines()
+            .toList();
     }
     
-    /// @return the sum of all the calibration values.
+    private static IntStream streamIndices(String string, boolean reverse) {
+        var min = 0;
+        var max = string.length() - 1;
+        if (reverse) {
+            return IntStream.iterate(max, i -> i >= min, i -> i - 1);
+        }
+        else {
+            return IntStream.rangeClosed(min, max);
+        }
+    }
+    
     @Override
     public Integer partOne() {
         return lines
-                .stream()
-                .mapToInt(line -> {
-                    var firstDigit = findFirstDigit(line);
-                    var lastDigit = findLastDigit(line);
-                    return firstDigit * 10 + lastDigit;
-                })
-                .sum();
+            .stream()
+            .mapToInt(line -> {
+                var firstDigit = findFirstDigit(line, false);
+                var lastDigit = findFirstDigit(line, true);
+                return firstDigit * 10 + lastDigit;
+            })
+            .sum();
     }
     
-    private static int findFirstDigit(String line) {
-        for (var i = 0; i < line.length(); i++) {
-            var character = line.charAt(i);
-            
-            if (Character.isDigit(character)) {
-                return Character.getNumericValue(character);
-            }
-        }
-        
-        throw new IllegalArgumentException(
-                "The input did not contain any digits for line: " + line
-        );
+    private static int findFirstDigit(String string, boolean reverse) {
+        return streamIndices(string, reverse)
+            .map(string::charAt)
+            .filter(Character::isDigit)
+            .map(Character::getNumericValue)
+            .findFirst()
+            .orElseThrow(() ->
+                new IllegalArgumentException("No digits found in string: " + string)
+            );
     }
-    
-    private static int findLastDigit(String line) {
-        for (int i = line.length() - 1; i >= 0; i--) {
-            var character = line.charAt(i);
-            
-            if (Character.isDigit(character)) {
-                return Character.getNumericValue(character);
-            }
-        }
-        
-        throw new IllegalArgumentException(
-                "The input did not contain any digits for line: " + line
-        );
-    }
-    
-    /// @return the sum of all the calibration values.
+
     @Override
     public Integer partTwo() {
-        var calibrationTotal = 0;
-        var digitsMap = createDigitsMap();
-
-        for (String line : lines) {
-            var firstDigit = -1;
-            var lastDigit = -1;
-            
-            for (int i = 0; i < line.length(); i++) {
-                var character = line.charAt(i);
-                
-                if (Character.isDigit(character)) {
-                    var digit = Character.getNumericValue(character);
-                    
-                    if (firstDigit == -1) {
-                        firstDigit = digit;
-                    }
-                    lastDigit = digit;
-                } else {
-                    for (int j = i + 3; j < line.length() && j < 5; j++) {
-                        if (Character.isDigit(line.charAt(j))) {
-                            break;
-                        }
-                        
-                        var substring = line.substring(i, j);
-                        
-                        if (digitsMap.containsKey(substring)) {
-                            var digit = digitsMap.get(substring);
-                            
-                            if (firstDigit == -1) {
-                                firstDigit = digit;
-                            }
-                            lastDigit = digit;
-                        }
-                    }
-                }
-            }
-            
-            if (firstDigit == -1 || lastDigit == -1) {
-                throw new IllegalArgumentException("The input string did not contain a digit");
-            }
-            
-            calibrationTotal += firstDigit * 10 + lastDigit;
-        }
-        
-        return calibrationTotal;
+        return lines
+            .stream()
+            .mapToInt(line -> {
+                var firstDigit = findFirstDigitWithStrings(line, false);
+                var lastDigit = findFirstDigitWithStrings(line, true);
+                return firstDigit * 10 + lastDigit;
+            })
+            .sum();
     }
     
-    private static HashMap<String, Integer> createDigitsMap() {
-        var digitsMap = new HashMap<String, Integer>();
-        
-        digitsMap.put("one", 1);
-        digitsMap.put("two", 2);
-        digitsMap.put("three", 3);
-        digitsMap.put("four", 4);
-        digitsMap.put("five", 5);
-        digitsMap.put("six", 6);
-        digitsMap.put("seven", 7);
-        digitsMap.put("eight", 8);
-        digitsMap.put("nine", 9);
-        
-        return digitsMap;
+    private static Integer findFirstDigitWithStrings(String string, boolean reverse) {
+        return streamIndices(string, reverse)
+            .map(i -> {
+                var character = string.charAt(i);
+                if (Character.isDigit(character)) {
+                    return Character.getNumericValue(character);
+                }
+                for (var entry : digitMap.entrySet()) {
+                    if (string.startsWith(entry.getKey(), i)) {
+                        return entry.getValue();
+                    }
+                }
+                return 0;
+            })
+            .filter(value -> value != 0)
+            .findFirst()
+            .orElseThrow(() ->
+                new IllegalArgumentException("No digits found in string: " + string)
+            );
     }
 }
