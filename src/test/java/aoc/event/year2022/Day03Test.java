@@ -8,15 +8,15 @@ public class Day03Test {
     
     @Test
     void example() {
-        final var input = """
-                vJrwpWtwJgWrhcsFMMfFFhFp
-                jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
-                PmmdzqPrVvPwwTWBwg
-                wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
-                ttgJtRGJQctTZtZT
-                CrZsJsPPZsGzwwsLwLmpwMDw
-                """;
-        final var solution = new Day03(input);
+        var input = """
+            vJrwpWtwJgWrhcsFMMfFFhFp
+            jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
+            PmmdzqPrVvPwwTWBwg
+            wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
+            ttgJtRGJQctTZtZT
+            CrZsJsPPZsGzwwsLwLmpwMDw
+            """;
+        var solution = new Day03(input);
         assertEquals(157, solution.partOne());
         assertEquals(70, solution.partTwo());
     }

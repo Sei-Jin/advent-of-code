@@ -1,91 +1,80 @@
 package aoc.event.year2022;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Gatherers;
 
 /// # [2022-03: Rucksack Reorganization](https://adventofcode.com/2022/day/3)
-public class Day03 implements DeprecatedSolver2 {
+public class Day03 implements Solver<Integer, Integer> {
     
-    private List<List<Character>> lines;
+    private final List<List<Character>> lines;
     
-    /// Initializes the solution with the parsed data
-    ///
-    /// Each line of the puzzle input is in the form `cccccccc...`, where each `c` an
-    /// alphabetical character from `a-z` that may or may not be capitalized.
-    ///
-    /// @param input the puzzle input.
     public Day03(String input) {
-        lines = Collections.unmodifiableList(parse(input));
+        lines = parse(input);
     }
     
     private static List<List<Character>> parse(String input) {
         return input.lines()
-                .map(line -> line.chars()
-                        .mapToObj(c -> (char) c)
-                        .toList())
-                .toList();
+            .map(line -> line.chars()
+                .mapToObj(c -> (char) c)
+                .toList())
+            .toList();
     }
     
-    /// Maps lowercase characters to the values 1 to 26 and uppercase characters to the values 27
-    /// to 52.
-    private static int calculateItemPriority(char sharedItem) {
-        var itemPriority = 0;
-        
+    /// Maps lowercase letters to the values 1 to 26 and uppercase letters to the values 27 to 52.
+    private static int calculatePriority(char sharedItem) {
         if (sharedItem >= 'a' && sharedItem <= 'z') {
-            itemPriority = sharedItem - 96;
-        } else if (sharedItem >= 'A' && sharedItem <= 'Z') {
-            itemPriority = sharedItem - 38;
+            return sharedItem - 96;
         }
-        
-        return itemPriority;
+        else if (sharedItem >= 'A' && sharedItem <= 'Z') {
+            return sharedItem - 38;
+        }
+        throw new IllegalArgumentException();
     }
     
     /// Calculates the sum of the priority values for the shared characters.
     ///
-    /// Each line contains one shared character between the first and second half
-    ///
-    /// @return the sum of the priority values for the shared characters.
+    /// Each line contains one shared character between the first and second half.
     public Integer partOne() {
-        var totalItemPriority = 0;
-        
-        for (var line : lines) {
-            var midPoint = line.size() / 2;
-            
-            var firstHalf = new HashSet<>(line.subList(0, midPoint));
-            var secondHalf = new HashSet<>(line.subList(midPoint, line.size()));
-            
-            firstHalf.retainAll(secondHalf);
-            
-            var sharedItem = firstHalf.stream().findFirst().orElseThrow();
-            totalItemPriority += calculateItemPriority(sharedItem);
-        }
-        
-        return totalItemPriority;
+        return lines
+            .stream()
+            .mapToInt(line -> {
+                var midPoint = line.size() / 2;
+                var firstHalf = new HashSet<>(line.subList(0, midPoint));
+                var secondHalf = line.subList(midPoint, line.size());
+                
+                var sharedItem = secondHalf
+                    .stream()
+                    .filter(firstHalf::contains)
+                    .findFirst()
+                    .orElseThrow();
+                return calculatePriority(sharedItem);
+            })
+            .sum();
     }
     
     /// Calculates the sum of the priority values for the shared characters.
     ///
     /// Each three-line group contains one shared character.
-    ///
-    /// @return the sum of the priority values for the shared characters.
     public Integer partTwo() {
-        var totalItemPriority = 0;
-        
-        for (var i = 0; i < lines.size(); i += 3) {
-            var first = new HashSet<>(lines.get(i));
-            var second = new HashSet<>(lines.get(i + 1));
-            var third = new HashSet<>(lines.get(i + 2));
-            
-            first.retainAll(second);
-            first.retainAll(third);
-            
-            var sharedItem = first.stream().findFirst().orElseThrow();
-            totalItemPriority += calculateItemPriority(sharedItem);
-        }
-        
-        return totalItemPriority;
+        return lines
+            .stream()
+            .gather(Gatherers.windowFixed(3))
+            .mapToInt(group -> {
+                var first = new HashSet<>(group.get(0));
+                var second = new HashSet<>(group.get(1));
+                var third = group.get(2);
+                
+                var sharedItem = third
+                    .stream()
+                    .filter(first::contains)
+                    .filter(second::contains)
+                    .findFirst()
+                    .orElseThrow();
+                return calculatePriority(sharedItem);
+            })
+            .sum();
     }
 }
