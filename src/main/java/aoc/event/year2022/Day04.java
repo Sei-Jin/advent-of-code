@@ -42,6 +42,7 @@ public class Day04 implements Solver<Integer, Integer> {
     }
     
     /// Calculates the number of fully contained range pairs.
+    @Override
     public Integer partOne() {
         return (int) rangePairs
             .stream()
@@ -58,6 +59,7 @@ public class Day04 implements Solver<Integer, Integer> {
     }
     
     /// Calculates the number of overlapping range pairs.
+    @Override
     public Integer partTwo() {
         return (int) rangePairs
             .stream()

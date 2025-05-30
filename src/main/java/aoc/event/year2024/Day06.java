@@ -19,12 +19,12 @@ public class Day06 implements Solver<Integer, Integer> {
     
     @Override
     public Integer partOne() {
-        var starting = determineStartingState();
+        var starting = determineStartingState(map);
         var positions = getAllPositions(starting, map);
         return positions.size();
     }
     
-    private State determineStartingState() {
+    private static State determineStartingState(char[][] map) {
         var position = findStartingPosition(map);
         var value = map[position.row()][position.column()];
         var direction = Direction.of(value);
@@ -95,7 +95,7 @@ public class Day06 implements Solver<Integer, Integer> {
         
         UP, RIGHT, DOWN, LEFT;
         
-        private Direction ofRight() {
+        public Direction ofRight() {
             return switch (this) {
                 case UP -> Direction.RIGHT;
                 case RIGHT -> Direction.DOWN;
@@ -104,7 +104,7 @@ public class Day06 implements Solver<Integer, Integer> {
             };
         }
         
-        private Direction ofOpposite() {
+        public Direction ofOpposite() {
             return switch (this) {
                 case UP -> Direction.DOWN;
                 case RIGHT -> Direction.LEFT;
@@ -113,7 +113,7 @@ public class Day06 implements Solver<Integer, Integer> {
             };
         }
         
-        private static Direction of(char symbol) {
+        public static Direction of(char symbol) {
             return switch (symbol) {
                 case '^' -> Direction.UP;
                 case '>' -> Direction.RIGHT;

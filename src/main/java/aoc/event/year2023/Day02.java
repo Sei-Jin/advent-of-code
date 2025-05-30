@@ -80,7 +80,7 @@ public class Day02 implements Solver<Integer, Integer> {
     private enum Colour {
         RED, GREEN, BLUE;
         
-        private static Colour of(String string) {
+        public static Colour of(String string) {
             return switch (string) {
                 case "red" -> RED;
                 case "green" -> GREEN;

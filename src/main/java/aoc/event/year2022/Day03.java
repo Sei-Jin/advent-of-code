@@ -37,6 +37,7 @@ public class Day03 implements Solver<Integer, Integer> {
     /// Calculates the sum of the priority values for the shared characters.
     ///
     /// Each line contains one shared character between the first and second half.
+    @Override
     public Integer partOne() {
         return lines
             .stream()
@@ -58,6 +59,7 @@ public class Day03 implements Solver<Integer, Integer> {
     /// Calculates the sum of the priority values for the shared characters.
     ///
     /// Each three-line group contains one shared character.
+    @Override
     public Integer partTwo() {
         return lines
             .stream()

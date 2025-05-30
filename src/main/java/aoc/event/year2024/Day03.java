@@ -62,7 +62,6 @@ public class Day03 implements Solver<Integer, Integer> {
                 sum += calculateProduct(instruction);
             }
         }
-        
         return sum;
     }
     

@@ -106,12 +106,10 @@ public class Day05 implements Solver<Integer, Integer> {
             .stream()
             .filter(update -> !isValidUpdate(update, rules))
             .toList();
-        
         var comparator = createComparator(rules);
         for (var update : filteredUpdates) {
             update.sort(comparator);
         }
-        
         return sumMiddle(filteredUpdates);
     }
     
@@ -121,8 +119,8 @@ public class Day05 implements Solver<Integer, Integer> {
                 return 0;
             }
             
-            var set = rules.get(predecessor);
-            if (set.contains(successor)) {
+            var successors = rules.get(predecessor);
+            if (successors.contains(successor)) {
                 return 1;
             }
             else {

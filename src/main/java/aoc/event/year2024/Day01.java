@@ -14,7 +14,7 @@ public class Day01 implements Solver<Integer, Integer> {
         idLists = parse(input);
     }
     
-    private IdLists parse(String input) {
+    private static IdLists parse(String input) {
         var first = new ArrayList<Integer>();
         var second = new ArrayList<Integer>();
         

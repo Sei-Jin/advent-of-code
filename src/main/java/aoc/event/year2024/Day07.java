@@ -82,7 +82,7 @@ public class Day07 implements Solver<Long, Long> {
         return false;
     }
     
-    private long extracted(List<Operation> operations) {
+    private static long sumPossible(List<Equation> equations, List<Operation> operations) {
         var total = 0L;
         for (var equation : equations) {
             var operationCount = equation.numbers().length - 1;
@@ -101,7 +101,7 @@ public class Day07 implements Solver<Long, Long> {
             Operation.ADD,
             Operation.MULTIPLY
         );
-        return extracted(operations);
+        return sumPossible(equations, operations);
     }
     
     @Override
@@ -111,7 +111,7 @@ public class Day07 implements Solver<Long, Long> {
             Operation.MULTIPLY,
             Operation.CONCAT
         );
-        return extracted(operations);
+        return sumPossible(equations, operations);
     }
     
     private enum Operation {ADD, MULTIPLY, CONCAT}

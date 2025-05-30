@@ -41,7 +41,7 @@ public class Day04 implements Solver<Integer, Integer> {
     }
     
     /// Calculates the number of matching strings in all 8 directions from the current position.
-    private int countMatchingInAllDirections(Position position, char[][] wordSearch) {
+    private static int countMatchingInAllDirections(Position position, char[][] wordSearch) {
         return (int) Arrays
             .stream(possibleDirections)
             .map(direction -> new Search(position, direction))
@@ -51,7 +51,7 @@ public class Day04 implements Solver<Integer, Integer> {
     }
     
     /// The current direction is valid if the word will stay within the bounds of the word search.
-    private boolean isValidDirection(Search search, char[][] wordSearch) {
+    private static boolean isValidDirection(Search search, char[][] wordSearch) {
         var position = search.position();
         var direction = search.direction();
         
@@ -65,7 +65,7 @@ public class Day04 implements Solver<Integer, Integer> {
     }
     
     /// Determines if the word matches the target string.
-    boolean isMatching(Search search, char[][] wordSearch) {
+    private static boolean isMatching(Search search, char[][] wordSearch) {
         var position = search.position();
         var direction = search.direction();
         
