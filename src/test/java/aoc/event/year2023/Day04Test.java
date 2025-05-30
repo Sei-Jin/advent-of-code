@@ -3,164 +3,138 @@ package aoc.event.year2023;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class Day04Test
-{
+public class Day04Test {
+    
     @Nested
-    class PartOne
-    {
+    class PartOne {
+        
         @Test
-        void exampleCard1()
-        {
-            List<String> inputLines = new ArrayList<>(
-                    List.of("Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53")
-            );
-            assertEquals(8, new Day04().partOne(inputLines));
+        void exampleCard1() {
+            var input = "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53";
+            var solution = new Day04(input);
+            assertEquals(8, solution.partOne());
         }
         
         @Test
-        void exampleCard2()
-        {
-            List<String> inputLines = new ArrayList<>(
-                    List.of("Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19")
-            );
-            assertEquals(2, new Day04().partOne(inputLines));
+        void exampleCard2() {
+            var input = "Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19";
+            var solution = new Day04(input);
+            assertEquals(2, solution.partOne());
         }
         
         @Test
-        void exampleCard3()
-        {
-            List<String> inputLines = new ArrayList<>(
-                    List.of("Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1")
-            );
-            assertEquals(2, new Day04().partOne(inputLines));
+        void exampleCard3() {
+            var input = "Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1";
+            var solution = new Day04(input);
+            assertEquals(2, solution.partOne());
         }
         
         @Test
-        void exampleCard4()
-        {
-            List<String> inputLines = new ArrayList<>(
-                    List.of("Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83")
-            );
-            assertEquals(1, new Day04().partOne(inputLines));
+        void exampleCard4() {
+            var input = "Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83";
+            var solution = new Day04(input);
+            assertEquals(1, solution.partOne());
         }
         
         @Test
-        void exampleCard5()
-        {
-            List<String> inputLines = new ArrayList<>(
-                    List.of("Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36")
-            );
-            assertEquals(0, new Day04().partOne(inputLines));
+        void exampleCard5() {
+            var input = "Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36";
+            var solution = new Day04(input);
+            assertEquals(0, solution.partOne());
         }
         
         @Test
-        void exampleCard6()
-        {
-            List<String> inputLines = new ArrayList<>(
-                    List.of("Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11")
-            );
-            assertEquals(0, new Day04().partOne(inputLines));
+        void exampleCard6() {
+            var input = "Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11";
+            var solution = new Day04(input);
+            assertEquals(0, solution.partOne());
         }
         
         @Test
-        void completeExample()
-        {
-            List<String> inputLines = new ArrayList<>(
-                    Arrays.stream("""
+        void completeExample() {
+            var input = """
                 Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
                 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
                 Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
                 Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
                 Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
                 Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11
-                """.split("\n")).toList()
-            );
-            assertEquals(13, new Day04().partOne(inputLines));
+                """;
+            var solution = new Day04(input);
+            assertEquals(13, solution.partOne());
         }
     }
     
     @Nested
-    class PartTwo
-    {
+    class PartTwo {
+        
         @Test
-        void exampleCard1()
-        {
-            List<String> inputLines = new ArrayList<>(Arrays.stream("""
-                Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
-                """.split("\n")).toList()
-            );
-            assertEquals(1, new Day04().partTwo(inputLines));
+        void exampleCard1() {
+            var input = "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53";
+            var solution = new Day04(input);
+            assertEquals(1, solution.partTwo());
         }
         
         @Test
-        void exampleCards1to2()
-        {
-            List<String> inputLines = new ArrayList<>(Arrays.stream("""
+        void exampleCards1to2() {
+            var input = """
                 Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
                 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
-                """.split("\n")).toList()
-            );
-            assertEquals(3, new Day04().partTwo(inputLines));
+                """;
+            var solution = new Day04(input);
+            assertEquals(3, solution.partTwo());
         }
         
         @Test
-        void exampleCards1to3()
-        {
-            List<String> inputLines = new ArrayList<>(Arrays.stream("""
+        void exampleCards1to3() {
+            var input = """
                 Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
                 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
                 Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
-                """.split("\n")).toList()
-            );
-            assertEquals(7, new Day04().partTwo(inputLines));
+                """;
+            var solution = new Day04(input);
+            assertEquals(7, solution.partTwo());
         }
         
         @Test
-        void exampleCards1to4()
-        {
-            List<String> inputLines = new ArrayList<>(Arrays.stream("""
+        void exampleCards1to4() {
+            var input = """
                 Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
                 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
                 Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
                 Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
-                """.split("\n")).toList()
-            );
-            assertEquals(15, new Day04().partTwo(inputLines));
+                """;
+            var solution = new Day04(input);
+            assertEquals(15, solution.partTwo());
         }
         
         @Test
-        void exampleCards1to5()
-        {
-            List<String> inputLines = new ArrayList<>(Arrays.stream("""
+        void exampleCards1to5() {
+            var input = """
                 Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
                 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
                 Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
                 Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
                 Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
-                """.split("\n")).toList()
-            );
-            assertEquals(29, new Day04().partTwo(inputLines));
+                """;
+            var solution = new Day04(input);
+            assertEquals(29, solution.partTwo());
         }
         
         @Test
-        void exampleCards1to6()
-        {
-            List<String> inputLines = new ArrayList<>(Arrays.stream("""
+        void exampleCards1to6() {
+            var input = """
                 Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
                 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
                 Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
                 Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
                 Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
                 Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11
-                """.split("\n")).toList()
-            );
-            assertEquals(30, new Day04().partTwo(inputLines));
+                """;
+            var solution = new Day04(input);
+            assertEquals(30, solution.partTwo());
         }
     }
 }
