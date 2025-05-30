@@ -1,61 +1,38 @@
 package aoc.event.year2021;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /// # [2021-02: Dive!](https://adventofcode.com/2021/day/2)
-public class Day02 implements DeprecatedSolver2 {
+public class Day02 implements Solver<Integer, Integer> {
     
-    /// Pre-compiles the expected input format for a command.
     private static final Pattern COMMAND_PATTERN = Pattern.compile("^(\\w+)\\s+(\\d+)$");
-    
-    /// Stores the list of commands.
     private final List<Command> commands;
     
-    /// Initializes the solution.
-    ///
-    /// @param input the puzzle input.
     public Day02(String input) {
-        commands = Collections.unmodifiableList(parse(input));
+        commands = parse(input);
     }
     
-    /// Parses the input for the list of commands.
-    ///
-    /// The expected format for each line is `direction #`, where:
-    /// - `direction` is the direction as a string.
-    /// - `#` is a number representing the units.
-    ///
-    /// @param input the puzzle input.
-    /// @return the list of commands.
     private List<Command> parse(String input) {
-        final var commands = new ArrayList<Command>();
-        
-        input.lines().forEach(line -> {
-            final var matcher = COMMAND_PATTERN.matcher(line);
-            
-            if (matcher.find()) {
-                final var direction = Direction.valueOf(matcher.group(1).toUpperCase());
-                final var units = Integer.parseInt(matcher.group(2));
-                
-                commands.add(new Command(direction, units));
-            } else {
-                throw new IllegalArgumentException("Invalid input for line: " + line);
-            }
-        });
-        
-        return commands;
+        return input
+            .lines()
+            .map(COMMAND_PATTERN::matcher)
+            .flatMap(Matcher::results)
+            .map(result -> {
+                var direction = Direction.valueOf(result.group(1).toUpperCase());
+                var units = Integer.parseInt(result.group(2));
+                return new Command(direction, units);
+            })
+            .toList();
     }
     
     /// Calculates the product of final horizontal position and depth after the commands have been
     /// executed.
-    ///
-    /// @return the product of the final horizontal position and the final depth.
     @Override
-    public Object partOne() {
+    public Integer partOne() {
         int horizontalPosition = 0;
         int depth = 0;
         
@@ -66,7 +43,6 @@ public class Day02 implements DeprecatedSolver2 {
                 case UP -> depth -= command.units;
             }
         }
-        
         return horizontalPosition * depth;
     }
     
@@ -77,15 +53,13 @@ public class Day02 implements DeprecatedSolver2 {
     /// The `down` and `up` directions now change the aim instead of directly changing the depth.
     /// Note that since these are the commands for a submarine, `down` increases the aim and `up`
     /// decreases the aim.
-    ///
-    /// @return the product of the final horizontal position and depth.
     @Override
-    public Object partTwo() {
+    public Integer partTwo() {
         int horizontalPosition = 0;
         int depth = 0;
         int aim = 0;
         
-        for (final var command : commands) {
+        for (var command : commands) {
             switch (command.direction) {
                 case FORWARD -> {
                     horizontalPosition += command.units;
@@ -95,15 +69,10 @@ public class Day02 implements DeprecatedSolver2 {
                 case UP -> aim -= command.units;
             }
         }
-        
         return horizontalPosition * depth;
     }
     
-    /// Stores the data for a command.
     private record Command(Direction direction, int units) {}
     
-    /// Defines the possible directions.
-    private enum Direction {
-        DOWN, FORWARD, UP
-    }
+    private enum Direction {DOWN, FORWARD, UP}
 }
