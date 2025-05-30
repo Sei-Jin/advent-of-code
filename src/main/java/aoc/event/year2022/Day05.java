@@ -1,35 +1,33 @@
 package aoc.event.year2022;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Deque;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 /// # [2022-05: Supply Stacks](https://adventofcode.com/2022/day/5)
-public class Day05 implements DeprecatedSolver2 {
+public class Day05 implements Solver<String, String> {
     
-    private Pattern MOVE_PATTERN = Pattern.compile(
-            "move (\\d+) from (\\d+) to (\\d+)"
+    private static final Pattern MOVE_PATTERN = Pattern.compile(
+        "move (\\d+) from (\\d+) to (\\d+)"
     );
     
-    private List<LinkedList<Character>> stacks;
-    private List<Move> procedure;
+    private final List<Deque<Character>> stacks;
+    private final List<Move> procedure;
     
-    /// Initializes the solution with the parsed puzzle data.
-    ///
-    /// The puzzle input is split into two sections:
-    ///
-    /// - The first section contains the data for the stacked crates.
-    /// - The second section contains a series of steps on how the crates should be moved between
-    ///  the stacks.
-    ///
-    /// @param input the puzzle input.
     public Day05(String input) {
         var lines = input.lines().toList();
         
-        var emptyLineIndex = getEmptyLineIndex(lines);
+        var emptyLineIndex = IntStream.range(0, lines.size())
+            .filter(i -> lines.get(i).isEmpty())
+            .findFirst()
+            .orElseThrow();
+        
         var stacksInput = lines.subList(0, emptyLineIndex - 1);
         var procedureInput = lines.subList(emptyLineIndex + 1, lines.size());
         
@@ -37,156 +35,101 @@ public class Day05 implements DeprecatedSolver2 {
         this.procedure = parseProcedure(procedureInput);
     }
     
-    private static int getEmptyLineIndex(List<String> inputLines) {
-        for (var i = 0; i < inputLines.size(); i++) {
-            if (inputLines.get(i).isEmpty()) {
-                return i;
-            }
+    private static List<Deque<Character>> parseStacks(List<String> input) {
+        var stacks = new ArrayList<Deque<Character>>();
+        for (var i = 1; i < input.getFirst().length(); i += 4) {
+            var stack = parseStack(input, i);
+            stacks.add(stack);
         }
-        
-        throw new IllegalArgumentException("There are no empty lines in the puzzle input.");
-    }
-    
-    /// Parses the stack input.
-    ///
-    /// The stacks are in the form:
-    ///
-    /// ```
-    /// ........[F]
-    /// [B].....[E]
-    /// [A].[C].[D]
-    ///```
-    ///
-    /// - Each `.` represents a space and should be ignored.
-    /// - `[A]`, `[B]` and `[C]` are crates, where `[A]` and `[B]` are in the first stack, and `[C]`
-    ///  is in the second stack.
-    ///
-    /// Only the characters between the square braces are added to each stack.
-    ///
-    /// @param stacksInput the input for the stacks.
-    /// @return the parsed stack input.
-    private static List<LinkedList<Character>> parseStacks(List<String> stacksInput) {
-        var stacks = new ArrayList<LinkedList<Character>>();
-        
-        for (var stackIndex = 1; stackIndex < stacksInput.getFirst().length(); stackIndex += 4) {
-            var crateCharacters = parseCrateCharacters(stacksInput, stackIndex);
-            stacks.add(crateCharacters);
-        }
-        
         return stacks;
     }
     
-    private static LinkedList<Character> parseCrateCharacters(
-            List<String> stacksInput,
-            int stackIndex) {
-        var crateCharacters = new LinkedList<Character>();
-        
-        for (var index = stacksInput.size() - 1; index >= 0; index--) {
-            var crateCharacter = stacksInput.get(index).charAt(stackIndex);
-            
-            if (!Character.isWhitespace(crateCharacter)) {
-                crateCharacters.add(crateCharacter);
-            } else {
-                break;
+    private static Deque<Character> parseStack(List<String> input, int i) {
+        var stack = new ArrayDeque<Character>();
+        for (var j = input.size() - 1; j >= 0; j--) {
+            var character = input.get(j).charAt(i);
+            if (!Character.isWhitespace(character)) {
+                stack.add(character);
             }
         }
-        
-        return crateCharacters;
+        return stack;
     }
     
-    /// Parses the procedure input.
-    ///
-    /// Each move is in the form `move X from A to B`, where:
-    ///
-    /// - `X` is the number of crates to be moved.
-    /// - `A` is the stack where the crates are taken from.
-    /// - `B` is the stack where the crates are moved to.
-    ///
-    /// @param procedureInput the procedure input.
-    /// @return the parsed procedure input.
-    private List<Move> parseProcedure(List<String> procedureInput) {
-        var procedure = new ArrayList<Move>();
-        
-        for (var line : procedureInput) {
-            var matcher = MOVE_PATTERN.matcher(line);
-            
-            if (matcher.matches()) {
+    private static List<Move> parseProcedure(List<String> input) {
+        return input
+            .stream()
+            .map(MOVE_PATTERN::matcher)
+            .filter(Matcher::matches)
+            .map(matcher -> {
                 var cratesToMove = Integer.parseInt(matcher.group(1));
-                var fromStack = Integer.parseInt(matcher.group(2));
-                var toStack = Integer.parseInt(matcher.group(3));
-                
-                procedure.add(new Move(cratesToMove, fromStack, toStack));
-            } else {
-                throw new IllegalArgumentException(
-                        "Invalid procedure format encountered: " + line
-                );
-            }
-        }
-
-        return procedure;
+                var fromStack = Integer.parseInt(matcher.group(2)) - 1;
+                var toStack = Integer.parseInt(matcher.group(3)) - 1;
+                return new Move(cratesToMove, fromStack, toStack);
+            })
+            .toList();
     }
     
-    private List<LinkedList<Character>> createDeepCopy(List<LinkedList<Character>> stacks) {
-        var stacksCopy = new ArrayList<LinkedList<Character>>();
-        
+    private List<Deque<Character>> createDeepCopy(List<Deque<Character>> stacks) {
+        var stacksCopy = new ArrayList<Deque<Character>>();
         for (var stack : stacks) {
-            stacksCopy.add(new LinkedList<>(stack));
+            stacksCopy.add(new ArrayDeque<>(stack));
         }
-        
         return stacksCopy;
     }
     
-    /// Determines the crates left at the top of each stack after the crate-moving procedure has
-    /// executed.
-    ///
-    /// @return the crates left at the top of each stack concatenated together.
+    /// Determines the crates left at the top of each stack after moving the crates between the
+    /// stacks one at a time.
     @Override
     public String partOne() {
         var stacksCopy = createDeepCopy(stacks);
-        
-        for (var step : procedure) {
-            for (var cratesMoved = 0; cratesMoved < step.amount; cratesMoved++) {
-                var character = stacksCopy.get(step.from - 1).removeLast();
-                stacksCopy.get(step.to - 1).addLast(character);
-            }
-        }
-        
-        return concatenateTopCrates(stacksCopy);
+        move(stacksCopy, procedure);
+        return stackTops(stacksCopy);
     }
     
-    /// Determines the crates left at the top of each stack after the crate-moving procedure has
-    /// executed.
-    ///
-    /// @return the crates left at the top of each stack concatenated together.
+    private static void move(List<Deque<Character>> stacks, List<Move> procedure) {
+        for (var step : procedure) {
+            var from = stacks.get(step.fromStack());
+            var to = stacks.get(step.toStack());
+            
+            for (var i = 0; i < step.cratesToMove(); i++) {
+                var character = from.removeLast();
+                to.addLast(character);
+            }
+        }
+    }
+    
+    /// Determines the crates left at the top of each stack after moving the crates between the
+    /// stacks in groups.
     @Override
     public String partTwo() {
         var stacksCopy = createDeepCopy(stacks);
-        
+        moveInGroups(stacksCopy, procedure);
+        return stackTops(stacksCopy);
+    }
+    
+    private static void moveInGroups(List<Deque<Character>> stacks, List<Move> procedure) {
         for (var step : procedure) {
-            var temporary = new LinkedList<Character>();
+            var from = stacks.get(step.fromStack());
+            var to = stacks.get(step.toStack());
             
-            for (var cratesMoved = 0; cratesMoved < step.amount; cratesMoved++) {
-                var character = stacksCopy.get(step.from - 1).removeLast();
-                temporary.addFirst(character);
+            var temp = new ArrayDeque<Character>();
+            for (var i = 0; i < step.cratesToMove(); i++) {
+                var character = from.removeLast();
+                temp.addFirst(character);
             }
-            
-            for (var character : temporary) {
-                stacksCopy.get(step.to - 1).addLast(character);
+            for (var character : temp) {
+                to.addLast(character);
             }
         }
-        
-        return concatenateTopCrates(stacksCopy);
     }
     
-    private String concatenateTopCrates(List<LinkedList<Character>> stacks) {
-        var topCrates = new StringBuilder();
-        
+    private static String stackTops(List<Deque<Character>> stacks) {
+        var stackTops = new StringBuilder();
         for (var stack : stacks) {
-            topCrates.append(stack.getLast());
+            stackTops.append(stack.getLast());
         }
-        
-        return topCrates.toString();
+        return stackTops.toString();
     }
     
-    record Move(int amount, int from, int to) {}
+    private record Move(int cratesToMove, int fromStack, int toStack) {}
 }
