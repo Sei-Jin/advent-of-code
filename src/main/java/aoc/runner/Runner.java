@@ -5,16 +5,16 @@ import aoc.Solver;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Runner {
+class Runner {
     
-    public static void main(String[] args) {
-        var solution = new Solution(2022, 5);
+    public static void execute(int year, int day) {
+        var solution = new Solution(year, day);
         var runData = run(solution);
-        
         var totalTime = runData
             .stream()
             .mapToLong(Data::timeInMicros)
             .sum();
+        System.out.printf("\n%d-%02d", year, day);
         print(runData, totalTime);
     }
     
