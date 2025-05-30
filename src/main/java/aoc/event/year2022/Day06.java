@@ -7,7 +7,7 @@ import java.util.HashMap;
 /// # [2022-06: Tuning Trouble](https://adventofcode.com/2022/day/6)
 public class Day06 implements DeprecatedSolver2 {
     
-    private final String string;
+    private String string;
     
     public Day06(String input) {
         this.string = input;
@@ -25,12 +25,12 @@ public class Day06 implements DeprecatedSolver2 {
             throw new IllegalArgumentException("String was less than the window size");
         }
         
-        final var counts = new HashMap<Character, Integer>();
+        var counts = new HashMap<Character, Integer>();
         var left = 0;
         
         for (var right = 0; right < string.length(); right++) {
-            final var rightCharacter = string.charAt(right);
-            final var rightCount = counts.getOrDefault(rightCharacter, 0) + 1;
+            var rightCharacter = string.charAt(right);
+            var rightCount = counts.getOrDefault(rightCharacter, 0) + 1;
             counts.put(rightCharacter, rightCount);
             
             if (right - left + 1 == windowSize) {
@@ -38,8 +38,8 @@ public class Day06 implements DeprecatedSolver2 {
                     return right + 1;
                 }
                 
-                final var leftCharacter = string.charAt(left);
-                final var leftCount = counts.get(leftCharacter) - 1;
+                var leftCharacter = string.charAt(left);
+                var leftCount = counts.get(leftCharacter) - 1;
                 counts.put(leftCharacter, leftCount);
                 
                 if (leftCount == 0) {

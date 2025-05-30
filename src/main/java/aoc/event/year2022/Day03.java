@@ -9,7 +9,7 @@ import java.util.List;
 /// # [2022-03: Rucksack Reorganization](https://adventofcode.com/2022/day/3)
 public class Day03 implements DeprecatedSolver2 {
     
-    private final List<List<Character>> lines;
+    private List<List<Character>> lines;
     
     /// Initializes the solution with the parsed data
     ///
@@ -51,15 +51,15 @@ public class Day03 implements DeprecatedSolver2 {
     public Integer partOne() {
         var totalItemPriority = 0;
         
-        for (final var line : lines) {
-            final var midPoint = line.size() / 2;
+        for (var line : lines) {
+            var midPoint = line.size() / 2;
             
-            final var firstHalf = new HashSet<>(line.subList(0, midPoint));
-            final var secondHalf = new HashSet<>(line.subList(midPoint, line.size()));
+            var firstHalf = new HashSet<>(line.subList(0, midPoint));
+            var secondHalf = new HashSet<>(line.subList(midPoint, line.size()));
             
             firstHalf.retainAll(secondHalf);
             
-            final var sharedItem = firstHalf.stream().findFirst().orElseThrow();
+            var sharedItem = firstHalf.stream().findFirst().orElseThrow();
             totalItemPriority += calculateItemPriority(sharedItem);
         }
         
@@ -75,14 +75,14 @@ public class Day03 implements DeprecatedSolver2 {
         var totalItemPriority = 0;
         
         for (var i = 0; i < lines.size(); i += 3) {
-            final var first = new HashSet<>(lines.get(i));
-            final var second = new HashSet<>(lines.get(i + 1));
-            final var third = new HashSet<>(lines.get(i + 2));
+            var first = new HashSet<>(lines.get(i));
+            var second = new HashSet<>(lines.get(i + 1));
+            var third = new HashSet<>(lines.get(i + 2));
             
             first.retainAll(second);
             first.retainAll(third);
             
-            final var sharedItem = first.stream().findFirst().orElseThrow();
+            var sharedItem = first.stream().findFirst().orElseThrow();
             totalItemPriority += calculateItemPriority(sharedItem);
         }
         

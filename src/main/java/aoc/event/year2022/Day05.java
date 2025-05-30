@@ -10,12 +10,12 @@ import java.util.regex.Pattern;
 /// # [2022-05: Supply Stacks](https://adventofcode.com/2022/day/5)
 public class Day05 implements DeprecatedSolver2 {
     
-    private final Pattern MOVE_PATTERN = Pattern.compile(
+    private Pattern MOVE_PATTERN = Pattern.compile(
             "move (\\d+) from (\\d+) to (\\d+)"
     );
     
-    private final List<LinkedList<Character>> stacks;
-    private final List<Move> procedure;
+    private List<LinkedList<Character>> stacks;
+    private List<Move> procedure;
     
     /// Initializes the solution with the parsed puzzle data.
     ///
@@ -27,11 +27,11 @@ public class Day05 implements DeprecatedSolver2 {
     ///
     /// @param input the puzzle input.
     public Day05(String input) {
-        final var lines = input.lines().toList();
+        var lines = input.lines().toList();
         
-        final var emptyLineIndex = getEmptyLineIndex(lines);
-        final var stacksInput = lines.subList(0, emptyLineIndex - 1);
-        final var procedureInput = lines.subList(emptyLineIndex + 1, lines.size());
+        var emptyLineIndex = getEmptyLineIndex(lines);
+        var stacksInput = lines.subList(0, emptyLineIndex - 1);
+        var procedureInput = lines.subList(emptyLineIndex + 1, lines.size());
         
         this.stacks = parseStacks(stacksInput);
         this.procedure = parseProcedure(procedureInput);
@@ -66,10 +66,10 @@ public class Day05 implements DeprecatedSolver2 {
     /// @param stacksInput the input for the stacks.
     /// @return the parsed stack input.
     private static List<LinkedList<Character>> parseStacks(List<String> stacksInput) {
-        final var stacks = new ArrayList<LinkedList<Character>>();
+        var stacks = new ArrayList<LinkedList<Character>>();
         
         for (var stackIndex = 1; stackIndex < stacksInput.getFirst().length(); stackIndex += 4) {
-            final var crateCharacters = parseCrateCharacters(stacksInput, stackIndex);
+            var crateCharacters = parseCrateCharacters(stacksInput, stackIndex);
             stacks.add(crateCharacters);
         }
         
@@ -79,10 +79,10 @@ public class Day05 implements DeprecatedSolver2 {
     private static LinkedList<Character> parseCrateCharacters(
             List<String> stacksInput,
             int stackIndex) {
-        final var crateCharacters = new LinkedList<Character>();
+        var crateCharacters = new LinkedList<Character>();
         
         for (var index = stacksInput.size() - 1; index >= 0; index--) {
-            final var crateCharacter = stacksInput.get(index).charAt(stackIndex);
+            var crateCharacter = stacksInput.get(index).charAt(stackIndex);
             
             if (!Character.isWhitespace(crateCharacter)) {
                 crateCharacters.add(crateCharacter);
@@ -105,15 +105,15 @@ public class Day05 implements DeprecatedSolver2 {
     /// @param procedureInput the procedure input.
     /// @return the parsed procedure input.
     private List<Move> parseProcedure(List<String> procedureInput) {
-        final var procedure = new ArrayList<Move>();
+        var procedure = new ArrayList<Move>();
         
-        for (final var line : procedureInput) {
-            final var matcher = MOVE_PATTERN.matcher(line);
+        for (var line : procedureInput) {
+            var matcher = MOVE_PATTERN.matcher(line);
             
             if (matcher.matches()) {
-                final var cratesToMove = Integer.parseInt(matcher.group(1));
-                final var fromStack = Integer.parseInt(matcher.group(2));
-                final var toStack = Integer.parseInt(matcher.group(3));
+                var cratesToMove = Integer.parseInt(matcher.group(1));
+                var fromStack = Integer.parseInt(matcher.group(2));
+                var toStack = Integer.parseInt(matcher.group(3));
                 
                 procedure.add(new Move(cratesToMove, fromStack, toStack));
             } else {
@@ -127,9 +127,9 @@ public class Day05 implements DeprecatedSolver2 {
     }
     
     private List<LinkedList<Character>> createDeepCopy(List<LinkedList<Character>> stacks) {
-        final var stacksCopy = new ArrayList<LinkedList<Character>>();
+        var stacksCopy = new ArrayList<LinkedList<Character>>();
         
-        for (final var stack : stacks) {
+        for (var stack : stacks) {
             stacksCopy.add(new LinkedList<>(stack));
         }
         
@@ -142,11 +142,11 @@ public class Day05 implements DeprecatedSolver2 {
     /// @return the crates left at the top of each stack concatenated together.
     @Override
     public String partOne() {
-        final var stacksCopy = createDeepCopy(stacks);
+        var stacksCopy = createDeepCopy(stacks);
         
-        for (final var step : procedure) {
+        for (var step : procedure) {
             for (var cratesMoved = 0; cratesMoved < step.amount; cratesMoved++) {
-                final var character = stacksCopy.get(step.from - 1).removeLast();
+                var character = stacksCopy.get(step.from - 1).removeLast();
                 stacksCopy.get(step.to - 1).addLast(character);
             }
         }
@@ -160,17 +160,17 @@ public class Day05 implements DeprecatedSolver2 {
     /// @return the crates left at the top of each stack concatenated together.
     @Override
     public String partTwo() {
-        final var stacksCopy = createDeepCopy(stacks);
+        var stacksCopy = createDeepCopy(stacks);
         
-        for (final var step : procedure) {
-            final var temporary = new LinkedList<Character>();
+        for (var step : procedure) {
+            var temporary = new LinkedList<Character>();
             
             for (var cratesMoved = 0; cratesMoved < step.amount; cratesMoved++) {
-                final var character = stacksCopy.get(step.from - 1).removeLast();
+                var character = stacksCopy.get(step.from - 1).removeLast();
                 temporary.addFirst(character);
             }
             
-            for (final var character : temporary) {
+            for (var character : temporary) {
                 stacksCopy.get(step.to - 1).addLast(character);
             }
         }
@@ -179,9 +179,9 @@ public class Day05 implements DeprecatedSolver2 {
     }
     
     private String concatenateTopCrates(List<LinkedList<Character>> stacks) {
-        final var topCrates = new StringBuilder();
+        var topCrates = new StringBuilder();
         
-        for (final var stack : stacks) {
+        for (var stack : stacks) {
             topCrates.append(stack.getLast());
         }
         

@@ -9,11 +9,11 @@ import java.util.regex.Pattern;
 /// # [2022-04: Camp Cleanup](https://adventofcode.com/2022/day/4)
 public class Day04 implements DeprecatedSolver2 {
     
-    private static final Pattern RANGE_PATTERN = Pattern.compile(
+    private static Pattern RANGE_PATTERN = Pattern.compile(
             "^(\\d+)-(\\d+),(\\d+)-(\\d+)$"
     );
     
-    private final List<RangePair> rangePairs;
+    private List<RangePair> rangePairs;
     
     /// Initializes the solution with the parsed input data.
     ///
@@ -25,15 +25,15 @@ public class Day04 implements DeprecatedSolver2 {
     
     private static List<RangePair> parse(String input) {
         return input.lines().map(line -> {
-            final var matcher = RANGE_PATTERN.matcher(line);
+            var matcher = RANGE_PATTERN.matcher(line);
             
             if (matcher.find()) {
-                final var firstRange = new Range(
+                var firstRange = new Range(
                         Integer.parseInt(matcher.group(1)),
                         Integer.parseInt(matcher.group(2))
                 );
                 
-                final var secondRange = new Range(
+                var secondRange = new Range(
                         Integer.parseInt(matcher.group(3)),
                         Integer.parseInt(matcher.group(4))
                 );
@@ -51,7 +51,7 @@ public class Day04 implements DeprecatedSolver2 {
     public Integer partOne() {
         var count = 0;
         
-        for (final var pair : rangePairs) {
+        for (var pair : rangePairs) {
             if (hasFullyContainedRanges(pair)) {
                 count++;
             }
@@ -61,11 +61,11 @@ public class Day04 implements DeprecatedSolver2 {
     }
     
     private static boolean hasFullyContainedRanges(RangePair pair) {
-        final var first = pair.first;
-        final var second = pair.second;
+        var first = pair.first;
+        var second = pair.second;
         
-        final var firstContainsSecond = (first.start <= second.start && first.end >= second.end);
-        final var secondContainsFirst = (second.start <= first.start && second.end >= first.end);
+        var firstContainsSecond = (first.start <= second.start && first.end >= second.end);
+        var secondContainsFirst = (second.start <= first.start && second.end >= first.end);
         
         return (firstContainsSecond || secondContainsFirst);
     }
@@ -74,7 +74,7 @@ public class Day04 implements DeprecatedSolver2 {
     public Integer partTwo() {
         var count = 0;
         
-        for (final var pair : rangePairs) {
+        for (var pair : rangePairs) {
             if (hasOverlappingRanges(pair)) {
                 count++;
             }
@@ -85,8 +85,8 @@ public class Day04 implements DeprecatedSolver2 {
     
     /// The ranges are overlapping if one of them starts before the other ends
     private static boolean hasOverlappingRanges(RangePair pair) {
-        final var first = pair.first;
-        final var second = pair.second;
+        var first = pair.first;
+        var second = pair.second;
         
         return (first.start <= second.end && second.start <= first.end);
     }

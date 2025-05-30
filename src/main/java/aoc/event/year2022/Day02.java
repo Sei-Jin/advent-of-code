@@ -9,7 +9,7 @@ import java.util.List;
 /// # [2022-02: Rock Paper Scissors](https://adventofcode.com/2022/day/2)
 public class Day02 implements DeprecatedSolver2 {
     
-    private final List<Round> rounds;
+    private List<Round> rounds;
     
     /// Initializes the solution with the parsed round data.
     ///
@@ -22,13 +22,13 @@ public class Day02 implements DeprecatedSolver2 {
     }
     
     private static List<Round> parse(String input) {
-        final var draws = new ArrayList<Round>();
+        var draws = new ArrayList<Round>();
         
         input.lines().forEach(line -> {
-            final var values = line.split(" ");
+            var values = line.split(" ");
             
-            final var first = values[0].charAt(0);
-            final var second = values[1].charAt(0);
+            var first = values[0].charAt(0);
+            var second = values[1].charAt(0);
             
             draws.add(new Round(first, second));
         });
@@ -57,11 +57,11 @@ public class Day02 implements DeprecatedSolver2 {
     public Integer partOne() {
         var totalScore = 0;
         
-        for (final var round : rounds) {
-            final var opponentsChoice = determineOpponentsChoice(round.first);
-            final var ourChoice = determineOurChoice(round.second);
+        for (var round : rounds) {
+            var opponentsChoice = determineOpponentsChoice(round.first);
+            var ourChoice = determineOurChoice(round.second);
             
-            final var outcome = determineOutcome(opponentsChoice, ourChoice);
+            var outcome = determineOutcome(opponentsChoice, ourChoice);
             
             totalScore += outcome.score + ourChoice.score;
         }
@@ -100,11 +100,11 @@ public class Day02 implements DeprecatedSolver2 {
     public Integer partTwo() {
         var totalScore = 0;
         
-        for (final var round : rounds) {
-            final var opponentsChoice = determineOpponentsChoice(round.first);
-            final var outcome = determineOutcome(round.second);
+        for (var round : rounds) {
+            var opponentsChoice = determineOpponentsChoice(round.first);
+            var outcome = determineOutcome(round.second);
             
-            final var ourChoice = determineOurChoice(opponentsChoice, outcome);
+            var ourChoice = determineOurChoice(opponentsChoice, outcome);
             
             totalScore += outcome.score + ourChoice.score;
         }
@@ -134,7 +134,7 @@ public class Day02 implements DeprecatedSolver2 {
         PAPER(2),
         SCISSORS(3);
         
-        private final int score;
+        private int score;
         
         Choice(int score) {
             this.score = score;
@@ -162,7 +162,7 @@ public class Day02 implements DeprecatedSolver2 {
         LOSS(0),
         DRAW(3);
         
-        private final int score;
+        private int score;
         
         Outcome(int score) {
             this.score = score;
