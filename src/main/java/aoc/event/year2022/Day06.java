@@ -1,13 +1,13 @@
 package aoc.event.year2022;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
 import java.util.HashMap;
 
 /// # [2022-06: Tuning Trouble](https://adventofcode.com/2022/day/6)
-public class Day06 implements DeprecatedSolver2 {
+public class Day06 implements Solver<Integer, Integer> {
     
-    private String string;
+    private final String string;
     
     public Day06(String input) {
         this.string = input;
@@ -24,7 +24,6 @@ public class Day06 implements DeprecatedSolver2 {
         if (string.length() < windowSize) {
             throw new IllegalArgumentException("String was less than the window size");
         }
-        
         var counts = new HashMap<Character, Integer>();
         var left = 0;
         
@@ -37,7 +36,6 @@ public class Day06 implements DeprecatedSolver2 {
                 if (counts.size() == windowSize) {
                     return right + 1;
                 }
-                
                 var leftCharacter = string.charAt(left);
                 var leftCount = counts.get(leftCharacter) - 1;
                 counts.put(leftCharacter, leftCount);
@@ -45,11 +43,9 @@ public class Day06 implements DeprecatedSolver2 {
                 if (leftCount == 0) {
                     counts.remove(leftCharacter);
                 }
-                
                 left++;
             }
         }
-        
         throw new IllegalArgumentException("No markers were detected.");
     }
     
