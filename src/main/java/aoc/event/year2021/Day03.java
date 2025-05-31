@@ -1,82 +1,56 @@
 package aoc.event.year2021;
 
-import aoc.DeprecatedSolver;
-
-import java.util.ArrayList;
-import java.util.List;
+import aoc.Solver;
+import aoc.util.Parse;
 
 /// # [2021-03: Binary Diagnostic](https://adventofcode.com/2021/day/3)
-public class Day03 implements DeprecatedSolver
-{
-    /**
-     * @param inputLines the puzzle input.
-     * @return the power consumption of the submarine.
-     */
+public class Day03 implements Solver<Integer, Integer> {
+    
+    private final boolean[] isOneMostCommonInColumn;
+    
+    public Day03(String input) {
+        var grid = Parse.toBooleanGrid(input);
+        isOneMostCommonInColumn = isOneMostCommonInColumn(grid);
+    }
+    
+    private boolean[] isOneMostCommonInColumn(boolean[][] grid) {
+        var mostCommon = new boolean[grid[0].length];
+        for (int column = 0; column < grid[0].length; column++) {
+            var trueCount = 0;
+            for (var row : grid) {
+                if (row[column]) {
+                    trueCount++;
+                }
+            }
+            if (trueCount > grid.length / 2) {
+                mostCommon[column] = true;
+            }
+        }
+        return mostCommon;
+    }
+    
     @Override
-    public Object partOne(List<String> inputLines)
-    {
-        List<Integer> bitCounts = getBitCounts(inputLines);
+    public Integer partOne() {
+        var binaryGammaRate = new StringBuilder();
+        var binaryEpsilonRate = new StringBuilder();
         
-        StringBuilder binaryGammaRate = new StringBuilder();
-        StringBuilder binaryEpsilonRate = new StringBuilder();
-        
-        for (Integer bitCount : bitCounts)
-        {
-            int midPoint = inputLines.size() / 2;
-            
-            boolean oneIsMostCommon = inputLines.size() - bitCount < midPoint;
-            
-            if (oneIsMostCommon)
-            {
+        for (var oneIsMostCommon : isOneMostCommonInColumn) {
+            if (oneIsMostCommon) {
                 binaryGammaRate.append(1);
                 binaryEpsilonRate.append(0);
             }
-            else
-            {
+            else {
                 binaryEpsilonRate.append(1);
                 binaryGammaRate.append(0);
             }
         }
-        
-        int epsilonRate = Integer.parseInt(String.valueOf(binaryEpsilonRate), 2);
         int gammaRate = Integer.parseInt(String.valueOf(binaryGammaRate), 2);
-        
+        int epsilonRate = Integer.parseInt(String.valueOf(binaryEpsilonRate), 2);
         return gammaRate * epsilonRate;
     }
     
-    
-    private static List<Integer> getBitCounts(List<String> inputLines)
-    {
-        List<Integer> bitCounts = new ArrayList<>();
-        
-        for (String line : inputLines)
-        {
-            List<Integer> bits = line.chars()
-                    .map(Character::getNumericValue)
-                    .boxed()
-                    .toList();
-            
-            for (int index = 0; index < bits.size(); index++)
-            {
-                if (bitCounts.size() == index)
-                {
-                    bitCounts.add(bits.get(index));
-                }
-                else
-                {
-                    int totalBitCount = bitCounts.get(index) + bits.get(index);
-                    bitCounts.set(index, totalBitCount);
-                }
-            }
-        }
-        
-        return bitCounts;
-    }
-    
-    
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
-        return null;
+    public Integer partTwo() {
+        return 0;
     }
 }
