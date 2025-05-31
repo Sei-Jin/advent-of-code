@@ -1,211 +1,204 @@
 package aoc.event.year2021;
 
-import aoc.DeprecatedSolver;
+import aoc.Solver;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.stream.Gatherers;
+import java.util.stream.IntStream;
 
 /// # [2021-04: Giant Squid](https://adventofcode.com/2021/day/4)
-public class Day04 implements DeprecatedSolver
-{
-    /// Pattern that matches all numbers in a string.
-    private static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+");
+public class Day04 implements Solver<Integer, Integer> {
     
-    /// The size of each board is 5x5.
     private static final int BOARD_SIZE = 5;
+    private final List<Integer> winners;
+    private final List<BiHashMap<Point, Integer>> boards;
     
-    /// @param rowIndex the index of the row the point is on.
-    /// @param columnIndex the index of the column the point is on.
-    private record Position(int rowIndex, int columnIndex) {}
-    
-    private record BoardData(int[][] board, Map<Integer, Position> positions) {}
-    
-    private List<Integer> parseBingoNumbers(String bingoNumbersInput)
-    {
-        List<Integer> bingoNumbers = new ArrayList<>();
-        
-        Matcher matcher = NUMBER_PATTERN.matcher(bingoNumbersInput);
-        
-        while (matcher.find())
-        {
-            bingoNumbers.add(Integer.valueOf(matcher.group()));
-        }
-        
-        return bingoNumbers;
+    public Day04(String input) {
+        var lines = input.lines().toList();
+        var winningStrings = lines
+            .getFirst()
+            .split(",");
+        winners = Arrays.stream(winningStrings)
+            .map(Integer::parseInt)
+            .toList();
+        boards = parseBoards(lines.subList(2, lines.size()));
     }
     
-    private static List<BoardData> parseBoards(List<String> inputLines)
-    {
-        List<BoardData> boards = new ArrayList<>();
-        
-        for (int inputLineIndex = 0; inputLineIndex < inputLines.size(); inputLineIndex += 6)
-        {
-            int[][] board = new int[BOARD_SIZE][BOARD_SIZE];
-            Map<Integer, Position> positions = new HashMap<>();
-            
-            for (int rowIndex = 0; rowIndex < BOARD_SIZE; rowIndex++)
-            {
-                Matcher matcher = NUMBER_PATTERN.matcher(inputLines.get(inputLineIndex + rowIndex));
-                
-                int columnIndex = 0;
-                
-                while (matcher.find())
-                {
-                    int number = Integer.parseInt(matcher.group());
-                    
-                    board[rowIndex][columnIndex] = number;
-                    positions.put(number, new Position(rowIndex, columnIndex));
-                    
-                    columnIndex++;
+    private static List<BiHashMap<Point, Integer>> parseBoards(List<String> lines) {
+        return lines
+            .stream()
+            .filter(line -> !line.isEmpty())
+            .gather(Gatherers.windowFixed(BOARD_SIZE))
+            .map(window -> {
+                var board = new BiHashMap<Point, Integer>();
+                for (int y = 0; y < window.size(); y++) {
+                    var numberStrings = window
+                        .get(y)
+                        .stripLeading()
+                        .split("\\s+");
+                    var numbers = Arrays
+                        .stream(numberStrings)
+                        .map(Integer::parseInt)
+                        .toList();
+                    for (int x = 0; x < numbers.size(); x++) {
+                        board.put(new Point(x, y), numbers.get(x));
+                    }
                 }
-            }
-            
-            boards.add(new BoardData(board, positions));
-        }
-        
-        return boards;
+                return board;
+            })
+            .toList();
     }
     
-    @Override
-    public Object partOne(List<String> inputLines)
-    {
-        List<Integer> numbers = parseBingoNumbers(inputLines.getFirst());
-        List<BoardData> boards = parseBoards(inputLines.subList(2, inputLines.size()));
+    private static boolean isBingo(int number, BiHashMap<Point, Integer> board, Set<Integer> seen) {
+        var point = board.getKeyByValue(number);
         
-        Set<Integer> currentNumbers = new HashSet<>();
+        var isHorizontal = IntStream
+            .range(0, BOARD_SIZE)
+            .allMatch(x -> seen.contains(board.getValueByKey(new Point(x, point.y))));
         
-        for (int currentNumber : numbers)
-        {
-            currentNumbers.add(currentNumber);
-            
-            for (BoardData boardData : boards)
-            {
-                if (!boardData.positions.containsKey(currentNumber))
-                {
-                    continue;
-                }
-                
-                boolean bingo = isBingo(
-                        boardData.positions.get(currentNumber),
-                        boardData.board,
-                        currentNumbers
-                );
-                
-                if (bingo)
-                {
-                    return calculateFinalScore(
-                            currentNumber,
-                            boardData,
-                            currentNumbers
-                    );
-                }
-            }
-        }
+        var isVertical = IntStream
+            .range(0, BOARD_SIZE)
+            .allMatch(y -> seen.contains(board.getValueByKey(new Point(point.x, y))));
         
-        throw new IllegalStateException("No winning bingo boards were found!");
-    }
-    
-    private static boolean isBingo(
-            Position position,
-            int[][] board,
-            Set<Integer> currentNumbers)
-    {
-        boolean horizontalBingo = true;
-        
-        for (int rowIndex = 0; rowIndex < BOARD_SIZE; rowIndex++)
-        {
-            if (!currentNumbers.contains(board[rowIndex][position.columnIndex]))
-            {
-                horizontalBingo = false;
-                break;
-            }
-        }
-        
-        boolean verticalBingo = true;
-        
-        for (int columnIndex = 0; columnIndex < BOARD_SIZE; columnIndex++)
-        {
-            if (!currentNumbers.contains(board[position.rowIndex][columnIndex]))
-            {
-                verticalBingo = false;
-                break;
-            }
-        }
-        
-        return horizontalBingo || verticalBingo;
+        return isHorizontal || isVertical;
     }
     
     private static int calculateFinalScore(
-            int currentNumber,
-            BoardData boardData,
-            Set<Integer> currentNumbers)
-    {
-        Set<Integer> unmarkedNumbers = new HashSet<>(boardData.positions.keySet());
-        unmarkedNumbers.removeAll(currentNumbers);
-        
-        int unmarkedNumberSum = unmarkedNumbers.stream()
-                .reduce(Integer::sum)
-                .orElse(0);
-        
-        return unmarkedNumberSum * currentNumber;
+        int winningNumber,
+        Set<Integer> boardNumbers,
+        Set<Integer> seen
+    ) {
+        var sumUnmarked = boardNumbers
+            .stream()
+            .filter(number -> !seen.contains(number))
+            .reduce(Integer::sum)
+            .orElse(0);
+        return sumUnmarked * winningNumber;
     }
     
+    /// Calculates the final score of the first winning board.
     @Override
-    public Object partTwo(List<String> inputLines)
-    {
-        List<Integer> numbers = parseBingoNumbers(inputLines.getFirst());
-        List<BoardData> boards = parseBoards(inputLines.subList(2, inputLines.size()));
-        
-        int winningBoardIndex = -1, winningNumberIndex = -1;
-        Set<Integer> currentNumbers = new HashSet<>();
-        Set<BoardData> winningBoardData = new HashSet<>();
-        
-        for (int numberIndex = 0; numberIndex < numbers.size(); numberIndex++)
-        {
-            int currentNumber = numbers.get(numberIndex);
-            currentNumbers.add(currentNumber);
-            
-            for (int boardIndex = 0; boardIndex < boards.size(); boardIndex++)
-            {
-                BoardData boardData = boards.get(boardIndex);
-                
-                if (!boardData.positions.containsKey(currentNumber))
-                {
+    public Integer partOne() {
+        var seen = new HashSet<Integer>();
+        for (var number : winners) {
+            seen.add(number);
+            for (var board : boards) {
+                if (!board.containsValue(number)) {
                     continue;
                 }
-                
-                if (winningBoardData.contains(boardData))
-                {
-                    continue;
-                }
-                
-                boolean bingo = isBingo(
-                        boardData.positions.get(currentNumber),
-                        boardData.board,
-                        currentNumbers
-                );
-                
-                if (bingo)
-                {
-                    winningBoardData.add(boardData);
-                    winningNumberIndex = numberIndex;
-                    winningBoardIndex = boardIndex;
+                if (isBingo(number, board, seen)) {
+                    return calculateFinalScore(number, board.valueSet(), seen);
                 }
             }
         }
+        throw new IllegalStateException("No winning bingo boards were found!");
+    }
+    
+    /// Calculates the final score of the last winning board.
+    @Override
+    public Integer partTwo() {
+        var lastWinningNumber = 0;
+        BiHashMap<Point, Integer> lastWinningBoard = null;
         
-        if (winningBoardIndex == -1)
-        {
+        var potentialBoards = new HashSet<>(boards);
+        var seen = new HashSet<Integer>();
+        
+        outer:
+        for (int number : winners) {
+            seen.add(number);
+            
+            var it = potentialBoards.iterator();
+            while (it.hasNext()) {
+                var board = it.next();
+                if (!board.containsValue(number)) {
+                    continue;
+                }
+                if (isBingo(number, board, seen)) {
+                    if (potentialBoards.size() == 1) {
+                        lastWinningNumber = number;
+                        lastWinningBoard = board;
+                        break outer;
+                    }
+                    it.remove();
+                }
+            }
+        }
+        if (lastWinningBoard == null) {
             throw new IllegalStateException("No winning bingo boards were found!");
         }
-        else
-        {
-            return calculateFinalScore(
-                    numbers.get(winningNumberIndex),
-                    boards.get(winningBoardIndex),
-                    new HashSet<>(numbers.subList(0, winningNumberIndex + 1))
-            );
+        return calculateFinalScore(lastWinningNumber, lastWinningBoard.valueSet(), seen);
+    }
+    
+    private record Point(int x, int y) {
+        
+        @Override
+        public boolean equals(Object o) {
+            if (!(o instanceof Point(int x1, int y1))) return false;
+            return x == x1 && y == y1;
+        }
+        
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+    }
+    
+    /// Bi-directional HashMap implementation.
+    private static class BiHashMap<K, V> extends AbstractMap<K, V> {
+        
+        private final Map<K, V> keyToValueMap = new HashMap<>();
+        private final Map<V, K> valueToKeyMap = new HashMap<>();
+        
+        @Override
+        public V put(K key, V value) {
+            if (keyToValueMap.containsKey(key)) {
+                V oldValue = keyToValueMap.get(key);
+                valueToKeyMap.remove(oldValue);
+            }
+            if (valueToKeyMap.containsKey(value)) {
+                K oldKey = valueToKeyMap.get(value);
+                keyToValueMap.remove(oldKey);
+            }
+            keyToValueMap.put(key, value);
+            valueToKeyMap.put(value, key);
+            return value;
+        }
+        
+        public V getValueByKey(K key) {
+            return keyToValueMap.get(key);
+        }
+        
+        public K getKeyByValue(V value) {
+            return valueToKeyMap.get(value);
+        }
+        
+        @Override
+        public boolean containsKey(Object key) {
+            return keyToValueMap.containsKey(key);
+        }
+        
+        @Override
+        public boolean containsValue(Object value) {
+            return valueToKeyMap.containsKey(value);
+        }
+        
+        @Override
+        public Set<K> keySet() {
+            return keyToValueMap.keySet();
+        }
+        
+        public Set<V> valueSet() {
+            return valueToKeyMap.keySet();
+        }
+        
+        @Override
+        public Collection<V> values() {
+            return valueToKeyMap.keySet();
+        }
+        
+        @Override
+        public Set<Entry<K, V>> entrySet() {
+            return new HashSet<>(keyToValueMap.entrySet());
         }
     }
 }
