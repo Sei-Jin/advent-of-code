@@ -1,11 +1,11 @@
 package aoc.event.year2021;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
 import java.util.Arrays;
 
 /// # [2021-06: Lanternfish](https://adventofcode.com/2021/day/6)
-public class Day06 implements DeprecatedSolver2<Long> {
+public class Day06 implements Solver<Long, Long> {
     
     private final int[] initialState;
     
@@ -14,28 +14,26 @@ public class Day06 implements DeprecatedSolver2<Long> {
     }
     
     private static int[] parse(String input) {
-        return Arrays.stream(input.split(","))
+        return Arrays
+            .stream(input.split(","))
             .mapToInt(Integer::parseInt)
             .toArray();
     }
     
     private long fishAfterXDays(int x) {
-        final var fishState = new long[9];
-        
-        for (final int timer : initialState) {
-            fishState[timer]++;
+        var fishStates = new long[9];
+        for (int timer : initialState) {
+            fishStates[timer]++;
         }
-        
         for (int day = 0; day < x; day++) {
-            final var zeroTimerCount = fishState[0];
-            for (int j = 0; j < fishState.length - 1; j++) {
-                fishState[j] = fishState[j + 1];
+            var zeroTimerCount = fishStates[0];
+            for (int j = 0; j < fishStates.length - 1; j++) {
+                fishStates[j] = fishStates[j + 1];
             }
-            fishState[6] += zeroTimerCount;
-            fishState[8] = zeroTimerCount;
+            fishStates[6] += zeroTimerCount;
+            fishStates[8] = zeroTimerCount;
         }
-        
-        return Arrays.stream(fishState).sum();
+        return Arrays.stream(fishStates).sum();
     }
     
     @Override

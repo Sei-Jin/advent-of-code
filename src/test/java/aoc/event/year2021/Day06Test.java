@@ -8,8 +8,9 @@ class Day06Test {
     
     @Test
     void example() {
-        final var input = "3,4,3,1,2";
-        final var solver = new Day06(input);
-        assertEquals(26L, solver.partOne());
+        var input = "3,4,3,1,2";
+        var solver = new Day06(input);
+        assertEquals(5934L, solver.partOne());
+        assertEquals(26984457539L, solver.partTwo());
     }
 }
