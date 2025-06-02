@@ -18,14 +18,11 @@ public class Day01 implements Solver<Integer, Integer> {
         var first = new ArrayList<Integer>();
         var second = new ArrayList<Integer>();
         
-        input
-            .lines()
-            .forEach(line -> {
-                var parts = line.split("\\s+");
-                first.add(Integer.parseInt(parts[0]));
-                second.add(Integer.parseInt(parts[1]));
-            });
-        
+        for (var line : input.lines().toList()) {
+            var parts = line.split("\\s+");
+            first.add(Integer.parseInt(parts[0]));
+            second.add(Integer.parseInt(parts[1]));
+        }
         return new IdLists(
             Collections.unmodifiableList(first),
             Collections.unmodifiableList(second)
@@ -40,7 +37,8 @@ public class Day01 implements Solver<Integer, Integer> {
         Collections.sort(mutableFirst);
         Collections.sort(mutableSecond);
         
-        return IntStream.range(0, mutableFirst.size())
+        return IntStream
+            .range(0, mutableFirst.size())
             .map(i -> {
                 var first = mutableFirst.get(i);
                 var second = mutableSecond.get(i);
