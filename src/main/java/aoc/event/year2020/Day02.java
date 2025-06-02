@@ -1,85 +1,64 @@
 package aoc.event.year2020;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /// # [2020-02: Password Philosophy](https://adventofcode.com/2020/day/2)
-public class Day02 implements DeprecatedSolver2 {
+public class Day02 implements Solver<Integer, Integer> {
     
     private static final Pattern LINE_PATTERN = Pattern.compile(
-            "^(\\d+)-(\\d+) (\\w): (\\w+)$"
+        "^(\\d+)-(\\d+) (\\w): (\\w+)$"
     );
     
     private final List<Line> lines;
     
     public Day02(String input) {
-        lines = Collections.unmodifiableList(parse(input));
+        lines = parse(input);
     }
     
     private static List<Line> parse(String input) {
-        return input.lines().map(line -> {
-            final var matcher = LINE_PATTERN.matcher(line);
-            
-            if (matcher.find()) {
-                final var first = Integer.parseInt(matcher.group(1));
-                final var second = Integer.parseInt(matcher.group(2));
-                final var character = matcher.group(3).charAt(0);
-                final var passwordString = matcher.group(4);
-                
-                final var password = passwordString.chars()
-                        .mapToObj(c -> (char) c)
-                        .toList();
-                
+        return input
+            .lines()
+            .map(LINE_PATTERN::matcher)
+            .flatMap(Matcher::results)
+            .map(result -> {
+                var first = Integer.parseInt(result.group(1));
+                var second = Integer.parseInt(result.group(2));
+                var character = result.group(3).charAt(0);
+                var password = result.group(4);
                 return new Line(first, second, character, password);
-            } else {
-                throw new IllegalArgumentException(
-                        "Input was in unexpected format for line: " + line
-                );
-            }
-        }).toList();
+            })
+            .toList();
     }
     
-    /// @return the number of valid passwords according to the set policies.
     @Override
     public Integer partOne() {
-        var validPasswords = 0;
-        
-        for (final var line : lines) {
-            var letterCount = 0;
-            
-            for (final var character : line.password) {
-                if (character == line.character) {
-                    letterCount++;
-                }
-            }
-            
-            if (letterCount >= line.first && letterCount <= line.second) {
-                validPasswords++;
-            }
-        }
-        
-        return validPasswords;
+        return (int) lines
+            .stream()
+            .filter(line -> {
+                var letterCount = line.password()
+                    .chars()
+                    .map(i -> (char) i)
+                    .filter(character -> character == line.character())
+                    .count();
+                return letterCount >= line.first() && letterCount <= line.second();
+            })
+            .count();
     }
     
-    /// @return the number of valid passwords according to the new interpretation of the policies.
     @Override
     public Integer partTwo() {
-        var validPasswords = 0;
-        
-        for (final var line : lines) {
-            final var onlyOnePresent = (line.character == line.password.get(line.first - 1) ^
-                            line.character == line.password.get(line.second - 1));
-            
-            if (onlyOnePresent) {
-                validPasswords++;
-            }
-        }
-        
-        return validPasswords;
+        return (int) lines
+            .stream()
+            .filter(line ->
+                line.character() == line.password().charAt(line.first() - 1)
+                    ^ line.character() == line.password().charAt(line.second() - 1)
+            )
+            .count();
     }
     
-    private record Line(int first, int second, char character, List<Character> password) {}
+    private record Line(int first, int second, char character, String password) {}
 }
