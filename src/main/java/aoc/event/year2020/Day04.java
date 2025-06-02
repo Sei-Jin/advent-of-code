@@ -1,15 +1,12 @@
 package aoc.event.year2020;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
 import java.util.*;
 import java.util.regex.Pattern;
 
 /// # [2020-04: Passport Processing](https://adventofcode.com/2020/day/4)
-public class Day04 implements DeprecatedSolver2 {
-    
-    private static final Set<String> mandatoryFields = createMandatoryFields();
-    private static final Set<String> colourSet = createColourSet();
+public class Day04 implements Solver<Integer, Integer> {
     
     private final List<Map<String, String>> fieldMaps;
     
@@ -17,78 +14,40 @@ public class Day04 implements DeprecatedSolver2 {
         fieldMaps = parse(input);
     }
     
-    private static Set<String> createMandatoryFields() {
-        final var fields = new HashSet<String>();
-        
-        for (final var field : Field.values()) {
-            if (field.mandatory) {
-                fields.add(field.key);
-            }
-        }
-        
-        return fields;
-    }
-    
-    private static Set<String> createColourSet() {
-        final var colours = new HashSet<String>();
-        
-        for (final var value : EyeColour.values()) {
-            colours.add(value.colour);
-        }
-        
-        return colours;
-    }
-    
     private static List<Map<String, String>> parse(String input) {
-        final var fieldMaps = new ArrayList<Map<String, String>>();
+        var fieldMaps = new ArrayList<Map<String, String>>();
         
-        final var passports = input
+        var passports = input
             .replaceAll("\n", " ")
             .split(" {2}");
         
-        for (final var passport : passports) {
-            final var fieldMap = new HashMap<String, String>();
-            final var pairs = passport.split(" ");
-            
-            for (final var pair : pairs) {
-                final var elements = pair.split(":");
+        for (var passport : passports) {
+            var fieldMap = new HashMap<String, String>();
+            var pairs = passport.split(" ");
+            for (var pair : pairs) {
+                var elements = pair.split(":");
                 fieldMap.put(elements[0], elements[1]);
             }
-            
             fieldMaps.add(fieldMap);
         }
-        
         return fieldMaps;
     }
     
     @Override
     public Integer partOne() {
-        var validCount = 0;
-        
-        for (final var fieldMap : fieldMaps) {
-            if (fieldMap.keySet().containsAll(mandatoryFields)) {
-                validCount++;
-            }
-        }
-        
-        return validCount;
+        return (int) fieldMaps
+            .stream()
+            .filter(fieldMap -> fieldMap.keySet().containsAll(Field.mandatoryFields()))
+            .count();
     }
     
     @Override
     public Integer partTwo() {
-        var validCount = 0;
-        
-        for (final var fieldMap : fieldMaps) {
-            if (!fieldMap.keySet().containsAll(mandatoryFields)) {
-                continue;
-            }
-            
-            if (Field.hasValidFields(fieldMap)) {
-                validCount++;
-            }
-        }
-        
-        return validCount;
+        return (int) fieldMaps
+            .stream()
+            .filter(fieldMap -> fieldMap.keySet().containsAll(Field.mandatoryFields()))
+            .filter(Field::hasAllValidFields)
+            .count();
     }
     
     private enum Field {
@@ -101,6 +60,10 @@ public class Day04 implements DeprecatedSolver2 {
         PASSPORT_ID("pid", true),
         COUNTRY_ID("cid", false);
         
+        private static final Set<String> mandatoryFields = createMandatorySet();
+        private static final Pattern HEIGHT_PATTERN = Pattern.compile("^(\\d+)(\\w+)$");
+        private static final Pattern HAIR_COLOR_PATTERN = Pattern.compile("^#[a-f0-9]{6}$");
+        private static final Pattern PASSPORT_ID_PATTERN = Pattern.compile("^[0-9]{9}$");
         private final String key;
         private final boolean mandatory;
         
@@ -109,61 +72,63 @@ public class Day04 implements DeprecatedSolver2 {
             this.mandatory = mandatory;
         }
         
-        private static final Pattern HEIGHT_PATTERN = Pattern.compile("^(\\d+)(\\w+)$");
-        private static final Pattern HAIR_COLOR_PATTERN = Pattern.compile("^#[a-f0-9]{6}$");
-        private static final Pattern PASSPORT_ID_PATTERN = Pattern.compile("^[0-9]{9}$");
+        public static Set<String> mandatoryFields() {
+            return mandatoryFields;
+        }
         
-        public static boolean hasValidFields(Map<String, String> fieldMap) {
+        private static Set<String> createMandatorySet() {
+            var fields = new HashSet<String>();
+            for (var field : Field.values()) {
+                if (field.mandatory) {
+                    fields.add(field.key);
+                }
+            }
+            return fields;
+        }
+        
+        public static boolean hasAllValidFields(Map<String, String> fieldMap) {
             boolean validity = true;
-            
-            validity &= validBirthYear(fieldMap.get(Field.BIRTH_YEAR.key));
-            validity &= validIssueYear(fieldMap.get(Field.ISSUE_YEAR.key));
-            validity &= validExpirationYear(fieldMap.get(Field.EXPIRATION_YEAR.key));
-            validity &= validHeight(fieldMap.get(Field.HEIGHT.key));
-            validity &= validHairColor(fieldMap.get(Field.HAIR_COLOR.key));
-            validity &= validEyeColor(fieldMap.get(Field.EYE_COLOR.key));
-            validity &= validPassportId(fieldMap.get(Field.PASSPORT_ID.key));
-            
+            validity &= isValidBirthYear(fieldMap.get(Field.BIRTH_YEAR.key));
+            validity &= isValidIssueYear(fieldMap.get(Field.ISSUE_YEAR.key));
+            validity &= isValidExpirationYear(fieldMap.get(Field.EXPIRATION_YEAR.key));
+            validity &= isValidHeight(fieldMap.get(Field.HEIGHT.key));
+            validity &= isValidHairColor(fieldMap.get(Field.HAIR_COLOR.key));
+            validity &= isValidEyeColor(fieldMap.get(Field.EYE_COLOR.key));
+            validity &= isValidPassportId(fieldMap.get(Field.PASSPORT_ID.key));
             return validity;
         }
         
-        private static boolean validBirthYear(String birthYear) {
-            if (notNumeric(birthYear)) {
+        private static boolean isValidBirthYear(String birthYear) {
+            if (isNotNumeric(birthYear)) {
                 return false;
             }
-            
-            final var year = Integer.parseInt(birthYear);
+            var year = Integer.parseInt(birthYear);
             return year >= 1920 && year <= 2002;
         }
         
-        private static boolean validIssueYear(String issueYear) {
-            if (notNumeric(issueYear)) {
+        private static boolean isValidIssueYear(String issueYear) {
+            if (isNotNumeric(issueYear)) {
                 return false;
             }
-            
-            final var year = Integer.parseInt(issueYear);
+            var year = Integer.parseInt(issueYear);
             return year >= 2010 && year <= 2020;
         }
         
-        private static boolean validExpirationYear(String expirationYear) {
-            if (notNumeric(expirationYear)) {
+        private static boolean isValidExpirationYear(String expirationYear) {
+            if (isNotNumeric(expirationYear)) {
                 return false;
             }
-            
-            final var year = Integer.parseInt(expirationYear);
+            var year = Integer.parseInt(expirationYear);
             return year >= 2020 && year <= 2030;
         }
         
-        private static boolean validHeight(String height) {
-            final var matcher = HEIGHT_PATTERN.matcher(height);
-            
+        private static boolean isValidHeight(String height) {
+            var matcher = HEIGHT_PATTERN.matcher(height);
             if (!matcher.find()) {
                 return false;
             }
-            
-            final var magnitude = Integer.parseInt(matcher.group(1));
-            final var units = matcher.group(2);
-            
+            var magnitude = Integer.parseInt(matcher.group(1));
+            var units = matcher.group(2);
             return switch (units) {
                 case "cm" -> magnitude >= 150 && magnitude <= 193;
                 case "in" -> magnitude >= 59 && magnitude <= 76;
@@ -171,44 +136,55 @@ public class Day04 implements DeprecatedSolver2 {
             };
         }
         
-        private static boolean validHairColor(String hairColor) {
+        private static boolean isValidHairColor(String hairColor) {
             return HAIR_COLOR_PATTERN.matcher(hairColor).find();
         }
         
-        private static boolean validEyeColor(String eyeColor) {
-            return colourSet.contains(eyeColor);
+        private static boolean isValidEyeColor(String eyeColor) {
+            return EyeColour.colourSet().contains(eyeColor);
         }
         
-        private static boolean validPassportId(String id) {
+        private static boolean isValidPassportId(String id) {
             return PASSPORT_ID_PATTERN.matcher(id).find();
         }
         
-        private static boolean notNumeric(String string) {
+        private static boolean isNotNumeric(String string) {
             for (int i = 0; i < string.length(); i++) {
-                final var character = string.charAt(i);
-                
+                var character = string.charAt(i);
                 if (!Character.isDigit(character)) {
                     return true;
                 }
             }
-            
             return false;
         }
-    }
-    
-    private enum EyeColour {
-        AMBER("amb"),
-        BLUE("blu"),
-        BROWN("brn"),
-        GREY("gry"),
-        GREEN("grn"),
-        HAZEL("hzl"),
-        OTHER("oth");
         
-        private final String colour;
-        
-        EyeColour(String colour) {
-            this.colour = colour;
+        private enum EyeColour {
+            AMBER("amb"),
+            BLUE("blu"),
+            BROWN("brn"),
+            GREY("gry"),
+            GREEN("grn"),
+            HAZEL("hzl"),
+            OTHER("oth");
+            
+            private static final Set<String> colourSet = createColourSet();
+            private final String colour;
+            
+            EyeColour(String colour) {
+                this.colour = colour;
+            }
+            
+            public static Set<String> colourSet() {
+                return colourSet;
+            }
+            
+            private static Set<String> createColourSet() {
+                var colours = new HashSet<String>();
+                for (var value : EyeColour.values()) {
+                    colours.add(value.colour);
+                }
+                return colours;
+            }
         }
     }
 }
