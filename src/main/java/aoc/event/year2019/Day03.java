@@ -1,47 +1,40 @@
 package aoc.event.year2019;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
 import java.util.*;
 
 /// # [2019-03: Crossed Wires](https://adventofcode.com/2019/day/3)
-public class Day03 implements DeprecatedSolver2<Integer> {
+public class Day03 implements Solver<Integer, Integer> {
     
-    /// The location of the central port is (0, 0). The central port is the starting location of the
-    /// wires, and it does not count if the wires cross at the central port location, since they
-    /// cross there by default.
     private static final Point STARTING_LOCATION = new Point(0, 0);
-    
     private final Map<Point, Integer> firstPoints;
     private final Map<Point, Integer> secondPoints;
     
     public Day03(String input) {
-        final var parts = input.split("\n");
+        var parts = input.split("\n");
         firstPoints = createPointMap(parse(parts[0]));
         secondPoints = createPointMap(parse(parts[1]));
     }
     
-    /// Parses a line from the puzzle input.
     private static List<Instruction> parse(String line) {
-        return Arrays.stream(line.split(","))
+        return Arrays
+            .stream(line.split(","))
             .map(instruction -> {
-                final var direction = instruction.charAt(0);
-                final var moveDistance = Integer.parseInt(instruction.substring(1));
+                var direction = instruction.charAt(0);
+                var moveDistance = Integer.parseInt(instruction.substring(1));
                 return new Instruction(direction, moveDistance);
             })
             .toList();
     }
     
-    /// Creates a mapping between the unique points crossed by a wire and the total length of the
-    /// wire when it first reached each point.
     private static Map<Point, Integer> createPointMap(List<Instruction> instructions) {
-        final var visited = new HashMap<Point, Integer>();
-        
+        var visited = new HashMap<Point, Integer>();
         var x = STARTING_LOCATION.x;
         var y = STARTING_LOCATION.y;
         var totalSteps = 0;
         
-        for (final var instruction : instructions) {
+        for (var instruction : instructions) {
             for (var steps = 0; steps < instruction.distance; steps++) {
                 switch (instruction.direction) {
                     case 'U' -> y++;
@@ -51,14 +44,12 @@ public class Day03 implements DeprecatedSolver2<Integer> {
                 }
                 totalSteps++;
                 
-                final var current = new Point(x, y);
-                
+                var current = new Point(x, y);
                 if (!visited.containsKey(current)) {
                     visited.put(current, totalSteps);
                 }
             }
         }
-        
         return visited;
     }
     
@@ -66,11 +57,10 @@ public class Day03 implements DeprecatedSolver2<Integer> {
     /// their starting location.
     @Override
     public Integer partOne() {
-        final var intersections = new HashSet<>(firstPoints.keySet());
-        intersections.retainAll(secondPoints.keySet());
-        
-        return intersections
+        return firstPoints
+            .keySet()
             .stream()
+            .filter(secondPoints::containsKey)
             .mapToInt(point -> Math.abs(point.x) + Math.abs(point.y))
             .min()
             .orElseThrow(() -> new IllegalStateException("There were no intersections"));
@@ -80,11 +70,10 @@ public class Day03 implements DeprecatedSolver2<Integer> {
     /// the first intersection point.
     @Override
     public Integer partTwo() {
-        final var intersections = new HashSet<>(firstPoints.keySet());
-        intersections.retainAll(secondPoints.keySet());
-        
-        return intersections
+        return firstPoints
+            .keySet()
             .stream()
+            .filter(secondPoints::containsKey)
             .mapToInt(point -> firstPoints.get(point) + secondPoints.get(point))
             .min()
             .orElseThrow(() -> new IllegalStateException("There were no intersections"));
