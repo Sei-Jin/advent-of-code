@@ -1,104 +1,106 @@
 package aoc.event.year2020;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /// # [2020-05: Binary Boarding](https://adventofcode.com/2020/day/5)
-public class Day05 implements DeprecatedSolver2
-{
-    private static final Pattern BOARDING_SEQUENCE = Pattern.compile("^([BF]+)([LR]+)$");
+public class Day05 implements Solver<Integer, Integer> {
     
-    private final List<BoardingSequence> boardingSequences;
+    private static final int ROW_MAX = 128;
+    private static final int COLUMN_MAX = 8;
+    private static final Pattern SEQUENCE_PATTERN = Pattern.compile("^([BF]+)([LR]+)$");
+    private final List<BoardingSequence> sequences;
     
     public Day05(String input) {
-        boardingSequences = parse(input);
+        sequences = parse(input);
     }
     
     private static List<BoardingSequence> parse(String input) {
-        final var boardingSequences = new ArrayList<BoardingSequence>();
-        final var lines = input.lines().toList();
-        
-        for (final var line : lines) {
-            final var matcher = BOARDING_SEQUENCE.matcher(line);
-            
-            if (matcher.find()) {
-                final var row = matcher.group(1);
-                final var column = matcher.group(2);
-                
-                final var rowSequence = new ArrayList<Character>();
-                final var columnSequence = new ArrayList<Character>();
-                
-                for (int i = 0; i < row.length(); i++) {
-                    rowSequence.add(row.charAt(i));
-                }
-                
-                for (int i = 0; i < column.length(); i++) {
-                    columnSequence.add(column.charAt(i));
-                }
-                
-                final var boardingSequence = new BoardingSequence(
-                    Collections.unmodifiableList(rowSequence),
-                    Collections.unmodifiableList(columnSequence)
-                );
-                
-                boardingSequences.add(boardingSequence);
-            }
-        }
-        
-        return Collections.unmodifiableList(boardingSequences);
+        return input
+            .lines()
+            .map(SEQUENCE_PATTERN::matcher)
+            .flatMap(Matcher::results)
+            .map(result -> {
+                var rows = result.group(1)
+                    .chars()
+                    .mapToObj(i -> (char) i)
+                    .toList();
+                var columns = result.group(2)
+                    .chars()
+                    .mapToObj(i -> (char) i)
+                    .toList();
+                return new BoardingSequence(rows, columns);
+            })
+            .toList();
     }
     
-    private static int binarySearch(List<Character> sequence, int n) {
+    private static int binarySearch(List<Character> sequence, char lower, char higher) {
+        var n = (int) Math.pow(2, sequence.size());
+        
         var left = 0;
         var right = n - 1;
-        
-        for (final var character : sequence) {
-            final var middle = (left + right) / 2;
-            
-            if (character == 'F' || character == 'L') {
-                // Lower half
+        for (var character : sequence) {
+            var middle = (left + right) / 2;
+            if (character == lower) {
                 right = middle;
-            } else if (character == 'B' || character == 'R') {
-                // Upper half
+            }
+            else if (character == higher) {
                 left = middle + 1;
             }
         }
         
-        final var lastCharacter = sequence.getLast();
-        var value = 0;
-        
-        if (lastCharacter == 'F' || lastCharacter == 'L') {
-            value = Math.min(left, right);
-        } else if (lastCharacter == 'B' || lastCharacter == 'R') {
-            value = Math.max(left, right);
+        var last = sequence.getLast();
+        if (last == lower) {
+            return Math.min(left, right);
         }
-        
-        return value;
+        else if (last == higher) {
+            return Math.max(left, right);
+        }
+        else {
+            return 0;
+        }
     }
     
+    /// Calculates the highest seat id on the boarding pass.
     @Override
     public Integer partOne() {
-        var highestSeatId = 0;
-        
-        for (final var sequence : boardingSequences) {
-            final var row = binarySearch(sequence.rowSequence, 128);
-            final var column = binarySearch(sequence.columnSequence, 8);
-            
-            final var seatId = row * 8 + column;
-            highestSeatId = Math.max(highestSeatId, seatId);
-        }
-        
-        return highestSeatId;
+        return sequences
+            .stream()
+            .mapToInt(sequence -> {
+                var row = binarySearch(sequence.rows, 'F', 'B');
+                var column = binarySearch(sequence.columns, 'L', 'R');
+                return row * 8 + column;
+            })
+            .max()
+            .orElse(0);
     }
     
+    /// Finds the only empty seat in the middle of the plane and calculates it's seat id.
+    ///
+    /// There may be empty seats on either end of the plane, so we can start searching after the
+    /// first 30 rows from the front and the back.
     @Override
     public Integer partTwo() {
-        return 0;
+        var seatingPlan = new int[ROW_MAX][COLUMN_MAX];
+        for (var sequence : sequences) {
+            var row = binarySearch(sequence.rows, 'F', 'B');
+            var column = binarySearch(sequence.columns, 'L', 'R');
+            seatingPlan[row][column] = 1;
+        }
+        for (int column = 0; column < COLUMN_MAX; column++) {
+            for (int row = 30; row < ROW_MAX - 30; row++) {
+                if (seatingPlan[row][column] == 0) {
+                    return row * 8 + column;
+                }
+            }
+        }
+        throw new IllegalArgumentException(
+            "There was not an empty seat in the middle of the plane."
+        );
     }
     
-    private record BoardingSequence(List<Character> rowSequence, List<Character> columnSequence) {}
+    private record BoardingSequence(List<Character> rows, List<Character> columns) {}
 }
