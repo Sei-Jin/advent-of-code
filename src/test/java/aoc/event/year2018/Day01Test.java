@@ -8,96 +8,96 @@ public class Day01Test {
 
     @Test
     void example1() {
-        final var input = """
+        var input = """
             +1
             -2
             +3
             +1
             """;
-        final var solution = new Day01(input);
+        var solution = new Day01(input);
         assertEquals(3, solution.partOne());
         assertEquals(2, solution.partTwo());
     }
     
     @Test
     void example2() {
-        final var input = """
+        var input = """
             +1
             +1
             +1
             """;
-        final var solution = new Day01(input);
+        var solution = new Day01(input);
         assertEquals(3, solution.partOne());
     }
     
     @Test
     void example3() {
-        final var input = """
+        var input = """
             +1
             +1
             -2
             """;
-        final var solution = new Day01(input);
+        var solution = new Day01(input);
         assertEquals(0, solution.partOne());
     }
     
     @Test
     void example4() {
-        final var input = """
+        var input = """
             -1
             -2
             -3
             """;
-        final var solution = new Day01(input);
+        var solution = new Day01(input);
         assertEquals(-6, solution.partOne());
     }
     
     @Test
     void example5() {
-        final var input = """
+        var input = """
             +1
             -1
             """;
-        final var solution = new Day01(input);
+        var solution = new Day01(input);
         assertEquals(0, solution.partTwo());
     }
     
     @Test
     void example6() {
-        final var input = """
+        var input = """
             +3
             +3
             +4
             -2
             -4
             """;
-        final var solution = new Day01(input);
+        var solution = new Day01(input);
         assertEquals(10, solution.partTwo());
     }
     
     @Test
     void example7() {
-        final var input = """
+        var input = """
             -6
             +3
             +8
             +5
             -6
             """;
-        final var solution = new Day01(input);
+        var solution = new Day01(input);
         assertEquals(5, solution.partTwo());
     }
     
     @Test
     void example8() {
-        final var input = """
+        var input = """
             +7
             +7
             -2
             -7
             -4
             """;
-        final var solution = new Day01(input);
+        var solution = new Day01(input);
         assertEquals(14, solution.partTwo());
     }
 }
