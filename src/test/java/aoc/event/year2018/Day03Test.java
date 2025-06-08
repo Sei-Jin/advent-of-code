@@ -8,12 +8,12 @@ public class Day03Test {
     
     @Test
     void example() {
-        final var input = """
+        var input = """
             #1 @ 1,3: 4x4
             #2 @ 3,1: 4x4
             #3 @ 5,5: 2x2
             """;
-        final var solution = new Day03(input);
+        var solution = new Day03(input);
         assertEquals(4, solution.partOne());
         assertEquals(3, solution.partTwo());
     }
