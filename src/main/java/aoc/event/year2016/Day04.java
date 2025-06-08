@@ -1,16 +1,15 @@
 package aoc.event.year2016;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /// # [2016-04: Security Through Obscurity](https://adventofcode.com/2016/day/4)
-public class Day04 implements DeprecatedSolver2 {
+public class Day04 implements Solver<Integer, Integer> {
     
-    /// Matches the data for the room input.
     private static final Pattern ROOM_PATTERN = Pattern.compile("([\\w-]+)-(\\d+)\\[(\\w+)]");
-    
     private final List<Room> rooms;
     
     public Day04(String input) {
@@ -19,38 +18,25 @@ public class Day04 implements DeprecatedSolver2 {
     
     /// Parses the puzzle input for the room data.
     ///
-    /// A room input is in the format: `aa-bbb-cc-dd-e-836[abcde]`.
-    ///
-    /// Each input contains three parts:
-    ///
+    /// An example room input is in the format: `aa-bbb-cc-dd-e-836[abcde]`.
     /// - The first part of the string, `aa-bbb-cc-dd-e` is the room name.
     /// - The second part of the string, `836` is the sector id.
     /// - The third part of the string, `abcde` is the checksum.
     ///
     /// @param input the puzzle input.
     /// @return a list of rooms from the parsed data.
-    /// @throws IllegalArgumentException if the input does not match the expected pattern.
     private static List<Room> parse(String input) {
-        final var rooms = new ArrayList<Room>();
-        
-        for (final var line : input.lines().toList()) {
-            final var matcher = ROOM_PATTERN.matcher(line);
-            
-            if (matcher.find()) {
-                final var encryptedName = matcher.group(1);
-                final var sectorId = Integer.parseInt(matcher.group(2));
-                final var checksum = matcher.group(3);
-                
-                final var room = new Room(encryptedName, sectorId, checksum);
-                rooms.add(room);
-            } else {
-                throw new IllegalArgumentException(
-                    "Input line did not match expected pattern: " + line
-                );
-            }
-        }
-        
-        return rooms;
+        return input
+            .lines()
+            .map(ROOM_PATTERN::matcher)
+            .flatMap(Matcher::results)
+            .map(result -> {
+                var encryptedName = result.group(1);
+                var sectorId = Integer.parseInt(result.group(2));
+                var checksum = result.group(3);
+                return new Room(encryptedName, sectorId, checksum);
+            })
+            .toList();
     }
     
     /// Calculates the sum of the sector ids of the real rooms.
@@ -59,21 +45,16 @@ public class Day04 implements DeprecatedSolver2 {
     ///
     /// @return the sum of the sector ids of the real rooms
     @Override
-    public Object partOne() {
-        var sectorIdSum = 0;
-        
-        for (final var room : rooms) {
-            final var encryptedName = room.encryptedName.replaceAll("-", "");
-            
-            final var realChecksum = generateChecksum(encryptedName);
-            final var realRoom = realChecksum.equals(room.checksum);
-            
-            if (realRoom) {
-                sectorIdSum += room.sectorId;
-            }
-        }
-        
-        return sectorIdSum;
+    public Integer partOne() {
+        return rooms
+            .stream()
+            .filter(room -> {
+                var encryptedName = room.encryptedName.replaceAll("-", "");
+                var realChecksum = generateChecksum(encryptedName);
+                return realChecksum.equals(room.checksum);
+            })
+            .mapToInt(Room::sectorId)
+            .sum();
     }
     
     /// Generates a checksum from the encrypted name.
@@ -84,35 +65,27 @@ public class Day04 implements DeprecatedSolver2 {
     /// @param encryptedName the encrypted name of a room.
     /// @return the checksum of the encrypted name.
     private static String generateChecksum(String encryptedName) {
-        final var letterCount = getLetterCount(encryptedName);
-        final var letters = new ArrayList<>(letterCount.keySet());
+        var letterCounts = calculateLetterCounts(encryptedName);
+        var letters = new ArrayList<>(letterCounts.keySet());
         
-        final var comparator = getLetterComparator(letterCount);
-        letters.sort(comparator);
+        var frequencyComparator = createFrequencyComparator(letterCounts);
+        letters.sort(frequencyComparator);
         
-        final var checksumBuilder = new StringBuilder();
-        
-        for (int index = 0; index < 5; index++) {
-            checksumBuilder.append(letters.get(index));
+        var checksumBuilder = new StringBuilder();
+        for (int i = 0; i < 5; i++) {
+            checksumBuilder.append(letters.get(i));
         }
-        
         return checksumBuilder.toString();
     }
     
-    /// Counts the occurrences of the characters in the string.
-    ///
-    /// @param string a string.
-    /// @return a mapping of the characters and their counts.
-    private static Map<Character, Integer> getLetterCount(String string) {
-        final var letterCount = new HashMap<Character, Integer>();
-        
-        for (var index = 0; index < string.length(); index++) {
-            final var letter = string.charAt(index);
-            final var count = letterCount.getOrDefault(letter, 0) + 1;
-            letterCount.put(letter, count);
+    private static Map<Character, Integer> calculateLetterCounts(String string) {
+        var counts = new HashMap<Character, Integer>();
+        for (var i = 0; i < string.length(); i++) {
+            var letter = string.charAt(i);
+            var count = counts.getOrDefault(letter, 0) + 1;
+            counts.put(letter, count);
         }
-        
-        return letterCount;
+        return counts;
     }
     
     /// Creates a comparator to compare the letters by their counts, with ties broken by
@@ -124,17 +97,20 @@ public class Day04 implements DeprecatedSolver2 {
     ///
     /// @param letterCount a map of the characters and their counts.
     /// @return a comparator for the letters and their counts.
-    private static Comparator<Character> getLetterComparator(Map<Character, Integer> letterCount) {
-        return (predecessor, successor) ->
-        {
-            final var predecessorCount = letterCount.get(predecessor);
-            final var successorCount = letterCount.get(successor);
+    private static Comparator<Character> createFrequencyComparator(
+        Map<Character, Integer> letterCount
+    ) {
+        return (predecessor, successor) -> {
+            var predecessors = letterCount.get(predecessor);
+            var successors = letterCount.get(successor);
             
-            if (predecessorCount < successorCount) {
+            if (predecessors < successors) {
                 return 1;
-            } else if (predecessorCount == successorCount) {
+            }
+            else if (predecessors.equals(successors)) {
                 return predecessor.compareTo(successor);
-            } else {
+            }
+            else {
                 return -1;
             }
         };
@@ -148,16 +124,18 @@ public class Day04 implements DeprecatedSolver2 {
     /// @return the sector id of the North Pole object storage.
     /// @throws IllegalArgumentException if there are no North Pole objects.
     @Override
-    public Object partTwo() {
-        for (final var room : rooms) {
-            final var decryptedName = decryptName(room);
-            
-            if (decryptedName.contains("north") && decryptedName.contains("pole")) {
-                return room.sectorId;
-            }
-        }
-        
-        throw new IllegalArgumentException("The North Pole object storage was not found");
+    public Integer partTwo() {
+        return rooms
+            .stream()
+            .filter(room -> {
+                var name = decryptName(room);
+                return name.contains("north") && name.contains("pole");
+            })
+            .findFirst()
+            .map(Room::sectorId)
+            .orElseThrow(() ->
+                new IllegalArgumentException("The North Pole object storage was not found")
+            );
     }
     
     /// Decrypts the encrypted name of the room.
@@ -171,28 +149,25 @@ public class Day04 implements DeprecatedSolver2 {
     /// @param room a room.
     /// @return the decrypted name of the room.
     private static String decryptName(Room room) {
-        final var decryptedNameBuilder = new StringBuilder();
-        final var sectorOffset = room.sectorId % 26;
+        var name = new StringBuilder();
+        var offset = room.sectorId % 26;
         
-        for (var index = 0; index < room.encryptedName.length(); index++) {
-            final var character = room.encryptedName.charAt(index);
+        for (var i = 0; i < room.encryptedName.length(); i++) {
+            var character = room.encryptedName.charAt(i);
             
             if (character == '-') {
-                decryptedNameBuilder.append(" ");
-            } else {
-                var decryptedCharacter = (char) (character + sectorOffset);
-                
-                if (decryptedCharacter > 'z') {
-                    decryptedCharacter -= 26;
+                name.append(" ");
+            }
+            else {
+                var decrypted = (char) (character + offset);
+                if (decrypted > 'z') {
+                    decrypted -= 26;
                 }
-                
-                decryptedNameBuilder.append(decryptedCharacter);
+                name.append(decrypted);
             }
         }
-        
-        return decryptedNameBuilder.toString();
+        return name.toString();
     }
     
-    /// Stores the data for a room.
     record Room(String encryptedName, int sectorId, String checksum) {}
 }
