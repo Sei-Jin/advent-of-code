@@ -1,8 +1,12 @@
 package aoc.event.year2016;
 
 import aoc.Solver;
+import aoc.util.Common;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,7 +69,7 @@ public class Day04 implements Solver<Integer, Integer> {
     /// @param encryptedName the encrypted name of a room.
     /// @return the checksum of the encrypted name.
     private static String generateChecksum(String encryptedName) {
-        var letterCounts = calculateLetterCounts(encryptedName);
+        var letterCounts = Common.countCharacters(encryptedName);
         var letters = new ArrayList<>(letterCounts.keySet());
         
         var frequencyComparator = createFrequencyComparator(letterCounts);
@@ -76,16 +80,6 @@ public class Day04 implements Solver<Integer, Integer> {
             checksumBuilder.append(letters.get(i));
         }
         return checksumBuilder.toString();
-    }
-    
-    private static Map<Character, Integer> calculateLetterCounts(String string) {
-        var counts = new HashMap<Character, Integer>();
-        for (var i = 0; i < string.length(); i++) {
-            var letter = string.charAt(i);
-            var count = counts.getOrDefault(letter, 0) + 1;
-            counts.put(letter, count);
-        }
-        return counts;
     }
     
     /// Creates a comparator to compare the letters by their counts, with ties broken by
