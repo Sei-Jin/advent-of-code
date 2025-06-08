@@ -8,7 +8,7 @@ class Day05Test {
     
     @Test
     void example() {
-        final var input = """
+        var input = """
             0,9 -> 5,9
             8,0 -> 0,8
             9,4 -> 3,4
@@ -20,7 +20,7 @@ class Day05Test {
             0,0 -> 8,8
             5,5 -> 8,2
             """;
-        final var solution = new Day05(input);
+        var solution = new Day05(input);
         assertEquals(5, solution.partOne());
         assertEquals(12, solution.partTwo());
     }
