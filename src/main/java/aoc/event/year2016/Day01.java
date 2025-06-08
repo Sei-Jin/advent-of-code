@@ -1,59 +1,51 @@
 package aoc.event.year2016;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
 /// # [2016-01: No Time for a Taxicab](https://adventofcode.com/2016/day/1)
-public class Day01 implements DeprecatedSolver2 {
+public class Day01 implements Solver<Integer, Integer> {
     
     private static final Pattern INSTRUCTION_PATTERN = Pattern.compile("(\\w)(\\d+)");
-    
     private final List<Instruction> instructions;
     
-    /// Initializes the solution with the parsed puzzle input.
-    ///
-    /// The expected format for the puzzle input is a single string of instructions.
-    /// - Each instruction is separated by a comma and a space, such as `,`.
-    /// - Each instruction consists of a turning direction of left, `L,` or right `R` followed by
-    /// number, which is the distance to travel.
-    ///
-    /// An example input is `R2, L3`.
     public Day01(String input) {
         instructions = parse(input);
     }
     
     private static List<Instruction> parse(String input) {
-        final var instructions = new ArrayList<Instruction>();
-        final var matcher = INSTRUCTION_PATTERN.matcher(input);
-        
-        while (matcher.find()) {
-            final var turn = Turn.of(matcher.group(1).charAt(0));
-            final var distance = Integer.parseInt(matcher.group(2));
-            
-            instructions.add(new Instruction(turn, distance));
-        }
-        
-        return instructions;
+        return INSTRUCTION_PATTERN
+            .matcher(input)
+            .results()
+            .map(result -> {
+                var turn = parseTurn(result.group(1).charAt(0));
+                var distance = Integer.parseInt(result.group(2));
+                return new Instruction(turn, distance);
+            })
+            .toList();
+    }
+    
+    private static Turn parseTurn(char character) {
+        return switch (character) {
+            case 'R' -> Turn.RIGHT;
+            case 'L' -> Turn.LEFT;
+            default -> throw new IllegalStateException("Unexpected value: " + character);
+        };
     }
     
     /// Calculates the distance from the starting position after all instructions have been
     /// followed.
-    ///
-    /// @return the distance from the starting position after all instructions have been
-    ///     /// followed
     @Override
     public Integer partOne() {
-        final var current = new Position();
+        var current = new Point(0, 0);
         var direction = Direction.NORTH;
         
-        for (final var instruction : instructions) {
-            direction = direction.turn(instruction.turn);
-            
+        for (var instruction : instructions) {
+            direction = Direction.turn(direction, instruction.turn);
             switch (direction) {
                 case NORTH -> current.y += instruction.distance;
                 case EAST -> current.x += instruction.distance;
@@ -61,25 +53,20 @@ public class Day01 implements DeprecatedSolver2 {
                 case WEST -> current.x -= instruction.distance;
             }
         }
-        
         return Math.abs(current.x) + Math.abs(current.y);
     }
     
     /// Calculates the distance from the starting position to the first position visited twice.
-    ///
-    /// @return the distance from the starting position to the first position visited twice, or
-    /// -1 if there were no locations visited twice.
     @Override
     public Integer partTwo() {
-        final var current = new Position();
+        var current = new Point(0, 0);
         var direction = Direction.NORTH;
         
-        final var points = new HashSet<Position>();
-        points.add(current);
+        var seen = new HashSet<Point>();
+        seen.add(current);
         
-        for (final var instruction : instructions) {
-            direction = direction.turn(instruction.turn);
-            
+        for (var instruction : instructions) {
+            direction = Direction.turn(direction, instruction.turn);
             for (var i = 0; i < instruction.distance; i++) {
                 switch (direction) {
                     case NORTH -> current.y++;
@@ -87,29 +74,20 @@ public class Day01 implements DeprecatedSolver2 {
                     case SOUTH -> current.y--;
                     case WEST -> current.x--;
                 }
-                
-                if (!points.contains(current)) {
-                    points.add(new Position(current.x, current.y));
-                } else {
+                if (!seen.contains(current)) {
+                    seen.add(new Point(current.x, current.y));
+                }
+                else {
                     return Math.abs(current.x) + Math.abs(current.y);
                 }
             }
         }
-        
-        return -1;
+        throw new IllegalStateException("There were no points visited twice.");
     }
     
     private enum Turn {
         RIGHT,
         LEFT;
-        
-        private static Turn of(char character) {
-            return switch (character) {
-                case 'R' -> RIGHT;
-                case 'L' -> LEFT;
-                default -> throw new IllegalStateException("Unexpected value: " + character);
-            };
-        }
     }
     
     private enum Direction {
@@ -118,47 +96,40 @@ public class Day01 implements DeprecatedSolver2 {
         SOUTH,
         WEST;
         
-        private Direction turn(Turn turn) {
-            if (turn == Turn.RIGHT) {
-                return switch (this) {
+        public static Direction turn(Direction direction, Turn turn) {
+            return switch (turn) {
+                case RIGHT -> switch (direction) {
                     case NORTH -> Direction.EAST;
                     case EAST -> Direction.SOUTH;
                     case SOUTH -> Direction.WEST;
                     case WEST -> Direction.NORTH;
                 };
-            } else if (turn == Turn.LEFT) {
-                return switch (this) {
+                case LEFT -> switch (direction) {
                     case NORTH -> Direction.WEST;
                     case WEST -> Direction.SOUTH;
                     case SOUTH -> Direction.EAST;
                     case EAST -> Direction.NORTH;
                 };
-            }
-            
-            return this;
+            };
         }
     }
     
     private record Instruction(Turn turn, int distance) {}
     
-    private class Position {
+    private static class Point {
+        
         int x;
         int y;
         
-        public Position() {
-            this.x = 0;
-            this.y = 0;
-        }
-        
-        public Position(int x, int y) {
+        public Point(int x, int y) {
             this.x = x;
             this.y = y;
         }
         
         @Override
         public boolean equals(Object o) {
-            if (!(o instanceof Position position)) return false;
-            return x == position.x && y == position.y;
+            if (!(o instanceof Point point)) return false;
+            return x == point.x && y == point.y;
         }
         
         @Override
