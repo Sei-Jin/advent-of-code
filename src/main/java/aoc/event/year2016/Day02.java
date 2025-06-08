@@ -1,122 +1,149 @@
 package aoc.event.year2016;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
-import java.awt.*;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /// # [2016-02: Bathroom Security](https://adventofcode.com/2016/day/2)
-public class Day02 implements DeprecatedSolver2 {
+public class Day02 implements Solver<String, String> {
     
-    private final List<List<Character>> instructionLists;
+    private final List<List<Direction>> instructionLists;
     
     public Day02(String input) {
         instructionLists = parse(input);
     }
     
-    private static List<List<Character>> parse(String input) {
-        final var instructionLists = new ArrayList<List<Character>>();
-        final var lines = input.lines().toList();
-        
-        for (final var line : lines) {
-            final var instructions = new ArrayList<Character>();
-            
-            for (var i = 0; i < line.length(); i++) {
-                instructions.add(line.charAt(i));
-            }
-            
-            instructionLists.add(instructions);
-        }
-        
-        return instructionLists;
+    private static List<List<Direction>> parse(String input) {
+        return input
+            .lines()
+            .map(line -> line
+                .chars()
+                .mapToObj(i -> (char) i)
+                .map(Direction::parse)
+                .toList())
+            .toList();
     }
     
-    /// @return the bathroom code.
+    private static Map<Point, Character> convertToKeypad(String input) {
+        var lines = input
+            .lines()
+            .toList();
+        var keypad = new HashMap<Point, Character>();
+        
+        for (int y = 0; y < lines.size(); y++) {
+            var line = lines.get(y);
+            for (int x = 0; x < line.length(); x += 2) {
+                var character = line.charAt(x);
+                if (character != ' ') {
+                    keypad.put(new Point(x / 2, y), character);
+                }
+            }
+        }
+        return keypad;
+    }
+    
+    private static String buildBathroomCode(
+        Point current,
+        Map<Point, Character> keypad,
+        List<List<Direction>> instructionLists
+    ) {
+        var bathroomCode = new StringBuilder();
+        for (var list : instructionLists) {
+            for (var instruction : list) {
+                switch (instruction) {
+                    case UP -> {
+                        current.y--;
+                        if (!keypad.containsKey(current)) {
+                            current.y++;
+                        }
+                    }
+                    case DOWN -> {
+                        current.y++;
+                        if (!keypad.containsKey(current)) {
+                            current.y--;
+                        }
+                    }
+                    case LEFT -> {
+                        current.x--;
+                        if (!keypad.containsKey(current)) {
+                            current.x++;
+                        }
+                    }
+                    case RIGHT -> {
+                        current.x++;
+                        if (!keypad.containsKey(current)) {
+                            current.x--;
+                        }
+                    }
+                }
+            }
+            bathroomCode.append(keypad.get(current));
+        }
+        return bathroomCode.toString();
+    }
+    
     @Override
     public String partOne() {
-        final var bathroomCode = new StringBuilder();
-        final var keypad = new int[][]{
-            {1, 2, 3},
-            {4, 5, 6},
-            {7, 8, 9}
-        };
-        final var position = new Point(1, 1);
-        
-        for (final var list : instructionLists) {
-            for (final var instruction : list) {
-                switch (instruction) {
-                    case 'U' -> {
-                        if (position.y > 0) {
-                            position.y--;
-                        }
-                    }
-                    case 'D' -> {
-                        if (position.y < keypad.length - 1) {
-                            position.y++;
-                        }
-                    }
-                    case 'L' -> {
-                        if (position.x > 0) {
-                            position.x--;
-                        }
-                    }
-                    case 'R' -> {
-                        if (position.x < keypad.length - 1) {
-                            position.x++;
-                        }
-                    }
-                }
-            }
-            
-            bathroomCode.append(keypad[position.y][position.x]);
-        }
-        
-        return bathroomCode.toString();
+        var input = """
+            1 2 3
+            4 5 6
+            7 8 9
+            """;
+        var keypad = convertToKeypad(input);
+        var current = new Point(1, 1);
+        return buildBathroomCode(current, keypad, instructionLists);
     }
     
-    /// @return the correct bathroom code.
     @Override
     public String partTwo() {
-        final var bathroomCode = new StringBuilder();
-        final var keypad = new char[][]{
-            {' ', ' ', '1', ' ', ' '},
-            {' ', '2', '3', '4', ' '},
-            {'5', '6', '7', '8', '9'},
-            {' ', 'A', 'B', 'C', ' '},
-            {' ', ' ', 'D', ' ', ' '},
-        };
-        final var position = new Point(0, 2);
+        var input = """
+                1
+              2 3 4
+            5 6 7 8 9
+              A B C
+                D
+            """;
+        var keypad = convertToKeypad(input);
+        var current = new Point(0, 2);
+        return buildBathroomCode(current, keypad, instructionLists);
+    }
+    
+    private enum Direction {
+        UP, DOWN, LEFT, RIGHT;
         
-        for (final var list : instructionLists) {
-            for (final var instruction : list) {
-                switch (instruction) {
-                    case 'U' -> {
-                        if (position.y > 0 && keypad[position.y - 1][position.x] != ' ') {
-                            position.y--;
-                        }
-                    }
-                    case 'D' -> {
-                        if (position.y < keypad.length - 1 && keypad[position.y + 1][position.x] != ' ') {
-                            position.y++;
-                        }
-                    }
-                    case 'L' -> {
-                        if (position.x > 0 && keypad[position.y][position.x - 1] != ' ') {
-                            position.x--;
-                        }
-                    }
-                    case 'R' -> {
-                        if (position.x < keypad.length - 1 && keypad[position.y][position.x + 1] != ' ') {
-                            position.x++;
-                        }
-                    }
-                }
-            }
-            
-            bathroomCode.append(keypad[position.y][position.x]);
+        private static Direction parse(char character) {
+            return switch (character) {
+                case 'U' -> UP;
+                case 'D' -> DOWN;
+                case 'L' -> LEFT;
+                case 'R' -> RIGHT;
+                default -> throw new IllegalStateException("Unexpected value: " + character);
+            };
+        }
+    }
+    
+    private static class Point {
+        
+        private int x;
+        private int y;
+        
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
         }
         
-        return bathroomCode.toString();
+        @Override
+        public boolean equals(Object o) {
+            if (!(o instanceof Point point)) return false;
+            return x == point.x && y == point.y;
+        }
+        
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
     }
 }

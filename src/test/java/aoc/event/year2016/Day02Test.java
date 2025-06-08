@@ -8,13 +8,13 @@ public class Day02Test {
     
     @Test
     void example() {
-        final var input = """
+        var input = """
             ULL
             RRDDD
             LURDL
             UUUUD
             """;
-        final var solution = new Day02(input);
+        var solution = new Day02(input);
         assertEquals("1985", solution.partOne());
         assertEquals("5DB3", solution.partTwo());
     }
