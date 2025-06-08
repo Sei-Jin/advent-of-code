@@ -8,7 +8,7 @@ public class Day06Test {
     
     @Test
     void example() {
-        final var input = """
+        var input = """
             eedadn
             drvtee
             eandsr
@@ -26,7 +26,7 @@ public class Day06Test {
             dvrsen
             enarar
             """;
-        final var solution = new Day06(input);
+        var solution = new Day06(input);
         assertEquals("easter", solution.partOne());
         assertEquals("advent", solution.partTwo());
     }

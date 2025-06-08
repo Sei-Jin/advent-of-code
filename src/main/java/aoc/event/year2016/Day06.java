@@ -1,87 +1,73 @@
 package aoc.event.year2016;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
+import aoc.util.Common;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /// # [2016-06: Signals and Noise](https://adventofcode.com/2016/day/6)
-public class Day06 implements DeprecatedSolver2 {
+public class Day06 implements Solver<String, String> {
     
-    private final List<List<Character>> characterLists;
+    private final List<Map<Character, Integer>> countMaps;
     
     public Day06(String input) {
-        characterLists = parse(input);
+        var lines = parse(input);
+        countMaps = createCountMaps(lines);
     }
     
-    private static List<List<Character>> parse(String input) {
-        final var characterLists = new ArrayList<List<Character>>();
-        final var lines = input.lines().toList();
-        
-        for (int i = 0; i < lines.getFirst().length(); i++) {
-            characterLists.add(new ArrayList<>());
+    private List<List<Character>> parse(String input) {
+        if (input.isEmpty()) {
+            throw new IllegalArgumentException();
         }
+        var lines = input.lines().toList();
         
-        for (final var line : lines) {
-            for (int i = 0; i < line.length(); i++) {
-                final var character = line.charAt(i);
-                characterLists.get(i).add(character);
+        var columns = new ArrayList<List<Character>>();
+        for (int x = 0; x < lines.getFirst().length(); x++) {
+            var column = new ArrayList<Character>();
+            for (var line : lines) {
+                column.add(line.charAt(x));
             }
+            columns.add(column);
         }
-        
-        return characterLists;
+        return columns;
     }
     
-    private static Map<Character, Integer> countEntries(List<Character> list) {
-        final var entryCounts = new HashMap<Character, Integer>();
-        
-        for (final var entry : list) {
-            final var count = entryCounts.getOrDefault(entry, 0) + 1;
-            entryCounts.put(entry, count);
-        }
-        
-        return entryCounts;
+    private List<Map<Character, Integer>> createCountMaps(List<List<Character>> lines) {
+        return lines
+            .stream()
+            .map(Common::countEntries)
+            .toList();
     }
     
     @Override
     public String partOne() {
-        final var messageBuilder = new StringBuilder();
-        
-        for (final var list : characterLists) {
-            final var characterCounts = countEntries(list);
-            
-            final var mostFrequentCharacter = characterCounts
+        var message = new StringBuilder();
+        for (var map : countMaps) {
+            var mostFrequent = map
                 .entrySet()
                 .stream()
                 .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
                 .orElseThrow();
-            
-            messageBuilder.append(mostFrequentCharacter);
+            message.append(mostFrequent);
         }
-        
-        return messageBuilder.toString();
+        return message.toString();
     }
     
     @Override
     public String partTwo() {
-        final var messageBuilder = new StringBuilder();
-        
-        for (final var list : characterLists) {
-            final var characterCounts = countEntries(list);
-            
-            final var leastFrequentCharacter = characterCounts
+        var message = new StringBuilder();
+        for (var map : countMaps) {
+            var leastFrequent = map
                 .entrySet()
                 .stream()
                 .min(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
                 .orElseThrow();
-            
-            messageBuilder.append(leastFrequentCharacter);
+            message.append(leastFrequent);
         }
-        
-        return messageBuilder.toString();
+        return message.toString();
     }
 }
