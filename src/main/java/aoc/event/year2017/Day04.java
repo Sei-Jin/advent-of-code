@@ -1,94 +1,85 @@
 package aoc.event.year2017;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 
 /// # [2017-04: High-Entropy Passphrases](https://adventofcode.com/2017/day/4)
-public class Day04 implements DeprecatedSolver2 {
+public class Day04 implements Solver<Integer, Integer> {
     
-    private final List<List<List<Character>>> wordLists;
+    private final List<List<String>> passphrases;
     
     public Day04(String input) {
-        wordLists = Collections.unmodifiableList(parse(input));
+        passphrases = parse(input);
     }
     
-    private static List<List<List<Character>>> parse(String input) {
-        final var wordLists = new ArrayList<List<List<Character>>>();
-
-        for (final var line : input.lines().toList()) {
-            final var strings = Arrays.stream(line.split(" ")).toList();
-
-            final var characterLists = new ArrayList<List<Character>>();
-
-            for (final var string : strings) {
-                final var characters = string
-                    .chars()
-                    .mapToObj(i -> (char) i)
-                    .toList();
-
-                characterLists.add(characters);
-            }
-
-            wordLists.add(Collections.unmodifiableList(characterLists));
-        }
-        
-        return wordLists;
+    private static List<List<String>> parse(String input) {
+        return input
+            .lines()
+            .map(line -> Arrays
+                .stream(line.split(" "))
+                .toList()
+            )
+            .toList();
     }
     
-    /// @return the number of valid passphrases.
+    /// Calculates the number of passphrases without duplicate words.
     @Override
     public Integer partOne() {
-        var validPassphrases = 0;
-        
-        for (final var list : wordLists) {
-            if (!containsDuplicate(list)) {
-                validPassphrases++;
-            }
-        }
-        
-        return validPassphrases;
+        return (int) passphrases
+            .stream()
+            .filter(list -> !containsDuplicate(list))
+            .count();
     }
     
-    /// @return the number of valid passphrases under the new system policy.
-    @Override
-    public Integer partTwo() {
-        var validPassphrases = 0;
-        
-        for (final var list : wordLists) {
-            if (!containsAnagram(list)) {
-                validPassphrases++;
-            }
-        }
-        
-        return validPassphrases;
-    }
-    
-    private static boolean containsDuplicate(List<List<Character>> elements) {
-        final var encountered = new HashSet<>();
-        
-        for (final var element : elements) {
-            if (encountered.contains(element)) {
+    private static boolean containsDuplicate(List<String> elements) {
+        var seen = new HashSet<>();
+        for (var element : elements) {
+            if (seen.contains(element)) {
                 return true;
-            } else {
-                encountered.add(element);
+            }
+            else {
+                seen.add(element);
             }
         }
-        
         return false;
     }
     
-    private static boolean containsAnagram(List<List<Character>> list) {
-        final var mutableList = new ArrayList<List<Character>>();
-        
-        for (final var element : list) {
-            mutableList.add(new ArrayList<>(element));
+    /// Calculates the number of passphrases with words that cannot form anagrams.
+    @Override
+    public Integer partTwo() {
+        return (int) passphrases
+            .stream()
+            .filter(list -> !containsAnagram(list))
+            .count();
+    }
+    
+    private static boolean containsAnagram(List<String> passphrase) {
+        var seen = new HashSet<>();
+        for (var word : passphrase) {
+            var sorted = createSorted(word);
+            if (seen.contains(sorted)) {
+                return true;
+            }
+            else {
+                seen.add(sorted);
+            }
         }
-        
-        for (final var element : mutableList) {
-            element.sort(Character::compareTo);
+        return false;
+    }
+    
+    private static String createSorted(String string) {
+        var test = new char[string.length()];
+        for (int i = 0; i < string.length(); i++) {
+            test[i] = string.charAt(i);
         }
-        
-        return containsDuplicate(mutableList);
+        Arrays.sort(test);
+        var stringBuilder = new StringBuilder();
+        for (char c : test) {
+            stringBuilder.append(c);
+        }
+        return stringBuilder.toString();
     }
 }
