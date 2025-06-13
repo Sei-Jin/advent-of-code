@@ -1,48 +1,62 @@
 package aoc.event.year2015;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
+
+import java.util.List;
 
 /// # [2015-01: Not Quite Lisp](https://adventofcode.com/2015/day/1)
-public class Day01 implements DeprecatedSolver2 {
+public class Day01 implements Solver<Integer, Integer> {
     
-    private static String line;
+    private static List<Instruction> instructions;
     
     public Day01(String input) {
-        line = input;
+        instructions = parse(input);
     }
     
-    /// @return the floor level the instructions take Santa to.
+    private static List<Instruction> parse(String input) {
+        return input
+            .chars()
+            .mapToObj(i -> Instruction.parse((char) i))
+            .toList();
+    }
+    
     @Override
     public Integer partOne() {
         var floorLevel = 0;
-        
-        for (var i = 0; i < line.length(); i++) {
-            switch (line.charAt(i)) {
-                case '(' -> floorLevel++;
-                case ')' -> floorLevel--;
+        for (var instruction : instructions) {
+            switch (instruction) {
+                case ASCEND -> floorLevel++;
+                case DESCEND -> floorLevel--;
             }
         }
-        
         return floorLevel;
     }
     
-    /// @return the position of the character that causes Santa to first enter the basement, or -1
-    /// if Santa never enters the basement.
     @Override
     public Integer partTwo() {
         var floorLevel = 0;
-        
-        for (var i = 0; i < line.length(); i++) {
-            switch (line.charAt(i)) {
-                case '(' -> floorLevel++;
-                case ')' -> floorLevel--;
+        for (int i = 0; i < instructions.size(); i++) {
+            switch (instructions.get(i)) {
+                case ASCEND -> floorLevel++;
+                case DESCEND -> floorLevel--;
             }
-            
-            if (floorLevel < 0) {
+            var enteredBasement = floorLevel < 0;
+            if (enteredBasement) {
                 return i + 1;
             }
         }
+        throw new IllegalStateException("Santa never entered the basement");
+    }
+    
+    private enum Instruction {
+        ASCEND, DESCEND;
         
-        return -1;
+        public static Instruction parse(char character) {
+            return switch (character) {
+                case '(' -> ASCEND;
+                case ')' -> DESCEND;
+                default -> throw new IllegalStateException("Unexpected value: " + character);
+            };
+        }
     }
 }
