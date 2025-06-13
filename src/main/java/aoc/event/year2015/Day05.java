@@ -1,66 +1,45 @@
 package aoc.event.year2015;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 /// # [2015-05: Doesn't He Have Intern-Elves For This?](https://adventofcode.com/2015/day/5)
-public class Day05 implements DeprecatedSolver2 {
+public class Day05 implements Solver<Integer, Integer> {
     
-    private static final String AT_LEAST_THREE_VOWELS = "^([^aeiou]*[aeiou]){3,}[^aeiou]*$";
-    private static final String AT_LEAST_ONE_LETTER_TWICE_IN_A_ROW = "^.*([a-z])\\1.*$";
-    private static final String INVALID_SEQUENCES = "^(?:(?!ab|cd|pq|xy).)*$";
-    private static final String DUPLICATE_PAIRS = "^.*([a-z]{2}).*\\1.*$";
-    private static final String AT_LEAST_ONE_LETTER_REPEATING_WITH_ONE_LETTER_INBETWEEN =
-        "^.*([a-z]).\\1.*$";
-    
+    private static final Pattern HAS_AT_LEAST_THREE_VOWELS =
+        Pattern.compile("^([^aeiou]*[aeiou]){3,}[^aeiou]*$");
+    private static final Pattern HAS_AT_LEAST_ONE_LETTER_TWICE_IN_A_ROW =
+        Pattern.compile("^.*([a-z])\\1.*$");
+    private static final Pattern HAS_INVALID_SEQUENCES =
+        Pattern.compile("^(?:(?!ab|cd|pq|xy).)*$");
+    private static final Pattern HAS_DUPLICATE_PAIRS =
+        Pattern.compile("^.*([a-z]{2}).*\\1.*$");
+    private static final Pattern HAS_AT_LEAST_ONE_REPEATING_WITH_ONE_IN_BETWEEN =
+        Pattern.compile("^.*([a-z]).\\1.*$");
     private final List<String> lines;
     
     public Day05(String input) {
         lines = input.lines().toList();
     }
     
-    /// @return the total number of nice strings.
     @Override
     public Integer partOne() {
-        var totalNiceStrings = 0;
-        
-        for (final var line : lines) {
-            var niceString = line.matches(AT_LEAST_THREE_VOWELS);
-            
-            if (!line.matches(AT_LEAST_ONE_LETTER_TWICE_IN_A_ROW)) {
-                niceString = false;
-            }
-            
-            if (!line.matches(INVALID_SEQUENCES)) {
-                niceString = false;
-            }
-            
-            if (niceString) {
-                totalNiceStrings++;
-            }
-        }
-        
-        return totalNiceStrings;
+        return (int) lines
+            .stream()
+            .filter(line -> HAS_AT_LEAST_THREE_VOWELS.matcher(line).find())
+            .filter(line -> HAS_AT_LEAST_ONE_LETTER_TWICE_IN_A_ROW.matcher(line).find())
+            .filter(line -> HAS_INVALID_SEQUENCES.matcher(line).find())
+            .count();
     }
     
-    /// @return the total number of nice strings under the new rules.
     @Override
     public Integer partTwo() {
-        var totalNiceStrings = 0;
-        
-        for (final var line : lines) {
-            var niceString = line.matches(DUPLICATE_PAIRS);
-            
-            if (!line.matches(AT_LEAST_ONE_LETTER_REPEATING_WITH_ONE_LETTER_INBETWEEN)) {
-                niceString = false;
-            }
-            
-            if (niceString) {
-                totalNiceStrings++;
-            }
-        }
-        
-        return totalNiceStrings;
+        return (int) lines
+            .stream()
+            .filter(line -> HAS_DUPLICATE_PAIRS.matcher(line).find())
+            .filter(line -> HAS_AT_LEAST_ONE_REPEATING_WITH_ONE_IN_BETWEEN.matcher(line).find())
+            .count();
     }
 }
