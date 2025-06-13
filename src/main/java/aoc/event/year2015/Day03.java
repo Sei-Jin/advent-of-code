@@ -1,111 +1,91 @@
 package aoc.event.year2015;
 
-import aoc.DeprecatedSolver2;
+import aoc.Solver;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 
 /// # [2015-03: Perfectly Spherical Houses in a Vacuum](https://adventofcode.com/2015/day/3)
-public class Day03 implements DeprecatedSolver2 {
+public class Day03 implements Solver<Integer, Integer> {
     
     private final List<Direction> directions;
     
     public Day03(String input) {
-        directions = Collections.unmodifiableList(parse(input));
+        directions = parse(input);
     }
     
     private static List<Direction> parse(String input) {
-        final var directions = new ArrayList<Direction>();
-        
-        for (int i = 0; i < input.length(); i++) {
-            final var character = input.charAt(i);
-            final var direction = Direction.of(character);
-            directions.add(direction);
-        }
-        
-        return directions;
+        return input
+            .chars()
+            .mapToObj(i -> Direction.parse((char) i))
+            .toList();
     }
     
-    /// @return the number of houses that received at least one present.
+    private static void increment(MutablePoint point, Direction direction) {
+        switch (direction) {
+            case UP -> point.y++;
+            case DOWN -> point.y--;
+            case LEFT -> point.x--;
+            case RIGHT -> point.x++;
+        }
+    }
+    
     @Override
     public Integer partOne() {
-        final var current = new Position();
-        final var previous = new HashSet<>();
+        var seen = new HashSet<MutablePoint>();
         
-        previous.add(current);
-        var visited = 1;
+        var current = new MutablePoint(0, 0);
+        seen.add(MutablePoint.copyOf(current));
         
-        for (final var direction : directions) {
-            current.increment(direction);
-            
-            if (!previous.contains(current)) {
-                previous.add(Position.copyOf(current));
-                visited++;
-            }
+        for (var direction : directions) {
+            increment(current, direction);
+            seen.add(MutablePoint.copyOf(current));
         }
-        
-        return visited;
+        return seen.size();
     }
     
-    /// @return the number of houses that received at least one present.
     @Override
     public Integer partTwo() {
-        final var santa = new Position();
-        final var robot = new Position();
-        final var previous = new HashSet<Position>();
+        var santa = new MutablePoint(0, 0);
+        var robot = new MutablePoint(0, 0);
         
-        previous.add(santa);
-        var visited = 1;
+        var seen = new HashSet<MutablePoint>();
+        seen.add(MutablePoint.copyOf(santa));
         
         for (int i = 0; i < directions.size(); i++) {
-            final var direction = directions.get(i);
+            var direction = directions.get(i);
             
             if (isEven(i)) {
-                santa.increment(direction);
-                
-                if (!previous.contains(santa)) {
-                    previous.add(Position.copyOf(santa));
-                    visited++;
-                }
-            } else {
-                robot.increment(direction);
-                
-                if (!previous.contains(robot)) {
-                    previous.add(Position.copyOf(robot));
-                    visited++;
-                }
+                increment(santa, direction);
+                seen.add(MutablePoint.copyOf(santa));
+            }
+            else {
+                increment(robot, direction);
+                seen.add(MutablePoint.copyOf(robot));
             }
         }
-        
-        return visited;
+        return seen.size();
     }
     
-    /// Determines if a given integer is even or not.
-    ///
-    /// @param index an integer.
-    /// @return true if the number is even, or false otherwise.
     private static boolean isEven(int index) {
         return index % 2 == 0;
     }
     
-    private static class Position {
+    private static class MutablePoint {
         
         int x;
         int y;
         
-        private Position() {
-            this.x = 0;
-            this.y = 0;
-        }
-        
-        private Position(int x, int y) {
+        public MutablePoint(int x, int y) {
             this.x = x;
             this.y = y;
         }
         
         @Override
         public boolean equals(Object o) {
-            if (!(o instanceof Position position)) return false;
-            return x == position.x && y == position.y;
+            if (!(o instanceof MutablePoint that)) return false;
+            return x == that.x && y == that.y;
         }
         
         @Override
@@ -113,30 +93,16 @@ public class Day03 implements DeprecatedSolver2 {
             return Objects.hash(x, y);
         }
         
-        /// Moves `position` one unit in the given direction.
-        ///
-        /// @param direction the direction the position be moved in.
-        private void increment(Direction direction) {
-            switch (direction) {
-                case UP -> y++;
-                case DOWN -> y--;
-                case LEFT -> x--;
-                case RIGHT -> x++;
-            }
-        }
-        
-        private static Position copyOf(Position position) {
-            return new Position(position.x, position.y);
+        public static MutablePoint copyOf(MutablePoint point) {
+            return new MutablePoint(point.x, point.y);
         }
     }
     
     private enum Direction {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT;
         
-        private static Direction of(char character) {
+        UP, DOWN, LEFT, RIGHT;
+        
+        private static Direction parse(char character) {
             return switch (character) {
                 case '^' -> UP;
                 case 'v' -> DOWN;
