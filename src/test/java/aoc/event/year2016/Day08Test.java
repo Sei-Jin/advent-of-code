@@ -8,24 +8,23 @@ class Day08Test {
     
     @Test
     void example() {
-        final var input = """
+        var input = """
             rect 3x2
             rotate column x=1 by 1
             rotate row y=0 by 4
             rotate column x=1 by 1
             """;
-        final var solution = new Day08(input);
+        var solution = new Day08(input);
         assertEquals(6, solution.partOne());
     }
     
     @Test
     void example2() {
-        final var input = """
+        var input = """
             rect 3x2
             rotate column x=1 by 1
             """;
-        final var solution = new Day08(input);
+        var solution = new Day08(input);
         assertEquals(6, solution.partOne());
     }
-    
 }
