@@ -8,7 +8,7 @@ class Day12Test {
     
     @Test
     void example() {
-        final var input = """
+        var input = """
             cpy 41 a
             inc a
             inc a
@@ -16,7 +16,7 @@ class Day12Test {
             jnz a 2
             dec a
             """;
-        final var solution = new Day12(input);
+        var solution = new Day12(input);
         assertEquals(42, solution.partOne());
     }
 }
